@@ -1,92 +1,81 @@
-# Python Robot Sim
-
-
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## Creating and activating a Python virtual environment
+It is assumed that the python virtual environment is located at the same level as the `py_sim` folder and is named `venv`. This is not a requirement. To create the virtual environment, navigate the terminal to the parent of `py_sim` and run the following command:
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/utahstate/droge-robotics/simple-robot-sim/python-robot-sim.git
-git branch -M main
-git push -uf origin main
+python -m venv venv
+```
+You may need to replace `python` with `python3` or `python3.10`.
+
+If successful, the `venv` should have been created. **Each time you open a terminal, you must activate the virtual environment**. From the parent folder, activate the virtual environment with the following command.
+
+```
+Windows:
+venv\Scripts\activate
+
+Ubuntu:
+source venv/bin/activate
 ```
 
-## Integrate with your tools
+## Installing the `py_sim` package
+The `py_sim` package is setup to be installed using the `pip` package installer. To install the `py_sim` package, activate the `venv` virtual environment, navigate to the parent directory of the `py_sim` code, and run the following.
+```
+pip install -e .
+```
+The `-e` option allows the Python code to be modified without the need to rerun the installation. The `requirements.txt` file defines all of the package dependences. The `setup.py` file defines the creation of the `py_sim` package.
 
-- [ ] [Set up project integrations](https://gitlab.com/utahstate/droge-robotics/simple-robot-sim/python-robot-sim/-/settings/integrations)
 
-## Collaborate with your team
+# Code Compliance
+An effort has been made to ensure that the code maintains a certain level of quality. The current code is compliant with respect to three different static analysis tools. Two additional tools could be used to maintain further compliance on documentation and formatting.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+## Compliant Tools
+The code is compliant to a large degree with three different tools:
+* Pylint
+* Isort
+* mypy
 
-## Test and Deploy
+These tools are now explained in more detail.
 
-Use the built-in continuous integration in GitLab.
+### Pylint
+Pylint is a tool that checks for errors in Python code, tries to enforce a coding standard and looks for code smells. It can also look for certain type errors, it can recommend suggestions about how particular blocks can be refactored and can offer you details about the code's complexity.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+```
+python -m pylint --jobs 0 --rcfile .pylintrc py_sim/
+```
 
-***
+The `.pylintrc` file defines several exceptions to the standard Python style-guide. The code could be improved significantly by removing many of these exceptions.
 
-# Editing this README
+### Isort
+isort is a Python utility / library to sort imports alphabetically, and automatically separated into sections and by type. It provides a command line utility, Python library and plugins for various editors to quickly sort all your imports. It requires Python 3.6+ to run but supports formatting Python 2 code too.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+```
+python -m isort py_sim
+```
+Keep in mind that `isort` does not evaluate the code. It simply reorders the imports to be compliant.
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+### Mypy
+Mypy is a static type checker for Python 3 and Python 2.7.
 
-## Name
-Choose a self-explaining name for your project.
+```
+python -m mypy py_sim
+```
+The code is nearly completely `mypy` compliant. There are a few excpetions, which can be found by looking for the "type: ignore" comments that exist in some of the code.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## Other potential tools
+In addition to the above tools, two more tools are installed by default. However, the code is not compliant with respect to these tools.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### Pydocstyle
+pydocstyle is a static analysis tool for checking compliance with Python docstring conventions.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+```
+python -m pydocstyle mav_sim book_assignments
+```
+We are not compliant with `pydocstyle` due to the sheer amount of documentation that needed to be created. However, with a low amount of work, `pydocstyle` would be a great addition to the static code analysis tools already in place.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+### Black
+Black is the uncompromising Python code formatter. By using it, you agree to cede control over minutiae of hand-formatting. In return, Black gives you speed, determinism, and freedom from pycodestyle nagging about formatting. You will save time and mental energy for more important matters.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+We do not use this tool as the code is formated in a way to help understand the material and `Black` destroys some of that formatting.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+```
+python -m black mav_sim book_assignments
+```

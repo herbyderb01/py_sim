@@ -1,0 +1,11 @@
+numpy
+scipy
+pillow
+pylint
+black
+isort
+pandas
+pydocstyle
+mypy
+matplotlib
+control
