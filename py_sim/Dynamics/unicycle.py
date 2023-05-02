@@ -120,7 +120,7 @@ def dynamics(state: UnicycleState, control: Input) -> UnicycleState:
     state_dot.psi = control.w
     return state_dot
 
-def arc_control(time: float, state: State, params: ArcParams) -> UnicycleInput: # pylint: disable=unused-argument
+def arc_control(time: float, state: UnicycleState, params: ArcParams) -> UnicycleInput: # pylint: disable=unused-argument
     """ Implements the control for a circular arc
     """
     return UnicycleInput(v=params.v_d, w=params.w_d)

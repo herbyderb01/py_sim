@@ -3,13 +3,14 @@
 
 import asyncio
 import copy
-from typing import Any, Protocol, cast
+from typing import Any, Protocol, cast, Generic
 
 import numpy.typing as npt
-from py_sim.tools.sim_types import Dynamics, Input, State
+from py_sim.tools.sim_types import Dynamics, Input
+from py_sim.tools.sim_types import StateType as State
 
 
-class SimParameters():
+class SimParameters(Generic[State]):
     """ Contains a fixed set of parameters that do not change throughout
         the simulation, but are needed for simulation execution
     """
@@ -27,7 +28,7 @@ class SimParameters():
         # Initial state of the vehicle
         self.initial_state: State = initial_state
 
-class Slice():
+class Slice(Generic[State]):
     """ Contains a "slice" of data - the data produced / needed
         at a single time
     """
@@ -35,13 +36,15 @@ class Slice():
         self.time = time # Current simulation time
         self.state: State = state # Current state
 
-class Data():
+class Data(Generic[State]):
     """Stores the changing simulation information"""
-    def __init__(self, current: Slice) -> None:
+    def __init__(self, current: Slice[State]) -> None:
         self.current = current # Stores the current slice of data to be read
         self.next = copy.deepcopy(current) # Stores the next data to be created
 
-def euler_update(dynamics: Dynamics, initial: State, control: Input, dt: float) -> npt.NDArray[Any]:
+from py_sim.tools.sim_types import StateType, InputType
+
+def euler_update(dynamics: Dynamics[StateType, InputType], initial: StateType, control: InputType, dt: float) -> npt.NDArray[Any]:
     """Performs an eulers update to simulate forward one step on the dynamics
 
         Inputs:
@@ -56,10 +59,10 @@ def euler_update(dynamics: Dynamics, initial: State, control: Input, dt: float) 
     result = cast(npt.NDArray[Any], initial.state + dt*( dynamics(initial, control).state ))
     return result
 
-class Sim(Protocol):
+class Sim(Protocol[State]):
     """Basic class formulation for simulating"""
-    data: Data # The simulation data
-    params: SimParameters # Simulation parameters
+    data: Data[State] # The simulation data
+    params: SimParameters[State] # Simulation parameters
 
     async def setup(self) -> None:
         """Setup all of the storage and plotting"""
@@ -76,7 +79,7 @@ class Sim(Protocol):
 
 
 
-async def run_sim_simple(sim: Sim) -> None:
+async def run_sim_simple(sim: Sim[State]) -> None:
     """Run the simulation """
 
     # Setup the simulation

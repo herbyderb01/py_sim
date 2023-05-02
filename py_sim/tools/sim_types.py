@@ -2,7 +2,7 @@
 
 """
 
-from typing import Any, Callable, NewType, Protocol
+from typing import Any, Callable, NewType, Protocol, TypeVar
 
 import numpy as np
 import numpy.typing as npt
@@ -24,7 +24,9 @@ class Input(Protocol):
 #   Outputs:
 #       State: The time derivative of the state being output
 #Dynamics = NewType("Dynamics", Callable[[State, Input], State])
-Dynamics = Callable[[State, Input], State]
+StateType = TypeVar("StateType", bound=State)
+InputType = TypeVar("InputType", bound=Input)
+Dynamics = Callable[[StateType, InputType], StateType]
 # class Dynamics(Protocol):
 #     """Class taking the form of a state dynamics function call"""
 #     def __call__(self, state: State, control: Input) -> State:
@@ -42,7 +44,7 @@ Dynamics = Callable[[State, Input], State]
 #     """Class taking the form of the dynamic update call"""
 #     def __call__(self, dynamics: Dynamics, initial: State, control: Input, dt: float) -> npt.NDArray[Any]:
 #         """Calling function for the dynamic update"""
-DynamicsUpdate = Callable[[Dynamics, State, Input, float], npt.NDArray[Any]]
+DynamicsUpdate = Callable[[Dynamics[StateType, InputType], StateType, InputType, float], npt.NDArray[Any]]
 
 
 class TwoDimVector:
