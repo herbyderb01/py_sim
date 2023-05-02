@@ -56,7 +56,7 @@ Keep in mind that `isort` does not evaluate the code. It simply reorders the imp
 Mypy is a static type checker for Python 3 and Python 2.7.
 
 ```
-python -m mypy py_sim
+python -m mypy py_sim --explicit-package-bases
 ```
 The code is nearly completely `mypy` compliant. There are a few excpetions, which can be found by looking for the "type: ignore" comments that exist in some of the code.
 

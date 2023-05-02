@@ -23,7 +23,12 @@ class Input(Protocol):
 #       Input: The control input
 #   Outputs:
 #       State: The time derivative of the state being output
-Dynamics = NewType("Dynamics", Callable[[State, Input], State])
+#Dynamics = NewType("Dynamics", Callable[[State, Input], State])
+Dynamics = Callable[[State, Input], State]
+# class Dynamics(Protocol):
+#     """Class taking the form of a state dynamics function call"""
+#     def __call__(self, state: State, control: Input) -> State:
+#         """Dynamic function call ( xdot = f(x,u) )"""
 
 # Dynamics update function type
 #   Inputs:
@@ -33,10 +38,11 @@ Dynamics = NewType("Dynamics", Callable[[State, Input], State])
 #       dt: the time step of the update
 #   Outputs:
 #       The resulting time derivative of the state
-class DynamicsUpdate(Protocol):
-    """Class taking the form of the dynamic update call"""
-    def __call__(self, dynamics: Dynamics, initial: State, control: Input, dt: float) -> Any: ...
-#DynamicsUpdate = NewType("DynamicsUpdate", Callable([Dynamics, State, Input, float], State))
+# class DynamicsUpdate(Protocol):
+#     """Class taking the form of the dynamic update call"""
+#     def __call__(self, dynamics: Dynamics, initial: State, control: Input, dt: float) -> npt.NDArray[Any]:
+#         """Calling function for the dynamic update"""
+DynamicsUpdate = Callable[[Dynamics, State, Input, float], npt.NDArray[Any]]
 
 
 class TwoDimVector:
@@ -51,22 +57,22 @@ class TwoDimVector:
     @property
     def x(self) -> float:
         """Return the x-component value"""
-        return self.state.item(self.IND_X)
+        return float(self.vec.item(self.IND_X))
 
     @x.setter
     def x(self, val: float) -> None:
         """Store the x-component value"""
-        self.state[self.IND_X,0] = val
+        self.vec[self.IND_X,0] = val
 
     @property
     def y(self) -> float:
         """Return the y-component value"""
-        return self.state.item(self.IND_Y)
+        return float(self.vec.item(self.IND_Y))
 
     @y.setter
     def y(self, val: float) -> None:
         """Store the y-component value"""
-        self.state[self.IND_Y,0] = val
+        self.vec[self.IND_Y,0] = val
 
 class ArcParams():
     """Parameters required for defining an arc"""

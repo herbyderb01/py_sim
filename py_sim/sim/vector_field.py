@@ -67,51 +67,51 @@ class VectorFollowManifest(Generic[VectorParams, ControlParams]):
         # Simulation parameters for timing
         self.sim_params: SimParameters
 
-class VectorFollowSim():
-    """Generic sim for testing out vector following scenarios"""
+# class VectorFollowSim():
+#     """Generic sim for testing out vector following scenarios"""
 
-    def __init__(self, manifest: VectorFollowManifest) -> None:
-        """Initialize the simulation
+#     def __init__(self, manifest: VectorFollowManifest) -> None:
+#         """Initialize the simulation
 
-            Inputs:
-                initial_state: The initial state of the simulator
-                sim_param: The parameters of the simulation
+#             Inputs:
+#                 initial_state: The initial state of the simulator
+#                 sim_param: The parameters of the simulation
 
-        """
-        # Create and store the data
-        initial_slice = Slice(state=manifest.initial_state, time=manifest.sim_params.t0)
-        self.data = Data(current=initial_slice)
-        self.params = manifest.sim_params
-        self.manifest = manifest
+#         """
+#         # Create and store the data
+#         initial_slice = Slice(state=manifest.initial_state, time=manifest.sim_params.t0)
+#         self.data = Data(current=initial_slice)
+#         self.params = manifest.sim_params
+#         self.manifest = manifest
 
-    async def setup(self) -> None:
-        """Setup all of the storage and plotting"""
+#     async def setup(self) -> None:
+#         """Setup all of the storage and plotting"""
 
-    async def update(self) -> None:
-        """Calls all of the update functions
-            * Gets the latest vector to be followed
-            * Calculate the control to be executed
-            * Update the state
-            * Update the time
-        """
-        # Update the time by sim_step
-        self.data.next.time = self.data.current.time + self.params.sim_step
+#     async def update(self) -> None:
+#         """Calls all of the update functions
+#             * Gets the latest vector to be followed
+#             * Calculate the control to be executed
+#             * Update the state
+#             * Update the time
+#         """
+#         # Update the time by sim_step
+#         self.data.next.time = self.data.current.time + self.params.sim_step
 
-        # Calculate the vector to be followed
-        vec = self.manifest.field(self.data.current.time, self.data.current.state, self.manifest.vec_params)
+#         # Calculate the vector to be followed
+#         vec = self.manifest.field(self.data.current.time, self.data.current.state, self.manifest.vec_params)
 
-        # Calculate the control to follow the vector
-        control = self.manifest.control(self.data.current.time, self.data.current.state, vec,
-                                        self.manifest.control_params)
+#         # Calculate the control to follow the vector
+#         control = self.manifest.control(self.data.current.time, self.data.current.state, vec,
+#                                         self.manifest.control_params)
 
-        # Update the state using the latest control
-        self.data.next.state = self.manifest.dynamic_update(dynamics=self.manifest.dynamics,
-                                                            initial=self.data.current.state,
-                                                            input=control, dt=self.params.sim_step)
+#         # # Update the state using the latest control
+#         # self.data.next.state = self.manifest.dynamic_update(dynamics=self.manifest.dynamics,
+#         #                                                     initial=self.data.current.state,
+#         #                                                     input=control, dt=self.params.sim_step)
 
 
-    async def plot(self) -> None:
-        """Plot the current values and state"""
+#     async def plot(self) -> None:
+#         """Plot the current values and state"""
 
-    async def post_process(self) -> None:
-        """Process the results"""
+#     async def post_process(self) -> None:
+#         """Process the results"""

@@ -5,7 +5,7 @@ Functions:
 Classes:
 
 """
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 import numpy as np
 import numpy.typing as npt
@@ -44,7 +44,7 @@ class UnicycleState:
     @property
     def x(self) -> float:
         """Return the x-position value"""
-        return self.state.item(self.IND_X)
+        return cast(float, self.state.item(self.IND_X))
 
     @x.setter
     def x(self, val: float) -> None:
@@ -54,7 +54,7 @@ class UnicycleState:
     @property
     def y(self) -> float:
         """Return the y-position value"""
-        return self.state.item(self.IND_Y)
+        return cast(float, self.state.item(self.IND_Y))
 
     @y.setter
     def y(self, val: float) -> None:
@@ -64,7 +64,7 @@ class UnicycleState:
     @property
     def psi(self) -> float:
         """Return the orientation value"""
-        return self.state.item(self.IND_PSI)
+        return cast(float, self.state.item(self.IND_PSI))
 
     @psi.setter
     def psi(self, val: float) -> None:
@@ -83,7 +83,7 @@ class UnicycleInput:
     @property
     def v(self) -> float:
         """Return the translational velocity"""
-        return self.input.item(self.IND_V)
+        return cast(float, self.input.item(self.IND_V))
 
     @v.setter
     def v(self, val: float) -> None:
@@ -93,14 +93,14 @@ class UnicycleInput:
     @property
     def w(self) -> float:
         """Return the rotational velocity value"""
-        return self.input.item(self.IND_Y)
+        return cast(float, self.input.item(self.IND_W))
 
     @w.setter
     def w(self, val: float) -> None:
         """Store the rotational velocity value"""
         self.input[self.IND_W,0] = val
 
-def dynamics(state: State, control: Input) -> UnicycleState:
+def dynamics(state: UnicycleState, control: Input) -> UnicycleState:
     """ Calculates the dynamics of the unicycle. Note that even though a "UnicycleState"
         is returned, that actually corresponds to the time derivative
             d/dt x = v cos(psi)

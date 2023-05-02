@@ -3,7 +3,7 @@
 
 import asyncio
 import copy
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 import numpy.typing as npt
 from py_sim.tools.sim_types import Dynamics, Input, State
@@ -53,7 +53,7 @@ def euler_update(dynamics: Dynamics, initial: State, control: Input, dt: float) 
         Outputs:
             The resulting time derivative of the state
     """
-    result = initial.state + dt*( dynamics(initial, control).state )
+    result = cast(npt.NDArray[Any], initial.state + dt*( dynamics(initial, control).state ))
     return result
 
 class Sim(Protocol):

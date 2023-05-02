@@ -6,7 +6,7 @@ Classes:
     SimpleManifest: Manifest class defining the dynamics and control to be used
 
 """
-from typing import Callable, Generic, TypeVar
+from typing import Callable, Generic, TypeVar, Protocol
 
 from py_sim.sim.generic_sim import Data, SimParameters, Slice
 from py_sim.tools.sim_types import Dynamics, DynamicsUpdate, Input, State
@@ -49,9 +49,9 @@ class SimpleManifest(Generic[ControlParams]):
         self.control: Callable[[float, State, ControlParams], Input]
         self.control_params: ControlParams # Control specific variables
 
-class SimpleSim():
+class SimpleSim(Generic[ControlParams]):
     """Framework for implementing a simulator that just tests out a feedback controller"""
-    def __init__(self, manifest: SimpleManifest, params: SimParameters) -> None:
+    def __init__(self, manifest: SimpleManifest[ControlParams], params: SimParameters) -> None:
         """Initialize the simulation
 
             Inputs:
@@ -83,9 +83,13 @@ class SimpleSim():
                                         self.manifest.control_params)
 
         # Update the state using the latest control
-        self.data.next.state.state = self.manifest.dynamic_update(dynamics=self.manifest.dynamics,
-                                                            initial=self.data.current,
-                                                            input=control, dt=self.params.sim_step)
+        # self.data.next.state.state = self.manifest.dynamic_update(dynamics=self.manifest.dynamics,
+        #                                                     initial=self.data.current.state,
+        #                                                     control=control, dt=self.params.sim_step)
+
+        self.data.next.state.state = self.manifest.dynamic_update(self.manifest.dynamics,
+                                                        self.data.current.state,
+                                                        control, self.params.sim_step)
 
 
     async def plot(self) -> None:
