@@ -23,7 +23,7 @@ class SimParameters(Generic[StateType]):
     sim_step: float = 0.1 # Simulation time step (seconds), i.e., each call to the update() function is
                           # spaced by sim_step seconds in the simulation
     t0: float = 0. # The initial time of the simulation
-    tf: float = 2. # Final time of the simulation
+    tf: float = 20. # Final time of the simulation
 
     def __init__(self, initial_state: StateType) -> None:
         # Initial state of the vehicle

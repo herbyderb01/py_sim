@@ -56,24 +56,26 @@ class SimpleSim():
             * Update the state
             * Update the time
         """
-        with self.lock:
-            # Update the time by sim_step
-            self.data.next.time = self.data.current.time + self.params.sim_step
 
-            # Calculate the control to follow a circle
-            control = arc_control(  time=self.data.current.time,
-                                    state=self.data.current.state,
-                                    params=self.control_params)
+        # Update the time by sim_step
+        self.data.next.time = self.data.current.time + self.params.sim_step
 
-            # Update the state using the latest control
-            self.data.next.state.state = euler_update(  dynamics=dynamics,
-                                                        control=control,
-                                                        initial=self.data.current.state,
-                                                        dt=self.params.sim_step)
+        # Calculate the control to follow a circle
+        control = arc_control(  time=self.data.current.time,
+                                state=self.data.current.state,
+                                params=self.control_params)
+
+        # Update the state using the latest control
+        self.data.next.state.state = euler_update(  dynamics=dynamics,
+                                                    control=control,
+                                                    initial=self.data.current.state,
+                                                    dt=self.params.sim_step)
 
 
     def update_plot(self, _) -> mpl_ax.Axes:
-        """Plot the current values and state"""
+        """Plot the current values and state. Should be done with the lock on to avoid
+           updating current while plotting the data
+        """
         with self.lock:
             print("x = ", self.data.current.state.x, "y = ", self.data.current.state.y)
             self.position_plot.set_data([self.data.current.state.x], [self.data.current.state.y])
