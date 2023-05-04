@@ -1,16 +1,17 @@
-"""generic_sim.py: Defines a standard sim
+"""generic_sim.py: Provides general data structures for the simulation
 """
 
 import asyncio
-import copy
-from typing import Any, Protocol, cast, Generic
+import copy, time
+from typing import Any, Generic, Protocol, cast
 
 import numpy.typing as npt
-from py_sim.tools.sim_types import Dynamics, Input
-from py_sim.tools.sim_types import StateType as State
+from threading import Lock
+from py_sim.tools.sim_types import Dynamics, InputType, StateType
+import matplotlib.pyplot as plt
 
 
-class SimParameters(Generic[State]):
+class SimParameters(Generic[StateType]):
     """ Contains a fixed set of parameters that do not change throughout
         the simulation, but are needed for simulation execution
     """
@@ -22,27 +23,25 @@ class SimParameters(Generic[State]):
     sim_step: float = 0.1 # Simulation time step (seconds), i.e., each call to the update() function is
                           # spaced by sim_step seconds in the simulation
     t0: float = 0. # The initial time of the simulation
-    tf: float = 10. # Final time of the simulation
+    tf: float = 2. # Final time of the simulation
 
-    def __init__(self, initial_state: State) -> None:
+    def __init__(self, initial_state: StateType) -> None:
         # Initial state of the vehicle
-        self.initial_state: State = initial_state
+        self.initial_state: StateType = initial_state
 
-class Slice(Generic[State]):
+class Slice(Generic[StateType]):
     """ Contains a "slice" of data - the data produced / needed
         at a single time
     """
-    def __init__(self, state: State, time: float = 0.) -> None:
+    def __init__(self, state: StateType, time: float = 0.) -> None:
         self.time = time # Current simulation time
-        self.state: State = state # Current state
+        self.state: StateType = state # Current state
 
-class Data(Generic[State]):
+class Data(Generic[StateType]):
     """Stores the changing simulation information"""
-    def __init__(self, current: Slice[State]) -> None:
+    def __init__(self, current: Slice[StateType]) -> None:
         self.current = current # Stores the current slice of data to be read
         self.next = copy.deepcopy(current) # Stores the next data to be created
-
-
 
 def euler_update(dynamics: Dynamics[StateType, InputType], initial: StateType, control: InputType, dt: float) -> npt.NDArray[Any]:
     """Performs an eulers update to simulate forward one step on the dynamics
@@ -59,36 +58,43 @@ def euler_update(dynamics: Dynamics[StateType, InputType], initial: StateType, c
     result = cast(npt.NDArray[Any], initial.state + dt*( dynamics(initial, control).state ))
     return result
 
-class Sim(Protocol[State]):
+class Sim(Protocol[StateType]):
     """Basic class formulation for simulating"""
-    data: Data[State] # The simulation data
-    params: SimParameters[State] # Simulation parameters
+    data: Data[StateType] # The simulation data
+    params: SimParameters[StateType] # Simulation parameters
+    lock: Lock # Lock for thread safe plotting
 
-    async def setup(self) -> None:
+    def setup(self) -> None:
         """Setup all of the storage and plotting"""
 
     async def update(self) -> None:
         """Calls all of the update functions"""
 
-    async def plot(self) -> None:
-        """Plot the current values and state"""
-
     async def post_process(self) -> None:
         """Process the results"""
 
+    def continuous_plotting(self) -> None:
+        """Create a plot callback function
+        """
 
-
-
-async def run_sim_simple(sim: Sim[State]) -> None:
+async def run_sim_simple(sim: Sim[StateType]) -> None:
     """Run the simulation """
 
     # Setup the simulation
-    await asyncio.gather(sim.setup())
+    sim.setup()
+    #sim.continuous_plotting()
 
     # Loop through the sim
     while sim.data.current.time <= sim.params.tf:
-        await asyncio.gather(sim.update(), sim.plot())
+        # Update the current state to be the previous next state
+        with sim.lock:
+            sim.data.current = copy.deepcopy(sim.data.next)
+        print("t = ", sim.data.current.time)
+
+        # Run the updates to calculate the new next state and plots
+        await asyncio.gather(sim.update())
         await asyncio.sleep(sim.params.sim_update_period)
+
 
     # Post process
     await asyncio.gather(sim.post_process())
