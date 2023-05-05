@@ -1,6 +1,7 @@
 """simple_sim.py performs a test with a single vehicle"""
 
 import asyncio
+import copy
 from typing import Any
 import matplotlib.figure as mpl_fig
 import matplotlib.axes._axes as mpl_ax
@@ -16,7 +17,7 @@ from py_sim.sim.generic_sim import (
     run_sim_simple,
 )
 from py_sim.tools.sim_types import ArcParams, UnicycleState
-from py_sim.tools.plotting import initialize_position_plot, update_position_plot
+from py_sim.tools.plotting import initialize_position_plot, update_position_plot, OrientedPositionParams, init_oriented_position_plot, update_oriented_position_plot
 
 StateType = UnicycleState
 
@@ -42,6 +43,8 @@ class SimpleSim():
         self.ax: mpl_ax.Axes
         self.fig, self.ax = plt.subplots()
         self.position_plot = initialize_position_plot(ax=self.ax, label="Vehicle", color=(0.2, 0.36, 0.78, 1.0) )
+        self.pose_params = OrientedPositionParams(rad=0.2)
+        self.pose_plot = init_oriented_position_plot(ax=self.ax, params=self.pose_params)
 
     def setup(self) -> None:
         """Setup all of the storage and plotting"""
@@ -77,9 +80,14 @@ class SimpleSim():
         """Plot the current values and state. Should be done with the lock on to avoid
            updating current while plotting the data
         """
+        # Copy the state to avoid any conflicts
         with self.lock:
-            print("x = ", self.data.current.state.x, "y = ", self.data.current.state.y)
-            update_position_plot(line=self.position_plot, location=self.data.current.state)
+            plot_state = copy.deepcopy(self.data.current)
+
+        # Update all of the plotting elements
+        print("x = ", self.data.current.state.x, "y = ", self.data.current.state.y)
+        update_position_plot(line=self.position_plot, location=plot_state.state)
+        update_oriented_position_plot(plot=self.pose_plot, params=self.pose_params, pose=plot_state.state)
         return self.ax
 
     def continuous_plotting(self) -> None:
