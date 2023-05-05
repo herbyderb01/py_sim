@@ -1,7 +1,7 @@
 """simple_sim.py performs a test with a single vehicle"""
 
 import asyncio
-import time
+from typing import Any
 import matplotlib.figure as mpl_fig
 import matplotlib.axes._axes as mpl_ax
 import matplotlib.animation as anim
@@ -16,6 +16,7 @@ from py_sim.sim.generic_sim import (
     run_sim_simple,
 )
 from py_sim.tools.sim_types import ArcParams, UnicycleState
+from py_sim.tools.plotting import initialize_position_plot, update_position_plot
 
 StateType = UnicycleState
 
@@ -40,7 +41,7 @@ class SimpleSim():
         self.fig: mpl_fig.Figure
         self.ax: mpl_ax.Axes
         self.fig, self.ax = plt.subplots()
-        (self.position_plot,) = self.ax.plot([0.], [0.], 'o', label='Vehicle', color=(0.2, 0.36, 0.78, 1.0) )
+        self.position_plot = initialize_position_plot(ax=self.ax, label="Vehicle", color=(0.2, 0.36, 0.78, 1.0) )
 
     def setup(self) -> None:
         """Setup all of the storage and plotting"""
@@ -72,13 +73,13 @@ class SimpleSim():
                                                     dt=self.params.sim_step)
 
 
-    def update_plot(self, _) -> mpl_ax.Axes:
+    def update_plot(self, _: Any) -> mpl_ax.Axes:
         """Plot the current values and state. Should be done with the lock on to avoid
            updating current while plotting the data
         """
         with self.lock:
             print("x = ", self.data.current.state.x, "y = ", self.data.current.state.y)
-            self.position_plot.set_data([self.data.current.state.x], [self.data.current.state.y])
+            update_position_plot(line=self.position_plot, location=self.data.current.state)
         return self.ax
 
     def continuous_plotting(self) -> None:

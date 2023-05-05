@@ -17,42 +17,50 @@ class Input(Protocol):
     """The basic form of a control input"""
     input: npt.NDArray[Any] # A vector of inputs
 
-StateType = TypeVar("StateType", bound=State)
-InputType = TypeVar("InputType", bound=Input)
 
-class Dynamics(Protocol[StateType, InputType]):
-    """Class taking the form of a state dynamics function call"""
-    def __call__(self, state: StateType, control: InputType) -> StateType:
-        """Dynamic function call ( xdot = f(x,u) )"""
+class TwoDArrayType(Protocol):
+    IND_X: int # The index of the x-component
+    IND_Y: int # The index of the y-component
+    state: npt.NDArray[Any] # The 2-D array
+    x: float # The value of the x component
+    y: float # The value of the y component
 
-class TwoDimVector:
-    """Provides a representation of a two dimensional vector
+class TwoDimArray:
+    """Provides a representation of a two dimensional array
     """
     IND_X: int = 0 # The index of the x-component
     IND_Y: int = 1  # The index of the y-component
 
     def __init__(self, x: float = 0., y: float = 0.) -> None:
-        self.vec: npt.NDArray[Any] = np.array([[x], [y]])  # The 2-D vector
+        self.state: npt.NDArray[Any] = np.array([[x], [y]])  # The 2-D vector
 
     @property
     def x(self) -> float:
         """Return the x-component value"""
-        return float(self.vec.item(self.IND_X))
+        return float(self.state.item(self.IND_X))
 
     @x.setter
     def x(self, val: float) -> None:
         """Store the x-component value"""
-        self.vec[self.IND_X,0] = val
+        self.state[self.IND_X,0] = val
 
     @property
     def y(self) -> float:
         """Return the y-component value"""
-        return float(self.vec.item(self.IND_Y))
+        return float(self.state.item(self.IND_Y))
 
     @y.setter
     def y(self, val: float) -> None:
         """Store the y-component value"""
-        self.vec[self.IND_Y,0] = val
+        self.state[self.IND_Y,0] = val
+
+StateType = TypeVar("StateType", bound=State)
+InputType = TypeVar("InputType", bound=Input)
+
+class Dynamics(Protocol[StateType, InputType]): # type: ignore
+    """Class taking the form of a state dynamics function call"""
+    def __call__(self, state: StateType, control: InputType) -> StateType:
+        """Dynamic function call ( xdot = f(x,u) )"""
 
 class ArcParams():
     """Parameters required for defining an arc"""
