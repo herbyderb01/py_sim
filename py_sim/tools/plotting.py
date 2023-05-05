@@ -11,8 +11,8 @@ from py_sim.tools.sim_types import StateType
 Color = tuple[float, float, float, float] # rgb-alpha color of the plot
 blue = (0., 0., 1., 1.)
 
-class StatePlot(Protocol[StateType]):
-    def plot(state: StateType) -> None:
+class StatePlot(Protocol[StateType]): # type: ignore
+    def plot(self, state: StateType) -> None:
         """Updates the plot for the given state type"""
 
 ############################# 2D Position Plot Object ##############################
