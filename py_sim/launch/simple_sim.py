@@ -17,7 +17,7 @@ from py_sim.sim.generic_sim import (
     run_sim_simple,
 )
 from py_sim.tools.sim_types import ArcParams, UnicycleState
-from py_sim.tools.plotting import initialize_position_plot, update_position_plot, OrientedPositionParams, init_oriented_position_plot, update_oriented_position_plot
+from py_sim.tools.plotting import initialize_position_plot, update_position_plot, OrientedPositionParams, init_oriented_position_plot, update_oriented_position_plot, initialize_traj_plot, update_traj_plot
 
 StateType = UnicycleState
 
@@ -45,6 +45,7 @@ class SimpleSim():
         self.position_plot = initialize_position_plot(ax=self.ax, label="Vehicle", color=(0.2, 0.36, 0.78, 1.0) )
         self.pose_params = OrientedPositionParams(rad=0.2)
         self.pose_plot = init_oriented_position_plot(ax=self.ax, params=self.pose_params)
+        self.traj_plot = initialize_traj_plot(ax=self.ax, label="Vehicle", color=(0.2, 0.36, 0.78, 1.0), location=self.data.current.state )
 
     def setup(self) -> None:
         """Setup all of the storage and plotting"""
@@ -52,6 +53,7 @@ class SimpleSim():
         self.ax.set_title("Vehicle plot")
         self.ax.set_ylim(ymin=-2., ymax=2.)
         self.ax.set_xlim(xmin=-2., xmax=2.)
+        self.ax.set_aspect('equal', 'box')
 
     async def update(self) -> None:
         """Calls all of the update functions
@@ -88,6 +90,7 @@ class SimpleSim():
         print("x = ", self.data.current.state.x, "y = ", self.data.current.state.y)
         update_position_plot(line=self.position_plot, location=plot_state.state)
         update_oriented_position_plot(plot=self.pose_plot, params=self.pose_params, pose=plot_state.state)
+        update_traj_plot(line=self.traj_plot, location=plot_state.state)
         return self.ax
 
     def continuous_plotting(self) -> None:
