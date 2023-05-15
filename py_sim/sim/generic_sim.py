@@ -5,7 +5,7 @@ import asyncio
 import copy
 import sys
 from signal import SIGINT, signal
-from threading import Event, Lock, Thread
+from threading import Event, Lock
 from typing import Any, Generic, Protocol
 
 import matplotlib.animation as anim
@@ -206,7 +206,6 @@ async def run_sim_simple(sim: Sim[StateType]) -> None:
         # Update the current state to be the previous next state
         with sim.lock:
             sim.data.current = copy.deepcopy(sim.data.next)
-        print("t = ", sim.data.current.time)
 
         # Run the updates to calculate the new next state and plots
         sim.store_data_slice(sim.data.current)
