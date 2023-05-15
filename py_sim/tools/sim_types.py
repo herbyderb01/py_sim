@@ -58,11 +58,17 @@ class TwoDimArray:
 
 StateType = TypeVar("StateType", bound=State)
 InputType = TypeVar("InputType", bound=Input)
+ControlParamType = TypeVar("ControlParamType")
 
 class Dynamics(Protocol[StateType, InputType]): # type: ignore
     """Class taking the form of a state dynamics function call"""
     def __call__(self, state: StateType, control: InputType) -> StateType:
         """Dynamic function call ( xdot = f(x,u) )"""
+
+class Control(Protocol[StateType, InputType, ControlParamType]): # type: ignore
+    """Class taking the form of the control function"""
+    def __call__(self, time: float, state: StateType, params: ControlParamType) -> InputType:
+        """Control function call (u = g(t, x, P))"""
 
 class ArcParams():
     """Parameters required for defining an arc"""

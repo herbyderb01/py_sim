@@ -18,5 +18,5 @@ def euler_update(dynamics: Dynamics[StateType, InputType], initial: StateType, c
         Outputs:
             The resulting time derivative of the state
     """
-    result = cast(npt.NDArray[Any], initial.state + dt*( dynamics(initial, control).state ))
-    return result
+    result = initial.state + dt*( dynamics(initial, control).state )
+    return cast(npt.NDArray[Any], result)

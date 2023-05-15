@@ -150,9 +150,10 @@ class SingleAgentSim(Generic[StateType]):
 
     async def post_process(self) -> None:
         """Process the results"""
-        print("Final state: ", self.data.current.state.state)
-        print("State trajectory: ", self.data.state_traj)
-        print("Time trajectory: ", self.data.time_traj[0:self.data.traj_index_latest+1])
+        pass
+        # print("Final state: ", self.data.current.state.state)
+        # print("State trajectory: ", self.data.state_traj)
+        # print("Time trajectory: ", self.data.time_traj[0:self.data.traj_index_latest+1])
 
 async def run_sim_simple(sim: Sim[StateType]) -> None:
     """Run the simulation """
