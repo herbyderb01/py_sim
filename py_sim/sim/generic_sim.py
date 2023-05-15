@@ -71,10 +71,10 @@ class Sim(Protocol[StateType]):
     def update(self) -> None:
         """Calls all of the update functions"""
 
-    async def post_process(self) -> None:
+    def post_process(self) -> None:
         """Process the results"""
 
-    def continuous_plotting(self) -> None:
+    async def continuous_plotting(self) -> None:
         """Create a plot callback function
         """
 
@@ -118,7 +118,7 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
 
         # Create the figure and axis for plotting
         self.fig: Figure
-        self.ax: Axes
+        self.axes: dict[Axes, Figure] = {}
         self.ani: anim.FuncAnimation
         self.state_plots: list[StatePlot[UnicycleState]] = []
 
@@ -143,7 +143,7 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
         # Update the time by sim_step
         self.data.next.time = self.data.current.time + self.params.sim_step
 
-    def update_plot(self, _: Any) -> Axes:
+    def update_plot(self, _: Any) -> None:
         """Plot the current values and state. Should be done with the lock on to avoid
            updating current while plotting the data
         """
@@ -154,8 +154,6 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
         # Update all of the plotting elements
         for plotter in self.state_plots:
             plotter.plot(state=plot_state.state)
-
-        return self.ax
 
     def store_data_slice(self, sim_slice: Slice[StateType]) -> None:
         """Stores the state trajectory data"""
@@ -173,19 +171,32 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
             self.data.time_traj[self.data.traj_index_latest] = sim_slice.time
 
 
-    def continuous_plotting(self) -> None:
+    async def continuous_plotting(self) -> None:
         """Plot the data at a certain rate"""
-        print("Starting plot")
-        self.ani = anim.FuncAnimation(self.fig, self.update_plot, interval=100)
-        print("Showing")
-        plt.show()
-        print("Stopping the sim")
-        self.stop.set()
+        # print("Starting plot")
+        # self.ani = anim.FuncAnimation(self.fig, self.update_plot, interval=100)
+        # print("Showing")
+        # plt.show()
 
-    async def post_process(self) -> None:
+        # Create the initial plot
+        plt.show(block=False)
+
+        while not self.stop.is_set():
+            self.update_plot("")
+            self.fig.canvas.draw()
+            self.fig.canvas.flush_events()
+            await asyncio.sleep(0.1)
+
+        # Stop the simulator
+        self.stop.set()
+        await asyncio.sleep(1.) # Allows for post processing to be started prior to blocking the thread
+        print("Waiting for all plots to be closed")
+        plt.show()
+
+    def post_process(self) -> None:
         """Process the results"""
-        # print("Final state: ", self.data.current.state.state)
-        # print("State trajectory: ", self.data.state_traj)
+        print("Final state: ", self.data.current.state.state)
+        print("State trajectory: ", self.data.state_traj)
         # print("Time trajectory: ", self.data.time_traj[0:self.data.traj_index_latest+1])
 
 async def run_sim_simple(sim: Sim[StateType]) -> None:
@@ -202,11 +213,12 @@ async def run_sim_simple(sim: Sim[StateType]) -> None:
         sim.update()
         await asyncio.sleep(sim.params.sim_update_period)
     sim.store_data_slice(sim.data.next) # Store the final data
+    sim.stop.set()
 
 
     # Post process
     print("Post-processing")
-    await asyncio.gather(sim.post_process())
+    sim.post_process()
 
 def start_simple_sim(sim: Sim[StateType]) -> None:
     """Starts the simulation and the plotting of a simple sequential simulator
@@ -215,13 +227,9 @@ def start_simple_sim(sim: Sim[StateType]) -> None:
             sim: The simulation to be run
     """
 
-    def run_sim(sim: Sim[StateType]) -> None:
+    async def run_sim(sim: Sim[StateType]) -> None:
         """Begins the async thread for running the simple sim"""
-        asyncio.run(run_sim_simple(sim=sim))
-
-    # Run the simple simulation
-    thread = Thread(target=run_sim, args=(sim,))
-    thread.start()
+        await asyncio.gather(run_sim_simple(sim=sim), sim.continuous_plotting())
 
     def handler(_, __): # type: ignore
         """Simple signal handler"""
@@ -233,9 +241,6 @@ def start_simple_sim(sim: Sim[StateType]) -> None:
         # Stop the sim
         print('Stopping sim - running post processing. Close figures or press ctrl-c again to exit')
         sim.stop.set()
-        thread.join()
 
     signal(SIGINT, handler=handler) # type: ignore
-
-    # Run the plotting
-    sim.continuous_plotting()
+    asyncio.run(run_sim(sim=sim))

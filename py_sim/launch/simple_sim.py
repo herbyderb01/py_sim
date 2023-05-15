@@ -29,17 +29,18 @@ class SimpleSim(SingleAgentSim[StateType, InputType, ControlParamType]):
         """Creates a SingleAgentSim and then sets up the plotting and storage"""
         super().__init__(dynamics=dynamics, controller=controller, control_params=control_params)
 
-        # Initialize the plotting
-        self.fig, self.ax = plt.subplots()
-        self.ax.set_title("Vehicle plot")
-        self.ax.set_ylim(ymin=-2., ymax=2.)
-        self.ax.set_xlim(xmin=-2., xmax=2.)
-        self.ax.set_aspect('equal', 'box')
+        # Initialize the plotting of the vehicle visualization
+        self.fig, ax = plt.subplots()
+        self.axes['Vehicle_axis'] = ax
+        ax.set_title("Vehicle plot")
+        ax.set_ylim(ymin=-2., ymax=2.)
+        ax.set_xlim(xmin=-2., xmax=2.)
+        ax.set_aspect('equal', 'box')
 
         # Create the desired state plots
-        self.state_plots.append(PositionPlot(ax=self.ax, label="Vehicle", color=(0.2, 0.36, 0.78, 1.0)) )
-        self.state_plots.append(PosePlot(ax=self.ax, rad=0.2))
-        self.state_plots.append(StateTrajPlot(ax=self.ax, label="Vehicle Trajectory", \
+        self.state_plots.append(PositionPlot(ax=ax, label="Vehicle", color=(0.2, 0.36, 0.78, 1.0)) )
+        self.state_plots.append(PosePlot(ax=ax, rad=0.2))
+        self.state_plots.append(StateTrajPlot(ax=ax, label="Vehicle Trajectory", \
                                 color=(0.2, 0.36, 0.78, 1.0), location=self.data.current.state))
 
 
