@@ -1,18 +1,25 @@
 """simple_sim.py performs a test with a single vehicle"""
 
+from typing import TypeVar
+
 import matplotlib.pyplot as plt
 from py_sim.dynamics.unicycle import arc_control
 from py_sim.dynamics.unicycle import dynamics as unicycle_dynamics
 from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
-from py_sim.sim.integration import euler_update
 from py_sim.tools.plotting import PosePlot, PositionPlot, StateTrajPlot
-from py_sim.tools.sim_types import ArcParams, UnicycleState, InputType, Dynamics, UnicycleControl, ControlParamType, Control
-from typing import TypeVar, Generic
+from py_sim.tools.sim_types import (
+    ArcParams,
+    Control,
+    ControlParamType,
+    Dynamics,
+    InputType,
+    UnicycleState,
+)
 
-
+# Limit the state type to be a unicycle state
 StateType = TypeVar("StateType", bound=UnicycleState)
 
-class SimpleSim(Generic[StateType, InputType, ControlParamType], SingleAgentSim[StateType]):
+class SimpleSim(SingleAgentSim[StateType, InputType, ControlParamType]):
     """Framework for implementing a simulator that just tests out a feedback controller"""
     def __init__(self,
                 dynamics: Dynamics[StateType, InputType],
@@ -20,12 +27,7 @@ class SimpleSim(Generic[StateType, InputType, ControlParamType], SingleAgentSim[
                 control_params: ControlParamType
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage"""
-        super().__init__()
-
-        # Initialize sim-specific parameters
-        self.dynamics: Dynamics[StateType, InputType] = dynamics
-        self.controller: Control[StateType, InputType, ControlParamType] = controller
-        self.control_params: ControlParamType = control_params
+        super().__init__(dynamics=dynamics, controller=controller, control_params=control_params)
 
         # Initialize the plotting
         self.fig, self.ax = plt.subplots()
@@ -41,30 +43,8 @@ class SimpleSim(Generic[StateType, InputType, ControlParamType], SingleAgentSim[
                                 color=(0.2, 0.36, 0.78, 1.0), location=self.data.current.state))
 
 
-    def update(self) -> None:
-        """Calls all of the update functions
-            * Gets the latest vector to be followed
-            * Calculate the control to be executed
-            * Update the state
-            * Update the time
-        """
-
-        # Update the time by sim_step
-        self.data.next.time = self.data.current.time + self.params.sim_step
-
-        # Calculate the control to follow a circle
-        control:InputType = self.controller(time=self.data.current.time,
-                                state=self.data.current.state, # type: ignore
-                                params=self.control_params)
-
-        # Update the state using the latest control
-        self.data.next.state.state = euler_update(  dynamics=self.dynamics,
-                                                    control=control,
-                                                    initial=self.data.current.state,
-                                                    dt=self.params.sim_step) # type: ignore
-
 if __name__ == "__main__":
     # Runs the simulation and the plotting
-    control_params = ArcParams(v_d=1., w_d= 1.)
-    sim = SimpleSim(dynamics=unicycle_dynamics, controller=arc_control, control_params=control_params)
+    arc_params = ArcParams(v_d=1., w_d= 1.)
+    sim = SimpleSim(dynamics=unicycle_dynamics, controller=arc_control, control_params=arc_params)
     start_simple_sim(sim=sim)

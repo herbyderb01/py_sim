@@ -14,8 +14,16 @@ import numpy as np
 import numpy.typing as npt
 from matplotlib.axes._axes import Axes
 from matplotlib.figure import Figure
+from py_sim.sim.integration import euler_update
 from py_sim.tools.plotting import StatePlot
-from py_sim.tools.sim_types import StateType, UnicycleState
+from py_sim.tools.sim_types import (
+    Control,
+    ControlParamType,
+    Dynamics,
+    InputType,
+    StateType,
+    UnicycleState,
+)
 
 
 class SimParameters(Generic[StateType]):
@@ -73,11 +81,20 @@ class Sim(Protocol[StateType]):
     def store_data_slice(self, sim_slice: Slice[StateType]) -> None:
         """Stores data after update"""
 
-class SingleAgentSim(Generic[StateType]):
+class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
     """Implements the main functions for a single agent simulation"""
-    def __init__(self) -> None:
+    def __init__(self,
+                dynamics: Dynamics[StateType, InputType],
+                controller: Control[StateType, InputType, ControlParamType],
+                control_params: ControlParamType
+                ) -> None:
         """Initialize the simulation
         """
+        # Initialize sim-specific parameters
+        self.dynamics: Dynamics[StateType, InputType] = dynamics
+        self.controller: Control[StateType, InputType, ControlParamType] = controller
+        self.control_params: ControlParamType = control_params
+
         # Update the simulation parameters
         initial_state = UnicycleState(x = 0., y= 0., psi= 0.)
         self.params = SimParameters[UnicycleState](initial_state=initial_state)
@@ -106,8 +123,25 @@ class SingleAgentSim(Generic[StateType]):
         self.state_plots: list[StatePlot[UnicycleState]] = []
 
     def update(self) -> None:
-        """Must be implemented when inherited"""
-        raise NotImplementedError
+        """Calls all of the update functions
+            * Calculate the control to be executed
+            * Update the state
+            * Update the time
+        """
+
+        # Calculate the control to follow a circle
+        control:InputType = self.controller(time=self.data.current.time,
+                                state=self.data.current.state, # type: ignore
+                                params=self.control_params)
+
+        # Update the state using the latest control
+        self.data.next.state.state = euler_update(  dynamics=self.dynamics,
+                                                    control=control,
+                                                    initial=self.data.current.state,
+                                                    dt=self.params.sim_step) # type: ignore
+
+        # Update the time by sim_step
+        self.data.next.time = self.data.current.time + self.params.sim_step
 
     def update_plot(self, _: Any) -> Axes:
         """Plot the current values and state. Should be done with the lock on to avoid
@@ -150,7 +184,6 @@ class SingleAgentSim(Generic[StateType]):
 
     async def post_process(self) -> None:
         """Process the results"""
-        pass
         # print("Final state: ", self.data.current.state.state)
         # print("State trajectory: ", self.data.state_traj)
         # print("Time trajectory: ", self.data.time_traj[0:self.data.traj_index_latest+1])
