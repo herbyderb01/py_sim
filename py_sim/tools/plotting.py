@@ -1,17 +1,24 @@
 """plotting.py: Plotting utilities
 """
+from typing import Protocol
+
+import numpy as np
 from matplotlib.axes._axes import Axes
 from matplotlib.lines import Line2D
 from matplotlib.patches import Polygon
-import numpy as np
-from typing import Protocol
-from py_sim.tools.sim_types import TwoDArrayType, TwoDimArray, UnicyleStateProtocol, UnicycleState
-from py_sim.tools.sim_types import StateType
+from py_sim.tools.sim_types import (
+    StateType,
+    TwoDArrayType,
+    TwoDimArray,
+    UnicycleState,
+    UnicyleStateProtocol,
+)
 
 Color = tuple[float, float, float, float] # rgb-alpha color of the plot
 blue = (0., 0., 1., 1.)
 
 class StatePlot(Protocol[StateType]): # type: ignore
+    """Class that defines the plotting framework for a plot requiring state only"""
     def plot(self, state: StateType) -> None:
         """Updates the plot for the given state type"""
 

@@ -1,52 +1,24 @@
 """simple_sim.py performs a test with a single vehicle"""
 
-import asyncio
-import copy
-from typing import Any
-import matplotlib.figure as mpl_fig
-import matplotlib.axes._axes as mpl_ax
-import matplotlib.animation as anim
 import matplotlib.pyplot as plt
-from threading import Lock, Thread
 from py_sim.dynamics.unicycle import arc_control, dynamics
-from py_sim.sim.generic_sim import (
-    Data,
-    SimParameters,
-    Slice,
-    euler_update,
-    run_sim_simple,
-)
+from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
+from py_sim.sim.integration import euler_update
+from py_sim.tools.plotting import PosePlot, PositionPlot, StateTrajPlot
 from py_sim.tools.sim_types import ArcParams, UnicycleState
-from py_sim.tools.plotting import initialize_position_plot, update_position_plot, OrientedPositionParams, init_oriented_position_plot, update_oriented_position_plot, initialize_traj_plot, update_traj_plot, StatePlot, PositionPlot, PosePlot, StateTrajPlot
 
-StateType = UnicycleState
 
-class SimpleSim():
+class SimpleSim(SingleAgentSim[UnicycleState]):
     """Framework for implementing a simulator that just tests out a feedback controller"""
     def __init__(self) -> None:
-        """Initialize the simulation
-        """
-        # Update the simulation parameters
-        initial_state = StateType(x = 0., y= 0., psi= 0.)
-        self.params = SimParameters[UnicycleState](initial_state=initial_state)
+        """Creates a SingleAgentSim and then sets up the plotting and storage"""
+        super().__init__()
+
+        # Initialize sim-specific parameters
         self.control_params = ArcParams(v_d=1., w_d= 1.)
 
-        # Create and store the data
-        initial_slice: Slice[StateType] = Slice(state=self.params.initial_state, time=self.params.t0)
-        self.data: Data[StateType] = Data(current=initial_slice)
-
-        # Create a lock to store the data
-        self.lock = Lock()
-
-        # Create the figure and axis for plotting
-        self.fig: mpl_fig.Figure
-        self.ax: mpl_ax.Axes
-        self.fig, self.ax = plt.subplots()
-        self.state_plots: list[StatePlot[StateType]] = []
-
-    def setup(self) -> None:
-        """Setup all of the storage and plotting"""
         # Initialize the plotting
+        self.fig, self.ax = plt.subplots()
         self.ax.set_title("Vehicle plot")
         self.ax.set_ylim(ymin=-2., ymax=2.)
         self.ax.set_xlim(xmin=-2., xmax=2.)
@@ -55,10 +27,11 @@ class SimpleSim():
         # Create the desired state plots
         self.state_plots.append(PositionPlot(ax=self.ax, label="Vehicle", color=(0.2, 0.36, 0.78, 1.0)) )
         self.state_plots.append(PosePlot(ax=self.ax, rad=0.2))
-        self.state_plots.append(StateTrajPlot(ax=self.ax, label="Vehicle Trajectory", color=(0.2, 0.36, 0.78, 1.0), location=self.data.current.state))
+        self.state_plots.append(StateTrajPlot(ax=self.ax, label="Vehicle Trajectory", \
+                                color=(0.2, 0.36, 0.78, 1.0), location=self.data.current.state))
 
 
-    async def update(self) -> None:
+    def update(self) -> None:
         """Calls all of the update functions
             * Gets the latest vector to be followed
             * Calculate the control to be executed
@@ -80,42 +53,7 @@ class SimpleSim():
                                                     initial=self.data.current.state,
                                                     dt=self.params.sim_step)
 
-
-    def update_plot(self, _: Any) -> mpl_ax.Axes:
-        """Plot the current values and state. Should be done with the lock on to avoid
-           updating current while plotting the data
-        """
-        # Copy the state to avoid any conflicts
-        with self.lock:
-            plot_state = copy.deepcopy(self.data.current)
-
-        # Update all of the plotting elements
-        for plotter in self.state_plots:
-            plotter.plot(state=plot_state.state)
-
-        return self.ax
-
-    def continuous_plotting(self) -> None:
-        """Plot the data at a certain rate"""
-        print("Starting plot")
-        self.ani = anim.FuncAnimation(self.fig, self.update_plot, interval=100)
-        print("Showing")
-        plt.show()
-
-    async def post_process(self) -> None:
-        """Process the results"""
-        print("Final state: ", self.data.current.state.state)
-
-def run_sim(sim: SimpleSim) -> None:
-    """Runs the actual simulation of the data"""
-    asyncio.run(run_sim_simple(sim=sim) )
-
 if __name__ == "__main__":
-    """Runs the simulation and the plotting"""
-    # Run the simple simulation
+    # Runs the simulation and the plotting
     sim = SimpleSim()
-    thread = Thread(target=run_sim, args=(sim,))
-    thread.start()
-
-    # Run the plotting
-    sim.continuous_plotting()
+    start_simple_sim(sim=sim)

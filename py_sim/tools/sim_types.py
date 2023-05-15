@@ -12,6 +12,7 @@ import numpy.typing as npt
 class State(Protocol):
     """The basic form of a state"""
     state: npt.NDArray[Any] # The state vector of the vehicle
+    n_states: int # The number of elements in the state
 
 class Input(Protocol):
     """The basic form of a control input"""
@@ -19,6 +20,7 @@ class Input(Protocol):
 
 
 class TwoDArrayType(Protocol):
+    """Defines a Two dimensional array with an x and y component"""
     IND_X: int # The index of the x-component
     IND_Y: int # The index of the y-component
     state: npt.NDArray[Any] # The 2-D array
@@ -74,6 +76,7 @@ class UnicyleStateProtocol(Protocol):
     IND_Y: int  # The index of the y-position
     IND_PSI: int  # The index of the orientation
     state: npt.NDArray[Any] # The state vector of the vehicle
+    n_states: int # The number of states in the state vector
     x: float # The x-position
     y: float # The y-position
     psi: float # The orientation
@@ -93,6 +96,7 @@ class UnicycleState:
     IND_X: int = 0 # The index of the x-position
     IND_Y: int = 1  # The index of the y-position
     IND_PSI: int = 2  # The index of the orientation
+    n_states: int = 3 # The number of states in the state vector
 
     def __init__(self, x: float = 0., y: float = 0., psi: float = 0.) -> None:
         self.state: npt.NDArray[Any] = np.array([[x], [y], [psi]])  # The state of the vehicle
