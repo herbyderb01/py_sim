@@ -72,7 +72,12 @@ class TwoDimArray:
     IND_Y: int = 1  # The index of the y-component
     n_states: int = 2 # The number of states in state
 
-    def __init__(self, x: float = 0., y: float = 0.) -> None:
+    def __init__(self, x: float = 0., y: float = 0., vec: Optional[npt.NDArray[Any]] = None) -> None:
+        """Initializes the vector. If vec is defined then the x and y values are ignored"""
+        # Extract values from vec to avoid numpy shape issues
+        if vec is not None:
+            x = vec.item(self.IND_X)
+            y = vec.item(self.IND_Y)
         self.state: npt.NDArray[Any] = np.array([[x], [y]])  # The 2-D vector
 
     @property
@@ -117,6 +122,7 @@ class UnicyleStateProtocol(Protocol):
     IND_Y: int  # The index of the y-position
     IND_PSI: int  # The index of the orientation
     state: npt.NDArray[Any] # The state vector of the vehicle
+    position: npt.NDArray[Any] # The position vector of the vehicle
     n_states: int # The number of states in the state vector
     x: float # The x-position
     y: float # The y-position
@@ -172,6 +178,17 @@ class UnicycleState:
     def psi(self, val: float) -> None:
         """Store the y-position value"""
         self.state[self.IND_PSI,0] = val
+
+    @property
+    def position(self) -> npt.NDArray[Any]:
+        """Return the 2D position vector"""
+        return np.array([[self.x], [self.y]])
+
+    @position.setter
+    def position(self, val: npt.NDArray[Any]):
+        """Sets the 2D position vector"""
+        self.x = val.item(self.IND_X)
+        self.y = val.item(self.IND_Y)
 
 class UnicycleControl:
     """Stores the inputs required for the Unicycle dynamics (translational and rotation velocity)"""
