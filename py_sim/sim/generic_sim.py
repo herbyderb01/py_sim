@@ -6,23 +6,24 @@ import copy
 import sys
 from signal import SIGINT, signal
 from threading import Event, Lock
-from typing import Any, Generic, Protocol
+from typing import Generic, Protocol
 
 import matplotlib.animation as anim
 import matplotlib.pyplot as plt
 import numpy as np
-import numpy.typing as npt
 from matplotlib.axes._axes import Axes
 from matplotlib.figure import Figure
 from py_sim.sim.integration import euler_update
-from py_sim.tools.plotting import StatePlot
 from py_sim.tools.sim_types import (
     Control,
     ControlParamType,
+    Data,
+    DataPlot,
     Dynamics,
     InputType,
+    Slice,
+    StatePlot,
     StateType,
-    UnicycleState,
 )
 
 
@@ -43,23 +44,6 @@ class SimParameters(Generic[StateType]):
     def __init__(self, initial_state: StateType) -> None:
         # Initial state of the vehicle
         self.initial_state: StateType = initial_state
-
-class Slice(Generic[StateType]):
-    """ Contains a "slice" of data - the data produced / needed
-        at a single time
-    """
-    def __init__(self, state: StateType, time: float = 0.) -> None:
-        self.time = time # Current simulation time
-        self.state: StateType = state # Current state
-
-class Data(Generic[StateType]):
-    """Stores the changing simulation information"""
-    def __init__(self, current: Slice[StateType]) -> None:
-        self.current = current # Stores the current slice of data to be read
-        self.next = copy.deepcopy(current) # Stores the next data to be created
-        self.state_traj: npt.NDArray[Any] # Each column corresponds to a trajectory data
-        self.time_traj: npt.NDArray[Any] # vector Each element is the time for the state in question
-        self.traj_index_latest: int = -1 # Index into the state and time trajectory of the latest data
 
 class Sim(Protocol[StateType]):
     """Basic class formulation for simulating"""
@@ -84,6 +68,7 @@ class Sim(Protocol[StateType]):
 class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
     """Implements the main functions for a single agent simulation"""
     def __init__(self,
+                initial_state: StateType,
                 dynamics: Dynamics[StateType, InputType],
                 controller: Control[StateType, InputType, ControlParamType],
                 control_params: ControlParamType
@@ -96,12 +81,11 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
         self.control_params: ControlParamType = control_params
 
         # Update the simulation parameters
-        initial_state = UnicycleState(x = 0., y= 0., psi= 0.)
-        self.params = SimParameters[UnicycleState](initial_state=initial_state)
+        self.params = SimParameters[StateType](initial_state=initial_state)
 
         # Create and store the data
-        initial_slice: Slice[UnicycleState] = Slice(state=self.params.initial_state, time=self.params.t0)
-        self.data: Data[UnicycleState] = Data(current=initial_slice)
+        initial_slice: Slice[StateType] = Slice(state=self.params.initial_state, time=self.params.t0)
+        self.data: Data[StateType] = Data(current=initial_slice)
 
         # Create a lock to store the data
         self.lock = Lock()
@@ -117,10 +101,11 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
         self.data.traj_index_latest = -1 # -1 indicates that nothing has yet been saved
 
         # Create the figure and axis for plotting
-        self.fig: Figure
+        self.figs: list[Figure] = []
         self.axes: dict[Axes, Figure] = {}
         self.ani: anim.FuncAnimation
-        self.state_plots: list[StatePlot[UnicycleState]] = []
+        self.state_plots: list[StatePlot[StateType]] = []
+        self.data_plots: list[DataPlot[StateType]] = []
 
     def update(self) -> None:
         """Calls all of the update functions
@@ -131,19 +116,19 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
 
         # Calculate the control to follow a circle
         control:InputType = self.controller(time=self.data.current.time,
-                                state=self.data.current.state, # type: ignore
+                                state=self.data.current.state,
                                 params=self.control_params)
 
         # Update the state using the latest control
         self.data.next.state.state = euler_update(  dynamics=self.dynamics,
                                                     control=control,
                                                     initial=self.data.current.state,
-                                                    dt=self.params.sim_step) # type: ignore
+                                                    dt=self.params.sim_step)
 
         # Update the time by sim_step
         self.data.next.time = self.data.current.time + self.params.sim_step
 
-    def update_plot(self, _: Any) -> None:
+    def update_plot(self) -> None:
         """Plot the current values and state. Should be done with the lock on to avoid
            updating current while plotting the data
         """
@@ -154,6 +139,10 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
         # Update all of the plotting elements
         for plotter in self.state_plots:
             plotter.plot(state=plot_state.state)
+
+        # Update all of the data plotting elements
+        for plotter in self.data_plots:
+            plotter.plot(data=self.data)
 
     def store_data_slice(self, sim_slice: Slice[StateType]) -> None:
         """Stores the state trajectory data"""
@@ -173,19 +162,16 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
 
     async def continuous_plotting(self) -> None:
         """Plot the data at a certain rate"""
-        # print("Starting plot")
-        # self.ani = anim.FuncAnimation(self.fig, self.update_plot, interval=100)
-        # print("Showing")
-        # plt.show()
-
         # Create the initial plot
         plt.show(block=False)
 
+        # Continuously update the plots
         while not self.stop.is_set():
-            self.update_plot("")
-            self.fig.canvas.draw()
-            self.fig.canvas.flush_events()
-            await asyncio.sleep(0.1)
+            self.update_plot()
+            for fig in self.figs:
+                fig.canvas.draw()
+                fig.canvas.flush_events()
+            await asyncio.sleep(self.params.sim_plot_period)
 
         # Stop the simulator
         self.stop.set()

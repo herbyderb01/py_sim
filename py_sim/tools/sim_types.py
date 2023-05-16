@@ -2,7 +2,8 @@
 
 """
 
-from typing import Any, Protocol, TypeVar, cast
+import copy
+from typing import Any, Generic, Protocol, TypeVar, cast
 
 import numpy as np
 import numpy.typing as npt
@@ -18,12 +19,43 @@ class Input(Protocol):
     """The basic form of a control input"""
     input: npt.NDArray[Any] # A vector of inputs
 
+StateType = TypeVar("StateType", bound=State)
+InputType = TypeVar("InputType", bound=Input)
+ControlParamType = TypeVar("ControlParamType")
+
+class Slice(Generic[StateType]):
+    """ Contains a "slice" of data - the data produced / needed
+        at a single time
+    """
+    def __init__(self, state: StateType, time: float = 0.) -> None:
+        self.time = time # Current simulation time
+        self.state: StateType = state # Current state
+
+class Data(Generic[StateType]):
+    """Stores the changing simulation information"""
+    def __init__(self, current: Slice[StateType]) -> None:
+        self.current = current # Stores the current slice of data to be read
+        self.next = copy.deepcopy(current) # Stores the next data to be created
+        self.state_traj: npt.NDArray[Any] # Each column corresponds to a trajectory data
+        self.control_traj: npt.NDArray[Any] # Each column corresponds to a control input vector
+        self.time_traj: npt.NDArray[Any] # vector Each element is the time for the state in question
+        self.traj_index_latest: int = -1 # Index into the state and time trajectory of the latest data
+
+    def get_state_vec(self,index: int) -> npt.NDArray[Any]:
+        """Returns a state vector of valid values"""
+        return self.state_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on second argument
+
+    def get_time_vec(self) -> npt.NDArray[Any]:
+        """Returns the valid time vector"""
+        return self.time_traj[0:self.traj_index_latest+1]
+
 
 class TwoDArrayType(Protocol):
     """Defines a Two dimensional array with an x and y component"""
     IND_X: int # The index of the x-component
     IND_Y: int # The index of the y-component
     state: npt.NDArray[Any] # The 2-D array
+    n_states: int # The number of states in state
     x: float # The value of the x component
     y: float # The value of the y component
 
@@ -32,6 +64,7 @@ class TwoDimArray:
     """
     IND_X: int = 0 # The index of the x-component
     IND_Y: int = 1  # The index of the y-component
+    n_states: int = 2 # The number of states in state
 
     def __init__(self, x: float = 0., y: float = 0.) -> None:
         self.state: npt.NDArray[Any] = np.array([[x], [y]])  # The 2-D vector
@@ -55,10 +88,6 @@ class TwoDimArray:
     def y(self, val: float) -> None:
         """Store the y-component value"""
         self.state[self.IND_Y,0] = val
-
-StateType = TypeVar("StateType", bound=State)
-InputType = TypeVar("InputType", bound=Input)
-ControlParamType = TypeVar("ControlParamType")
 
 class Dynamics(Protocol[StateType, InputType]): # type: ignore
     """Class taking the form of a state dynamics function call"""
@@ -165,3 +194,13 @@ class UnicycleControl:
     def w(self, val: float) -> None:
         """Store the rotational velocity value"""
         self.input[self.IND_W,0] = val
+
+class StatePlot(Protocol[StateType]): # type: ignore
+    """Class that defines the plotting framework for a plot requiring state only"""
+    def plot(self, state: StateType) -> None:
+        """Updates the plot for the given state type"""
+
+class DataPlot(Protocol[StateType]):
+    """Class that defines plotting framework for using the full Data"""
+    def plot(self, data: Data[StateType]) -> None:
+        """Updates the plot given the latest data"""

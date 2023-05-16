@@ -1,11 +1,15 @@
 """plotting.py: Plotting utilities
 """
-from typing import Protocol
+from typing import Any, Generic, Optional, TypeVar
 
+import matplotlib.pyplot as plt
 import numpy as np
+import numpy.typing as npt
 from matplotlib.axes._axes import Axes
+from matplotlib.figure import Figure
 from matplotlib.lines import Line2D
 from matplotlib.patches import Polygon
+from py_sim.sim.generic_sim import Data
 from py_sim.tools.sim_types import (
     StateType,
     TwoDArrayType,
@@ -16,11 +20,6 @@ from py_sim.tools.sim_types import (
 
 Color = tuple[float, float, float, float] # rgb-alpha color of the plot
 blue = (0., 0., 1., 1.)
-
-class StatePlot(Protocol[StateType]): # type: ignore
-    """Class that defines the plotting framework for a plot requiring state only"""
-    def plot(self, state: StateType) -> None:
-        """Updates the plot for the given state type"""
 
 ############################# 2D Position Plot Object ##############################
 class PositionPlot():
@@ -156,7 +155,8 @@ def update_oriented_position_plot(plot: Polygon, params: OrientedPositionParams,
 
 
 ############################# State Trajectory Plot Object ##############################
-class StateTrajPlot():
+LocationStateType = TypeVar("LocationStateType", bound=TwoDArrayType)
+class StateTrajPlot(Generic[LocationStateType]):
     """Plots the state trajectory one pose at a time"""
     def __init__(self, ax: Axes, color: Color, location: TwoDArrayType, label: str = "") -> None:
         """ Creates the State Trajectory plot on the given axes
@@ -167,27 +167,12 @@ class StateTrajPlot():
                 location: The original position of the vehicle
                 label: The label to assign to the trajectory plot
         """
-        self.handle = initialize_traj_plot(ax=ax, color=color, label=label, location=location)
+        self.handle = initialize_2d_line_plot(ax=ax, color=color, style="-.", x=location.x, y=location.y, label=label)
 
-    def plot(self, state: TwoDArrayType) -> None:
+    def plot(self, data: Data[LocationStateType]) -> None:
         """Update the state trajectory plot"""
-        update_traj_plot(line=self.handle, location=state)
-
-def initialize_traj_plot(ax: Axes, color: Color, label: str = "", location: TwoDArrayType = TwoDimArray()) -> Line2D:
-    """initialize_traj_plot Initializes the plotting of a trajectory and returns a reference
-    to the trajectory plot
-
-        Inputs:
-            ax: The axis on which to create the plot
-            color: The color to plot (rgb-alpha, i.e., color and transparency)
-            label: The label to assign to the trajectory plot
-            location: The original position of the vehicle
-
-        Outputs:
-            Reference to the plot (Line2D) for later modification
-    """
-    (traj_plot,) = ax.plot([location.x], [location.y], '-.', label=label, color=color)
-    return traj_plot
+        update_2d_line_plot(line=self.handle, x_vec=data.get_state_vec(data.current.state.IND_X),
+                            y_vec=data.get_state_vec(data.current.state.IND_Y))
 
 def update_traj_plot(line: Line2D, location: TwoDArrayType) -> None:
     """update_traj_plot: Updates the trajectory with the latest location
@@ -204,3 +189,103 @@ def update_traj_plot(line: Line2D, location: TwoDArrayType) -> None:
     x = np.append(x, location.x)
     y = np.append(y, location.y)
     line.set_data(x, y)
+
+
+###################### Time Series Plot #######################
+UnicycleStateType = TypeVar("UnicycleStateType", bound=UnicycleState)
+class UnicycleTimeSeriesPlot(Generic[UnicycleStateType]):
+    """Plots the unicycle state vs time with each state in its own subplot"""
+    def __init__(self,
+                 color: Color,
+                 style: str = "-",
+                 fig: Optional[Figure] = None,
+                 axs: Optional[ list[Axes] ] = None,
+                 label: str = "") -> None:
+        """Plot a unicycle time series plot
+
+            Inputs:
+                color: The color to plot (rgb-alpha, i.e., color and transparency)
+                style: The line style of the plot
+                fig: The figure on which to plot - If none or axes is none then a new figure is created
+                axs: The list of axes on which to plot - If none or fig is non then a new figure is created
+                label: The label for the line
+        """
+
+        # Create a new figure
+        if fig is None or axs is None:
+            self.fig, self.axs = plt.subplots(3,1)
+        else:
+            self.fig = fig
+            self.axs = axs
+
+        # Create a new time series for each unicycle state
+        self.handle_x = initialize_2d_line_plot(ax=self.axs[0],x=0., y=0., color=color, style=style, label=label)
+        self.handle_y = initialize_2d_line_plot(ax=self.axs[1],x=0., y=0., color=color, style=style, label=label)
+        self.handle_psi = initialize_2d_line_plot(ax=self.axs[2],x=0., y=0., color=color, style=style, label=label)
+
+        # Label the axes and plots
+        self.axs[0].set_ylabel("X position")
+        self.axs[1].set_ylabel("Y position")
+        self.axs[2].set_ylabel("Orientation")
+        self.axs[2].set_xlabel("Time (sec)")
+
+    def plot(self, data: Data[UnicycleStateType]) -> None:
+        """ Plots the line trajectory
+        """
+        update_2d_line_plot(line=self.handle_x, x_vec=data.get_time_vec(), y_vec=data.get_state_vec(data.current.state.IND_X))
+        update_2d_line_plot(line=self.handle_y, x_vec=data.get_time_vec(), y_vec=data.get_state_vec(data.current.state.IND_Y))
+        update_2d_line_plot(line=self.handle_psi, x_vec=data.get_time_vec(), y_vec=data.get_state_vec(data.current.state.IND_PSI))
+
+        # Resize the axis
+        for ax in self.axs:
+            ax.relim()
+            ax.autoscale_view(True, True, True)
+
+
+class DataTimeSeries(Generic[StateType]):
+    """Plots the time series of a given state withing the data object"""
+    def __init__(self, ax: Axes, color: Color, state_ind: int, label: str = "") -> None:
+        """Creates the State Trajectory plot on the given axes
+
+            Inputs:
+                ax: The axis on which to create the plot
+                color: The color to plot (rgb-alpha, i.e., color and transparency)
+                state_ind: The index of the state being plotted
+                label: The label to assign to the trajectory plot
+        """
+        # Note that the initial (x,y) location will not show up due to the syle
+        # and that it will be overwritten each time the plot is updated
+        self.handle = initialize_2d_line_plot(ax=ax, color=color, style="-.", x=0., y=0., label=label)
+        self.state_ind = state_ind
+
+    def plot(self, data: Data[StateType]) -> None:
+        """Update the trajectory plot"""
+        update_2d_line_plot(line=self.handle, x_vec=data.get_time_vec(), y_vec=data.get_state_vec(self.state_ind))
+
+
+def initialize_2d_line_plot(ax: Axes, x: float, y: float, color: Color, style: str = "-", label: str="") -> Line2D:
+    """Initializes a two-dimensional line plot
+
+        Inputs:
+            ax: The axis on which to create the plot
+            x: initial x-position
+            y: initial y-position
+            color: The color to plot (rgb-alpha, i.e., color and transparency)
+            style: The line style of the plot
+            label: The label to assign to the trajectory plot
+
+        Outputs:
+            Reference to the plot (Line2D) for later modification
+    """
+    (traj_plot,) = ax.plot([x], [y], style, label=label, color=color)
+    return traj_plot
+
+def update_2d_line_plot(line: Line2D, x_vec: npt.NDArray[Any], y_vec: npt.NDArray[Any]) -> None:
+    """update_traj_plot: Updates the trajectory with the latest location
+
+        Inputs:
+            line: Reference to the line to be updated
+            x_vec: The data for the x coordinate
+            y_vec: The data for the y coordinate
+    """
+    line.set_data(x_vec, y_vec)
