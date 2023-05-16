@@ -18,6 +18,7 @@ from py_sim.tools.sim_types import (
     ControlParamType,
     Dynamics,
     InputType,
+    UnicycleControl,
     UnicycleState,
 )
 
@@ -30,10 +31,15 @@ class SimpleSim(SingleAgentSim[StateType, InputType, ControlParamType]):
                 initial_state: StateType,
                 dynamics: Dynamics[StateType, InputType],
                 controller: Control[StateType, InputType, ControlParamType],
-                control_params: ControlParamType
+                control_params: ControlParamType,
+                input_example: InputType
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage"""
-        super().__init__(initial_state=initial_state, dynamics=dynamics, controller=controller, control_params=control_params)
+        super().__init__(initial_state=initial_state,
+                         dynamics=dynamics,
+                         controller=controller,
+                         control_params=control_params,
+                         input_example=input_example)
 
         # Initialize the plotting of the vehicle visualization
         fig, ax = plt.subplots()
@@ -63,7 +69,11 @@ if __name__ == "__main__":
     # Runs the simulation and the plotting
     arc_params = ArcParams(v_d=1., w_d= 1.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
-    sim = SimpleSim(initial_state=state_initial, dynamics=unicycle_dynamics, controller=arc_control, control_params=arc_params)
+    sim = SimpleSim(initial_state=state_initial,
+                    dynamics=unicycle_dynamics,
+                    controller=arc_control,
+                    control_params=arc_params,
+                    input_example=UnicycleControl())
     sim.params.sim_plot_period = 0.2
     sim.params.sim_update_period = 0.01
     start_simple_sim(sim=sim)

@@ -71,7 +71,8 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
                 initial_state: StateType,
                 dynamics: Dynamics[StateType, InputType],
                 controller: Control[StateType, InputType, ControlParamType],
-                control_params: ControlParamType
+                control_params: ControlParamType,
+                input_example: InputType
                 ) -> None:
         """Initialize the simulation
         """
@@ -98,6 +99,7 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
             # Number of elements in the trajectory + 2 for the start and end times
         self.data.state_traj = np.zeros((initial_state.n_states, num_elements_traj))
         self.data.time_traj = np.zeros((num_elements_traj,))
+        self.data.control_traj = np.zeros((input_example.n_inputs, num_elements_traj))
         self.data.traj_index_latest = -1 # -1 indicates that nothing has yet been saved
 
         # Create the figure and axis for plotting
@@ -118,6 +120,7 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
         control:InputType = self.controller(time=self.data.current.time,
                                 state=self.data.current.state,
                                 params=self.control_params)
+        self.data.current.input_vec = control.input
 
         # Update the state using the latest control
         self.data.next.state.state = euler_update(  dynamics=self.dynamics,
@@ -159,6 +162,10 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
                 sim_slice.state.state
             self.data.time_traj[self.data.traj_index_latest] = sim_slice.time
 
+            if sim_slice.input_vec is not None:
+                self.data.control_traj[:,self.data.traj_index_latest:self.data.traj_index_latest+1] = \
+                sim_slice.input_vec
+
 
     async def continuous_plotting(self) -> None:
         """Plot the data at a certain rate"""
@@ -194,8 +201,9 @@ async def run_sim_simple(sim: Sim[StateType]) -> None:
             sim.data.current = copy.deepcopy(sim.data.next)
 
         # Run the updates to calculate the new next state and plots
-        sim.store_data_slice(sim.data.current)
         sim.update()
+        sim.store_data_slice(sim.data.current)
+
         await asyncio.sleep(sim.params.sim_update_period)
     sim.store_data_slice(sim.data.next) # Store the final data
     sim.stop.set()

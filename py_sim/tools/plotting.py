@@ -14,6 +14,7 @@ from py_sim.tools.sim_types import (
     StateType,
     TwoDArrayType,
     TwoDimArray,
+    UnicycleControl,
     UnicycleState,
     UnicyleStateProtocol,
 )
@@ -213,7 +214,7 @@ class UnicycleTimeSeriesPlot(Generic[UnicycleStateType]):
 
         # Create a new figure
         if fig is None or axs is None:
-            self.fig, self.axs = plt.subplots(3,1)
+            self.fig, self.axs = plt.subplots(5,1)
         else:
             self.fig = fig
             self.axs = axs
@@ -222,12 +223,16 @@ class UnicycleTimeSeriesPlot(Generic[UnicycleStateType]):
         self.handle_x = initialize_2d_line_plot(ax=self.axs[0],x=0., y=0., color=color, style=style, label=label)
         self.handle_y = initialize_2d_line_plot(ax=self.axs[1],x=0., y=0., color=color, style=style, label=label)
         self.handle_psi = initialize_2d_line_plot(ax=self.axs[2],x=0., y=0., color=color, style=style, label=label)
+        self.handle_v = initialize_2d_line_plot(ax=self.axs[3],x=0., y=0., color=color, style=style, label=label)
+        self.handle_w = initialize_2d_line_plot(ax=self.axs[4],x=0., y=0., color=color, style=style, label=label)
 
         # Label the axes and plots
         self.axs[0].set_ylabel("X position")
         self.axs[1].set_ylabel("Y position")
         self.axs[2].set_ylabel("Orientation")
-        self.axs[2].set_xlabel("Time (sec)")
+        self.axs[3].set_ylabel("$u_v$")
+        self.axs[4].set_ylabel("$u_\\omega$")
+        self.axs[4].set_xlabel("Time (sec)")
 
     def plot(self, data: Data[UnicycleStateType]) -> None:
         """ Plots the line trajectory
@@ -235,6 +240,8 @@ class UnicycleTimeSeriesPlot(Generic[UnicycleStateType]):
         update_2d_line_plot(line=self.handle_x, x_vec=data.get_time_vec(), y_vec=data.get_state_vec(data.current.state.IND_X))
         update_2d_line_plot(line=self.handle_y, x_vec=data.get_time_vec(), y_vec=data.get_state_vec(data.current.state.IND_Y))
         update_2d_line_plot(line=self.handle_psi, x_vec=data.get_time_vec(), y_vec=data.get_state_vec(data.current.state.IND_PSI))
+        update_2d_line_plot(line=self.handle_v, x_vec=data.get_time_vec(), y_vec=data.get_control_vec(UnicycleControl.IND_V))
+        update_2d_line_plot(line=self.handle_w, x_vec=data.get_time_vec(), y_vec=data.get_control_vec(UnicycleControl.IND_W))
 
         # Resize the axis
         for ax in self.axs:

@@ -3,7 +3,7 @@
 """
 
 import copy
-from typing import Any, Generic, Protocol, TypeVar, cast
+from typing import Any, Generic, Optional, Protocol, TypeVar, cast
 
 import numpy as np
 import numpy.typing as npt
@@ -18,6 +18,7 @@ class State(Protocol):
 class Input(Protocol):
     """The basic form of a control input"""
     input: npt.NDArray[Any] # A vector of inputs
+    n_inputs: int # The number of inputs (i.e., rows in input)
 
 StateType = TypeVar("StateType", bound=State)
 InputType = TypeVar("InputType", bound=Input)
@@ -28,8 +29,9 @@ class Slice(Generic[StateType]):
         at a single time
     """
     def __init__(self, state: StateType, time: float = 0.) -> None:
-        self.time = time # Current simulation time
-        self.state: StateType = state # Current state
+        self.time = time # Simulation time corresponding to the state
+        self.state: StateType = state # State
+        self.input_vec: Optional[npt.NDArray[Any]] = None # Input applied at the stated time, None => not yet calculated
 
 class Data(Generic[StateType]):
     """Stores the changing simulation information"""
@@ -37,9 +39,9 @@ class Data(Generic[StateType]):
         self.current = current # Stores the current slice of data to be read
         self.next = copy.deepcopy(current) # Stores the next data to be created
         self.state_traj: npt.NDArray[Any] # Each column corresponds to a trajectory data
-        self.control_traj: npt.NDArray[Any] # Each column corresponds to a control input vector
         self.time_traj: npt.NDArray[Any] # vector Each element is the time for the state in question
         self.traj_index_latest: int = -1 # Index into the state and time trajectory of the latest data
+        self.control_traj: npt.NDArray[Any] # Each column corresponds to a control input vector
 
     def get_state_vec(self,index: int) -> npt.NDArray[Any]:
         """Returns a state vector of valid values"""
@@ -48,6 +50,10 @@ class Data(Generic[StateType]):
     def get_time_vec(self) -> npt.NDArray[Any]:
         """Returns the valid time vector"""
         return self.time_traj[0:self.traj_index_latest+1]
+
+    def get_control_vec(self, index: int) -> npt.NDArray[Any]:
+        """Returns the control vector of valid values"""
+        return self.control_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on the second argument
 
 
 class TwoDArrayType(Protocol):
@@ -121,6 +127,7 @@ class UnicyleControlProtocol(Protocol):
     IND_V: int # The index of the translational velocity input
     IND_W: int # The index of the rotational velocity input
     input: npt.NDArray[Any] # The input vector
+    n_inputs: int # The number of inputs (i.e., rows in input)
     v: float # The value of the translational velocity
     w: float # The value of the rotational velocity
 
@@ -170,10 +177,19 @@ class UnicycleControl:
     """Stores the inputs required for the Unicycle dynamics (translational and rotation velocity)"""
     IND_V: int = 0# The index of the translational velocity input
     IND_W: int = 1# The index of the rotational velocity input
+    n_inputs: int = 2 # The number of inputs (i.e., rows in input)
 
-    def __init__(self, v: float = 0., w: float = 0.) -> None:
-        """Initializes the input vector from the passed in values"""
+    def __init__(self, v: float = 0., w: float = 0., vec: Optional[npt.NDArray[Any]] = None) -> None:
+        """Initializes the input vector from the passed in values. If vec is provided then v and w are ignored"""
+        # Get the default values from the vector
+        if vec is not None:
+            v = vec.item(self.IND_V)
+            w = vec.item(self.IND_W)
+
+        # Create the input vector. Note that this avoids any issues with vec being a different shape
+        # or modified elsewhere.
         self.input = np.array([[v],[w]])
+
 
     @property
     def v(self) -> float:
