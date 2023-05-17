@@ -21,7 +21,7 @@ from py_sim.tools.sim_types import (
     VectorControl,
     VectorField,
 )
-from py_sim.vectorfield.vectorfields import GoToGoalField
+from py_sim.vectorfield.vectorfields import AvoidObstacle, GoToGoalField #pylint: disable=unused-import
 
 
 class VectorFollower(Generic[UnicycleStateType, InputType, ControlParamType], SingleAgentSim[UnicycleStateType]):
@@ -78,14 +78,15 @@ class VectorFollower(Generic[UnicycleStateType, InputType, ControlParamType], Si
         # Update the time by sim_step
         self.data.next.time = self.data.current.time + self.params.sim_step
 
-def run_unicycle_go_to_goal_example() -> None:
+def run_simple_vectorfield_example() -> None:
     """Runs an example of a go-to-goal vector field"""
     # Initialize the state and control
     vel_params = UniVelVecParams(vd_field_max=5., k_wd= 2.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
     # Create the vector field
-    vector_field = GoToGoalField(x_g=TwoDimArray(x=-4., y=2.), v_max=vel_params.vd_field_max, sig=1)
+    #vector_field = GoToGoalField(x_g=TwoDimArray(x=-4., y=2.), v_max=vel_params.vd_field_max, sig=1)
+    vector_field = AvoidObstacle(x_o=TwoDimArray(x=0., y=1.), v_max=vel_params.vd_field_max)
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
@@ -114,4 +115,4 @@ def run_unicycle_go_to_goal_example() -> None:
     start_simple_sim(sim=sim)
 
 if __name__ == "__main__":
-    run_unicycle_go_to_goal_example()
+    run_simple_vectorfield_example()
