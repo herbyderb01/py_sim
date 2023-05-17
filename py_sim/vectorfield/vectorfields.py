@@ -1,16 +1,8 @@
 """vectorfields.py defines various vector fields and associated parameters
 """
 
-from typing import Protocol
-
 import numpy as np
 from py_sim.tools.sim_types import TwoDimArray, UnicyleStateProtocol
-
-
-class VectorField(Protocol):
-    """Defines the functions needed for a vector field class"""
-    def calculate_vector(self, state: UnicyleStateProtocol, time: float) ->TwoDimArray:
-        """Calculates a vector given the time and unicycle state"""
 
 
 class GoToGoalField:
@@ -27,7 +19,7 @@ class GoToGoalField:
         self.v_max = v_max      # Max velocity
         self.sig_sq = sig**2    # Square for convergence
 
-    def calculate_vector(self, state: UnicyleStateProtocol, _: float = 0.) -> TwoDimArray:
+    def calculate_vector(self, state: UnicyleStateProtocol, time: float = 0.) -> TwoDimArray: # pylint: disable=unused-argument
         """Calculates a vector from the state to the goal, the vector is scaled to respect max velocity
 
             Inputs:

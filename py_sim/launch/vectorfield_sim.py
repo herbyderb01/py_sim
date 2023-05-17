@@ -1,34 +1,39 @@
-"""simple_sim.py performs a test with a single vehicle"""
+"""vectorfield_sim.py: Provides a series of examples of vector field following
+"""
 
 from typing import Generic
 
-from py_sim.dynamics.unicycle import arc_control
+from py_sim.dynamics.unicycle import UniVelVecParams
 from py_sim.dynamics.unicycle import dynamics as unicycle_dynamics
+from py_sim.dynamics.unicycle import velocityVectorFieldControl
 from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
 from py_sim.sim.integration import euler_update
 from py_sim.tools.plot_constructor import create_plot_manifest
 from py_sim.tools.plotting import PlotManifest
 from py_sim.tools.sim_types import (
-    ArcParams,
-    Control,
     ControlParamType,
     Dynamics,
     InputType,
+    TwoDimArray,
     UnicycleControl,
     UnicycleState,
     UnicycleStateType,
+    VectorControl,
+    VectorField,
 )
+from py_sim.vectorfield.vectorfields import GoToGoalField
 
 
-class SimpleSim(Generic[UnicycleStateType, InputType, ControlParamType], SingleAgentSim[UnicycleStateType]):
+class VectorFollower(Generic[UnicycleStateType, InputType, ControlParamType], SingleAgentSim[UnicycleStateType]):
     """Framework for implementing a simulator that just tests out a feedback controller"""
     def __init__(self,
                 initial_state: UnicycleStateType,
                 dynamics: Dynamics[UnicycleStateType, InputType],
-                controller: Control[UnicycleStateType, InputType, ControlParamType],
+                controller: VectorControl[UnicycleStateType, InputType, ControlParamType],
                 control_params: ControlParamType,
                 n_inputs: int,
-                plots: PlotManifest[UnicycleStateType]
+                plots: PlotManifest[UnicycleStateType],
+                vector_field: VectorField
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
@@ -44,8 +49,9 @@ class SimpleSim(Generic[UnicycleStateType, InputType, ControlParamType], SingleA
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[UnicycleStateType, InputType] = dynamics
-        self.controller: Control[UnicycleStateType, InputType, ControlParamType] = controller
+        self.controller: VectorControl[UnicycleStateType, InputType, ControlParamType] = controller
         self.control_params: ControlParamType = control_params
+        self.vector_field: VectorField = vector_field
 
     def update(self) -> None:
         """Calls all of the update functions
@@ -53,10 +59,13 @@ class SimpleSim(Generic[UnicycleStateType, InputType, ControlParamType], SingleA
             * Update the state
             * Update the time
         """
+        # Calculate the desired vector
+        vec: TwoDimArray = self.vector_field.calculate_vector(state=self.data.current.state, time=self.data.current.time)
 
-        # Calculate the control
+        # Calculate the control to follow the vector
         control:InputType = self.controller(time=self.data.current.time,
                                 state=self.data.current.state,
+                                vec=vec,
                                 params=self.control_params)
         self.data.current.input_vec = control.input
 
@@ -69,28 +78,34 @@ class SimpleSim(Generic[UnicycleStateType, InputType, ControlParamType], SingleA
         # Update the time by sim_step
         self.data.next.time = self.data.current.time + self.params.sim_step
 
-def run_arc_example() -> None:
-    """Runs an example of a vehicle executing an arc"""
+def run_unicycle_go_to_goal_example() -> None:
+    """Runs an example of a go-to-goal vector field"""
     # Initialize the state and control
-    arc_params = ArcParams(v_d=1., w_d= 1.)
+    vel_params = UniVelVecParams(vd_field_max=5., k_wd= 2.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
+
+    # Create the vector field
+    vector_field = GoToGoalField(x_g=TwoDimArray(x=-4., y=2.), v_max=vel_params.vd_field_max, sig=1)
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
-                                 y_limits=(-2, 2),
-                                 x_limits=(-2, 2),
+                                 y_limits=(-5, 5),
+                                 x_limits=(-5, 5),
                                  position_dot=False,
                                  position_triangle=True,
                                  state_trajectory=True,
-                                 unicycle_time_series=True)
+                                 unicycle_time_series=True,
+                                 vectorfield=vector_field,
+                                 vector_res=0.4)
 
     # Create the simulation
-    sim = SimpleSim(initial_state=state_initial,
-                    dynamics=unicycle_dynamics,
-                    controller=arc_control,
-                    control_params=arc_params,
-                    n_inputs=UnicycleControl.n_inputs,
-                    plots=plot_manifest)
+    sim = VectorFollower(initial_state=state_initial,
+                         dynamics=unicycle_dynamics,
+                         controller=velocityVectorFieldControl,
+                         control_params=vel_params,
+                         n_inputs=UnicycleControl.n_inputs,
+                         plots=plot_manifest,
+                         vector_field=vector_field)
 
     # Update the simulation step variables
     sim.params.sim_plot_period = 0.2
@@ -99,4 +114,4 @@ def run_arc_example() -> None:
     start_simple_sim(sim=sim)
 
 if __name__ == "__main__":
-    run_arc_example()
+    run_unicycle_go_to_goal_example()

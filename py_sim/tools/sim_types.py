@@ -2,8 +2,9 @@
 
 """
 
-from typing import Any, Generic, Optional, Protocol, TypeVar, cast
 import copy
+from typing import Any, Generic, Optional, Protocol, TypeVar, cast
+
 import numpy as np
 import numpy.typing as npt
 
@@ -107,6 +108,12 @@ class Control(Protocol[StateType, InputType, ControlParamType]): # type: ignore
     """Class taking the form of the control function"""
     def __call__(self, time: float, state: StateType, params: ControlParamType) -> InputType:
         """Control function call (u = g(t, x, P))"""
+
+class VectorControl(Protocol[StateType, InputType, ControlParamType]): # type: ignore
+    """Class taking the form of the control function"""
+    def __call__(self, time: float, state: StateType, vec: TwoDimArray, params: ControlParamType) -> InputType:
+        """Control function call (u = g(t, x, vec, P)) where vec is the desired vector to follow
+        """
 
 class ArcParams():
     """Parameters required for defining an arc"""
@@ -227,3 +234,8 @@ class UnicycleControl:
     def w(self, val: float) -> None:
         """Store the rotational velocity value"""
         self.input[self.IND_W,0] = val
+
+class VectorField(Protocol):
+    """Defines the functions needed for a vector field class"""
+    def calculate_vector(self, state: UnicyleStateProtocol, time: float) ->TwoDimArray:
+        """Calculates a vector given the time and unicycle state"""

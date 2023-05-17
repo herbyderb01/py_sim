@@ -16,7 +16,9 @@ from py_sim.tools.sim_types import (
     TwoDimArray,
     UnicycleControl,
     UnicycleState,
+    UnicycleStateType,
     UnicyleStateProtocol,
+    VectorField,
 )
 
 ############################# Plotting Types #######################################
@@ -212,7 +214,6 @@ def update_traj_plot(line: Line2D, location: TwoDArrayType) -> None:
 
 
 ###################### Time Series Plot #######################
-UnicycleStateType = TypeVar("UnicycleStateType", bound=UnicycleState)
 class UnicycleTimeSeriesPlot(Generic[UnicycleStateType]):
     """Plots the unicycle state vs time with each state in its own subplot"""
     def __init__(self,
@@ -313,3 +314,60 @@ def update_2d_line_plot(line: Line2D, x_vec: npt.NDArray[Any], y_vec: npt.NDArra
             y_vec: The data for the y coordinate
     """
     line.set_data(x_vec, y_vec)
+
+###################### Vector Field Plot #######################
+VectorFieldType = TypeVar("VectorFieldType", bound=VectorField)
+class VectorFieldPlot(Generic[VectorFieldType]):
+    """Plots vector fields given the current state"""
+    def __init__(self,
+                 ax: Axes,
+                 color: Color,
+                 y_limits: tuple[float, float],
+                 x_limits: tuple[float, float],
+                 resolution: float,
+                 vector_field: VectorFieldType) -> None:
+        """Creates a vector field plotter
+
+            Inputs:
+                ax: The axis on which to create the plot
+                color: The color to plot (rgb-alpha, i.e., color and transparency)
+                y_limits: min and max y-values to plot
+                x_limits: min and max x-values to plot
+                resolution: the stepsize for plotting in x and y direction
+                vector_field: The vectorfield class to be plotted
+        """
+        # Store the vectorfield
+        self.vector_field: VectorFieldType = vector_field
+
+        # Create the meshgrid of points to be plotted
+        x_vec = np.arange(x_limits[0], x_limits[1], resolution)
+        y_vec = np.arange(y_limits[0], y_limits[1], resolution)
+        self.x_vals, self.y_vals = np.meshgrid(x_vec, y_vec)
+
+        # Create the initial plot
+        self.handle = ax.quiver(self.x_vals, self.y_vals, self.x_vals, self.y_vals, color=color, angles='xy', scale_units='xy')
+
+    def plot(self, data: Data[UnicycleStateType]) -> None:
+        """Update the pose plot"""
+
+        # Create the grid of velocities (u = x velocity, v = y velocity)
+        u_vals = np.zeros(self.x_vals.shape)
+        v_vals = np.zeros(self.x_vals.shape)
+
+        # Loop through and calculate the velocity at each point in the meshgrid
+        unicycle_state = UnicycleState(x=data.current.state.x, y=data.current.state.y, psi=data.current.state.psi)
+        for row in range(self.x_vals.shape[0]):
+            for col in range(self.x_vals.shape[1]):
+                # Form the state
+                unicycle_state.x = self.x_vals[row,col]
+                unicycle_state.y = self.y_vals[row,col]
+
+                # Create the vector
+                vec = self.vector_field.calculate_vector(state=unicycle_state, time=data.current.time)
+
+                # Store the vector
+                u_vals[row,col] = vec.x
+                v_vals[row,col] = vec.y
+
+        # Update the plot
+        self.handle.set_UVC(U=u_vals, V=v_vals)
