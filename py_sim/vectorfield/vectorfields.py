@@ -1,9 +1,11 @@
 """vectorfields.py defines various vector fields and associated parameters
 """
 
-from py_sim.tools.sim_types import UnicyleStateProtocol, TwoDimArray
 from typing import Protocol
+
 import numpy as np
+from py_sim.tools.sim_types import TwoDimArray, UnicyleStateProtocol
+
 
 class VectorField(Protocol):
     """Defines the functions needed for a vector field class"""

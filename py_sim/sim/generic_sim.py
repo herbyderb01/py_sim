@@ -8,23 +8,12 @@ from signal import SIGINT, signal
 from threading import Event, Lock
 from typing import Generic, Protocol
 
-import matplotlib.animation as anim
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes._axes import Axes
 from matplotlib.figure import Figure
-from py_sim.sim.integration import euler_update
-from py_sim.tools.sim_types import (
-    Control,
-    ControlParamType,
-    Data,
-    DataPlot,
-    Dynamics,
-    InputType,
-    Slice,
-    StatePlot,
-    StateType,
-)
+from py_sim.tools.plotting import DataPlot, PlotManifest, StatePlot
+from py_sim.tools.sim_types import Data, Slice, StateType
 
 
 class SimParameters(Generic[StateType]):
@@ -65,22 +54,15 @@ class Sim(Protocol[StateType]):
     def store_data_slice(self, sim_slice: Slice[StateType]) -> None:
         """Stores data after update"""
 
-class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
+class SingleAgentSim(Generic[StateType]):
     """Implements the main functions for a single agent simulation"""
     def __init__(self,
                 initial_state: StateType,
-                dynamics: Dynamics[StateType, InputType],
-                controller: Control[StateType, InputType, ControlParamType],
-                control_params: ControlParamType,
-                input_example: InputType
+                n_inputs: int,
+                plots: PlotManifest[StateType]
                 ) -> None:
         """Initialize the simulation
         """
-        # Initialize sim-specific parameters
-        self.dynamics: Dynamics[StateType, InputType] = dynamics
-        self.controller: Control[StateType, InputType, ControlParamType] = controller
-        self.control_params: ControlParamType = control_params
-
         # Update the simulation parameters
         self.params = SimParameters[StateType](initial_state=initial_state)
 
@@ -95,41 +77,26 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
         self.stop = Event()
 
         # Initialize data storage
-        num_elements_traj: int = int( (self.params.tf - self.params.t0)/self.params.sim_step ) + 2
-            # Number of elements in the trajectory + 2 for the start and end times
-        self.data.state_traj = np.zeros((initial_state.n_states, num_elements_traj))
-        self.data.time_traj = np.zeros((num_elements_traj,))
-        self.data.control_traj = np.zeros((input_example.n_inputs, num_elements_traj))
-        self.data.traj_index_latest = -1 # -1 indicates that nothing has yet been saved
+        self.initialize_data_storage(n_inputs=n_inputs)
 
         # Create the figure and axis for plotting
-        self.figs: list[Figure] = []
-        self.axes: dict[Axes, Figure] = {}
-        self.ani: anim.FuncAnimation
-        self.state_plots: list[StatePlot[StateType]] = []
-        self.data_plots: list[DataPlot[StateType]] = []
+        self.figs: list[Figure] = plots.figs
+        self.axes: dict[Axes, Figure] = plots.axes
+        self.state_plots: list[StatePlot[StateType]] = plots.state_plots
+        self.data_plots: list[DataPlot[StateType]] = plots.data_plots
+
+    def initialize_data_storage(self, n_inputs: int) -> None:
+        """Initializes all of the storage"""
+        num_elements_traj: int = int( (self.params.tf - self.params.t0)/self.params.sim_step ) + 2
+            # Number of elements in the trajectory + 2 for the start and end times
+        self.data.state_traj = np.zeros((self.data.current.state.n_states, num_elements_traj))
+        self.data.time_traj = np.zeros((num_elements_traj,))
+        self.data.control_traj = np.zeros((n_inputs, num_elements_traj))
+        self.data.traj_index_latest = -1 # -1 indicates that nothing has yet been saved
 
     def update(self) -> None:
-        """Calls all of the update functions
-            * Calculate the control to be executed
-            * Update the state
-            * Update the time
-        """
-
-        # Calculate the control to follow a circle
-        control:InputType = self.controller(time=self.data.current.time,
-                                state=self.data.current.state,
-                                params=self.control_params)
-        self.data.current.input_vec = control.input
-
-        # Update the state using the latest control
-        self.data.next.state.state = euler_update(  dynamics=self.dynamics,
-                                                    control=control,
-                                                    initial=self.data.current.state,
-                                                    dt=self.params.sim_step)
-
-        # Update the time by sim_step
-        self.data.next.time = self.data.current.time + self.params.sim_step
+        """Performs all the required updates"""
+        raise NotImplementedError("Update function must be implemented")
 
     def update_plot(self) -> None:
         """Plot the current values and state. Should be done with the lock on to avoid
@@ -165,7 +132,6 @@ class SingleAgentSim(Generic[StateType, InputType, ControlParamType]):
             if sim_slice.input_vec is not None:
                 self.data.control_traj[:,self.data.traj_index_latest:self.data.traj_index_latest+1] = \
                 sim_slice.input_vec
-
 
     async def continuous_plotting(self) -> None:
         """Plot the data at a certain rate"""

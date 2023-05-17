@@ -1,6 +1,6 @@
 """plotting.py: Plotting utilities
 """
-from typing import Any, Generic, Optional, TypeVar
+from typing import Any, Generic, Optional, Protocol, TypeVar
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,8 +9,8 @@ from matplotlib.axes._axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.lines import Line2D
 from matplotlib.patches import Polygon
-from py_sim.sim.generic_sim import Data
 from py_sim.tools.sim_types import (
+    Data,
     StateType,
     TwoDArrayType,
     TwoDimArray,
@@ -19,8 +19,27 @@ from py_sim.tools.sim_types import (
     UnicyleStateProtocol,
 )
 
+############################# Plotting Types #######################################
 Color = tuple[float, float, float, float] # rgb-alpha color of the plot
 blue = (0., 0., 1., 1.)
+
+class StatePlot(Protocol[StateType]): # type: ignore
+    """Class that defines the plotting framework for a plot requiring state only"""
+    def plot(self, state: StateType) -> None:
+        """Updates the plot for the given state type"""
+
+class DataPlot(Protocol[StateType]):
+    """Class that defines plotting framework for using the full Data"""
+    def plot(self, data: Data[StateType]) -> None:
+        """Updates the plot given the latest data"""
+
+class PlotManifest(Generic[StateType]):
+    """Defines data necessary for plotting"""
+    figs: list[Figure] = []
+    axes: dict[Axes, Figure] = {}
+    state_plots: list[StatePlot[StateType]] = []
+    data_plots: list[DataPlot[StateType]] = []
+
 
 ############################# 2D Position Plot Object ##############################
 class PositionPlot():
@@ -248,7 +267,6 @@ class UnicycleTimeSeriesPlot(Generic[UnicycleStateType]):
             ax.relim()
             ax.autoscale_view(True, True, True)
 
-
 class DataTimeSeries(Generic[StateType]):
     """Plots the time series of a given state withing the data object"""
     def __init__(self, ax: Axes, color: Color, state_ind: int, label: str = "") -> None:
@@ -268,7 +286,6 @@ class DataTimeSeries(Generic[StateType]):
     def plot(self, data: Data[StateType]) -> None:
         """Update the trajectory plot"""
         update_2d_line_plot(line=self.handle, x_vec=data.get_time_vec(), y_vec=data.get_state_vec(self.state_ind))
-
 
 def initialize_2d_line_plot(ax: Axes, x: float, y: float, color: Color, style: str = "-", label: str="") -> Line2D:
     """Initializes a two-dimensional line plot

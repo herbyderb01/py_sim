@@ -1,0 +1,64 @@
+"""plot_constructor.py: Constructs plot manifiests
+"""
+import matplotlib.pyplot as plt
+from py_sim.tools.plotting import (
+    Color,
+    PlotManifest,
+    PosePlot,
+    PositionPlot,
+    StateTrajPlot,
+    UnicycleTimeSeriesPlot,
+)
+from py_sim.tools.sim_types import UnicycleStateType
+
+
+def create_plot_manifest(initial_state: UnicycleStateType,
+                         y_limits: tuple[float, float],
+                         x_limits: tuple[float, float],
+                         position_dot: bool = True,
+                         position_triangle: bool = True,
+                         state_trajectory: bool = True,
+                         unicycle_time_series: bool = True,
+                         color: Color = (0.2, 0.36, 0.78, 1.0)
+                         ) -> PlotManifest[UnicycleStateType]:
+    """Creates a plot manifest given the following inputs
+
+        Inputs:
+            y_limits: min and max y-values to plot
+            x_limits: min and max x-values to plot
+            position_dot: Plot the vehicle position as a circle
+            position_triangle: Plot the vehicle position as a triangle
+            state_trajectory: Plot the trajectory that the vehicle travelled
+            unicycle_time_series: Plot the time series state
+            color: Color of the state plots
+    """
+    # Create the manifest to be returned
+    plots = PlotManifest[UnicycleStateType]()
+
+    # Initialize the plotting of the vehicle visualization
+    fig, ax = plt.subplots()
+    plots.figs.append(fig)
+    plots.axes['Vehicle_axis'] = ax
+    ax.set_title("Vehicle plot")
+    ax.set_ylim(ymin=y_limits[0], ymax=y_limits[1])
+    ax.set_xlim(xmin=x_limits[0], xmax=x_limits[1])
+    ax.set_aspect('equal', 'box')
+
+    # Create the desired state plots
+    if position_dot:
+        plots.state_plots.append(PositionPlot(ax=ax, label="Vehicle", color=color) )
+    if position_triangle:
+        plots.state_plots.append(PosePlot(ax=ax, rad=0.2))
+
+    # Create the state trajectory plot
+    if state_trajectory:
+        plots.data_plots.append(StateTrajPlot(ax=ax, label="Vehicle Trajectory", \
+                                color=color, location=initial_state))
+
+    # Create the desired data plots
+    if unicycle_time_series:
+        state_plot = UnicycleTimeSeriesPlot[UnicycleStateType](color=color)
+        plots.data_plots.append(state_plot)
+        plots.figs.append(state_plot.fig)
+
+    return plots

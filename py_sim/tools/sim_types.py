@@ -2,9 +2,8 @@
 
 """
 
-import copy
 from typing import Any, Generic, Optional, Protocol, TypeVar, cast
-
+import copy
 import numpy as np
 import numpy.typing as npt
 
@@ -54,7 +53,6 @@ class Data(Generic[StateType]):
     def get_control_vec(self, index: int) -> npt.NDArray[Any]:
         """Returns the control vector of valid values"""
         return self.control_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on the second argument
-
 
 class TwoDArrayType(Protocol):
     """Defines a Two dimensional array with an x and y component"""
@@ -185,10 +183,12 @@ class UnicycleState:
         return np.array([[self.x], [self.y]])
 
     @position.setter
-    def position(self, val: npt.NDArray[Any]):
+    def position(self, val: npt.NDArray[Any])->None:
         """Sets the 2D position vector"""
         self.x = val.item(self.IND_X)
         self.y = val.item(self.IND_Y)
+
+UnicycleStateType = TypeVar("UnicycleStateType", bound=UnicycleState)
 
 class UnicycleControl:
     """Stores the inputs required for the Unicycle dynamics (translational and rotation velocity)"""
@@ -227,13 +227,3 @@ class UnicycleControl:
     def w(self, val: float) -> None:
         """Store the rotational velocity value"""
         self.input[self.IND_W,0] = val
-
-class StatePlot(Protocol[StateType]): # type: ignore
-    """Class that defines the plotting framework for a plot requiring state only"""
-    def plot(self, state: StateType) -> None:
-        """Updates the plot for the given state type"""
-
-class DataPlot(Protocol[StateType]):
-    """Class that defines plotting framework for using the full Data"""
-    def plot(self, data: Data[StateType]) -> None:
-        """Updates the plot given the latest data"""

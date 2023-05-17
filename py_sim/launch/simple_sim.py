@@ -1,17 +1,13 @@
 """simple_sim.py performs a test with a single vehicle"""
 
-from typing import TypeVar
+from typing import Generic
 
-import matplotlib.pyplot as plt
 from py_sim.dynamics.unicycle import arc_control
 from py_sim.dynamics.unicycle import dynamics as unicycle_dynamics
 from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
-from py_sim.tools.plotting import (
-    PosePlot,
-    PositionPlot,
-    StateTrajPlot,
-    UnicycleTimeSeriesPlot,
-)
+from py_sim.sim.integration import euler_update
+from py_sim.tools.plot_constructor import create_plot_manifest
+from py_sim.tools.plotting import PlotManifest
 from py_sim.tools.sim_types import (
     ArcParams,
     Control,
@@ -20,60 +16,86 @@ from py_sim.tools.sim_types import (
     InputType,
     UnicycleControl,
     UnicycleState,
+    UnicycleStateType,
 )
 
-# Limit the state type to be a unicycle state
-StateType = TypeVar("StateType", bound=UnicycleState)
 
-class SimpleSim(SingleAgentSim[StateType, InputType, ControlParamType]):
+class SimpleSim(Generic[UnicycleStateType, InputType, ControlParamType], SingleAgentSim[UnicycleStateType]):
     """Framework for implementing a simulator that just tests out a feedback controller"""
     def __init__(self,
-                initial_state: StateType,
-                dynamics: Dynamics[StateType, InputType],
-                controller: Control[StateType, InputType, ControlParamType],
+                initial_state: UnicycleStateType,
+                dynamics: Dynamics[UnicycleStateType, InputType],
+                controller: Control[UnicycleStateType, InputType, ControlParamType],
                 control_params: ControlParamType,
-                input_example: InputType
+                n_inputs: int,
+                plots: PlotManifest[UnicycleStateType]
                 ) -> None:
-        """Creates a SingleAgentSim and then sets up the plotting and storage"""
-        super().__init__(initial_state=initial_state,
-                         dynamics=dynamics,
-                         controller=controller,
-                         control_params=control_params,
-                         input_example=input_example)
+        """Creates a SingleAgentSim and then sets up the plotting and storage
 
-        # Initialize the plotting of the vehicle visualization
-        fig, ax = plt.subplots()
-        self.figs.append(fig)
-        self.axes['Vehicle_axis'] = ax
-        ax.set_title("Vehicle plot")
-        ax.set_ylim(ymin=-2., ymax=2.)
-        ax.set_xlim(xmin=-2., xmax=2.)
-        ax.set_aspect('equal', 'box')
+            Inputs:
+                initial_state: The starting state of the vehicle
+                dynamics: The dynamics function to be used for simulation
+                controller: The control law to be used during simulation
+                control_params: The parameters of the control law to be used in simulation
+                n_input: The number of inputs for the dynamics function
+        """
 
-        # Create the desired state plots
-        self.state_plots.append(PositionPlot(ax=ax, label="Vehicle", color=(0.2, 0.36, 0.78, 1.0)) )
-        self.state_plots.append(PosePlot(ax=ax, rad=0.2))
+        super().__init__(initial_state=initial_state, n_inputs=n_inputs, plots=plots)
 
-        # Create the state trajectory plot
-        self.data_plots.append(StateTrajPlot(ax=ax, label="Vehicle Trajectory", \
-                                color=(0.2, 0.36, 0.78, 1.0), location=self.data.current.state))
+        # Initialize sim-specific parameters
+        self.dynamics: Dynamics[UnicycleStateType, InputType] = dynamics
+        self.controller: Control[UnicycleStateType, InputType, ControlParamType] = controller
+        self.control_params: ControlParamType = control_params
 
-        # Create the desired data plots
-        state_plot = UnicycleTimeSeriesPlot[StateType](color=(0.2, 0.36, 0.78, 1.0))
-        self.data_plots.append(state_plot)
-        self.figs.append(state_plot.fig)
+    def update(self) -> None:
+        """Calls all of the update functions
+            * Calculate the control to be executed
+            * Update the state
+            * Update the time
+        """
 
+        # Calculate the control to follow a circle
+        control:InputType = self.controller(time=self.data.current.time,
+                                state=self.data.current.state,
+                                params=self.control_params)
+        self.data.current.input_vec = control.input
 
+        # Update the state using the latest control
+        self.data.next.state.state = euler_update(  dynamics=self.dynamics,
+                                                    control=control,
+                                                    initial=self.data.current.state,
+                                                    dt=self.params.sim_step)
 
-if __name__ == "__main__":
-    # Runs the simulation and the plotting
+        # Update the time by sim_step
+        self.data.next.time = self.data.current.time + self.params.sim_step
+
+def run_arc_example():
+    # Initialize the state and control
     arc_params = ArcParams(v_d=1., w_d= 1.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
+
+    # Create the manifest for the plotting
+    plot_manifest = create_plot_manifest(initial_state=state_initial,
+                                 y_limits=(-2, 2),
+                                 x_limits=(-2, 2),
+                                 position_dot=False,
+                                 position_triangle=True,
+                                 state_trajectory=True,
+                                 unicycle_time_series=True)
+
+    # Create the simulation
     sim = SimpleSim(initial_state=state_initial,
                     dynamics=unicycle_dynamics,
                     controller=arc_control,
                     control_params=arc_params,
-                    input_example=UnicycleControl())
+                    n_inputs=UnicycleControl.n_inputs,
+                    plots=plot_manifest)
+
+    # Update the simulation step variables
     sim.params.sim_plot_period = 0.2
+    sim.params.sim_step = 0.1
     sim.params.sim_update_period = 0.01
     start_simple_sim(sim=sim)
+
+if __name__ == "__main__":
+    run_arc_example()
