@@ -19,11 +19,15 @@ from py_sim.tools.sim_types import (
     UnicycleStateType,
     UnicyleStateProtocol,
     VectorField,
+    RangeBearingMeasurements
 )
+from py_sim.worlds.polygon_world import PolygonWorld
 
 ############################# Plotting Types #######################################
 Color = tuple[float, float, float, float] # rgb-alpha color of the plot
 blue = (0., 0., 1., 1.)
+red = (1., 0., 0., 1.)
+green = (0., 1., 0., 1.)
 
 class StatePlot(Protocol[StateType]): # type: ignore
     """Class that defines the plotting framework for a plot requiring state only"""
@@ -371,3 +375,51 @@ class VectorFieldPlot(Generic[VectorFieldType]):
 
         # Update the plot
         self.handle.set_UVC(U=u_vals, V=v_vals)
+
+###################### World Plotters #########################
+def plot_polygon_world(ax: Axes, world: PolygonWorld,  color: Color = red)->list[Polygon]:
+    """Plots each of the polygons in the world
+
+        Inputs:
+            ax: axis on which the world should be plotted
+            world: the instance of the world to be plotted
+            color: the color of the obstacles
+
+        Returns:
+            A list of all of the polygon plot objects
+    """
+    # Loop through and plot each polygon individually
+    handles: list[Polygon] = []
+    for polygon in world.polygons:
+        (handle, ) = ax.fill(polygon.points[0,:],polygon.points[1,:], color=color)
+        handles.append(handle)
+
+    return handles
+
+
+##################### Range Bearing Plotter ###################
+class RangeBearingPlot(Generic[LocationStateType]):
+    """Plots the state trajectory one pose at a time"""
+    def __init__(self, ax: Axes, color: Color = green, label: str = "") -> None:
+        """ Creates the State Trajectory plot on the given axes
+
+            Inputs:
+                ax: The axis on which to create the plot
+                color: The color to plot (rgb-alpha, i.e., color and transparency)
+                location: The original position of the vehicle
+                label: The label to assign to the trajectory plot
+        """
+        self.handle = initialize_2d_line_plot(ax=ax, color=color, style="o", x=0., y=0., label=label)
+
+    def plot(self, data: Data[LocationStateType]) -> None:
+        """Update the state trajectory plot"""
+        # Extract the bearing locations for the data that has a measurement
+        x_vec: list[float] = []
+        y_vec: list[float] = []
+        for (location, dist) in zip(data.range_bearing_latest.location, data.range_bearing_latest.range):
+            if dist < np.inf:
+                x_vec.append(location.x)
+                y_vec.append(location.y)
+
+        update_2d_line_plot(line=self.handle, x_vec=x_vec,
+                            y_vec=y_vec)

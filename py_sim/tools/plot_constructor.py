@@ -11,8 +11,11 @@ from py_sim.tools.plotting import (
     StateTrajPlot,
     UnicycleTimeSeriesPlot,
     VectorFieldPlot,
+    plot_polygon_world,
+    RangeBearingPlot
 )
 from py_sim.tools.sim_types import UnicycleStateType, VectorField
+from py_sim.worlds.polygon_world import PolygonWorld
 
 
 def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too-many-arguments
@@ -24,7 +27,9 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                          unicycle_time_series: bool = True,
                          color: Color = (0.2, 0.36, 0.78, 1.0),
                          vectorfield: Optional[VectorField] = None,
-                         vector_res: float = 0.25
+                         vector_res: float = 0.25,
+                         world: Optional[PolygonWorld] = None,
+                         range: bool = False
                          ) -> PlotManifest[UnicycleStateType]:
     """Creates a plot manifest given the following inputs
 
@@ -38,6 +43,8 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
             color: Color of the state plots
             vectorfield: The vectorfield class to be plotted
             vector_res: The grid resolution of the vectorfield
+            world: Polygon world in operation
+            range: plot the range measurements
     """
     # Create the manifest to be returned
     plots = PlotManifest[UnicycleStateType]()
@@ -56,6 +63,10 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
     ax.set_ylim(ymin=y_limits[0], ymax=y_limits[1])
     ax.set_xlim(xmin=x_limits[0], xmax=x_limits[1])
     ax.set_aspect('equal', 'box')
+
+    # Plot the world
+    if world is not None:
+        plot_polygon_world(ax=ax, world=world)
 
     # Create the desired state plots
     if position_dot:
@@ -77,5 +88,8 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                             x_limits=x_limits,
                             resolution=vector_res,
                             vector_field=vectorfield))
+
+    if range:
+        plots.data_plots.append(RangeBearingPlot(ax=ax))
 
     return plots

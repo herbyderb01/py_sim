@@ -42,6 +42,7 @@ class Data(Generic[StateType]):
         self.time_traj: npt.NDArray[Any] # vector Each element is the time for the state in question
         self.traj_index_latest: int = -1 # Index into the state and time trajectory of the latest data
         self.control_traj: npt.NDArray[Any] # Each column corresponds to a control input vector
+        self.range_bearing_latest = RangeBearingMeasurements() # Stores the latest data received for range-bearing measurements
 
     def get_state_vec(self,index: int) -> npt.NDArray[Any]:
         """Returns a state vector of valid values"""
@@ -239,3 +240,11 @@ class VectorField(Protocol):
     """Defines the functions needed for a vector field class"""
     def calculate_vector(self, state: UnicyleStateProtocol, time: float) ->TwoDimArray:
         """Calculates a vector given the time and unicycle state"""
+
+class RangeBearingMeasurements:
+    """Storage for range and bearing measurements"""
+    def __init__(self) -> None:
+        """Creates empty vectors of range and bearing measurements"""
+        self.range: list[float] = [] # Range to a number of measurements
+        self.bearing: list[float] = [] # Bearing to the measurements
+        self.location: list[TwoDimArray] = [] # Location of each of the measurements

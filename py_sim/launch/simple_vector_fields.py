@@ -1,4 +1,4 @@
-"""vectorfield_sim.py: Provides a series of examples of vector field following
+"""simple_vector_fields.py: Provides a series of examples of vector field following for basic fields
 """
 
 from typing import Generic
