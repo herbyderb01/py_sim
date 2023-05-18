@@ -21,7 +21,7 @@ from py_sim.tools.sim_types import (
     VectorControl,
     VectorField,
 )
-from py_sim.vectorfield.vectorfields import AvoidObstacle, GoToGoalField #pylint: disable=unused-import
+from py_sim.vectorfield.vectorfields import AvoidObstacle, GoToGoalField, SummedField #pylint: disable=unused-import
 
 
 class VectorFollower(Generic[UnicycleStateType, InputType, ControlParamType], SingleAgentSim[UnicycleStateType]):
@@ -85,8 +85,12 @@ def run_simple_vectorfield_example() -> None:
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
     # Create the vector field
-    #vector_field = GoToGoalField(x_g=TwoDimArray(x=-4., y=2.), v_max=vel_params.vd_field_max, sig=1)
-    vector_field = AvoidObstacle(x_o=TwoDimArray(x=0., y=1.), v_max=vel_params.vd_field_max)
+    vector_field_g2g = GoToGoalField(x_g=TwoDimArray(x=-4., y=2.), v_max=vel_params.vd_field_max, sig=1)
+    vector_field_avoid = AvoidObstacle(x_o=TwoDimArray(x=0., y=1.), v_max=vel_params.vd_field_max, S=2., R=1.)
+    vector_field = SummedField(fields=[vector_field_g2g, vector_field_avoid],
+                               weights=[1., 1.],
+                               v_max=vel_params.vd_field_max)
+    #vector_field = vector_field_g2g
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,

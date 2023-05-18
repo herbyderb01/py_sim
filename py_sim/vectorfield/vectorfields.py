@@ -2,7 +2,7 @@
 """
 
 import numpy as np
-from py_sim.tools.sim_types import TwoDimArray, UnicyleStateProtocol
+from py_sim.tools.sim_types import TwoDimArray, UnicyleStateProtocol, VectorField
 
 
 class GoToGoalField:
@@ -89,3 +89,44 @@ class AvoidObstacle:
             g = np.random.random(2)
 
         return TwoDimArray(vec=g)
+
+class SummedField:
+    """Defines a vector field that is the summation of passed in fields"""
+    def __init__(self, fields: list[VectorField], weights: list[float], v_max: float) -> None:
+        """Stores a sum of vector fields to be plotted
+
+            Inputs:
+                fields: List of individual vector fields to be summed together
+                weights: Weight associated with each vector field
+                v_max: maximum allowable velocity
+        """
+        # Store the data
+        self.fields = fields
+        self.weights = weights
+        self.v_max = v_max
+
+        # Ensure that fields and weights have the same number of elements
+        if len(fields) != len(weights):
+            raise ValueError("Fields and weights must have the same number of objects")
+
+    def calculate_vector(self, state: UnicyleStateProtocol, time: float = 0.) -> TwoDimArray:
+        """Calculates a summed vector and thresholds it to v_max
+
+            Inputs:
+                state: State of the vehicle
+                time: Time of the state
+
+            Outputs:
+                Resulting summed vector
+        """
+        # Get the summed vector
+        g = TwoDimArray(x=0., y=0.)
+        for (field, weight) in zip(self.fields, self.weights):
+            g.state = g.state + weight*field.calculate_vector(state=state, time=time).state
+
+        # Saturate the field to have a maximum velocity of v_max
+        v_g = np.linalg.norm(g.state)
+        if v_g > self.v_max:
+            g.state = (self.v_max/v_g) * g.state
+
+        return g
