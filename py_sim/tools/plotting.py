@@ -9,6 +9,7 @@ from matplotlib.axes._axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.lines import Line2D
 from matplotlib.patches import Polygon
+from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid, occupancy_positions
 from py_sim.tools.sim_types import (
     Data,
     StateType,
@@ -27,6 +28,7 @@ Color = tuple[float, float, float, float] # rgb-alpha color of the plot
 blue = (0., 0., 1., 1.)
 red = (1., 0., 0., 1.)
 green = (0., 1., 0., 1.)
+black = (0., 0., 0., 1.)
 
 class StatePlot(Protocol[StateType]): # type: ignore
     """Class that defines the plotting framework for a plot requiring state only"""
@@ -460,3 +462,33 @@ class RangeBearingLines(Generic[LocationStateType]):
             update_2d_line_plot(line=handle,
                                 x_vec=x_vec,
                                 y_vec=y_vec)
+
+##################### Occupancy Grid Plotter ###################
+def plot_occupancy_grid_circles(ax: Axes,
+                                grid: BinaryOccupancyGrid,
+                                color_occupied: Color = black,
+                                color_free: Optional[Color] = None) -> tuple[Line2D, Optional[Line2D]]:
+    """ Plots the occupancy grid as circles
+
+        Inputs:
+            ax: axis on which the grid should be plotted
+            grid: grid to be plotted
+            color_occupied: color of the occupied regions
+            color_free: color of the free regions. If not provided then the free regions are not plotted
+
+        Outputs:
+            plot handles for occupied and free plots
+    """
+    # Calculate the positions for occupied and free regions
+    (x_occ, y_occ, x_free, y_free) = occupancy_positions(grid=grid)
+
+    # Plot the free locations (free plotted first so that the obstacles are apparent on top)
+    handle_free: Optional[Line2D] = None
+    if color_free is not None:
+        (handle_free,) = ax.plot(x_free, y_free, 'o', color=color_free)
+
+
+    # Plot the occupied locations
+    (handle_occ,) = ax.plot(x_occ, y_occ, 'o', color=color_occupied)
+
+    return (handle_occ, handle_free)

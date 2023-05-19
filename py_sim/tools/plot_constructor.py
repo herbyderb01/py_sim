@@ -3,6 +3,7 @@
 from typing import Optional
 
 import matplotlib.pyplot as plt
+from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
 from py_sim.tools.plotting import (
     Color,
     PlotManifest,
@@ -13,6 +14,7 @@ from py_sim.tools.plotting import (
     StateTrajPlot,
     UnicycleTimeSeriesPlot,
     VectorFieldPlot,
+    plot_occupancy_grid_circles,
     plot_polygon_world,
 )
 from py_sim.tools.sim_types import UnicycleStateType, VectorField
@@ -22,14 +24,15 @@ from py_sim.worlds.polygon_world import PolygonWorld
 def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too-many-arguments
                          y_limits: tuple[float, float],
                          x_limits: tuple[float, float],
-                         position_dot: bool = True,
-                         position_triangle: bool = True,
-                         state_trajectory: bool = True,
-                         unicycle_time_series: bool = True,
+                         position_dot: bool = False,
+                         position_triangle: bool = False,
+                         state_trajectory: bool = False,
+                         unicycle_time_series: bool = False,
                          color: Color = (0.2, 0.36, 0.78, 1.0),
                          vectorfield: Optional[VectorField] = None,
                          vector_res: float = 0.25,
                          world: Optional[PolygonWorld] = None,
+                         grid: Optional[BinaryOccupancyGrid] = None,
                          range_bearing_locations: bool = False,
                          range_bearing_lines: bool = False
                          ) -> PlotManifest[UnicycleStateType]:
@@ -70,6 +73,9 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
     # Plot the world
     if world is not None:
         plot_polygon_world(ax=ax, world=world)
+
+    if grid is not None:
+        plot_occupancy_grid_circles(ax=ax, grid=grid)
 
     # Create the desired state plots
     if position_dot:
