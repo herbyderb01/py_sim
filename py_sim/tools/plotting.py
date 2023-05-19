@@ -1,6 +1,6 @@
 """plotting.py: Plotting utilities
 """
-from typing import Any, Generic, Optional, Protocol, TypeVar
+from typing import Any, Generic, Optional, Protocol, TypeVar, cast
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -19,7 +19,6 @@ from py_sim.tools.sim_types import (
     UnicycleStateType,
     UnicyleStateProtocol,
     VectorField,
-    RangeBearingMeasurements
 )
 from py_sim.worlds.polygon_world import PolygonWorld
 
@@ -399,14 +398,13 @@ def plot_polygon_world(ax: Axes, world: PolygonWorld,  color: Color = red)->list
 
 ##################### Range Bearing Plotter ###################
 class RangeBearingPlot(Generic[LocationStateType]):
-    """Plots the state trajectory one pose at a time"""
+    """Plots the positions of detections be the range bearing sensors"""
     def __init__(self, ax: Axes, color: Color = green, label: str = "") -> None:
         """ Creates the State Trajectory plot on the given axes
 
             Inputs:
                 ax: The axis on which to create the plot
                 color: The color to plot (rgb-alpha, i.e., color and transparency)
-                location: The original position of the vehicle
                 label: The label to assign to the trajectory plot
         """
         self.handle = initialize_2d_line_plot(ax=ax, color=color, style="o", x=0., y=0., label=label)
@@ -421,5 +419,44 @@ class RangeBearingPlot(Generic[LocationStateType]):
                 x_vec.append(location.x)
                 y_vec.append(location.y)
 
-        update_2d_line_plot(line=self.handle, x_vec=x_vec,
-                            y_vec=y_vec)
+        update_2d_line_plot(line=self.handle,
+                            x_vec=cast(npt.NDArray[Any], x_vec),
+                            y_vec=cast(npt.NDArray[Any], y_vec) )
+
+class RangeBearingLines(Generic[LocationStateType]):
+    """Plots the positions of detections be the range bearing sensors"""
+    def __init__(self, ax: Axes, color: Color = green, label: str = "") -> None:
+        """ Creates the State Trajectory plot on the given axes
+
+            Inputs:
+                ax: The axis on which to create the plot
+                color: The color to plot (rgb-alpha, i.e., color and transparency)
+                label: The label to assign to the trajectory plot
+        """
+        self.ax = ax
+        self.color = color
+        self.label = label
+        self.handles: list[Line2D] = []
+
+    def initialize_line_plots(self, data: Data[LocationStateType]) -> None:
+        """Initailizes the plots of the lines given the number of lines"""
+        self.handles = []
+        for _ in data.range_bearing_latest.location:
+            self.handles.append(
+                initialize_2d_line_plot(ax=self.ax, color=self.color, style="-", x=0., y=0., label=self.label)
+            )
+
+    def plot(self, data: Data[LocationStateType]) -> None:
+        """Update the state trajectory plot"""
+        # Initialize the line plots if not done yet
+        if len(self.handles) < 1:
+            self.initialize_line_plots(data=data)
+
+        # Plot the line for each sensor measurement
+        pose = data.current.state
+        for handle, location in zip(self.handles, data.range_bearing_latest.location):
+            x_vec = np.array([pose.x, location.x])
+            y_vec = np.array([pose.y, location.y])
+            update_2d_line_plot(line=handle,
+                                x_vec=x_vec,
+                                y_vec=y_vec)

@@ -1,10 +1,11 @@
 """polygon_world.py Provides classes and function for a world made of convex polygons
 """
 
-import numpy as np
-import numpy.typing as npt
 import copy
 from typing import Any, Optional, cast
+
+import numpy as np
+import numpy.typing as npt
 
 
 class ConvexPolygon():

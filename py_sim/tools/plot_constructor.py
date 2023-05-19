@@ -8,11 +8,12 @@ from py_sim.tools.plotting import (
     PlotManifest,
     PosePlot,
     PositionPlot,
+    RangeBearingLines,
+    RangeBearingPlot,
     StateTrajPlot,
     UnicycleTimeSeriesPlot,
     VectorFieldPlot,
     plot_polygon_world,
-    RangeBearingPlot
 )
 from py_sim.tools.sim_types import UnicycleStateType, VectorField
 from py_sim.worlds.polygon_world import PolygonWorld
@@ -29,7 +30,8 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                          vectorfield: Optional[VectorField] = None,
                          vector_res: float = 0.25,
                          world: Optional[PolygonWorld] = None,
-                         range: bool = False
+                         range_bearing_locations: bool = False,
+                         range_bearing_lines: bool = False
                          ) -> PlotManifest[UnicycleStateType]:
     """Creates a plot manifest given the following inputs
 
@@ -44,7 +46,8 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
             vectorfield: The vectorfield class to be plotted
             vector_res: The grid resolution of the vectorfield
             world: Polygon world in operation
-            range: plot the range measurements
+            range_bearing_locations: plot the range measurement locations
+            range_bearing_lines: plot the lines for the range bearing measurements
     """
     # Create the manifest to be returned
     plots = PlotManifest[UnicycleStateType]()
@@ -89,7 +92,10 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                             resolution=vector_res,
                             vector_field=vectorfield))
 
-    if range:
+    if range_bearing_locations:
         plots.data_plots.append(RangeBearingPlot(ax=ax))
+
+    if range_bearing_lines:
+        plots.data_plots.append(RangeBearingLines(ax=ax))
 
     return plots

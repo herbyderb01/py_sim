@@ -21,7 +21,11 @@ from py_sim.tools.sim_types import (
     VectorControl,
     VectorField,
 )
-from py_sim.vectorfield.vectorfields import AvoidObstacle, GoToGoalField, SummedField #pylint: disable=unused-import
+from py_sim.vectorfield.vectorfields import (  # pylint: disable=unused-import
+    AvoidObstacle,
+    GoToGoalField,
+    SummedField,
+)
 
 
 class VectorFollower(Generic[UnicycleStateType, InputType, ControlParamType], SingleAgentSim[UnicycleStateType]):

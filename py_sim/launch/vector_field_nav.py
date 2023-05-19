@@ -6,6 +6,7 @@ from typing import Generic
 from py_sim.dynamics.unicycle import UniVelVecParams
 from py_sim.dynamics.unicycle import dynamics as unicycle_dynamics
 from py_sim.dynamics.unicycle import velocityVectorFieldControl
+from py_sim.sensors.range_bearing import RangeBearingSensor
 from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
 from py_sim.sim.integration import euler_update
 from py_sim.tools.plot_constructor import create_plot_manifest
@@ -21,9 +22,13 @@ from py_sim.tools.sim_types import (
     VectorControl,
     VectorField,
 )
-from py_sim.vectorfield.vectorfields import AvoidObstacle, GoToGoalField, SummedField #pylint: disable=unused-import
+from py_sim.vectorfield.vectorfields import (  # pylint: disable=unused-import
+    AvoidObstacle,
+    GoToGoalField,
+    SummedField,
+)
 from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
-from py_sim.sensors.range_bearing import RangeBearingSensor
+
 
 class NavVectorFollower(Generic[UnicycleStateType, InputType, ControlParamType], SingleAgentSim[UnicycleStateType]):
     """Framework for implementing a simulator that just tests out a feedback controller"""
@@ -65,8 +70,9 @@ class NavVectorFollower(Generic[UnicycleStateType, InputType, ControlParamType],
             * Update the time
         """
         # Calculate the range bearing for the current position
-        self.data.range_bearing_latest = self.sensor.calculate_range_bearing_measurement(pose=self.data.current.state,
-                                                                                         world=self.world)
+        self.data.range_bearing_latest = self.sensor.calculate_range_bearing_measurement(\
+            pose=self.data.current.state,
+            world=self.world)
 
         # Calculate the desired vector
         vec: TwoDimArray = self.vector_field.calculate_vector(state=self.data.current.state, time=self.data.current.time)
@@ -115,7 +121,8 @@ def run_simple_vectorfield_example() -> None:
                                  vectorfield=vector_field,
                                  vector_res=0.5,
                                  world=obstacle_world,
-                                 range=True)
+                                 range_bearing_locations=True,
+                                 range_bearing_lines=True)
 
     # Create the simulation
     sim = NavVectorFollower(initial_state=state_initial,
@@ -126,7 +133,7 @@ def run_simple_vectorfield_example() -> None:
                          plots=plot_manifest,
                          vector_field=vector_field,
                          world=obstacle_world,
-                         sensor=RangeBearingSensor(n_lines=10, max_dist=100.)
+                         sensor=RangeBearingSensor(n_lines=10, max_dist=4.)
                          )
 
     # Update the simulation step variables

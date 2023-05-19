@@ -2,8 +2,13 @@
 """
 
 import numpy as np
-from py_sim.tools.sim_types import RangeBearingMeasurements, UnicyleStateProtocol, TwoDimArray
+from py_sim.tools.sim_types import (
+    RangeBearingMeasurements,
+    TwoDimArray,
+    UnicyleStateProtocol,
+)
 from py_sim.worlds.polygon_world import PolygonWorld
+
 
 class RangeBearingSensor:
     """ Class that stores the variables needed for calculating a range bearing measurement and interpreting those
@@ -64,14 +69,15 @@ class RangeBearingSensor:
             measurement.bearing[ind] = angle
 
             # Determine the closest intersection point
-            edge = np.array([[pose.x, pose.x+np.cos(angle)],
-                             [pose.y, pose.y+np.sin(angle)]])
+            edge = np.array([[pose.x, pose.x+self.max_dist*np.cos(angle)],
+                             [pose.y, pose.y+self.max_dist*np.sin(angle)]])
             intersection = world.find_closest_obstacle(edge)
 
             # Store the resulting data
             if intersection is None:
                 measurement.range.append(np.inf)
-                measurement.location.append(TwoDimArray())
+                measurement.location.append(TwoDimArray(x=pose.x+self.max_dist*np.cos(angle),
+                                                        y=pose.y+self.max_dist*np.sin(angle)))
             else:
                 measurement.range.append(intersection[0])
                 measurement.location.append(TwoDimArray(vec=intersection[1]))
