@@ -9,7 +9,7 @@ from matplotlib.axes._axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.lines import Line2D
 from matplotlib.patches import Polygon
-from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid, occupancy_positions
+from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid, occupancy_positions, ind2sub
 from py_sim.tools.sim_types import (
     Data,
     StateType,
@@ -26,9 +26,10 @@ from py_sim.worlds.polygon_world import PolygonWorld
 ############################# Plotting Types #######################################
 Color = tuple[float, float, float, float] # rgb-alpha color of the plot
 blue = (0., 0., 1., 1.)
-red = (1., 0., 0., 1.)
+red = (1., 0., 0., 0.9)
 green = (0., 1., 0., 1.)
-black = (0., 0., 0., 1.)
+black = (0., 0., 0., 0.5)
+white = (1., 1., 1., 0.5)
 
 class StatePlot(Protocol[StateType]): # type: ignore
     """Class that defines the plotting framework for a plot requiring state only"""
@@ -492,3 +493,41 @@ def plot_occupancy_grid_circles(ax: Axes,
     (handle_occ,) = ax.plot(x_occ, y_occ, 'o', color=color_occupied)
 
     return (handle_occ, handle_free)
+
+def plot_occupancy_grid_cells(ax: Axes,
+                                grid: BinaryOccupancyGrid,
+                                color_occupied: Color = black,
+                                color_free: Color = white) -> list[Polygon]:
+    """ Plots the occupancy grid as circles
+
+        Inputs:
+            ax: axis on which the grid should be plotted
+            grid: grid to be plotted
+            color_occupied: color of the occupied regions
+            color_free: color of the free regions.
+
+        Outputs:
+            plot handles for occupied and free plots, each one being a cell
+    """
+    # Initialize the output
+    polygons: list[Polygon] = []
+
+    # Loop through and plot each cell of the occupancy grid
+    n_cells = grid.n_cols*grid.n_rows
+    for ind in range(n_cells):
+        # Get the positions of the cell
+        row, col = ind2sub(grid.n_cols, ind)
+        x, y = grid.get_cell_box(row=row, col=col)
+
+        # Determine the cell color by occupancy
+        cell_color: Color
+        if grid.grid[row, col] == grid.FREE:
+            cell_color = color_free
+        else:
+            cell_color = color_occupied
+
+        # Create the cell plot
+        polygons.append(ax.fill(x, y, color=cell_color))
+
+    # Return the result
+    return polygons

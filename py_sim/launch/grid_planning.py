@@ -59,7 +59,7 @@ def test_occupancy_grid() -> None:
     # Create the obstacle world and occupancy grid
     obstacle_world = generate_world_obstacles()
     grid = generate_occupancy_from_polygon_world(world=obstacle_world,
-                                                 res=0.1,
+                                                 res=0.25,
                                                  x_lim=(-5,25),
                                                  y_lim=(-5, 10))
 

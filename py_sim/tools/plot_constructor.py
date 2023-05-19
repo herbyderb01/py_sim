@@ -3,6 +3,8 @@
 from typing import Optional
 
 import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib import colors
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
 from py_sim.tools.plotting import (
     Color,
@@ -16,6 +18,8 @@ from py_sim.tools.plotting import (
     VectorFieldPlot,
     plot_occupancy_grid_circles,
     plot_polygon_world,
+    plot_occupancy_grid_cells,
+    red
 )
 from py_sim.tools.sim_types import UnicycleStateType, VectorField
 from py_sim.worlds.polygon_world import PolygonWorld
@@ -70,12 +74,29 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
     ax.set_xlim(xmin=x_limits[0], xmax=x_limits[1])
     ax.set_aspect('equal', 'box')
 
+    if grid is not None:
+        #fig2, ax2 = plt.subplots()
+        # cmap = colors.ListedColormap(['white', 'black'])
+        # bounds = [0, 1]
+        # norm = colors.BoundaryNorm(bounds, cmap.N)
+        ax.imshow(grid.grid,
+                  origin="upper",
+                  extent=(grid.x_lim[0]-grid.res, grid.x_lim[1]-grid.res, grid.y_lim[0]+grid.res, grid.y_lim[1]+grid.res),
+                #   cmap=cmap,
+                #   norm=norm)
+                  cmap="Greys")
+        ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=1)
+        ax.set_xticks(np.arange(grid.x_lim[0], grid.x_lim[1], grid.res))
+        ax.set_yticks(np.arange(grid.y_lim[0], grid.y_lim[1], grid.res))
+        plt.tick_params(axis='both', labelsize=0, length = 0)
+
+        plot_occupancy_grid_cells(ax=ax, grid=grid)
+        # plot_occupancy_grid_circles(ax=ax, grid=grid, color_occupied=red)
+
+
     # Plot the world
     if world is not None:
         plot_polygon_world(ax=ax, world=world)
-
-    if grid is not None:
-        plot_occupancy_grid_circles(ax=ax, grid=grid)
 
     # Create the desired state plots
     if position_dot:

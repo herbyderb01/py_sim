@@ -148,6 +148,43 @@ class BinaryOccupancyGrid:
 
         return TwoDimArray(x=q.item(0), y=q.item(1))
 
+    def get_cell_box(self, row: int, col: int) -> tuple[list[float, float, float, float],
+                                                        list[float, float, float, float]]:
+        """ Defines the bounding box for a cell given by the row and column indices
+
+            Inputs:
+                row: Index for the grid row
+                col: Index for the grid column
+
+            Outputs:
+                (x_vec, y_vec): Define the coordinates of the cell corners
+        """
+        # Initailize the outputs
+        x = [0., 0., 0., 0.]
+        y = [0., 0., 0., 0.]
+
+        # Get the position of the cell center
+        q = self.indexToPosition(row=row, col=col)
+
+        # Get the left top position
+        x[0] = q.x - self.res_half
+        y[0] = q.y - self.res_half
+
+        # Get the right top position
+        x[1] = q.x + self.res_half
+        y[1] = q.y - self.res_half
+
+        # Get the right bottom position
+        x[2] = q.x + self.res_half
+        y[2] = q.y + self.res_half
+
+        # Get the left bottom position
+        x[3] = q.x - self.res_half
+        y[3] = q.y + self.res_half
+
+        # Return the result
+        return (x, y)
+
 def ind2sub(n_cols: int, ind: int) -> tuple[int, int]:
     """Converts a scalar index into the row and column indices
 
@@ -195,6 +232,12 @@ def generate_occupancy_from_polygon_world(world: PolygonWorld,
             q = grid.indexToPosition(row=row, col=col)
             if world.inside_obstacle(q.state):
                 grid.grid[row, col] = grid.OCCUPIED
+
+            # Check to see if the cell corners are inside the obstacle
+            x_vec, y_vec = grid.get_cell_box(row=row, col=col)
+            for x,y in zip(x_vec, y_vec):
+                if world.inside_obstacle(np.array([[x],[y]])):
+                    grid.grid[row, col] = grid.OCCUPIED
 
     return grid
 
