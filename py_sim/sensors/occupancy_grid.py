@@ -48,6 +48,7 @@ class BinaryOccupancyGrid:
         self.grid = np.zeros((self.n_rows, self.n_cols), dtype=bool) # Binary grid
         self.x_lim = x_lim                      # x and y limits of the grid
         self.y_lim = y_lim
+        self.max_index = self.n_cols*(self.n_rows+1)-1 # Stores the maximum scalar index of the grid
 
     def isOccupied(self, q: TwoDimArray) -> bool:
         """ isOccupied returns true if the position is in an occupied
@@ -67,7 +68,6 @@ class BinaryOccupancyGrid:
         if valid:
             return cast(bool, self.grid[row, col] == self.OCCUPIED)
         return True # Default to occupied
-
 
     def setOccupied(self, q: TwoDimArray) -> None:
         """ setOccupied sets the grid location corresponding to the 2x1
@@ -184,6 +184,26 @@ class BinaryOccupancyGrid:
 
         # Return the result
         return (x, y)
+
+    def free_index(self, ind: int) -> bool:
+        """Returns true if the index is valid and corresponds to an obstacle free location
+        """
+        # Check to see if the index is valid
+        if ind < 0 or ind > self.max_index:
+            return False
+
+        # Check to see if the index points to an obstacle free location
+        return bool(self.grid.item(ind) == self.FREE)
+
+    def free_subscripts(self, row: int, col: int) -> bool:
+        """Returns true if the row and column indices are valie and the resulting cell is obstacle free
+        """
+        # Check for validity
+        if row < 0 or row >= self.n_rows or col < 0 or col >= self.n_cols:
+            return False
+
+        # Check to see if the row and column correspond to an obstacle free location
+        return bool(self.grid[row, col] == self.FREE)
 
 def ind2sub(n_cols: int, ind: int) -> tuple[int, int]:
     """Converts a scalar index into the row and column indices
