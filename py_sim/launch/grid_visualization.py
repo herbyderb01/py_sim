@@ -1,4 +1,4 @@
-"""vector_field_nav.py: Provides sample vector fields used for navigation
+"""grid_visualization.py: Provides a framework for visualization the occupancy grid
 """
 
 import copy
@@ -13,7 +13,7 @@ from py_sim.tools.sim_types import UnicycleControl, UnicycleState, UnicycleState
 from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
 
 
-class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]):
+class GridVisualization(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]):
     """Framework for implementing a simulator that just tests out a feedback controller"""
     def __init__(self,  # pylint: disable=too-many-arguments
                 initial_state: UnicycleStateType,
@@ -74,10 +74,10 @@ def test_occupancy_grid() -> None:
                                  plot_occupancy_circles=False)
 
     # Create the simulation
-    sim = GridPlanning(initial_state=state_initial,
-                         n_inputs=UnicycleControl.n_inputs,
-                         plots=plot_manifest,
-                         world=obstacle_world)
+    sim = GridVisualization(initial_state=state_initial,
+                            n_inputs=UnicycleControl.n_inputs,
+                            plots=plot_manifest,
+                            world=obstacle_world)
 
     # Update the simulation step variables
     sim.params.sim_plot_period = 0.1
