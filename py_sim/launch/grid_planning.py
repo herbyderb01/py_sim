@@ -68,7 +68,10 @@ def test_occupancy_grid() -> None:
                                  y_limits=(-5, 10),
                                  x_limits=(-5, 25),
                                  world=obstacle_world,
-                                 grid=grid)
+                                 grid=grid,
+                                 plot_occupancy_grid=True,
+                                 plot_occupancy_cells=False,
+                                 plot_occupancy_circles=False)
 
     # Create the simulation
     sim = GridPlanning(initial_state=state_initial,

@@ -3,8 +3,6 @@
 from typing import Optional
 
 import matplotlib.pyplot as plt
-import numpy as np
-from matplotlib import colors
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
 from py_sim.tools.plotting import (
     Color,
@@ -16,10 +14,11 @@ from py_sim.tools.plotting import (
     StateTrajPlot,
     UnicycleTimeSeriesPlot,
     VectorFieldPlot,
-    plot_occupancy_grid_circles,
-    plot_polygon_world,
     plot_occupancy_grid_cells,
-    red
+    plot_occupancy_grid_circles,
+    plot_occupancy_grid_image,
+    plot_polygon_world,
+    red,
 )
 from py_sim.tools.sim_types import UnicycleStateType, VectorField
 from py_sim.worlds.polygon_world import PolygonWorld
@@ -37,6 +36,9 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                          vector_res: float = 0.25,
                          world: Optional[PolygonWorld] = None,
                          grid: Optional[BinaryOccupancyGrid] = None,
+                         plot_occupancy_grid: bool = False,
+                         plot_occupancy_cells: bool = False,
+                         plot_occupancy_circles: bool = False,
                          range_bearing_locations: bool = False,
                          range_bearing_lines: bool = False
                          ) -> PlotManifest[UnicycleStateType]:
@@ -53,6 +55,13 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
             vectorfield: The vectorfield class to be plotted
             vector_res: The grid resolution of the vectorfield
             world: Polygon world in operation
+            grid: Occupancy grid to be used for plotting,
+            plot_occupancy_grid: True -> a grid will be plotted displaying occupancy,
+                                 (fairly fast and very accurate)
+            plot_occupancy_cells: True -> a square for each occupied cell will be plotted
+                                  (slow, but accurate),
+            plot_occupancy_circles: True -> a circle will be plotted in each occupied cell
+                                    (fast, but approximate),
             range_bearing_locations: plot the range measurement locations
             range_bearing_lines: plot the lines for the range bearing measurements
     """
@@ -75,23 +84,14 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
     ax.set_aspect('equal', 'box')
 
     if grid is not None:
-        #fig2, ax2 = plt.subplots()
-        # cmap = colors.ListedColormap(['white', 'black'])
-        # bounds = [0, 1]
-        # norm = colors.BoundaryNorm(bounds, cmap.N)
-        ax.imshow(grid.grid,
-                  origin="upper",
-                  extent=(grid.x_lim[0]-grid.res, grid.x_lim[1]-grid.res, grid.y_lim[0]+grid.res, grid.y_lim[1]+grid.res),
-                #   cmap=cmap,
-                #   norm=norm)
-                  cmap="Greys")
-        ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=1)
-        ax.set_xticks(np.arange(grid.x_lim[0], grid.x_lim[1], grid.res))
-        ax.set_yticks(np.arange(grid.y_lim[0], grid.y_lim[1], grid.res))
-        plt.tick_params(axis='both', labelsize=0, length = 0)
+        if plot_occupancy_grid:
+            plot_occupancy_grid_image(ax=ax, grid=grid)
 
-        plot_occupancy_grid_cells(ax=ax, grid=grid)
-        # plot_occupancy_grid_circles(ax=ax, grid=grid, color_occupied=red)
+        if plot_occupancy_cells:
+            plot_occupancy_grid_cells(ax=ax, grid=grid)
+
+        if plot_occupancy_circles:
+            plot_occupancy_grid_circles(ax=ax, grid=grid, color_occupied=red)
 
 
     # Plot the world

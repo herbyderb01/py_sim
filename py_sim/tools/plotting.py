@@ -7,9 +7,14 @@ import numpy as np
 import numpy.typing as npt
 from matplotlib.axes._axes import Axes
 from matplotlib.figure import Figure
+from matplotlib.image import AxesImage
 from matplotlib.lines import Line2D
 from matplotlib.patches import Polygon
-from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid, occupancy_positions, ind2sub
+from py_sim.sensors.occupancy_grid import (
+    BinaryOccupancyGrid,
+    ind2sub,
+    occupancy_positions,
+)
 from py_sim.tools.sim_types import (
     Data,
     StateType,
@@ -495,9 +500,9 @@ def plot_occupancy_grid_circles(ax: Axes,
     return (handle_occ, handle_free)
 
 def plot_occupancy_grid_cells(ax: Axes,
-                                grid: BinaryOccupancyGrid,
-                                color_occupied: Color = black,
-                                color_free: Color = white) -> list[Polygon]:
+                              grid: BinaryOccupancyGrid,
+                              color_occupied: Color = black,
+                              color_free: Color = white) -> list[Polygon]:
     """ Plots the occupancy grid as circles
 
         Inputs:
@@ -531,3 +536,24 @@ def plot_occupancy_grid_cells(ax: Axes,
 
     # Return the result
     return polygons
+
+def plot_occupancy_grid_image(ax: Axes, grid: BinaryOccupancyGrid) -> AxesImage:
+    """Plots the occupancy grid as an image as well as the grid lines. This is much faster
+       then plotting the grid cells individually, especially for large occupancy grids.
+
+        Inputs:
+            ax: axis on which the grid should be plotted
+            grid: grid to be plotted
+
+        Outputs:
+            The handle for the image used to plot the occupancy map
+    """
+    handle = ax.imshow( grid.grid,
+                        origin="upper",
+                        extent=(grid.x_lim[0]-grid.res, grid.x_lim[1]-grid.res, grid.y_lim[0]+grid.res, grid.y_lim[1]+grid.res),
+                        cmap="Greys")
+    ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=1)
+    ax.set_xticks(np.arange(grid.x_lim[0], grid.x_lim[1], grid.res))
+    ax.set_yticks(np.arange(grid.y_lim[0], grid.y_lim[1], grid.res))
+    plt.tick_params(axis='both', labelsize=0, length = 0)
+    return handle

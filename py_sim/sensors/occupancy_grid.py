@@ -148,8 +148,8 @@ class BinaryOccupancyGrid:
 
         return TwoDimArray(x=q.item(0), y=q.item(1))
 
-    def get_cell_box(self, row: int, col: int) -> tuple[list[float, float, float, float],
-                                                        list[float, float, float, float]]:
+    def get_cell_box(self, row: int, col: int) -> tuple[list[float],
+                                                        list[float]]:
         """ Defines the bounding box for a cell given by the row and column indices
 
             Inputs:
@@ -157,7 +157,7 @@ class BinaryOccupancyGrid:
                 col: Index for the grid column
 
             Outputs:
-                (x_vec, y_vec): Define the coordinates of the cell corners
+                (x_vec, y_vec): Define the coordinates of the cell corners. Each has four elements.
         """
         # Initailize the outputs
         x = [0., 0., 0., 0.]
