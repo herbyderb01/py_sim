@@ -2,12 +2,8 @@
 """
 
 from typing import Generic
-
-from py_sim.path_planning.forward_grid_search import (  # pylint: disable=unused-import
-    BreadFirstGridSearch,
-    DepthFirstGridSearch,
-    ForwardGridSearch,
-)
+import time
+import py_sim.path_planning.forward_grid_search as search
 from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
 from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
 from py_sim.tools.plot_constructor import create_plot_manifest
@@ -19,6 +15,7 @@ from py_sim.tools.sim_types import (
     UnicycleStateType,
 )
 from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
+import matplotlib.pyplot as plt
 
 
 class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]):
@@ -28,7 +25,7 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
                 n_inputs: int,
                 plots: PlotManifest[UnicycleStateType],
                 world: PolygonWorld,
-                planner: ForwardGridSearch,
+                planner: search.ForwardGridSearch,
                 plan_steps: int = -1
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
@@ -39,29 +36,27 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
                 plots: The plot manifest for creating the sim plots
                 world: The polygon world used for planning
                 planner: The path planner
-                plan_steps: The number of planning steps to take at each iteration
         """
 
         super().__init__(initial_state=initial_state, n_inputs=n_inputs, plots=plots)
 
         # Initialize sim-specific parameters
         self.world: PolygonWorld = world
-        self.planner: ForwardGridSearch = planner
-        self.plan_steps = plan_steps
+        self.planner: search.ForwardGridSearch = planner
 
     def update(self) -> None:
-        """Calls all of the update functions
-            * Calculate the control to be executed
-            * Update the state
-            * Update the time
+        """Does nothing - no movement of vehicle
         """
-        # Dummy calculations for state
-        # self.data.current.input_vec = np.zeros((2,1)) # Calculate the control to follow the vector
-        # self.data.next.state.state = copy.deepcopy(self.data.current.state.state) # Update the state using the latest control
-        #self.data.next.time = self.data.current.time + self.params.sim_step # Update the time by sim_step
 
-        # Take a planning step
-        steps = self.plan_steps
+    def plan_update(self, plan_steps: int = -1) -> bool:
+        """Makes a single update to the plan. Returns true if the planner
+           has popped the goal off of the planning queue
+
+            Inputs:
+                plan_steps: The number of planning steps to take
+        """
+        # Determine the planning step
+        steps = plan_steps
         if steps < 1:
             steps = self.planner.queue.count()
         for _ in range(steps):
@@ -76,6 +71,7 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
         if succ:
             print("Plan to goal found")
             self.stop.set()
+        return succ
 
     def post_process(self) -> None:
         print("Finished planner")
@@ -96,15 +92,16 @@ def test_occupancy_grid() -> None:
     # Create a planner
     ind_start, _ = grid.position_to_index(q=TwoDimArray(x = -2., y=-3.))
     ind_end, _ = grid.position_to_index(q=TwoDimArray(x = 14., y=7.))
-    #planner = BreadFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
-    planner = DepthFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    #planner = search.BreadFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    #planner = search.DepthFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    planner = search.DijkstraGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
                                  y_limits=(-5, 10),
                                  x_limits=(-5, 25),
                                  world=obstacle_world,
-                                 #grid=grid,
                                  plot_occupancy_grid=True,
                                  planner=planner
                                  )
@@ -114,8 +111,7 @@ def test_occupancy_grid() -> None:
                         n_inputs=UnicycleControl.n_inputs,
                         plots=plot_manifest,
                         world=obstacle_world,
-                        planner=planner,
-                        plan_steps=-1)
+                        planner=planner)
 
     # Create a plan
     # if planner.search():
@@ -124,10 +120,30 @@ def test_occupancy_grid() -> None:
     # else:
     #     print("Planning not successful")
 
-    # Update the simulation step variables
-    sim.params.sim_plot_period = 0.001
-    sim.params.sim_update_period = 0.001
-    start_simple_sim(sim=sim)
+    # Run the planning incrementally
+    plt.show(block=False)
+    finished = False # Flag indicating whether or not the planner has finished
+    goal_found_advertised = False # Once the goal has been found, an message will be sent to terminal
+    iter = 0 # Keeps track of the number of planning iterations performed
+    while not finished:
+        # Display the iteration
+        print("Plan iteration: ", iter)
+        iter += 1
+
+        # Update the plan and the resulting plot
+        # (note that plan_steps=-1 will do a wave (as many steps as are in the queue) )
+        finished = sim.plan_update(plan_steps=100)
+        sim.update_plot()
+
+        # Display if the goal has been found (note that planning will not stop until it is popped off the queue)
+        if not goal_found_advertised:
+            if ind_end in planner.parent_mapping:
+                print("The goal has been found - continuing until popped")
+                goal_found_advertised = True
+        time.sleep(0.001)
+
+    print('Planning finished, close figure')
+    plt.show(block=True)
 
 if __name__ == "__main__":
     test_occupancy_grid()

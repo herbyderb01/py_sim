@@ -2,7 +2,7 @@
    through a grid world
 """
 from abc import ABC, abstractmethod
-from enum import Enum
+from enum import IntEnum
 from typing import Optional
 
 import numpy as np
@@ -10,16 +10,19 @@ from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid, ind2sub, sub2ind
 from py_sim.tools.simple_priority_queue import SimplePriorityQueue
 
 
-class GD(Enum):
+class GD(IntEnum):
     """Define the basic grid directions"""
-    L = 1 # Left
-    LU = 2 # Diagonal, left and up
-    U = 3 # Up
-    RU = 4 # Diagonal, right and up
-    R = 5 # Right
-    RD = 6 # Diagonal, right and down
-    D = 7 # Down
-    LD = 8 # Diagonal, left and down
+    L = 0 # Left
+    LU = 1 # Diagonal, left and up
+    U = 2 # Up
+    RU = 3 # Diagonal, right and up
+    R = 4 # Right
+    RD = 5 # Diagonal, right and down
+    D = 6 # Down
+    LD = 7 # Diagonal, left and down
+
+# Length of single segment:    L    LU   U    RU   R    RD   D   LD
+segment_length: list[float] = [1., 1.41, 1., 1.41, 1., 1.41, 1., 1.41]
 
 class ForwardGridSearch(ABC):
     """ Defines a general framework for forward search through a grid
@@ -147,9 +150,11 @@ class ForwardGridSearch(ABC):
                 # Insert the node into the queue
                 self.add_index_to_queue(ind_new=ind_neighbor, ind_parent=ind,  direction= direction)
 
+                # Update the parent relationship
+                self.parent_mapping[ind_neighbor] = ind
+
         # Return the index and success flags
         return (ind, succ)
-
 
 def get_neighboring_nodes(index: int, grid: BinaryOccupancyGrid) -> tuple[list[int], list[GD]]:
     """ Returns a list of neighboring nodes and the resulting directions
@@ -199,8 +204,7 @@ class BreadFirstGridSearch(ForwardGridSearch):
         # will ensure that the next item popped off will be the item
         # that has been on the queue for the longest
         self.queue.push(cost=self.cost, index=ind_new)
-        self.parent_mapping[ind_new] = ind_parent
-        self.cost += 1.
+        self.cost += 1. # Update the cost for the next element to be added for a LIFO queue
 
 class DepthFirstGridSearch(ForwardGridSearch):
     """Defines a depth-first search through the grid"""
@@ -221,5 +225,47 @@ class DepthFirstGridSearch(ForwardGridSearch):
         # will ensure that the next item popped off will be the item
         # that has been on the queue for the least amount of time
         self.queue.push(cost=self.cost, index=ind_new)
-        self.parent_mapping[ind_new] = ind_parent
-        self.cost -= 1.
+        self.cost -= 1. # Update the cost for the next element to be added for a LIFO queue
+
+class DijkstraGridSearch(ForwardGridSearch):
+    """Defines a cost-wavefront search through the grid"""
+    def __init__(self, grid: BinaryOccupancyGrid, ind_start: int, ind_end: int) -> None:
+        super().__init__(grid, ind_start, ind_end)
+
+        # Create a storage container for cost-to-come
+        self.c2c = np.full(grid.grid.shape, np.inf, dtype=float)
+        self.c2c.itemset(ind_start,0.)
+
+    def add_index_to_queue(self, ind_new: int, ind_parent: int, direction: GD) -> None:
+        """Adds index to queue based on the cost to come to that new index.
+
+             Inputs:
+                ind_new: Index of the new location
+                ind_parent: Index of the parent node
+                direction: The direction from the ind_parent cell to the ind_new cell
+        """
+        # Calculate the cost to come as the cost of the parent plus the edge cost
+        cost = segment_length[direction] + self.c2c.item(ind_parent)
+
+        # Add the node to the list
+        self.c2c.itemset(ind_new, cost)
+        self.queue.push(cost=cost, index=ind_new)
+
+    def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None:
+        """resolves duplicate sighting of the index - checks to see if the lowest cost to come to the node has a lower cost-to-come than the previous path found, if so then the cost is updated
+
+        Inputs:
+            ind_duplicate: index that has been seen again
+            ind_poss_parent: The possible parent that was seen in index
+            duplicate
+            direction is the direction of the duplicate from the parent
+        """
+        # Calculate the cost-to-come of the new possible edge
+        cost_possible = segment_length[direction] + self.c2c.item(ind_poss_parent)
+
+        # Update the parentage and cost-to-come if a lower cost route has been found
+        # Note that a small number is subtracted from the previous cost to avoid
+        # updates due to small numerical precision
+        if cost_possible < self.c2c.item(ind_duplicate)-1e-5:
+            self.queue.update(cost=cost_possible, index=ind_duplicate)
+            self.c2c.itemset(ind_duplicate, cost_possible)

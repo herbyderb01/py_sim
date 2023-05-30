@@ -114,6 +114,11 @@ class SingleAgentSim(Generic[StateType]):
         for plotter in self.data_plots:
             plotter.plot(data=self.data)
 
+        # Flush all of the figures
+        for fig in self.figs:
+            fig.canvas.draw()
+            fig.canvas.flush_events()
+
     def store_data_slice(self, sim_slice: Slice[StateType]) -> None:
         """Stores the state trajectory data"""
         with self.lock:
@@ -141,9 +146,6 @@ class SingleAgentSim(Generic[StateType]):
         # Continuously update the plots
         while not self.stop.is_set():
             self.update_plot()
-            for fig in self.figs:
-                fig.canvas.draw()
-                fig.canvas.flush_events()
             await asyncio.sleep(self.params.sim_plot_period)
 
         # Stop the simulator
