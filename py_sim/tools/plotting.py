@@ -688,3 +688,45 @@ class PlanPlotter(Generic[LocationStateType]):
         update_2d_line_plot(line=self.handle_path,
                             x_vec=cast(npt.NDArray[Any], x_vec),
                             y_vec=cast(npt.NDArray[Any], y_vec))
+
+class PlanVisitedGridPlotter:
+    """Plots the visited positions of a graph forward search planner as well as the occupancy grid as a grid"""
+    def __init__(self, ax: Axes,
+                       planner: GridVisitedType) -> None:
+        """
+            Inputs:
+                ax: axis on which the visited nodes should be plotted
+                planner: planner to be plotted
+                color: color of the occupied regions
+        """
+        super().__init__()
+        self.handle_im = plot_visited(ax=ax, planner=planner)
+        self.planner = planner
+
+    def plot(self, data: Data[LocationStateType]) -> None: # pylint: disable=unused-argument
+        """Update the visited positions plot"""
+        self.handle_im.set_data(self.planner.grid.grid + 0.5*self.planner.visited)
+
+
+def plot_visited(ax: Axes, planner: GridVisitedType) -> AxesImage:
+    """Plots the occupancy grid as an image as well as the grid lines. This is much faster
+       then plotting the grid cells individually, especially for large occupancy grids.
+
+        Inputs:
+            ax: axis on which the grid should be plotted
+            grid: grid to be plotted
+
+        Outputs:
+            The handle for the image used to plot the occupancy map
+    """
+    handle = ax.imshow( planner.grid.grid + 0.5*planner.visited,
+                        origin="upper",
+                        extent=(planner.grid.x_lim[0]-planner.grid.res, planner.grid.x_lim[1] \
+                                -planner.grid.res, planner.grid.y_lim[0]+planner.grid.res, \
+                                planner.grid.y_lim[1]+planner.grid.res),
+                        cmap="BuGn")
+    ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=1)
+    ax.set_xticks(np.arange(planner.grid.x_lim[0], planner.grid.x_lim[1], planner.grid.res))
+    ax.set_yticks(np.arange(planner.grid.y_lim[0], planner.grid.y_lim[1], planner.grid.res))
+    plt.tick_params(axis='both', labelsize=0, length = 0)
+    return handle

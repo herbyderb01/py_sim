@@ -3,27 +3,9 @@
 from typing import Optional
 
 import matplotlib.pyplot as plt
+import py_sim.tools.plotting as pt
 from py_sim.path_planning.forward_grid_search import ForwardGridSearch
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
-from py_sim.tools.plotting import (
-    Color,
-    PlanPlotter,
-    PlanQueuePlotter,
-    PlanVisitedPlotter,
-    PlotManifest,
-    PosePlot,
-    PositionPlot,
-    RangeBearingLines,
-    RangeBearingPlot,
-    StateTrajPlot,
-    UnicycleTimeSeriesPlot,
-    VectorFieldPlot,
-    plot_occupancy_grid_cells,
-    plot_occupancy_grid_circles,
-    plot_occupancy_grid_image,
-    plot_polygon_world,
-    red,
-)
 from py_sim.tools.sim_types import UnicycleStateType, VectorField
 from py_sim.worlds.polygon_world import PolygonWorld
 
@@ -35,7 +17,7 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                          position_triangle: bool = False,
                          state_trajectory: bool = False,
                          unicycle_time_series: bool = False,
-                         color: Color = (0.2, 0.36, 0.78, 1.0),
+                         color: pt.Color = (0.2, 0.36, 0.78, 1.0),
                          vectorfield: Optional[VectorField] = None,
                          vector_res: float = 0.25,
                          world: Optional[PolygonWorld] = None,
@@ -46,7 +28,7 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                          range_bearing_locations: bool = False,
                          range_bearing_lines: bool = False,
                          planner: Optional[ForwardGridSearch] = None,
-                         ) -> PlotManifest[UnicycleStateType]:
+                         ) -> pt.PlotManifest[UnicycleStateType]:
     """Creates a plot manifest given the following inputs
 
         Inputs:
@@ -71,11 +53,11 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
             range_bearing_lines: plot the lines for the range bearing measurements
     """
     # Create the manifest to be returned
-    plots = PlotManifest[UnicycleStateType]()
+    plots = pt.PlotManifest[UnicycleStateType]()
 
     # Create the desired data plots
     if unicycle_time_series:
-        state_plot = UnicycleTimeSeriesPlot[UnicycleStateType](color=color)
+        state_plot = pt.UnicycleTimeSeriesPlot[UnicycleStateType](color=color)
         plots.data_plots.append(state_plot)
         plots.figs.append(state_plot.fig)
 
@@ -90,62 +72,64 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
 
     if grid is not None:
         if plot_occupancy_grid:
-            plot_occupancy_grid_image(ax=ax, grid=grid)
+            pt.plot_occupancy_grid_image(ax=ax, grid=grid)
 
         if plot_occupancy_cells:
-            plot_occupancy_grid_cells(ax=ax, grid=grid)
+            pt.plot_occupancy_grid_cells(ax=ax, grid=grid)
 
         if plot_occupancy_circles:
-            plot_occupancy_grid_circles(ax=ax, grid=grid, color_occupied=red)
+            pt.plot_occupancy_grid_circles(ax=ax, grid=grid, color_occupied=pt.red)
+
+    if planner is not None:
+        plots.data_plots.append(pt.PlanVisitedGridPlotter(ax=ax, planner=planner) )
 
 
     # Plot the world
     if world is not None:
-        plot_polygon_world(ax=ax, world=world)
+        pt.plot_polygon_world(ax=ax, world=world)
 
     # Create the desired state plots
     if position_dot:
-        plots.state_plots.append(PositionPlot(ax=ax, label="Vehicle", color=color) )
+        plots.state_plots.append(pt.PositionPlot(ax=ax, label="Vehicle", color=color) )
     if position_triangle:
-        plots.state_plots.append(PosePlot(ax=ax, rad=0.2))
+        plots.state_plots.append(pt.PosePlot(ax=ax, rad=0.2))
 
     # Create the state trajectory plot
     if state_trajectory:
-        plots.data_plots.append(StateTrajPlot(ax=ax, label="Vehicle Trajectory", \
+        plots.data_plots.append(pt.StateTrajPlot(ax=ax, label="Vehicle Trajectory", \
                                 color=color, location=initial_state))
 
     # Create a vectorfield plot
     if vectorfield is not None:
         plots.data_plots.append(
-            VectorFieldPlot(ax=ax,
-                            color=color,
-                            y_limits=y_limits,
-                            x_limits=x_limits,
-                            resolution=vector_res,
-                            vector_field=vectorfield))
+            pt.VectorFieldPlot(ax=ax,
+                               color=color,
+                               y_limits=y_limits,
+                               x_limits=x_limits,
+                               resolution=vector_res,
+                               vector_field=vectorfield))
 
     # Range and bearing sensor plots
     if range_bearing_locations:
-        plots.data_plots.append(RangeBearingPlot(ax=ax))
+        plots.data_plots.append(pt.RangeBearingPlot(ax=ax))
     if range_bearing_lines:
-        plots.data_plots.append(RangeBearingLines(ax=ax))
+        plots.data_plots.append(pt.RangeBearingLines(ax=ax))
 
     # Forward planner plots
     if planner is not None:
-        # Plot the visited nodes
-        plots.data_plots.append(
-            PlanVisitedPlotter(ax=ax, planner=planner)
-        )
+        # Plot the visited nodes (optional - replaced by PlanVisitedGridPlotter)
+        # plots.data_plots.append(
+        #     pt.PlanVisitedPlotter(ax=ax, planner=planner)
+        # )
 
         # Plot the nodes in queue
         plots.data_plots.append(
-            PlanQueuePlotter(ax=ax, planner=planner)
+            pt.PlanQueuePlotter(ax=ax, planner=planner)
         )
 
         # Plot the plan
         plots.data_plots.append(
-            PlanPlotter(ax=ax, planner=planner, ind_start=planner.ind_start, ind_end=planner.ind_end)
+            pt.PlanPlotter(ax=ax, planner=planner, ind_start=planner.ind_start, ind_end=planner.ind_end)
         )
-
 
     return plots

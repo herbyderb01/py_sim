@@ -35,9 +35,8 @@ class ForwardGridSearch(ABC):
                 direction: The direction from the ind_parent cell to the ind_new cell
         """
 
-    @abstractmethod
-    def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None:
-        """resolves duplicate sighting of the index
+    def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None: # pylint: disable=unused-argument
+        """resolves duplicate sighting of the index - default is to do nothing
 
         Inputs:
             ind_duplicate: index that has been seen again
@@ -203,7 +202,24 @@ class BreadFirstGridSearch(ForwardGridSearch):
         self.parent_mapping[ind_new] = ind_parent
         self.cost += 1.
 
-    def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int, direction: GD) -> None:
-        """Does nothing. If a cell has already been seen then no need to perform
-        any further evaluations
+class DepthFirstGridSearch(ForwardGridSearch):
+    """Defines a depth-first search through the grid"""
+    def __init__(self, grid: BinaryOccupancyGrid, ind_start: int, ind_end: int) -> None:
+        super().__init__(grid, ind_start, ind_end)
+        self.cost: float = -1. # Variable used to implement a LIFO queue
+
+    def add_index_to_queue(self, ind_new: int, ind_parent: int, direction: GD) -> None:
+        """Adds index purely based on the number of indices in the queue to implement
+           a LIFO queue
+
+             Inputs:
+                ind_new: Index of the new location
+                ind_parent: Index of the parent node
+                direction: The direction from the ind_parent cell to the ind_new cell
         """
+        # A min queue is employed so having an decrementing cost
+        # will ensure that the next item popped off will be the item
+        # that has been on the queue for the least amount of time
+        self.queue.push(cost=self.cost, index=ind_new)
+        self.parent_mapping[ind_new] = ind_parent
+        self.cost -= 1.

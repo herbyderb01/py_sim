@@ -3,8 +3,9 @@
 
 from typing import Generic
 
-from py_sim.path_planning.forward_grid_search import (
+from py_sim.path_planning.forward_grid_search import (  # pylint: disable=unused-import
     BreadFirstGridSearch,
+    DepthFirstGridSearch,
     ForwardGridSearch,
 )
 from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
@@ -76,8 +77,6 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
             print("Plan to goal found")
             self.stop.set()
 
-
-
     def post_process(self) -> None:
         print("Finished planner")
         self.update_plot() # Plot the latest data
@@ -97,14 +96,15 @@ def test_occupancy_grid() -> None:
     # Create a planner
     ind_start, _ = grid.position_to_index(q=TwoDimArray(x = -2., y=-3.))
     ind_end, _ = grid.position_to_index(q=TwoDimArray(x = 14., y=7.))
-    planner = BreadFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    #planner = BreadFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    planner = DepthFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
                                  y_limits=(-5, 10),
                                  x_limits=(-5, 25),
                                  world=obstacle_world,
-                                 grid=grid,
+                                 #grid=grid,
                                  plot_occupancy_grid=True,
                                  planner=planner
                                  )
@@ -126,8 +126,7 @@ def test_occupancy_grid() -> None:
 
     # Update the simulation step variables
     sim.params.sim_plot_period = 0.001
-    sim.params.sim_step = 0.001 # irrelevant
-    sim.params.sim_update_period = 0
+    sim.params.sim_update_period = 0.001
     start_simple_sim(sim=sim)
 
 if __name__ == "__main__":
