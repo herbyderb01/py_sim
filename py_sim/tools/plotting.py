@@ -26,6 +26,7 @@ from py_sim.tools.sim_types import (
     UnicyleStateProtocol,
     VectorField,
 )
+from py_sim.tools.simple_priority_queue import SimplePriorityQueue
 from py_sim.worlds.polygon_world import PolygonWorld
 
 ############################# Plotting Types #######################################
@@ -557,3 +558,133 @@ def plot_occupancy_grid_image(ax: Axes, grid: BinaryOccupancyGrid) -> AxesImage:
     ax.set_yticks(np.arange(grid.y_lim[0], grid.y_lim[1], grid.res))
     plt.tick_params(axis='both', labelsize=0, length = 0)
     return handle
+
+##################### Plan Plotting #########################################
+class GridVisitedType(Protocol):
+    """Protocol defining exactly what the Plan Visited needs for plotting"""
+    grid: BinaryOccupancyGrid # Occupancy grid for the planning space dimensions
+    visited: npt.NDArray[Any] # Boolean grid for visited locations same size as grid
+
+class PlanVisitedPlotter(Generic[LocationStateType]):
+    """Plots the visited positions of a graph forward search planner"""
+    def __init__(self, ax: Axes,
+                       planner: GridVisitedType,
+                       color: Color = black) -> None:
+        """
+            Inputs:
+                ax: axis on which the visited nodes should be plotted
+                planner: planner to be plotted
+                color: color of the occupied regions
+        """
+        super().__init__()
+        # Calculate the positions for occupied and free regions
+        (x_vis, y_vis, _, __) = occupancy_positions(grid=planner.grid, cells=planner.visited)
+
+        # Plot the occupied locations
+        (self.handle_visited,) = ax.plot(x_vis, y_vis, 'o', color=color)
+        self.planner = planner
+
+    def plot(self, data: Data[LocationStateType]) -> None: # pylint: disable=unused-argument
+        """Update the visited positions plot"""
+        # Calculate the positions for occupied and free regions
+        (x_vis, y_vis, _, __) = occupancy_positions(grid=self.planner.grid, cells=self.planner.visited)
+
+        # Update the plotter positions
+        update_2d_line_plot(line=self.handle_visited,
+                            x_vec=cast(npt.NDArray[Any], x_vis),
+                            y_vec=cast(npt.NDArray[Any], y_vis))
+
+class QueueType(Protocol):
+    """Protocol defining exactly what is needed for plotting the queue"""
+    grid: BinaryOccupancyGrid # Occupancy grid for the planning space dimensions
+    queue: SimplePriorityQueue
+
+class PlanQueuePlotter(Generic[LocationStateType]):
+    """Plots the positions of the elements in the planner queue"""
+    def __init__(self, ax: Axes,
+                       planner: QueueType,
+                       color: Color = green) -> None:
+        super().__init__()
+
+        # Store the planner
+        self.planner = planner
+
+        # Plot the occupied locations
+        (self.handle_queue,) = ax.plot([0.], [0.], 'o', color=color)
+
+    def plot(self, data: Data[LocationStateType]) -> None: # pylint: disable=unused-argument
+        """Update the queue of elements being plotted"""
+        # Calculate the locations of the elements in the queue
+        x_vec: list[float] = []
+        y_vec: list[float] = []
+        for (_, ind) in self.planner.queue.q:
+            # Get the corresponding row and column
+            (row, col) = ind2sub(n_cols=self.planner.grid.n_cols, ind=ind)
+
+            # Get the position
+            position = self.planner.grid.indices_to_position(row=row, col=col)
+            x_vec.append(position.x)
+            y_vec.append(position.y)
+
+        # Plot the resulting positions
+        update_2d_line_plot(line=self.handle_queue,
+                            x_vec=cast(npt.NDArray[Any], x_vec),
+                            y_vec=cast(npt.NDArray[Any], y_vec))
+
+class PlanType(Protocol):
+    """Protocol defining exactly what is needed to plot the plan"""
+    grid: BinaryOccupancyGrid # Occupancy grid for the planning space dimensions
+    parent_mapping: dict[int, int] # Stores the mapping from an index to its parent
+    def get_plan(self, end_index: Optional[int] = None) -> list[int]:
+        """Returns the plan. If the end index is left unspecified, then it is the plan to the goal"""
+
+class PlanPlotter(Generic[LocationStateType]):
+    """Plots the resulting plan to the goal location"""
+    def __init__(self, ax: Axes,
+                       planner: PlanType,
+                       ind_start: int,
+                       ind_end: int,
+                       color: Color = blue) -> None:
+        """
+            Inputs:
+                planner: reference to the planner used for planning
+                ind_start: The starting index
+                ind_end: The ending index
+                color: color for the plot
+        """
+        super().__init__()
+
+        # Store the planning variables
+        self.planner = planner
+        self.ind_end = ind_end
+
+        # Gets the initial location
+        (row, col) = ind2sub(n_cols=self.planner.grid.n_cols, ind=ind_start)
+        position = self.planner.grid.indices_to_position(row=row, col=col)
+
+        # Plot the occupied locations
+        (self.handle_path,) = ax.plot([position.x], [position.y], 'o', color=color)
+
+    def plot(self, data: Data[LocationStateType]) -> None: # pylint: disable=unused-argument
+        """Update the queue of elements being plotted"""
+        # Determine if there is a plan to the end point yet
+        if self.ind_end not in self.planner.parent_mapping:
+            return
+
+        # Calculate the locations of the elements in the plan
+        plan = self.planner.get_plan(end_index=self.ind_end)
+        x_vec: list[float] = []
+        y_vec: list[float] = []
+        for ind in plan:
+            # Get the corresponding row and column
+            (row, col) = ind2sub(n_cols=self.planner.grid.n_cols, ind=ind)
+
+            # Get the position
+            position = self.planner.grid.indices_to_position(row=row, col=col)
+            x_vec.append(position.x)
+            y_vec.append(position.y)
+
+        # Plot the resulting positions
+        update_2d_line_plot(line=self.handle_path,
+                            x_vec=cast(npt.NDArray[Any], x_vec),
+                            y_vec=cast(npt.NDArray[Any], y_vec))

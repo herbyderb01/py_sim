@@ -3,11 +3,12 @@
 """
 from abc import ABC, abstractmethod
 from enum import Enum
-from py_sim.path_planning.forward_grid_search import GD
+from typing import Optional
+
+import numpy as np
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid, ind2sub, sub2ind
 from py_sim.tools.simple_priority_queue import SimplePriorityQueue
-from typing import Optional
-import numpy as np
+
 
 class GD(Enum):
     """Define the basic grid directions"""
@@ -186,7 +187,7 @@ class BreadFirstGridSearch(ForwardGridSearch):
         super().__init__(grid, ind_start, ind_end)
         self.cost: float = 1. # Variable used to implement a FIFO queue
 
-    def add_index_to_queue(self, ind_new: int, _: int, __: GD) -> None:
+    def add_index_to_queue(self, ind_new: int, ind_parent: int, direction: GD) -> None:
         """Adds index purely based on the number of indices in the queue to implement
            a FIFO queue
 
@@ -199,9 +200,10 @@ class BreadFirstGridSearch(ForwardGridSearch):
         # will ensure that the next item popped off will be the item
         # that has been on the queue for the longest
         self.queue.push(cost=self.cost, index=ind_new)
+        self.parent_mapping[ind_new] = ind_parent
         self.cost += 1.
 
-    def resolve_duplicate(self, _: int, __: int, ___: GD) -> None:
+    def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int, direction: GD) -> None:
         """Does nothing. If a cell has already been seen then no need to perform
         any further evaluations
         """

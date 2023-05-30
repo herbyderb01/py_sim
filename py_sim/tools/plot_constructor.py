@@ -3,9 +3,13 @@
 from typing import Optional
 
 import matplotlib.pyplot as plt
+from py_sim.path_planning.forward_grid_search import ForwardGridSearch
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
 from py_sim.tools.plotting import (
     Color,
+    PlanPlotter,
+    PlanQueuePlotter,
+    PlanVisitedPlotter,
     PlotManifest,
     PosePlot,
     PositionPlot,
@@ -40,7 +44,8 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                          plot_occupancy_cells: bool = False,
                          plot_occupancy_circles: bool = False,
                          range_bearing_locations: bool = False,
-                         range_bearing_lines: bool = False
+                         range_bearing_lines: bool = False,
+                         planner: Optional[ForwardGridSearch] = None,
                          ) -> PlotManifest[UnicycleStateType]:
     """Creates a plot manifest given the following inputs
 
@@ -119,10 +124,28 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                             resolution=vector_res,
                             vector_field=vectorfield))
 
+    # Range and bearing sensor plots
     if range_bearing_locations:
         plots.data_plots.append(RangeBearingPlot(ax=ax))
-
     if range_bearing_lines:
         plots.data_plots.append(RangeBearingLines(ax=ax))
+
+    # Forward planner plots
+    if planner is not None:
+        # Plot the visited nodes
+        plots.data_plots.append(
+            PlanVisitedPlotter(ax=ax, planner=planner)
+        )
+
+        # Plot the nodes in queue
+        plots.data_plots.append(
+            PlanQueuePlotter(ax=ax, planner=planner)
+        )
+
+        # Plot the plan
+        plots.data_plots.append(
+            PlanPlotter(ax=ax, planner=planner, ind_start=planner.ind_start, ind_end=planner.ind_end)
+        )
+
 
     return plots

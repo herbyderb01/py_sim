@@ -1,7 +1,8 @@
 """simple_priority_queue.py Defines a very simple priority queue based on the heapq library
 """
 
-from heapq import heappush, heappop, heapify
+from heapq import heapify, heappop, heappush
+
 
 class SimplePriorityQueue:
     """Defines a priority queue where the first element is a cost and the second an index"""

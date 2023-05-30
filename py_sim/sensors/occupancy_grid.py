@@ -1,9 +1,10 @@
 """occupancy_grid.py Stores the classes and defs for interacting with an occupancy grid
 """
 
-from typing import cast
+from typing import Any, Optional, cast
 
 import numpy as np
+import numpy.typing as npt
 from py_sim.tools.sim_types import TwoDimArray
 from py_sim.worlds.polygon_world import PolygonWorld
 
@@ -50,8 +51,8 @@ class BinaryOccupancyGrid:
         self.y_lim = y_lim
         self.max_index = self.n_cols*(self.n_rows+1)-1 # Stores the maximum scalar index of the grid
 
-    def isOccupied(self, q: TwoDimArray) -> bool:
-        """ isOccupied returns true if the position is in an occupied
+    def is_occupied(self, q: TwoDimArray) -> bool:
+        """ is_occupied returns true if the position is in an occupied
             cell, false otherwise. An invalid position is considered occupied
 
             Inputs:
@@ -62,15 +63,15 @@ class BinaryOccupancyGrid:
         """
 
         # Calculate the indices
-        (row, col, valid) = self.positionToIndex(q)
+        (row, col, valid) = self.position_to_mat_coord(q)
 
         # Determine if it is occupied
         if valid:
             return cast(bool, self.grid[row, col] == self.OCCUPIED)
         return True # Default to occupied
 
-    def setOccupied(self, q: TwoDimArray) -> None:
-        """ setOccupied sets the grid location corresponding to the 2x1
+    def set_occupied(self, q: TwoDimArray) -> None:
+        """ set_occupied sets the grid location corresponding to the 2x1
             position q as occupied. Does nothing if q is out of bounds
 
             Inputs:
@@ -78,28 +79,28 @@ class BinaryOccupancyGrid:
         """
 
         # Calculate the indices
-        (row, col, valid) = self.positionToIndex(q)
+        (row, col, valid) = self.position_to_mat_coord(q)
 
         # Set cell as occupied
         if valid:
             self.grid[row, col] = self.OCCUPIED
 
-    def setFree(self, q: TwoDimArray) -> None:
-        """ setFree sets the grid location corresponding to the 2x1
+    def set_free(self, q: TwoDimArray) -> None:
+        """ set_free sets the grid location corresponding to the 2x1
             position q as free
 
             Inputs:
                 q: 2x1 position
         """
         # Calculate the indices
-        (row, col, valid) = self.positionToIndex(q)
+        (row, col, valid) = self.position_to_mat_coord(q)
 
         # Set cell as Free
         if valid:
             self.grid[row, col] = self.FREE
 
-    def positionToIndex(self, q: TwoDimArray) -> tuple[int, int, bool]:
-        """ positionToIndex converts a position into an index
+    def position_to_mat_coord(self, q: TwoDimArray) -> tuple[int, int, bool]:
+        """ position_to_mat_coord converts a position into matrix coordinates
 
             Inputs:
                 q: 2x1 position corresponding to the point
@@ -131,8 +132,26 @@ class BinaryOccupancyGrid:
 
         return (row, col, valid)
 
-    def indexToPosition(self, row: int, col: int) -> TwoDimArray:
-        """ indexToPosition converts an index into a position
+    def position_to_index(self, q: TwoDimArray) -> tuple[int, bool]:
+        """ position_to_index converts a position into a scalar index into the matrix
+
+            Inputs:
+                q: 2x1 position corresponding to the point
+
+            Outputs:
+                index: single index into the matrix
+                Valid: boolean indicating whether the passed in position is valid (True)
+        """
+        # Convert position to matrix coordinates
+        (row, col, valid) = self.position_to_mat_coord(q=q)
+
+        # Convert matrix coordinates to scalar coordinates
+        index = sub2ind(n_cols=self.n_cols, row_ind=row, col_ind=col)
+
+        return (index, valid)
+
+    def indices_to_position(self, row: int, col: int) -> TwoDimArray:
+        """ indices_to_position converts an index into a position
 
             Inputs:
                 row: row index inside grid
@@ -164,7 +183,7 @@ class BinaryOccupancyGrid:
         y = [0., 0., 0., 0.]
 
         # Get the position of the cell center
-        q = self.indexToPosition(row=row, col=col)
+        q = self.indices_to_position(row=row, col=col)
 
         # Get the left top position
         x[0] = q.x - self.res_half
@@ -216,7 +235,7 @@ def ind2sub(n_cols: int, ind: int) -> tuple[int, int]:
             (row-index, column-index) for ind
     """
     (row_index, col_index) = np.divmod(ind, n_cols)
-    return (row_index, col_index)
+    return (int(row_index), int(col_index) )
 
 def sub2ind(n_cols: int, row_ind: int, col_ind: int) -> int:
     """Converts a (row_ind, col_ind) indexing into a single scalar indexing
@@ -229,7 +248,7 @@ def sub2ind(n_cols: int, row_ind: int, col_ind: int) -> int:
         Outputs:
             Index of the single scalar item number
     """
-    return row_ind*n_cols + col_ind
+    return int(row_ind*n_cols + col_ind)
 
 def generate_occupancy_from_polygon_world(world: PolygonWorld,
                                           res: float,
@@ -249,7 +268,7 @@ def generate_occupancy_from_polygon_world(world: PolygonWorld,
     for row in range(grid.n_rows):
         for col in range(grid.n_cols):
             # Check to see if the position is inside an obstacle
-            q = grid.indexToPosition(row=row, col=col)
+            q = grid.indices_to_position(row=row, col=col)
             if world.inside_obstacle(q.state):
                 grid.grid[row, col] = grid.OCCUPIED
 
@@ -261,19 +280,26 @@ def generate_occupancy_from_polygon_world(world: PolygonWorld,
 
     return grid
 
-def occupancy_positions(grid: BinaryOccupancyGrid) -> tuple[list[float], # x_occupied
-                                                            list[float], # y_occupied
-                                                            list[float], # x_free
-                                                            list[float]]:# y_free
+def occupancy_positions(grid: BinaryOccupancyGrid, cells: Optional[npt.NDArray[Any]]=None) \
+    -> tuple[list[float], # x_occupied
+       list[float], # y_occupied
+       list[float], # x_free
+       list[float]]:# y_free
     """Determines the occupied and free positions from an occupancy grid
 
         Inputs:
             grid: The occupancy grid to be evaluated
+            cell: A binary matrix that stores the occupancy. If None, then grid.grid is used.
+                  Must be same size as grid
 
         Outputs:
             (x_occupied, y_occupied, x_free, y_free): (x,y) coordinates of occupied
             and free locations in the grid
     """
+    # Extract grid
+    if cells is None:
+        cells = grid.grid
+
     # Initialize outputs
     x_occupied: list[float] = []
     y_occupied: list[float] = []
@@ -284,8 +310,8 @@ def occupancy_positions(grid: BinaryOccupancyGrid) -> tuple[list[float], # x_occ
     for row in range(grid.n_rows):
         for col in range(grid.n_cols):
             # Check to see whether the position is inside/outside of an obstacle
-            q = grid.indexToPosition(row=row, col=col)
-            if grid.grid[row, col] == grid.OCCUPIED:
+            q = grid.indices_to_position(row=row, col=col)
+            if cells[row, col] == grid.OCCUPIED:
                 x_occupied.append(q.x)
                 y_occupied.append(q.y)
             else:
