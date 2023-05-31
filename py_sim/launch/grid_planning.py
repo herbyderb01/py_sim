@@ -1,11 +1,13 @@
 """grid_planning.py: Provides a framework for visualization of planning using an occupancy grid
 """
 
-from typing import Generic
 import time
+from typing import Generic
+
+import matplotlib.pyplot as plt
 import py_sim.path_planning.forward_grid_search as search
 from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
-from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
+from py_sim.sim.generic_sim import SingleAgentSim
 from py_sim.tools.plot_constructor import create_plot_manifest
 from py_sim.tools.plotting import PlotManifest
 from py_sim.tools.sim_types import (
@@ -15,7 +17,6 @@ from py_sim.tools.sim_types import (
     UnicycleStateType,
 )
 from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
-import matplotlib.pyplot as plt
 
 
 class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]):
@@ -25,8 +26,7 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
                 n_inputs: int,
                 plots: PlotManifest[UnicycleStateType],
                 world: PolygonWorld,
-                planner: search.ForwardGridSearch,
-                plan_steps: int = -1
+                planner: search.ForwardGridSearch
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
@@ -94,7 +94,8 @@ def test_occupancy_grid() -> None:
     ind_end, _ = grid.position_to_index(q=TwoDimArray(x = 14., y=7.))
     #planner = search.BreadFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
     #planner = search.DepthFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
-    planner = search.DijkstraGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    #planner = search.DijkstraGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    planner = search.AstarGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
 
 
     # Create the manifest for the plotting
@@ -124,11 +125,11 @@ def test_occupancy_grid() -> None:
     plt.show(block=False)
     finished = False # Flag indicating whether or not the planner has finished
     goal_found_advertised = False # Once the goal has been found, an message will be sent to terminal
-    iter = 0 # Keeps track of the number of planning iterations performed
+    iteration = 0 # Keeps track of the number of planning iterations performed
     while not finished:
         # Display the iteration
-        print("Plan iteration: ", iter)
-        iter += 1
+        print("Plan iteration: ", iteration)
+        iteration += 1
 
         # Update the plan and the resulting plot
         # (note that plan_steps=-1 will do a wave (as many steps as are in the queue) )

@@ -3,7 +3,7 @@
 """
 from abc import ABC, abstractmethod
 from enum import IntEnum
-from typing import Optional
+from typing import Optional, cast
 
 import numpy as np
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid, ind2sub, sub2ind
@@ -252,7 +252,9 @@ class DijkstraGridSearch(ForwardGridSearch):
         self.queue.push(cost=cost, index=ind_new)
 
     def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None:
-        """resolves duplicate sighting of the index - checks to see if the lowest cost to come to the node has a lower cost-to-come than the previous path found, if so then the cost is updated
+        """resolves duplicate sighting of the index - checks to see if the lowest cost to come
+           to the node has a lower cost-to-come than the previous path found, if so then the
+           cost is updated
 
         Inputs:
             ind_duplicate: index that has been seen again
@@ -269,3 +271,70 @@ class DijkstraGridSearch(ForwardGridSearch):
         if cost_possible < self.c2c.item(ind_duplicate)-1e-5:
             self.queue.update(cost=cost_possible, index=ind_duplicate)
             self.c2c.itemset(ind_duplicate, cost_possible)
+
+class AstarGridSearch(ForwardGridSearch):
+    """Defines a cost-wavefront search through the grid"""
+    def __init__(self, grid: BinaryOccupancyGrid, ind_start: int, ind_end: int) -> None:
+        super().__init__(grid, ind_start, ind_end)
+
+        # Create a storage container for cost-to-come
+        self.c2c = np.full(grid.grid.shape, np.inf, dtype=float)
+        self.c2c.itemset(ind_start,0.)
+
+        # Convert the end index to matrix indexing
+        row_goal, col_goal = ind2sub(n_cols=grid.n_cols, ind=ind_end)
+        self.end_ind_mat = np.array([[row_goal],[col_goal]])
+
+    def cost_to_go_heuristic(self, ind: int) -> float:
+        """Calculates a heuristic on the cost to go from the index in question
+
+            Inputs:
+                ind: grid index in question
+
+            Outputs:
+                Euclidean grid distance from ind to the goal index
+        """
+        # Get an array of the row/column indices
+        row, col = ind2sub(n_cols=self.grid.n_cols, ind=ind)
+        ind_mat = np.array([[row], [col]])
+
+        # Return the distance
+        return  cast(float, np.linalg.norm(ind_mat - self.end_ind_mat))
+
+    def add_index_to_queue(self, ind_new: int, ind_parent: int, direction: GD) -> None:
+        """Adds index to queue based on the cost to come to that new index.
+
+             Inputs:
+                ind_new: Index of the new location
+                ind_parent: Index of the parent node
+                direction: The direction from the ind_parent cell to the ind_new cell
+        """
+        # Calculate the cost to come as the cost of the parent plus the edge cost
+        c2c = segment_length[direction] + self.c2c.item(ind_parent)
+        cost_heuristic = c2c + self.cost_to_go_heuristic(ind_new)
+
+        # Add the node to the list
+        self.c2c.itemset(ind_new, c2c)
+        self.queue.push(cost=cost_heuristic, index=ind_new)
+
+    def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None:
+        """resolves duplicate sighting of the index - checks to see if the lowest cost to come
+           to the node has a lower cost-to-come than the previous path found, if so then the
+           cost is updated
+
+        Inputs:
+            ind_duplicate: index that has been seen again
+            ind_poss_parent: The possible parent that was seen in index
+            duplicate
+            direction is the direction of the duplicate from the parent
+        """
+        # Calculate the cost-to-come of the new possible edge
+        c2c_possible = segment_length[direction] + self.c2c.item(ind_poss_parent)
+
+        # Update the parentage and cost-to-come if a lower cost route has been found
+        # Note that a small number is subtracted from the previous cost to avoid
+        # updates due to small numerical precision
+        if c2c_possible < self.c2c.item(ind_duplicate)-1e-5:
+            cost_heuristic = c2c_possible + self.cost_to_go_heuristic(ind_duplicate)
+            self.queue.update(cost=cost_heuristic, index=ind_duplicate)
+            self.c2c.itemset(ind_duplicate, c2c_possible)
