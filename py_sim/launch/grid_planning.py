@@ -16,7 +16,7 @@ from py_sim.tools.sim_types import (
     UnicycleState,
     UnicycleStateType,
 )
-from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
+import py_sim.worlds.polygon_world as poly_world
 
 
 class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]):
@@ -25,7 +25,7 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
                 initial_state: UnicycleStateType,
                 n_inputs: int,
                 plots: PlotManifest[UnicycleStateType],
-                world: PolygonWorld,
+                world: poly_world.PolygonWorld,
                 planner: search.ForwardGridSearch
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
@@ -41,7 +41,7 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
         super().__init__(initial_state=initial_state, n_inputs=n_inputs, plots=plots)
 
         # Initialize sim-specific parameters
-        self.world: PolygonWorld = world
+        self.world: poly_world.PolygonWorld = world
         self.planner: search.ForwardGridSearch = planner
 
     def update(self) -> None:
@@ -83,7 +83,8 @@ def test_occupancy_grid() -> None:
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
     # Create the obstacle world and occupancy grid
-    obstacle_world = generate_world_obstacles()
+    #obstacle_world = poly_world.generate_world_obstacles()
+    obstacle_world = poly_world.generate_non_convex_obstacles()
     grid = generate_occupancy_from_polygon_world(world=obstacle_world,
                                                  res=0.25,
                                                  x_lim=(-5,25),
@@ -96,6 +97,7 @@ def test_occupancy_grid() -> None:
     #planner = search.DepthFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
     #planner = search.DijkstraGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
     planner = search.AstarGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    #planner = search.GreedyGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
 
 
     # Create the manifest for the plotting

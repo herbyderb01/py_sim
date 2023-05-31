@@ -234,3 +234,14 @@ def generate_world_obstacles() -> PolygonWorld:
     V3 = np.array([[7.,    8., 13.,  14., 13., 8.],
                      [-1.5, -3., -3., -1.5,  0., 0.]])
     return PolygonWorld(vertices=[V1, V2, V3])
+
+
+def generate_non_convex_obstacles() -> PolygonWorld:
+    """Generates a simple world that is non-convex and bad for greedy planners"""
+    V1 = np.array([[6., 5., 1.],
+                     [1., 6., 4.]])
+    V2 = np.array([[6., 3., 7.],
+                     [1., -3., -3.]])
+    V3 = np.array([[10., 10., 12., 12.],
+                   [12., 0., 0., 12.]])
+    return PolygonWorld(vertices=[V1, V2, V3])

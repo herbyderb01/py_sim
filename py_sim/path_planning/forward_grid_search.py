@@ -271,6 +271,7 @@ class DijkstraGridSearch(ForwardGridSearch):
         if cost_possible < self.c2c.item(ind_duplicate)-1e-5:
             self.queue.update(cost=cost_possible, index=ind_duplicate)
             self.c2c.itemset(ind_duplicate, cost_possible)
+            self.parent_mapping[ind_duplicate] = ind_poss_parent
 
 class AstarGridSearch(ForwardGridSearch):
     """Defines a cost-wavefront search through the grid"""
@@ -338,3 +339,43 @@ class AstarGridSearch(ForwardGridSearch):
             cost_heuristic = c2c_possible + self.cost_to_go_heuristic(ind_duplicate)
             self.queue.update(cost=cost_heuristic, index=ind_duplicate)
             self.c2c.itemset(ind_duplicate, c2c_possible)
+            self.parent_mapping[ind_duplicate] = ind_poss_parent
+
+class GreedyGridSearch(ForwardGridSearch):
+    """Defines a cost-wavefront search through the grid"""
+    def __init__(self, grid: BinaryOccupancyGrid, ind_start: int, ind_end: int) -> None:
+        super().__init__(grid, ind_start, ind_end)
+
+        # Convert the end index to matrix indexing
+        row_goal, col_goal = ind2sub(n_cols=grid.n_cols, ind=ind_end)
+        self.end_ind_mat = np.array([[row_goal],[col_goal]])
+
+    def cost_to_go_heuristic(self, ind: int) -> float:
+        """Calculates a heuristic on the cost to go from the index in question
+
+            Inputs:
+                ind: grid index in question
+
+            Outputs:
+                Euclidean grid distance from ind to the goal index
+        """
+        # Get an array of the row/column indices
+        row, col = ind2sub(n_cols=self.grid.n_cols, ind=ind)
+        ind_mat = np.array([[row], [col]])
+
+        # Return the distance
+        return  cast(float, np.linalg.norm(ind_mat - self.end_ind_mat))
+
+    def add_index_to_queue(self, ind_new: int, ind_parent: int, direction: GD) -> None:
+        """Adds index to queue based on the cost to come to that new index.
+
+             Inputs:
+                ind_new: Index of the new location
+                ind_parent: Index of the parent node
+                direction: The direction from the ind_parent cell to the ind_new cell
+        """
+        # Calculate the cost to come as the cost of the parent plus the edge cost
+        cost_heuristic = self.cost_to_go_heuristic(ind_new)
+
+        # Add the node to the list
+        self.queue.push(cost=cost_heuristic, index=ind_new)
