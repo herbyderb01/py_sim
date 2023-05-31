@@ -151,7 +151,7 @@ class BinaryOccupancyGrid:
         return (index, valid)
 
     def indices_to_position(self, row: int, col: int) -> TwoDimArray:
-        """ indices_to_position converts an index into a position
+        """ indices_to_position converts (row,column) indices into a position
 
             Inputs:
                 row: row index inside grid
@@ -166,6 +166,21 @@ class BinaryOccupancyGrid:
                                              [-self.res*row+self.res_half]])
 
         return TwoDimArray(x=q.item(0), y=q.item(1))
+
+    def index_to_position(self, ind: int) -> TwoDimArray:
+        """ Converts a single matrix index to a position
+
+            Inputs:
+                ind: Matrix scalar index
+
+            Outputs:
+                q: 2x1 position corresponding to the point
+        """
+        # Get the corresponding row and column
+        (row, col) = ind2sub(n_cols=self.n_cols, ind=ind)
+
+        # Get the position
+        return self.indices_to_position(row=row, col=col)
 
     def get_cell_box(self, row: int, col: int) -> tuple[list[float],
                                                         list[float]]:

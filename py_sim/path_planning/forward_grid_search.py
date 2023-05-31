@@ -100,6 +100,38 @@ class ForwardGridSearch(ABC):
         plan.reverse()
         return plan
 
+    def calculate_plan_length(self, plan: Optional[list[int]]= None) -> float:
+        """ Calculates the length of a plan. If the plan is not provided then
+            it is calculated using get_plan with self.ind_end
+
+            Inputs:
+                plan: Optional plan for which the length will be calculated
+
+            Outputs:
+                Plan length
+        """
+        # Get the plan
+        if plan is None:
+            plan = self.get_plan() # Stores the plan indices
+
+        # Initialize the calculation variables
+        plan_length = 0. # Iteratively calculated plan length
+        ind_prev = self.ind_start # Stores the index to the previous point
+        q_prev = self.grid.index_to_position(ind=ind_prev)
+
+        # Loop through the plan and calculate the point to point length
+        for ind in plan:
+            # Get the position corresponding to the index
+            q_new = self.grid.index_to_position(ind=ind)
+
+            # Update the length
+            plan_length += float(np.linalg.norm(q_new.state - q_prev.state))
+
+            # Update for the next iteration
+            q_prev = q_new
+
+        return plan_length
+
     def search(self) -> bool:
         """Searches the grid from start to end and returns true if successful"""
         # Search until the goal has been found
@@ -346,6 +378,10 @@ class GreedyGridSearch(ForwardGridSearch):
     def __init__(self, grid: BinaryOccupancyGrid, ind_start: int, ind_end: int) -> None:
         super().__init__(grid, ind_start, ind_end)
 
+        # Create a storage container for cost-to-come
+        self.c2c = np.full(grid.grid.shape, np.inf, dtype=float)
+        self.c2c.itemset(ind_start,0.)
+
         # Convert the end index to matrix indexing
         row_goal, col_goal = ind2sub(n_cols=grid.n_cols, ind=ind_end)
         self.end_ind_mat = np.array([[row_goal],[col_goal]])
@@ -375,7 +411,30 @@ class GreedyGridSearch(ForwardGridSearch):
                 direction: The direction from the ind_parent cell to the ind_new cell
         """
         # Calculate the cost to come as the cost of the parent plus the edge cost
-        cost_heuristic = self.cost_to_go_heuristic(ind_new)
+        c2c = segment_length[direction] + self.c2c.item(ind_parent)
+        self.c2c.itemset(ind_new, c2c)
 
-        # Add the node to the list
+        # Add the node to the list using the cost-to-go heuristic
+        cost_heuristic = self.cost_to_go_heuristic(ind_new)
         self.queue.push(cost=cost_heuristic, index=ind_new)
+
+    def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None:
+        """resolves duplicate sighting of the index - checks to see if the lowest cost to come
+           to the node has a lower cost-to-come than the previous path found, if so then the
+           cost is updated
+
+        Inputs:
+            ind_duplicate: index that has been seen again
+            ind_poss_parent: The possible parent that was seen in index
+            duplicate
+            direction is the direction of the duplicate from the parent
+        """
+        # Calculate the cost-to-come of the new possible edge
+        c2c_possible = segment_length[direction] + self.c2c.item(ind_poss_parent)
+
+        # Update the parentage and cost-to-come if a lower cost route has been found
+        # Note that a small number is subtracted from the previous cost to avoid
+        # updates due to small numerical precision
+        if c2c_possible < self.c2c.item(ind_duplicate)-1e-5:
+            self.c2c.itemset(ind_duplicate, c2c_possible)
+            self.parent_mapping[ind_duplicate] = ind_poss_parent

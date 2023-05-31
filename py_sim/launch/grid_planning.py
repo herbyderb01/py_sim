@@ -6,6 +6,7 @@ from typing import Generic
 
 import matplotlib.pyplot as plt
 import py_sim.path_planning.forward_grid_search as search
+import py_sim.worlds.polygon_world as poly_world
 from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
 from py_sim.sim.generic_sim import SingleAgentSim
 from py_sim.tools.plot_constructor import create_plot_manifest
@@ -16,7 +17,6 @@ from py_sim.tools.sim_types import (
     UnicycleState,
     UnicycleStateType,
 )
-import py_sim.worlds.polygon_world as poly_world
 
 
 class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]):
@@ -77,14 +77,20 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
         print("Finished planner")
         self.update_plot() # Plot the latest data
 
-def test_occupancy_grid() -> None:
-    """Plots the occupancy grid on top of the world"""
+def test_grid_planner() -> None:
+    """ Plans a path in the following steps:
+        * Create a world
+        * Create a planner
+        * Create the plotting
+        * Incrementally calculate the plan until plan calculated
+        * Calculate the plan length
+    """
     # Initialize the state and control
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
     # Create the obstacle world and occupancy grid
-    #obstacle_world = poly_world.generate_world_obstacles()
-    obstacle_world = poly_world.generate_non_convex_obstacles()
+    obstacle_world = poly_world.generate_world_obstacles()
+    # obstacle_world = poly_world.generate_non_convex_obstacles()
     grid = generate_occupancy_from_polygon_world(world=obstacle_world,
                                                  res=0.25,
                                                  x_lim=(-5,25),
@@ -126,7 +132,7 @@ def test_occupancy_grid() -> None:
     # Run the planning incrementally
     plt.show(block=False)
     finished = False # Flag indicating whether or not the planner has finished
-    goal_found_advertised = False # Once the goal has been found, an message will be sent to terminal
+    goal_found_advertised = False # Once the goal has been found, a message will be sent to terminal
     iteration = 0 # Keeps track of the number of planning iterations performed
     while not finished:
         # Display the iteration
@@ -145,8 +151,12 @@ def test_occupancy_grid() -> None:
                 goal_found_advertised = True
         time.sleep(0.001)
 
+    # Calculate the plan length
+    plan_length = planner.calculate_plan_length()
+    print('Plan length = ', plan_length)
+
     print('Planning finished, close figure')
     plt.show(block=True)
 
 if __name__ == "__main__":
-    test_occupancy_grid()
+    test_grid_planner()
