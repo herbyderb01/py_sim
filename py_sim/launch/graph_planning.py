@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import py_sim.worlds.polygon_world as poly_world
 from py_sim.tools.plot_constructor import create_plot_manifest
-from py_sim.tools.sim_types import UnicycleState
+from py_sim.tools.sim_types import TwoDimArray, UnicycleState
 
 
 def test_graph_planner() -> None:
@@ -20,16 +20,20 @@ def test_graph_planner() -> None:
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
     # Create the obstacle world
-    # obstacle_world = poly_world.generate_world_obstacles()
+    #obstacle_world = poly_world.generate_world_obstacles()
     obstacle_world = poly_world.generate_non_convex_obstacles()
 
     # Create the graph to be used for planning
-    # graph = poly_world.topology_world_obstacles()
-    graph = poly_world.topology_non_convex_obstacles()
+    #graph = poly_world.topology_world_obstacles()
+    #graph = poly_world.topology_non_convex_obstacles()
+    graph = poly_world.create_visibility_graph(world=obstacle_world)
+
 
     # Create the starting and stopping indices
-    ind_start = 0
-    ind_end = 8
+    ind_start = graph.add_node_and_edges(position=TwoDimArray(x=-4.5, y=4.),
+                                         world=obstacle_world)
+    ind_end = graph.add_node_and_edges(position=TwoDimArray(x=22.5, y=3.),
+                                       world=obstacle_world)
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
@@ -44,14 +48,14 @@ def test_graph_planner() -> None:
 
     # Visualize the plan
     x_vec, y_vec = graph.convert_to_cartesian(nodes=plan)
-    plot_manifest.axes['Vehicle_axis'].plot(x_vec, y_vec, "-", color=(1., 0., 0., 1.))
+    plot_manifest.axes['Vehicle_axis'].plot(x_vec, y_vec, "-", color=(0., 1., 0., 1.), linewidth=3)
     for fig in plot_manifest.figs:
         fig.canvas.draw()
         fig.canvas.flush_events()
 
     # Calculate the plan length
-    # plan_length = planner.calculate_plan_length()
-    # print('Plan length = ', plan_length)
+    plan_length = graph.calculate_path_length(nodes=plan)
+    print('Plan length = ', plan_length)
 
     print('Planning finished, close figure')
     plt.show(block=True)

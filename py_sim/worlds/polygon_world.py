@@ -157,6 +157,44 @@ class PolygonWorld():
         # Loop through each edge and find the closest
         return find_closest_intersection(edge1=edge, edge_list=self.edges)
 
+    def intersects_obstacle(self, edge: npt.NDArray[Any], shrink_edge: bool = False, edge_shrink_dist: float = 1.e-3) -> bool:
+        """ Determines whether an edge intersects an obstacle, returns true if it does
+
+            Inputs:
+                edge: 2x2 matrix of points where each point is a column
+                shrink_edge: True implies that the edge points will be moved towards each
+                  other before checking for intersection. This allows, for example, the edge
+                  points to lie on the obstacle
+                edge_shrink_dist: The distance that the edges will be moved towards each other
+
+            Returns:
+                True if the edge intersects the obstacles, false if it does not
+        """
+        # Shrink the edge
+        if shrink_edge:
+            q = (edge[:,1:2]-edge[:,0:1]) # direction vector
+            q_mag = np.linalg.norm(q) # magnitude of the direction vector
+            if q_mag < 2*edge_shrink_dist:
+                return True # Edge is too small to shrink, so consider it an intersection
+            q_hat = q/q_mag
+            edge[:,0:1] = edge[:,0:1] + edge_shrink_dist*q_hat # Move edge 1 point towards point 2
+            edge[:,1:2] = edge[:,1:2] - edge_shrink_dist*q_hat # Move edge 2 point towards point 1
+
+        # Determine the intersection
+        result = find_closest_intersection(edge1=edge, edge_list=self.edges)
+
+        # Return result indicating whether or not the intersection exists
+        if result is not None:
+            return True
+
+        # Determine if the edge points are inside the obstacle
+        if self.inside_obstacle(point=edge[:,0:1]):
+            return True
+        if self.inside_obstacle(point=edge[:,1:2]):
+            return True
+        return False
+
+
 
 def line_segment_intersection(edge1: npt.NDArray[Any], edge2: npt.NDArray[Any]) -> Optional[npt.NDArray[Any]]:
     """ Determines the intersection point of an two line segments or None if the intersection does not exist.
@@ -202,6 +240,12 @@ def find_closest_intersection(edge1: npt.NDArray[Any],
         Inputs:
             edge1: 2x2 matrix of points where each point is a column
             edge_list: list of 2x2 matrices consisting of edges
+
+        Returns:
+            Null if no intersection found
+            (inter_dist, inter_point) if an intersection is found
+                inter_dist is the distance from the first point on edge 1 to the intersection point
+                inter_point: 2x1 matrix representing the position of intersection
     """
     # Extract the point of interest
     p1 = edge1[:,0:1]
@@ -285,11 +329,10 @@ def generate_non_convex_obstacles() -> PolygonWorld:
     V1 = np.array([[6., 5., 1.],
                      [1., 6., 4.]])
     V2 = np.array([[6., 3., 7.],
-                     [1., -3., -3.]])
+                     [2., -3., -3.]])
     V3 = np.array([[10., 10., 12., 12.],
                    [12., 0., 0., 12.]])
     return PolygonWorld(vertices=[V1, V2, V3])
-
 
 def topology_non_convex_obstacles() -> PathGraph:
     """Generates a topology graph for the non convex obstacles world"""
@@ -318,5 +361,53 @@ def topology_non_convex_obstacles() -> PathGraph:
     graph.add_edge(5, 6)
     graph.add_edge(5, 7)
     graph.add_edge(7, 8)
+
+    return graph
+
+def create_visibility_graph(world: PolygonWorld) -> PathGraph:
+    """ Creates a visibility graph from the polygon world
+    """
+
+    # Add in all edges corresponding to edges in the polygon
+    graph = PathGraph()
+    for polygon in world.polygons: # Loop through all of the convex polygons
+        node_ind_prev = 0 # Stores the first node index
+        first_ind = 0 # Stores the index of the first node added
+        n_edges = len(polygon.edges)
+        for index, edge in enumerate(polygon.edges): # Loop through each edge
+            # Special case: first edge - you need to add in the first vertex
+            if index == 0:
+                node_ind_prev = graph.add_node(position=TwoDimArray(x=edge[0,0], y=edge[1,0]))
+                first_ind = node_ind_prev
+
+            # Special case: last edge - no need to add the node and the edge will go to the first node
+            if index >= n_edges-1:
+                graph.add_edge(node_1=node_ind_prev, node_2=first_ind)
+            else:
+                # Add the node on the second edge
+                node_ind = graph.add_node(position=TwoDimArray(x=edge[0,1], y=edge[1,1]))
+
+                # Add in the edge
+                graph.add_edge(node_1=node_ind_prev, node_2=node_ind)
+
+            # Set the node_ind_prev for the next iteration
+            node_ind_prev = node_ind
+
+    # Add in edges between each node and each other node if no intersection exists
+    nodes = list(graph.node_location.keys())
+    for (index, node_1) in enumerate(nodes):
+        # Initialize the edge
+        edge = np.zeros((2,2))
+        edge[:,0] = graph.node_location[node_1]
+
+        # Check all possible nodes
+        for k in range(index+1, graph.node_count):
+            # Create the edge
+            node_2 = nodes[k]
+            edge[:,1] = graph.node_location[node_2]
+
+            # Check the edge for collision
+            if not world.intersects_obstacle(edge=edge, shrink_edge=True):
+                graph.add_edge(node_1=node_1, node_2=node_2)
 
     return graph
