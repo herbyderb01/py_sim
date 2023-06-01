@@ -8,4 +8,5 @@ pandas
 pydocstyle
 mypy
 matplotlib
+networkx
 control

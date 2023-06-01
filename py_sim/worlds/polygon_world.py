@@ -6,6 +6,8 @@ from typing import Any, Optional, cast
 
 import numpy as np
 import numpy.typing as npt
+from py_sim.path_planning.graph_search import PathGraph
+from py_sim.tools.sim_types import TwoDimArray
 
 
 class ConvexPolygon():
@@ -235,6 +237,48 @@ def generate_world_obstacles() -> PolygonWorld:
                      [-1.5, -3., -3., -1.5,  0., 0.]])
     return PolygonWorld(vertices=[V1, V2, V3])
 
+def topology_world_obstacles() -> PathGraph:
+    """Generates a topology graph for the world obstacles world"""
+    graph = PathGraph()
+
+    # Add the nodes
+    graph.add_node(position=TwoDimArray(x=0., y=0.)) # Node 0
+    graph.add_node(position=TwoDimArray(x=-2., y=4.)) # Node 1
+    graph.add_node(position=TwoDimArray(x=6., y=0.)) # Node 2
+    graph.add_node(position=TwoDimArray(x=7., y=-4.)) # Node 3
+    graph.add_node(position=TwoDimArray(x=15., y=-4.)) # Node 4
+    graph.add_node(position=TwoDimArray(x=15., y=0.)) # Node 5
+    graph.add_node(position=TwoDimArray(x=10., y=3.)) # Node 6
+    graph.add_node(position=TwoDimArray(x=22., y=0.)) # Node 7
+    graph.add_node(position=TwoDimArray(x=22., y=8.)) # Node 8
+    graph.add_node(position=TwoDimArray(x=15., y=8.)) # Node 9
+    graph.add_node(position=TwoDimArray(x=5., y=7.)) # Node 10
+    graph.add_node(position=TwoDimArray(x=7., y=1.)) # Node 11
+
+
+    # Add the edges
+    graph.add_edge(0, 1)
+    graph.add_edge(0, 2)
+    graph.add_edge(0, 3)
+    graph.add_edge(2, 3)
+    graph.add_edge(3, 4)
+    graph.add_edge(4, 5)
+    graph.add_edge(5, 6)
+    graph.add_edge(4, 7)
+    graph.add_edge(5, 7)
+    graph.add_edge(7, 8)
+    graph.add_edge(8, 9)
+    graph.add_edge(5, 9)
+    graph.add_edge(6, 9)
+    graph.add_edge(1, 10)
+    graph.add_edge(6, 10)
+    graph.add_edge(9, 10)
+    graph.add_edge(2, 11)
+    graph.add_edge(5, 11)
+    graph.add_edge(6, 11)
+    graph.add_edge(10, 11)
+
+    return graph
 
 def generate_non_convex_obstacles() -> PolygonWorld:
     """Generates a simple world that is non-convex and bad for greedy planners"""
@@ -245,3 +289,34 @@ def generate_non_convex_obstacles() -> PolygonWorld:
     V3 = np.array([[10., 10., 12., 12.],
                    [12., 0., 0., 12.]])
     return PolygonWorld(vertices=[V1, V2, V3])
+
+
+def topology_non_convex_obstacles() -> PathGraph:
+    """Generates a topology graph for the non convex obstacles world"""
+    graph = PathGraph()
+
+    # Add the nodes
+    graph.add_node(position=TwoDimArray(x=0., y=0.)) # Node 0
+    graph.add_node(position=TwoDimArray(x=4.75, y=0.8)) # Node 1
+    graph.add_node(position=TwoDimArray(x=0., y=4.5)) # Node 2
+    graph.add_node(position=TwoDimArray(x=0., y=-4.)) # Node 3
+    graph.add_node(position=TwoDimArray(x=7.2, y=8.)) # Node 4
+    graph.add_node(position=TwoDimArray(x=8.5, y=-4.)) # Node 5
+    graph.add_node(position=TwoDimArray(x=8.25, y=-0.75)) # Node 6
+    graph.add_node(position=TwoDimArray(x=13., y=-1.)) # Node 7
+    graph.add_node(position=TwoDimArray(x=18., y=6.)) # Node 8
+
+    # Add the edges
+    graph.add_edge(0, 1)
+    graph.add_edge(0, 2)
+    graph.add_edge(1, 2)
+    graph.add_edge(0, 3)
+    graph.add_edge(1, 3)
+    graph.add_edge(2, 4)
+    graph.add_edge(3, 5)
+    graph.add_edge(4, 6)
+    graph.add_edge(5, 6)
+    graph.add_edge(5, 7)
+    graph.add_edge(7, 8)
+
+    return graph

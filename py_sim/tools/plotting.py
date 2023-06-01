@@ -50,7 +50,7 @@ class DataPlot(Protocol[StateType]):
 class PlotManifest(Generic[StateType]):
     """Defines data necessary for plotting"""
     figs: list[Figure] = []
-    axes: dict[Axes, Figure] = {}
+    axes: dict[str, Axes] = {}
     state_plots: list[StatePlot[StateType]] = []
     data_plots: list[DataPlot[StateType]] = []
 
