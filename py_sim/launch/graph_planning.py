@@ -18,6 +18,8 @@ def test_graph_planner() -> None:
     """
     # Initialize the state and control
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
+    y_limits=(-10, 15)
+    x_limits=(-5, 25)
 
     # Create the obstacle world
     #obstacle_world = poly_world.generate_world_obstacles()
@@ -26,7 +28,8 @@ def test_graph_planner() -> None:
     # Create the graph to be used for planning
     #graph = poly_world.topology_world_obstacles()
     #graph = poly_world.topology_non_convex_obstacles()
-    graph = poly_world.create_visibility_graph(world=obstacle_world)
+    #graph = poly_world.create_visibility_graph(world=obstacle_world)
+    graph = poly_world.create_voronoi_graph(world=obstacle_world, y_limits=y_limits, x_limits=x_limits, resolution=0.1)
 
 
     # Create the starting and stopping indices
@@ -37,8 +40,8 @@ def test_graph_planner() -> None:
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
-                                 y_limits=(-5, 10),
-                                 x_limits=(-5, 25),
+                                 y_limits=y_limits,
+                                 x_limits=x_limits,
                                  world=obstacle_world,
                                  graph=graph
                                  )

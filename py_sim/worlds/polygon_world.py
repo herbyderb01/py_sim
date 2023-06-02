@@ -8,6 +8,7 @@ import numpy as np
 import numpy.typing as npt
 from py_sim.path_planning.graph_search import PathGraph
 from py_sim.tools.sim_types import TwoDimArray
+from scipy.spatial import Voronoi
 
 
 class ConvexPolygon():
@@ -409,5 +410,89 @@ def create_visibility_graph(world: PolygonWorld) -> PathGraph:
             # Check the edge for collision
             if not world.intersects_obstacle(edge=edge, shrink_edge=True):
                 graph.add_edge(node_1=node_1, node_2=node_2)
+
+    return graph
+
+
+from scipy.spatial import voronoi_plot_2d
+import matplotlib.pyplot as plt
+
+def create_voronoi_graph(world: PolygonWorld, x_limits: tuple[float, float], y_limits: tuple[float, float], resolution: float = 1.) -> PathGraph:
+    """ Creates a voronoi graph from the polygon world
+    """
+    # Create points along the boundary
+    points = np.zeros((2,0))
+    x_vals = np.arange(start=x_limits[0], stop=x_limits[1],step=resolution).tolist()
+    y_vals = np.arange(start=y_limits[0], stop=y_limits[1],step=resolution).tolist()
+    for x in x_vals: # top and bottom rows
+        points_tmp = np.array([[x, x],[y_limits[0], y_limits[1]]])
+        points = np.concatenate((points, points_tmp), axis=1)
+    for y in y_vals: # sides
+        points_tmp = np.array([[x_limits[0], x_limits[1]],[y, y]])
+        points = np.concatenate((points, points_tmp), axis=1)
+
+    # Collect all of the points in the polygon world
+    for polygon in world.polygons:
+        points = np.concatenate((points, polygon.points), axis=1)
+
+    # Sample between points in the polygon world
+    for polygon in world.polygons:
+        # Create a set of points that wraps back around to the start of the polygon
+        vertices = np.concatenate((polygon.points, polygon.points[:,0:1]), axis=1)
+
+        # Loop through and add points to the polygon
+        point_a = vertices[:,0:1]
+        for k in range(1, vertices.shape[1]):
+            # Extract a point from the vertices
+            point_b = vertices[:,k:k+1]
+
+            # Get the direction vector
+            dist =np.linalg.norm(point_b-point_a)
+            q = (point_b - point_a)/dist
+
+            # Add points until along the unit vector
+            distances = np.arange(start=resolution, stop=dist-resolution, step=resolution).tolist()
+            for distance in distances:
+                point = point_a + distance*q
+                points = np.concatenate((points, point), axis=1)
+    points = np.transpose(points)
+
+    # Form a voronoi diagram
+    vor = Voronoi(points=points)
+
+    fig = voronoi_plot_2d(vor)
+    plt.show(block=False)
+
+    # Add the voronoi points to the graph
+    graph = PathGraph()
+    for k in range(vor.vertices.shape[0]):
+        graph.add_node(position=TwoDimArray(x=vor.vertices[k,0],
+                                            y=vor.vertices[k,1]))
+
+
+    # Add in the edges for each of the voronoi edges
+    for vertices in vor.ridge_vertices:
+        if len(vertices) > 2:
+            raise ValueError("Expecting only two nodes. Need to reimplement for more")
+        node_1 = vertices[0]
+        node_2 = vertices[1]
+
+        # Skip if either of the points is equal to -1
+        if node_1 < 0 or node_2 < 0:
+            continue
+
+        # Check to ensure that the edge is within bounds
+        edge = np.zeros((2,2))
+        edge[:,0] = graph.node_location[node_1]
+        edge[:,1] = graph.node_location[node_2]
+        if edge[0,0] > x_limits[1] or edge[0,0] < x_limits[0] or \
+           edge[0,1] > x_limits[1] or edge[0,1] < x_limits[0] or \
+           edge[1,0] > y_limits[1] or edge[1,0] < y_limits[0] or \
+           edge[1,1] > y_limits[1] or edge[1,1] < y_limits[0]:
+            continue
+
+        # Check the edge for collision
+        if not world.intersects_obstacle(edge=edge):
+            graph.add_edge(node_1=node_1, node_2=node_2)
 
     return graph
