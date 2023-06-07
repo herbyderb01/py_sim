@@ -34,9 +34,11 @@ class PathGraph:
     def __init__(self) -> None:
         """Initializes the data structures"""
         self.graph = nx.Graph() # Stores the graph nodes and edges
-        self.node_count: int = 0 # Stores the number of nodes in the graph (used for adding nodes)
         self.node_location: dict[int, npt.NDArray[Any]] = {}# Maps from the node number to the node position (shape (2,))
         self.rtree = index.Index() # Used for nearest neighbor searching
+
+        # Private variables
+        self._last_index: int = 0 # Stores a counter for node indices
 
     def add_node(self, position: TwoDimArray) -> int:
         """Adds a node given the position. The node location is assumed unique, but not checked
@@ -48,7 +50,7 @@ class PathGraph:
                 The node index added
         """
         # Add the position to the node location
-        node_index = self.node_count
+        node_index = self._last_index
         self.node_location[node_index] = np.array([position.x, position.y])
 
         # Add the position to the rtree (note that a repeat of the position is used as
@@ -57,7 +59,7 @@ class PathGraph:
 
         # Add the node to the graph
         self.graph.add_node(node_index)
-        self.node_count += 1
+        self._last_index += 1
 
         return node_index
 
@@ -193,3 +195,14 @@ class PathGraph:
             nearest_points.append(self.node_location[ind])
 
         return nearest_points, nearest_ind
+
+    def node_count(self) -> int:
+        """Returns the number of nodes in the graph"""
+        return len(self.node_location)
+
+    def remove(self, node: int) -> None:
+        """Removes the node from the graph if it exists"""
+        if node in self.node_location:
+            q = self.node_location.pop(node)
+            self.graph.remove_node(n=node)
+            self.rtree.delete(id=node, coordinates=(q.item(0), q.item(1), q.item(0), q.item(1)))

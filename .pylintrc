@@ -86,7 +86,6 @@ disable=raw-checker-failed,
         ungrouped-imports,
         consider-using-f-string,
         unspecified-encoding,
-        too-many-boolean-expressions,
         no-member, # Removes no-member checking - should be fixed
         no-name-in-module, # Should be fixed
         super-with-arguments, # Should be fixed for proper python styling

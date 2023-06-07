@@ -402,7 +402,7 @@ def create_visibility_graph(world: PolygonWorld) -> PathGraph:
         edge[:,0] = graph.node_location[node_1]
 
         # Check all possible nodes
-        for k in range(index+1, graph.node_count):
+        for k in range(index+1, graph.node_count()):
             # Create the edge
             node_2 = nodes[k]
             edge[:,1] = graph.node_location[node_2]
@@ -412,10 +412,6 @@ def create_visibility_graph(world: PolygonWorld) -> PathGraph:
                 graph.add_edge(node_1=node_1, node_2=node_2)
 
     return graph
-
-
-import matplotlib.pyplot as plt
-from scipy.spatial import voronoi_plot_2d
 
 
 def create_voronoi_graph(world: PolygonWorld,
@@ -464,21 +460,25 @@ def create_voronoi_graph(world: PolygonWorld,
             point_a = point_b
     points = np.transpose(points)
 
-    # Plot the points
-    _, ax = plt.subplots()
-    ax.plot(points[:,0], points[:,1], 'o')
-
     # Form a voronoi diagram
     vor = Voronoi(points=points)
 
-    _ = voronoi_plot_2d(vor)
-    plt.show(block=False)
-
     # Add the voronoi points to the graph
     graph = PathGraph()
+    vor_to_graph: dict[int, int] = {}
     for k in range(vor.vertices.shape[0]):
-        graph.add_node(position=TwoDimArray(x=vor.vertices[k,0],
-                                            y=vor.vertices[k,1]))
+        # Check to ensure that the node is outside the obstacles
+        position=TwoDimArray(x=vor.vertices[k,0], y=vor.vertices[k,1])
+        if world.inside_obstacle(point=position.state):
+            continue
+
+        # Check to ensure that the node is inside the bounds
+        if position.x < x_limits[0] or position.x > x_limits[1] or \
+           position.y < y_limits[0] or position.y > y_limits[1]:
+            continue
+
+        # Add the node to the graph
+        vor_to_graph[k] = graph.add_node(position=position)
 
 
     # Add in the edges for each of the voronoi edges
@@ -492,18 +492,17 @@ def create_voronoi_graph(world: PolygonWorld,
         if node_1 < 0 or node_2 < 0:
             continue
 
-        # Check to ensure that the edge is within bounds
-        edge = np.zeros((2,2))
-        edge[:,0] = graph.node_location[node_1]
-        edge[:,1] = graph.node_location[node_2]
-        if edge[0,0] > x_limits[1] or edge[0,0] < x_limits[0] or \
-           edge[0,1] > x_limits[1] or edge[0,1] < x_limits[0] or \
-           edge[1,0] > y_limits[1] or edge[1,0] < y_limits[0] or \
-           edge[1,1] > y_limits[1] or edge[1,1] < y_limits[0]:
+        # Skip if either of the nodes is not in the graph
+        if node_1 not in vor_to_graph or node_2 not in vor_to_graph:
             continue
+
+        # Create the edge
+        edge = np.zeros((2,2))
+        edge[:,0] = graph.node_location[vor_to_graph[node_1] ]
+        edge[:,1] = graph.node_location[vor_to_graph[node_2] ]
 
         # Check the edge for collision
         if not world.intersects_obstacle(edge=edge):
-            graph.add_edge(node_1=node_1, node_2=node_2)
+            graph.add_edge(node_1=vor_to_graph[node_1], node_2=vor_to_graph[node_2])
 
     return graph

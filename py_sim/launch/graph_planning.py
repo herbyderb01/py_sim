@@ -22,8 +22,8 @@ def test_graph_planner() -> None:
     x_limits=(-5, 25)
 
     # Create the obstacle world
-    #obstacle_world = poly_world.generate_world_obstacles()
-    obstacle_world = poly_world.generate_non_convex_obstacles()
+    obstacle_world = poly_world.generate_world_obstacles()
+    #obstacle_world = poly_world.generate_non_convex_obstacles()
 
     # Create the graph to be used for planning
     #graph = poly_world.topology_world_obstacles()
