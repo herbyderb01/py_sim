@@ -414,10 +414,14 @@ def create_visibility_graph(world: PolygonWorld) -> PathGraph:
     return graph
 
 
-from scipy.spatial import voronoi_plot_2d
 import matplotlib.pyplot as plt
+from scipy.spatial import voronoi_plot_2d
 
-def create_voronoi_graph(world: PolygonWorld, x_limits: tuple[float, float], y_limits: tuple[float, float], resolution: float = 1.) -> PathGraph:
+
+def create_voronoi_graph(world: PolygonWorld,
+                         x_limits: tuple[float, float],
+                         y_limits: tuple[float, float],
+                         resolution: float = 1.) -> PathGraph:
     """ Creates a voronoi graph from the polygon world
     """
     # Create points along the boundary
@@ -455,12 +459,19 @@ def create_voronoi_graph(world: PolygonWorld, x_limits: tuple[float, float], y_l
             for distance in distances:
                 point = point_a + distance*q
                 points = np.concatenate((points, point), axis=1)
+
+            # Update for next iteration
+            point_a = point_b
     points = np.transpose(points)
+
+    # Plot the points
+    _, ax = plt.subplots()
+    ax.plot(points[:,0], points[:,1], 'o')
 
     # Form a voronoi diagram
     vor = Voronoi(points=points)
 
-    fig = voronoi_plot_2d(vor)
+    _ = voronoi_plot_2d(vor)
     plt.show(block=False)
 
     # Add the voronoi points to the graph

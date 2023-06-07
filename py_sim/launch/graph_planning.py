@@ -34,7 +34,7 @@ def test_graph_planner() -> None:
 
     # Create the starting and stopping indices
     ind_start = graph.add_node_and_edges(position=TwoDimArray(x=-4.5, y=4.),
-                                         world=obstacle_world)
+                                         world=obstacle_world, n_connections=3)
     ind_end = graph.add_node_and_edges(position=TwoDimArray(x=22.5, y=3.),
                                        world=obstacle_world)
 

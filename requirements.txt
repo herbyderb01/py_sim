@@ -10,3 +10,4 @@ mypy
 matplotlib
 networkx
 control
+rtree

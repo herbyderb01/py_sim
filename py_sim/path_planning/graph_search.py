@@ -7,6 +7,8 @@ import networkx as nx
 import numpy as np
 import numpy.typing as npt
 from py_sim.tools.sim_types import TwoDimArray
+from rtree import index
+
 
 class World(Protocol):
     """Defines the intersection method required for the path graph"""
@@ -34,6 +36,7 @@ class PathGraph:
         self.graph = nx.Graph() # Stores the graph nodes and edges
         self.node_count: int = 0 # Stores the number of nodes in the graph (used for adding nodes)
         self.node_location: dict[int, npt.NDArray[Any]] = {}# Maps from the node number to the node position (shape (2,))
+        self.rtree = index.Index() # Used for nearest neighbor searching
 
     def add_node(self, position: TwoDimArray) -> int:
         """Adds a node given the position. The node location is assumed unique, but not checked
@@ -48,22 +51,30 @@ class PathGraph:
         node_index = self.node_count
         self.node_location[node_index] = np.array([position.x, position.y])
 
+        # Add the position to the rtree (note that a repeat of the position is used as
+        # a point is being added. rtree supports rectangles)
+        self.rtree.insert(id=node_index, coordinates=(position.x, position.y, position.x, position.y) )
+
         # Add the node to the graph
         self.graph.add_node(node_index)
         self.node_count += 1
 
         return node_index
 
-    def add_node_and_edges(self, position: TwoDimArray, world: World) -> int:
+    def add_node_and_edges(self, position: TwoDimArray, world: World, n_connections: int = 1) -> int:
         """Adds a node as well as edges to all other nodes that do not intersect with the obstacles
 
             Inputs:
                 position: Node position to be added
                 world: Polygon world used to check for obstacles
+                n_connections: The number of connections to add
 
             Returns:
                 The index for the node added
         """
+        # Get the nearest connection indices (times 10 to account for obstacles)
+        nearest_points, nearest_ind = self.nearest(point=position, n_nearest=n_connections*10)
+
         # Add the node to the graph
         ind_node = self.add_node(position=position)
 
@@ -73,17 +84,19 @@ class PathGraph:
         edge[1,0] = position.y
 
         # Loop through all possible new edges and add them if they do not intersect with obstacle
-        for node, node_position in self.node_location.items():
-            # Check for self
-            if node == ind_node:
-                continue
-
+        edge_added_count = 0
+        for node, node_position in zip(nearest_ind, nearest_points):
             # Create the edge using the new position
             edge[:,1] = node_position
 
             # Check the edge for collisions with obstacles
             if not world.intersects_obstacle(edge=edge, shrink_edge=True):
                 self.add_edge(ind_node, node)
+
+            # Update the edge count
+            edge_added_count += 1
+            if edge_added_count >= n_connections:
+                break
 
         return ind_node
 
@@ -133,7 +146,6 @@ class PathGraph:
         # Return the converted path
         return (x_vec, y_vec)
 
-
     def calculate_path_length(self, nodes: list[int]) -> float:
         """Calculates the length of the path through a graph"""
         # Zero path if the number of nodes is less than two
@@ -157,3 +169,27 @@ class PathGraph:
             q_prev = q
 
         return length
+
+    def nearest(self, point: TwoDimArray, n_nearest: int = 1) -> tuple[list[npt.NDArray[Any]], list[int]]:
+        """Finds the n_nearest neighbors to the given point
+
+            Inputs:
+                point: Point around which to find the nearest neighbors
+                n_nearest: The number of nearest neighbors to find
+
+            Returns:
+                nearest_points: A list of the nearest neighbors found. Each is a (2,) array
+                    Can be more than n_nearest if points are equidistant
+                    Can be less than n_nearest if there are less points
+                nearest_ind: The corresponding indices
+        """
+        # Initialize the output
+        nearest_points: list[npt.NDArray[Any]] = []
+
+        # Loop through all of the nearest points
+        nearest_ind = cast(list[int], list(self.rtree.nearest(coordinates= \
+                        (point.x, point.y, point.x, point.y), num_results=n_nearest)) )
+        for ind in nearest_ind:
+            nearest_points.append(self.node_location[ind])
+
+        return nearest_points, nearest_ind
