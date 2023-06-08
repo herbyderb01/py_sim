@@ -1,7 +1,7 @@
 """ graph_search.py provides the utilities required for searching a graph to find a plan
 """
 
-from typing import Any, Optional, Protocol, cast
+from typing import Any, Generic, Optional, Protocol, TypeVar, cast
 
 import networkx as nx
 import numpy as np
@@ -26,14 +26,17 @@ class World(Protocol):
                 True if the edge intersects the obstacles, false if it does not
         """
 
-class PathGraph:
+GraphType = TypeVar("GraphType", bound=nx.Graph)
+
+class PathGraph(Generic[GraphType]):
     """ Provides an interface to networkx graph creation to ensure that
         node position information and edge weights are appropriately defined
         for graph search methods
     """
-    def __init__(self) -> None:
-        """Initializes the data structures"""
-        self.graph = nx.Graph() # Stores the graph nodes and edges
+    def __init__(self, graph: GraphType) -> None:
+        """Initializes the data structures
+        """
+        self.graph: GraphType = graph
         self.node_location: dict[int, npt.NDArray[Any]] = {}# Maps from the node number to the node position (shape (2,))
         self.rtree = index.Index() # Used for nearest neighbor searching
 
@@ -206,3 +209,13 @@ class PathGraph:
             q = self.node_location.pop(node)
             self.graph.remove_node(n=node)
             self.rtree.delete(id=node, coordinates=(q.item(0), q.item(1), q.item(0), q.item(1)))
+
+class UndirectedPathGraph(PathGraph[nx.Graph]):
+    """An undirected graph default for the PathGraph"""
+    def __init__(self) -> None:
+        super().__init__(graph=nx.Graph())
+
+class DirectedPathGraph(PathGraph[nx.DiGraph]):
+    """An undirected graph default for the PathGraph"""
+    def __init__(self) -> None:
+        super().__init__(graph=nx.DiGraph())

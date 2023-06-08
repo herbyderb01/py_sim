@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import py_sim.tools.plotting as pt
 from py_sim.path_planning.forward_grid_search import ForwardGridSearch
-from py_sim.path_planning.graph_search import PathGraph
+from py_sim.path_planning.graph_search import GraphType, PathGraph
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
 from py_sim.tools.sim_types import UnicycleStateType, VectorField
 from py_sim.worlds.polygon_world import PolygonWorld
@@ -30,7 +30,7 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                          range_bearing_locations: bool = False,
                          range_bearing_lines: bool = False,
                          planner: Optional[ForwardGridSearch] = None,
-                         graph: Optional[PathGraph] = None
+                         graph: Optional[PathGraph[GraphType]] = None
                          ) -> pt.PlotManifest[UnicycleStateType]:
     """Creates a plot manifest given the following inputs
 

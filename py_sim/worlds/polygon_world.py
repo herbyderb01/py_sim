@@ -6,7 +6,7 @@ from typing import Any, Optional, cast
 
 import numpy as np
 import numpy.typing as npt
-from py_sim.path_planning.graph_search import PathGraph
+from py_sim.path_planning.graph_search import UndirectedPathGraph
 from py_sim.tools.sim_types import TwoDimArray
 from scipy.spatial import Voronoi
 
@@ -282,9 +282,9 @@ def generate_world_obstacles() -> PolygonWorld:
                      [-1.5, -3., -3., -1.5,  0., 0.]])
     return PolygonWorld(vertices=[V1, V2, V3])
 
-def topology_world_obstacles() -> PathGraph:
+def topology_world_obstacles() -> UndirectedPathGraph:
     """Generates a topology graph for the world obstacles world"""
-    graph = PathGraph()
+    graph = UndirectedPathGraph()
 
     # Add the nodes
     graph.add_node(position=TwoDimArray(x=0., y=0.)) # Node 0
@@ -335,9 +335,9 @@ def generate_non_convex_obstacles() -> PolygonWorld:
                    [12., 0., 0., 12.]])
     return PolygonWorld(vertices=[V1, V2, V3])
 
-def topology_non_convex_obstacles() -> PathGraph:
+def topology_non_convex_obstacles() -> UndirectedPathGraph:
     """Generates a topology graph for the non convex obstacles world"""
-    graph = PathGraph()
+    graph = UndirectedPathGraph()
 
     # Add the nodes
     graph.add_node(position=TwoDimArray(x=0., y=0.)) # Node 0
@@ -365,12 +365,12 @@ def topology_non_convex_obstacles() -> PathGraph:
 
     return graph
 
-def create_visibility_graph(world: PolygonWorld) -> PathGraph:
+def create_visibility_graph(world: PolygonWorld) -> UndirectedPathGraph:
     """ Creates a visibility graph from the polygon world
     """
 
     # Add in all edges corresponding to edges in the polygon
-    graph = PathGraph()
+    graph = UndirectedPathGraph()
     for polygon in world.polygons: # Loop through all of the convex polygons
         node_ind_prev = 0 # Stores the first node index
         first_ind = 0 # Stores the index of the first node added
@@ -417,7 +417,7 @@ def create_visibility_graph(world: PolygonWorld) -> PathGraph:
 def create_voronoi_graph(world: PolygonWorld,
                          x_limits: tuple[float, float],
                          y_limits: tuple[float, float],
-                         resolution: float = 1.) -> PathGraph:
+                         resolution: float = 1.) -> UndirectedPathGraph:
     """ Creates a voronoi graph from the polygon world
     """
     # Create points along the boundary
@@ -464,7 +464,7 @@ def create_voronoi_graph(world: PolygonWorld,
     vor = Voronoi(points=points)
 
     # Add the voronoi points to the graph
-    graph = PathGraph()
+    graph = UndirectedPathGraph()
     vor_to_graph: dict[int, int] = {}
     for k in range(vor.vertices.shape[0]):
         # Check to ensure that the node is outside the obstacles
