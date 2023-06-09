@@ -14,7 +14,7 @@ def get_directed_plan() -> None:
     graph.add_edge(5,3)
 
     # Traverse up through the graph
-    nodes = [3]
+    nodes = [0]
     parent_itr: iter = graph.predecessors(n=nodes[0])
     try:
         while True:

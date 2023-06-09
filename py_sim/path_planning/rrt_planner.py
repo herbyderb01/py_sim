@@ -11,9 +11,30 @@ import numpy.typing as npt
 from py_sim.path_planning.graph_search import DirectedPathGraph as Tree
 from py_sim.path_planning.graph_search import World
 from py_sim.tools.sim_types import TwoDimArray
+from typing import Optional, cast
+
+Cost = dict[int, float] # Storage structure for storing the cost of a node in the graph
+                        # it maps from node index to cost
+
+class StateSpace:
+    """Defines the rectangular limits of a state space"""
+    def __init__(self, x_lim: tuple[float, float], y_lim: tuple[float, float]) -> None:
+        """ Initializes the state space limits. Note that the limits must be increasing.
+
+            Inputs:
+                x_lim: Lower and upper limit for the x value
+                y_lim: lower and upper limit for the y value
+        """
+        # Store the data
+        self.x_lim = x_lim
+        self.y_lim = y_lim
+
+        # Check the limits
+        if x_lim[1] < x_lim[0] or y_lim[1] < y_lim[0]:
+            raise ValueError("Limits must be increasing")
 
 
-def initialize(root: TwoDimArray) -> Tree:
+def initialize(root: TwoDimArray) -> tuple[Tree, Cost]:
     """Returns an initialized tree with the given root and no edges
 
         Inputs:
@@ -21,16 +42,21 @@ def initialize(root: TwoDimArray) -> Tree:
         Returns:
             Initialize tree
     """
+    # Intiailize the tree
     tree = Tree()
-    tree.add_node(position=root)
-    return tree
+    root_ind = tree.add_node(position=root)
 
-def sample(x_lim: tuple[float, float], y_lim: tuple[float, float]) -> TwoDimArray:
+    # Initialize the cost
+    cost: Cost = {}
+    cost[root_ind] = 0.
+
+    return (tree, cost)
+
+def sample(X: StateSpace) -> TwoDimArray:
     """Returns a random state from the set with the specified limits
 
         Inputs:
-            x_lim: Limits along the x-axis
-            y_lim: Limits along the y-axis
+            X: State space for sampling
 
         Returns:
             Position generated uniformly within the limits
@@ -39,8 +65,24 @@ def sample(x_lim: tuple[float, float], y_lim: tuple[float, float]) -> TwoDimArra
     scale = np.random.random((2,))
 
     # Return the random position
-    return TwoDimArray(x=x_lim[0]+scale.item(0)*(x_lim[1]-x_lim[0]),
-                       y=y_lim[0]+scale.item(1)*(y_lim[1]-y_lim[0]))
+    return TwoDimArray(x=X.x_lim[0]+scale.item(0)*(X.x_lim[1]-X.x_lim[0]),
+                       y=X.y_lim[0]+scale.item(1)*(X.y_lim[1]-X.y_lim[0]))
+
+def biased_sample(iteration: int, bias_t: int, X: StateSpace, X_t: StateSpace) -> TwoDimArray:
+    """ Returns a biased sampling of the state space. X is sampled uniformly except when mod(iteration, bias_t) == 0
+
+        Inputs:
+            iteration: the iteration number for the sampling
+            bias_t: The sampling bias period
+            X: The large state space
+            X_t: The smaller, target state space
+
+        Outputs:
+            A random sample of the state space
+    """
+    if np.mod(iteration, bias_t) == 0:
+        return sample(X=X_t)
+    return sample(X=X)
 
 def nearest(x: TwoDimArray, tree: Tree) -> tuple[TwoDimArray, float]:
     """Returns the state in the tree nearest to x
@@ -96,19 +138,42 @@ def steer(x: TwoDimArray, y: TwoDimArray, dist: float) -> TwoDimArray:
     # Find the point in the direction of y
     return TwoDimArray(vec=x.state+dist*u)
 
-def insert_node(new_node: TwoDimArray, parent_ind: int, tree: Tree) -> int:
-    """Adds the node, new_node, into the tree with parent_ind indicating the parent index
+def edge_cost(node_1: TwoDimArray, node_2: TwoDimArray) -> float:
+    """Calculates the cost of an edge. Uses euclidean distance
+
+        Inputs:
+            node_1- The first point
+            node_2- The second point
+
+        Output
+            The cost of the edge
+    """
+    diff = node_1.state - node_2.state
+    return float(np.linalg.norm(diff))
+
+def insert_node(new_node: TwoDimArray, parent_ind: int, tree: Tree, cost: Cost) -> int:
+    """ Adds the node, new_node, into the tree with parent_ind indicating the parent index. The cost
+        to the new node is then updated using edge_cost
 
         Inputs:
             new_node: Node position to be added to the tree
             parent_ind: Index of the parent to which the node will be added
             tree: search tree
+            cost: dictionary of costs to be updated
 
         Returns:
             Index of the new node within the tree
     """
+    # Calculate the edge length
+    edgelength = edge_cost(node_1=new_node, node_2=tree.get_node_position(node=parent_ind))
+
+    # Adds the index to the tree
     new_index = tree.add_node(position=new_node)
-    tree.add_edge(node_1=parent_ind, node_2=new_index)
+    tree.add_edge(node_1=parent_ind, node_2=new_index, weight=edgelength)
+
+    # Adds the cost of the new node to the cost dictionary
+    cost[new_index] = cost[parent_ind] + edgelength
+
     return new_index
 
 def solution(node_index: int, tree: Tree) -> tuple[list[float], list[float], list[int]]:
@@ -134,7 +199,7 @@ def solution(node_index: int, tree: Tree) -> tuple[list[float], list[float], lis
     try:
         while True:
             # Get the node information
-            node_index = parent_itr.__next__()
+            node_index = next(parent_itr)
             position = tree.node_location[node_index]
 
             # Store the information
@@ -153,7 +218,7 @@ def solution(node_index: int, tree: Tree) -> tuple[list[float], list[float], lis
     ind_vec.reverse()
     return (x_vec, y_vec, ind_vec)
 
-def path(x_start: TwoDimArray, x_end: TwoDimArray) -> npt.NDArray[Any]:
+def get_path(x_start: TwoDimArray, x_end: TwoDimArray) -> npt.NDArray[Any]:
     """Builds an ordered set of states that connect the state x_start to x_end without considering obstacles
 
         The current implementation only puts x_start and x_end together. Future modifications could
@@ -169,7 +234,7 @@ def path(x_start: TwoDimArray, x_end: TwoDimArray) -> npt.NDArray[Any]:
     """
     edge = np.zeros((2,2))
     edge[:,0:1] = x_start.state
-    edge[:,1:2] = x_start.state
+    edge[:,1:2] = x_end.state
     return edge
 
 def collision_free(path: npt.NDArray[Any], world: World) -> bool:
@@ -193,3 +258,53 @@ def collision_free(path: npt.NDArray[Any], world: World) -> bool:
 
     # Indicate that no collision was found
     return True
+
+def parent(ind_c: int, tree: Tree) -> Optional[int]:
+    """ Returns the parent index of the node corresponding to ind_c or None if the node is the root
+
+        Inputs:
+            ind_c: The index of the node being evaluated
+            tree: search tree
+
+        Outputs:
+            Index of the parent node, None if it does not exist
+    """
+    try:
+        parent_itr = tree.graph.predecessors(n=ind_c)
+        return cast(int, next(parent_itr))
+    except:
+        return None
+
+def children(ind_p: int, tree: Tree) -> list[int]:
+    """ Returns every node that has ind_p as the parent index
+
+        Inputs:
+            ind_p: index of the node being evaluated
+            tree: search tree
+
+        Outputs:
+            List of all of the indices to the children node of the node correponding to ind_p
+    """
+    children_list = cast(list[int], list(tree.graph.successors(n=ind_p)))
+    return children_list
+
+def cost_to_come(x_n: TwoDimArray, ind_p: int, tree: Tree, cost: Cost, world: World) -> float:
+    """ Calculates the cost of x_n if it were connected to the tree to the parent indexed with ind_p.
+    It returns infinite cost if the path is blocked
+
+        Inputs:
+            x_n: Potential new node to be added
+            ind_p: The parent index to which a connection with x_n is being evaluated
+            tree: search tree
+            cost: dictionary of costs
+            world: World through which the edge is beeing added
+
+        Returns:
+            cost of connecting to x_n from the indicated parent index
+    """
+    # Create the path from x_n to ind_p
+    parent_position = tree.get_node_position(node=ind_p)
+    edge = get_path(x_start=parent_position, x_end=x_n)
+    if collision_free(path=edge, world=world):
+        return cost[ind_p] + edge_cost(node_1=parent_position, node_2=x_n)
+    return np.inf

@@ -210,6 +210,18 @@ class PathGraph(Generic[GraphType]):
             self.graph.remove_node(n=node)
             self.rtree.delete(id=node, coordinates=(q.item(0), q.item(1), q.item(0), q.item(1)))
 
+    def get_node_position(self, node: int) -> TwoDimArray:
+        """Returns the position of the given node
+
+            Inputs:
+                node: index of the node being evaluated
+
+            Outputs:
+                The position of the node
+        """
+        node_loc = self.node_location[node]
+        return TwoDimArray(x=node_loc.item(0), y=node_loc.item(1))
+
 class UndirectedPathGraph(PathGraph[nx.Graph]):
     """An undirected graph default for the PathGraph"""
     def __init__(self) -> None:
