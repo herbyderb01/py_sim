@@ -2,11 +2,10 @@
 """
 
 import matplotlib.pyplot as plt
-import networkx as nx
 import py_sim.worlds.polygon_world as poly_world
+from py_sim.path_planning.rrt_planner import StateSpace, path_smooth, rrt
 from py_sim.tools.plot_constructor import create_plot_manifest
 from py_sim.tools.sim_types import TwoDimArray, UnicycleState
-from py_sim.path_planning.rrt_planner import StateSpace, rrt, path_smooth
 
 
 def test_rrt_planner() -> None:

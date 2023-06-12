@@ -707,7 +707,6 @@ class PlanVisitedGridPlotter:
         """Update the visited positions plot"""
         self.handle_im.set_data(self.planner.grid.grid + 0.5*self.planner.visited)
 
-
 def plot_visited(ax: Axes, planner: GridVisitedType) -> AxesImage:
     """Plots the occupancy grid as an image as well as the grid lines. This is much faster
        then plotting the grid cells individually, especially for large occupancy grids.

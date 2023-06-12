@@ -52,7 +52,7 @@ def initialize(root: TwoDimArray) -> tuple[Tree, Cost]:
         Inputs:
             root: Root node to be added to the tree
         Returns:
-            Initialize tree
+            Initialize tree and the resulting dictionary of costs to be updated
     """
     # Intiailize the tree
     tree = Tree()
@@ -171,7 +171,7 @@ def insert_node(new_node: TwoDimArray, parent_ind: int, tree: Tree, cost: Cost) 
             new_node: Node position to be added to the tree
             parent_ind: Index of the parent to which the node will be added
             tree: search tree
-            cost: dictionary of costs to be updated
+            cost: dictionary node indices to costs
 
         Returns:
             Index of the new node within the tree
@@ -221,7 +221,7 @@ def solution(node_index: int, tree: Tree) -> tuple[list[float], list[float], lis
 
             # Get the next parent info
             parent_itr = tree.graph.predecessors(n=node_index_par)
-    except: # An exception is thrown at the root node as it has no parents
+    except StopIteration: # An exception is thrown at the root node as it has no parents
         pass
 
     # Reverse the solution so that it will go from start to end instead of end to start
@@ -284,7 +284,7 @@ def parent(ind_c: int, tree: Tree) -> Optional[int]:
     try:
         parent_itr = tree.graph.predecessors(n=ind_c)
         return cast(int, next(parent_itr))
-    except:
+    except StopIteration:
         return None
 
 def children(ind_p: int, tree: Tree) -> list[int]:
