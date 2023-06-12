@@ -211,16 +211,16 @@ def solution(node_index: int, tree: Tree) -> tuple[list[float], list[float], lis
     try:
         while True:
             # Get the node information
-            node_index = next(parent_itr)
-            position = tree.node_location[node_index]
+            node_index_par = next(parent_itr)
+            position = tree.node_location[node_index_par]
 
             # Store the information
-            ind_vec.append(node_index)
+            ind_vec.append(node_index_par)
             x_vec.append(position.item(0))
             y_vec.append(position.item(1))
 
             # Get the next parent info
-            parent_itr = tree.node_location[node_index]
+            parent_itr = tree.graph.predecessors(n=node_index_par)
     except: # An exception is thrown at the root node as it has no parents
         pass
 
@@ -350,7 +350,7 @@ def rrt(x_root: TwoDimArray,
         X: StateSpace,
         dist: float,
         bias_t: int,
-        world: World) -> tuple[list[float], list[float]]:
+        world: World) -> tuple[list[float], list[float], Tree]:
     """ Performs a search from the root node to the target set using the rapidly exploring random tree algorithm
 
         Inputs:
@@ -365,6 +365,7 @@ def rrt(x_root: TwoDimArray,
             The path through the state space from the start to the end
                 x_vec: Vector of x indices
                 y_vec: Vector of y indices
+                tree: The resulting tree used in planning
     """
 
     # Create the tree and cost storing structures
@@ -384,7 +385,51 @@ def rrt(x_root: TwoDimArray,
             # Evaluate if the solution is complete
             if X_t.contains(state=x_new):
                 x_vec, y_vec, _ = solution(node_index=node_index, tree=tree)
-                return (x_vec, y_vec)
+                return (x_vec, y_vec, tree)
 
         # Update the interation count for the next iteration
         iteration += 1
+
+def path_smooth(x_vec: list[float], y_vec: list[float], world: World) -> tuple[list[float], list[float]]:
+    """ Smooth the set of waypoints given the world. The input path is refined in a suboptimal way
+        to try to eliminate unecessary intermediary nodes
+
+        This is an implementation of the Smooth RRT Path Algorithm 11 from Beard "Small Unmanned Aircraft" book
+    """
+    # Check the inputs
+    n_nodes = len(x_vec)
+    if len(y_vec) != n_nodes or n_nodes < 2:
+        raise ValueError("x and y must be same length with at least two values")
+
+    # Initialize the outputs
+    x_vec_new: list[float] = [x_vec[0]]
+    y_vec_new: list[float] = [y_vec[0]]
+
+    # Initialize the pointers
+    i = 0 # Pointer to the node from which connections are being evaluated
+    j = 2 # Pointer to the node to which connections are being evaluated
+
+    # Loop through and evaluate potential edges
+    while j < n_nodes-1:
+        # Create the potential edge from node i to j
+        edge = np.array([[x_vec[i], x_vec[j]],
+                         [y_vec[i], y_vec[j]]])
+
+        # If the path is not feasible, then update the new path and update pointers
+        if not collision_free(path=edge, world=world):
+            # Add point previous to j to the path (we know we can get there)
+            x_vec_new.append(x_vec[j-1])
+            y_vec_new.append(y_vec[j-1])
+
+            # Update the pointers
+            i = j-1
+
+        # Update j to be the next node
+        j += 1
+
+    # Add the final node from the path
+    x_vec_new.append(x_vec[-1])
+    y_vec_new.append(y_vec[-1])
+
+    # Return the new path
+    return (x_vec_new, y_vec_new)

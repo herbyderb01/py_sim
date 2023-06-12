@@ -30,7 +30,8 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                          range_bearing_locations: bool = False,
                          range_bearing_lines: bool = False,
                          planner: Optional[ForwardGridSearch] = None,
-                         graph: Optional[PathGraph[GraphType]] = None
+                         graph: Optional[PathGraph[GraphType]] = None,
+                         graph_node_size: int = 10
                          ) -> pt.PlotManifest[UnicycleStateType]:
     """Creates a plot manifest given the following inputs
 
@@ -56,6 +57,7 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
             range_bearing_lines: plot the lines for the range bearing measurements
             planner: plots the occupancy grid, visited nodes, and planned path of the grid planner
             graph: plots the graph of possible paths
+            graph_node_size: The size of the node circle in the graph plot
     """
     # Create the manifest to be returned
     plots = pt.PlotManifest[UnicycleStateType]()
@@ -139,6 +141,6 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
 
     # Graph plot
     if graph is not None:
-        nx.drawing.nx_pylab.draw(G=graph.graph, pos=graph.node_location, ax=ax )
+        nx.drawing.nx_pylab.draw(G=graph.graph, pos=graph.node_location, ax=ax, node_size=graph_node_size )
 
     return plots
