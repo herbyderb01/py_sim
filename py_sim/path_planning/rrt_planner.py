@@ -577,7 +577,11 @@ def rrt_star(x_root: TwoDimArray,
             # Rewire the tree
             rewire(ind_p=node_index, ind_near=ind_near, tree=tree, cost=cost, world=world)
 
-            # Evaluate if the solution is complete
+            # Update the minimum cost (rewiring may make the path shorter)
+            if min_index >=0:
+                min_cost = cost[min_index]
+
+            # Evaluate a newly found solution
             if X_t.contains(state=x_new):
                 if cost[node_index] < min_cost:
                     min_cost = cost[node_index]
