@@ -210,6 +210,10 @@ class PathGraph(Generic[GraphType]):
             self.graph.remove_node(n=node)
             self.rtree.delete(id=node, coordinates=(q.item(0), q.item(1), q.item(0), q.item(1)))
 
+    def remove_edge(self, node_1: int, node_2: int) -> None:
+        """Removes the edge, if it exists"""
+        self.graph.remove_edge(u=node_1, v=node_2)
+
     def get_node_position(self, node: int) -> TwoDimArray:
         """Returns the position of the given node
 
@@ -221,6 +225,19 @@ class PathGraph(Generic[GraphType]):
         """
         node_loc = self.node_location[node]
         return TwoDimArray(x=node_loc.item(0), y=node_loc.item(1))
+
+    def get_edge_weight(self, node_1: int, node_2: int) -> float:
+        """ Returns the stored weight of the edge
+
+            Inputs:
+                node_1: parent node
+                node_2: child node
+
+            Returns:
+                The passed in weight
+        """
+        return cast(float, self.graph[node_1][node_2]["weight"])
+
 
 class UndirectedPathGraph(PathGraph[nx.Graph]):
     """An undirected graph default for the PathGraph"""
