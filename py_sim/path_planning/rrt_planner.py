@@ -81,8 +81,6 @@ class StateSpace:
 
         return x_out
 
-
-
 ################ Basic Proceedures #################
 def initialize(root: TwoDimArray) -> tuple[Tree, Cost]:
     """Returns an initialized tree with the given root and no edges
@@ -428,8 +426,6 @@ def rrt(x_root: TwoDimArray,
         # Update the interation count for the next iteration
         iteration += 1
 
-
-
 def path_smooth(x_vec: list[float], y_vec: list[float], world: World) -> tuple[list[float], list[float]]:
     """ Smooth the set of waypoints given the world. The input path is refined in a suboptimal way
         to try to eliminate unecessary intermediary nodes
@@ -643,6 +639,7 @@ def rrt_star(x_root: TwoDimArray,
 
     x_vec, y_vec, _ = solution(node_index=min_index, tree=tree)
     return (x_vec, y_vec, tree)
+
 
 ############### Define I-RRT* Proceedures #####
 def in_ellipse(point: TwoDimArray, center: TwoDimArray, a: float, b: float, alpha: float) -> bool:
