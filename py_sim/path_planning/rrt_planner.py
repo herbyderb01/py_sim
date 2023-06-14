@@ -12,7 +12,6 @@ from py_sim.path_planning.graph_search import DirectedPathGraph as Tree
 from py_sim.path_planning.graph_search import World
 from py_sim.tools.sim_types import TwoDimArray
 
-
 Cost = dict[int, float] # Storage structure for storing the cost of a node in the graph
                         # it maps from node index to cost
 

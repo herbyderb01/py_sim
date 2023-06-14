@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes._axes import Axes
 from matplotlib.figure import Figure
-from py_sim.tools.plotting import DataPlot, PlotManifest, StatePlot
+from py_sim.plotting.plotting import DataPlot, PlotManifest, StatePlot
 from py_sim.tools.sim_types import Data, Slice, StateType
 
 

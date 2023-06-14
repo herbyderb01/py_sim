@@ -5,10 +5,10 @@ import copy
 from typing import Generic
 
 import numpy as np
+from py_sim.plotting.plot_constructor import create_plot_manifest
+from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
 from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
-from py_sim.tools.plot_constructor import create_plot_manifest
-from py_sim.tools.plotting import PlotManifest
 from py_sim.tools.sim_types import UnicycleControl, UnicycleState, UnicycleStateType
 from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
 

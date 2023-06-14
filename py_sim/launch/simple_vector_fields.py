@@ -6,10 +6,10 @@ from typing import Generic
 from py_sim.dynamics.unicycle import UniVelVecParams
 from py_sim.dynamics.unicycle import dynamics as unicycle_dynamics
 from py_sim.dynamics.unicycle import velocityVectorFieldControl
+from py_sim.plotting.plot_constructor import create_plot_manifest
+from py_sim.plotting.plotting import PlotManifest
 from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
 from py_sim.sim.integration import euler_update
-from py_sim.tools.plot_constructor import create_plot_manifest
-from py_sim.tools.plotting import PlotManifest
 from py_sim.tools.sim_types import (
     ControlParamType,
     Dynamics,

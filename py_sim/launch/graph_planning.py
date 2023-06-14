@@ -4,7 +4,7 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 import py_sim.worlds.polygon_world as poly_world
-from py_sim.tools.plot_constructor import create_plot_manifest
+from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.tools.sim_types import TwoDimArray, UnicycleState
 
 

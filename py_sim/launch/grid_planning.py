@@ -7,10 +7,10 @@ from typing import Generic
 import matplotlib.pyplot as plt
 import py_sim.path_planning.forward_grid_search as search
 import py_sim.worlds.polygon_world as poly_world
+from py_sim.plotting.plot_constructor import create_plot_manifest
+from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
 from py_sim.sim.generic_sim import SingleAgentSim
-from py_sim.tools.plot_constructor import create_plot_manifest
-from py_sim.tools.plotting import PlotManifest
 from py_sim.tools.sim_types import (
     TwoDimArray,
     UnicycleControl,

@@ -4,7 +4,7 @@ from typing import Optional
 
 import matplotlib.pyplot as plt
 import networkx as nx
-import py_sim.tools.plotting as pt
+import py_sim.plotting.plotting as pt
 from py_sim.path_planning.forward_grid_search import ForwardGridSearch
 from py_sim.path_planning.graph_search import GraphType, PathGraph
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
