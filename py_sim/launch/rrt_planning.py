@@ -1,12 +1,15 @@
 """grid_planning.py: Provides a framework for visualization of planning using an occupancy grid
 """
 
+from typing import cast
+
 import matplotlib.pyplot as plt
 import numpy as np
+import py_sim.path_planning.rrt_planner as rrt
 import py_sim.worlds.polygon_world as poly_world
-from py_sim.path_planning.rrt_planner import StateSpace, path_smooth, rrt, rrt_star
 from py_sim.tools.plot_constructor import create_plot_manifest
 from py_sim.tools.sim_types import TwoDimArray, UnicycleState
+
 
 def path_length(x_vec: list[float], y_vec: list[float]) -> float:
     """Calculates the length of the path given the x and y coordinates
@@ -26,7 +29,7 @@ def path_length(x_vec: list[float], y_vec: list[float]) -> float:
     # Loop through each segment of the path
     for k in range(1,len(x_vec)):
         x_next = path[:,k:k+1]
-        dist += np.linalg.norm(x_next-x_prev)
+        dist += cast(float, np.linalg.norm(x_next-x_prev))
         x_prev = x_next # Setup for next iteration
 
     # Return the path length
@@ -45,32 +48,40 @@ def test_rrt_planner() -> None:
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
     y_limits=(-10, 15)
     x_limits=(-5, 25)
-    X: StateSpace = StateSpace(x_lim=x_limits, y_lim=y_limits) # space used for planning
-    Xt: StateSpace = StateSpace(x_lim=(22., 22.), y_lim=(3., 3.)) # goal set
+    X: rrt.StateSpace = rrt.StateSpace(x_lim=x_limits, y_lim=y_limits) # space used for planning
+    Xt: rrt.StateSpace = rrt.StateSpace(x_lim=(22., 22.), y_lim=(3., 3.)) # goal set
 
     # Create the obstacle world
-    #obstacle_world = poly_world.generate_world_obstacles()
-    obstacle_world = poly_world.generate_non_convex_obstacles()
+    obstacle_world = poly_world.generate_world_obstacles()
+    #obstacle_world = poly_world.generate_non_convex_obstacles()
 
     # Create a plan
     x_start = TwoDimArray(x=-4.5, y=4.)
-    # x_vec, y_vec, tree = rrt(x_root=x_start,
-    #                          X_t=Xt,
-    #                          X=X,
-    #                          dist=3.,
-    #                          bias_t=100,
-    #                          world=obstacle_world)
-    x_vec, y_vec, tree = rrt_star(x_root=x_start,
-                                  X_t=Xt,
-                                  X=X,
-                                  dist=3.,
-                                  bias_t=50,
-                                  world=obstacle_world,
-                                  num_iterations=10000,
-                                  num_nearest=10)
+    # x_vec, y_vec, tree = rrt.rrt(x_root=x_start,
+    #                              X_t=Xt,
+    #                              X=X,
+    #                              dist=3.,
+    #                              bias_t=100,
+    #                              world=obstacle_world)
+    # x_vec, y_vec, tree = rrt.rrt_star(x_root=x_start,
+    #                                   X_t=Xt,
+    #                                   X=X,
+    #                                   dist=3.,
+    #                                   bias_t=50,
+    #                                   world=obstacle_world,
+    #                                   num_iterations=10000,
+    #                                   num_nearest=10)
+    x_vec, y_vec, tree = rrt.rrt_star_informed(x_root=x_start,
+                                               X_t=Xt,
+                                               X=X,
+                                               dist=3.,
+                                               bias_t=50,
+                                               world=obstacle_world,
+                                               num_iterations=10000,
+                                               num_nearest=10)
 
     # Smooth the resulting plan
-    x_vec_smooth, y_vec_smooth = path_smooth(x_vec=x_vec, y_vec=y_vec, world=obstacle_world)
+    x_vec_smooth, y_vec_smooth = rrt.path_smooth(x_vec=x_vec, y_vec=y_vec, world=obstacle_world)
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
@@ -78,7 +89,7 @@ def test_rrt_planner() -> None:
                                  x_limits=x_limits,
                                  world=obstacle_world,
                                  graph=tree,
-                                 graph_node_size=0.
+                                 graph_node_size=0
                                  )
 
     # Visualize the plan

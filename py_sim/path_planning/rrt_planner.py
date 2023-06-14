@@ -44,6 +44,43 @@ class StateSpace:
         return bool(state.x >= self.x_lim[0] and state.x <= self.x_lim[1] and \
                     state.y >= self.y_lim[0] and state.y <= self.y_lim[1])
 
+    def furthest_point(self, x: TwoDimArray) -> TwoDimArray:
+        """Returns the furthest point in the state space furthest from x
+
+            Inputs:
+                x: An point to evaluate
+
+            Outputs:
+                The furthest point from x
+        """
+        # Evaluate bottom left corner
+        x_out = TwoDimArray(x=self.x_lim[0], y=self.y_lim[0])
+        dist = np.linalg.norm(x_out.state-x.state)
+
+        # Evaluate top left corner
+        x_tl = TwoDimArray(x=self.x_lim[0], y=self.y_lim[1])
+        dist_tl = np.linalg.norm(x_tl.state-x.state)
+        if dist_tl > dist:
+            dist = dist_tl
+            x_out = x_tl
+
+        # Evaluate top right corner
+        x_tr = TwoDimArray(x=self.x_lim[1], y=self.y_lim[1])
+        dist_tr = np.linalg.norm(x_tr.state-x.state)
+        if dist_tr > dist:
+            dist = dist_tr
+            x_out = x_tr
+
+        # Evaluate bottom right corner
+        x_br = TwoDimArray(x=self.x_lim[1], y=self.y_lim[0])
+        dist_br = np.linalg.norm(x_br.state-x.state)
+        if dist_br > dist:
+            dist = dist_br
+            x_out = x_br
+
+        return x_out
+
+
 
 ################ Basic Proceedures #################
 def initialize(root: TwoDimArray) -> tuple[Tree, Cost]:
@@ -443,7 +480,12 @@ def path_smooth(x_vec: list[float], y_vec: list[float], world: World) -> tuple[l
 
 
 ############### RRT* Proceedures ############
-def extend_star(x_rand: TwoDimArray, tree: Tree, dist: float, cost: Cost, world: World, n_nearest: int) -> tuple[TwoDimArray, int, float, list[int]]:
+def extend_star(x_rand: TwoDimArray,
+                tree: Tree,
+                dist: float,
+                cost: Cost,
+                world: World,
+                n_nearest: int) -> tuple[TwoDimArray, int, float, list[int]]:
     """ Given a tree, the extend* procedure finds the best "local" connection for extending the tree in the direction of
         a random sample from the state space. It returns a new point to be added to the tree as well as the parent
 
@@ -567,7 +609,8 @@ def rrt_star(x_root: TwoDimArray,
     for iteration in range(num_iterations):
         # Extend the tree towards a biased sample
         x_rand = biased_sample(iteration=iteration, bias_t=bias_t, X=X, X_t=X_t)
-        x_new, ind_p, cost_new, ind_near = extend_star(x_rand=x_rand, tree=tree, dist=dist, cost=cost, world=world, n_nearest=num_nearest)
+        x_new, ind_p, cost_new, ind_near = \
+            extend_star(x_rand=x_rand, tree=tree, dist=dist, cost=cost, world=world, n_nearest=num_nearest)
 
         # Insert the point into the tree
         if cost_new < np.inf:
@@ -595,5 +638,202 @@ def rrt_star(x_root: TwoDimArray,
         print("Solution not found, returning the point that got the closest")
         _, min_index = nearest(x=sample(X=X_t), tree=tree)
 
-    x_vec, y_vec, ind_vec = solution(node_index=min_index, tree=tree)
+    x_vec, y_vec, _ = solution(node_index=min_index, tree=tree)
+    return (x_vec, y_vec, tree)
+
+############### Define I-RRT* Proceedures #####
+def in_ellipse(point: TwoDimArray, center: TwoDimArray, a: float, b: float, alpha: float) -> bool:
+    """ returns true if the given point is within the defined ellipse
+
+        Inputs:
+            point: The point being evaluated
+            center: The center point of the ellipse
+            a: The major axis radius
+            b: The minor axis radius
+            alpha: The angle from the x axis of the ellipse
+
+        Outputs:
+            True if **point** in the ellipse, False otherwise
+    """
+    # Translate the point so that (0,0) corresponds to the center
+    p = TwoDimArray(vec=point.state-center.state) # translated point so that the center is the adjusted origin
+
+    # Precalculate trig values
+    c_alpha = np.cos(alpha)
+    s_alpha = np.sin(alpha)
+
+    # Evaluate the ellipse function (v == 0 <=> on boundary, v < 0 <=> inside)
+    v = (p.x*c_alpha + p.y*s_alpha)**2 / a**2 + (p.x*s_alpha-p.y*c_alpha)**2/b**2 - 1
+
+    return bool(v < 0)
+
+def bias_sample_ellipse(iteration: int, bias_t: int, X: StateSpace, X_t: StateSpace,
+                        center: TwoDimArray, a: float, b: float, alpha: float ) -> TwoDimArray:
+    """ Performs a biased sampling of an ellipse. Note that X_t in X X_t must intersect with the
+        ellipse. If a value cannot be found then a ValueError will be raised
+
+        Inputs:
+            iteration: the iteration number for the sampling
+            bias_t: The sampling bias period
+            X: The large state space
+            X_t: The smaller, target state space
+            center: The center point of the ellipse
+            a: The major axis radius
+            b: The minor axis radius
+            alpha: The angle from the x axis of the ellipse
+
+        Returns:
+            Point inside the ellipse obtained through a uniform sampling distribution
+    """
+    # Sample until a valid point is found
+    for _ in range(1000):
+        x_rand = biased_sample(iteration=iteration, bias_t=bias_t, X=X, X_t=X_t)
+        if in_ellipse(point=x_rand, center=center, a=a, b=b, alpha=alpha):
+            return x_rand
+    raise ValueError("Unable to find valid sample in ellipse")
+
+class InformedSampler:
+    """InformedSampler maintains parameters required for informed sampling"""
+    def __init__(self, X: StateSpace, x_start: TwoDimArray, x_end: TwoDimArray) -> None:
+        """Create the initial parameters"""
+        self._c_min = np.linalg.norm(x_end.state-x_start.state)
+        self._c_best: float = np.inf # The best cost seen / major axis diameter
+
+        # Ellipse parameters
+        self._center = TwoDimArray(vec=(x_start.state+x_end.state)/2.)
+        self._alpha = np.arctan2(x_end.y-x_start.y, x_end.x-x_start.x)
+        self._a: float = np.inf # The major axis radius
+        self._b: float = np.inf # The minor axis radius
+
+        # Bounding box parameters
+        self._X = X # Maintains the bounding state space in which to sample
+        self._X_bound = StateSpace(x_lim=self._X.x_lim, y_lim=self._X.y_lim) # Bound for sampling ellipse
+        self._c_a = np.cos(self._alpha)
+        self._s_a = np.sin(self._alpha)
+
+    def sample(self, iteration: int, bias_t: int, X_t: StateSpace) -> TwoDimArray:
+        """Performs a biased sampling over the informed ellipse
+
+            Inputs:
+                iteration: the iteration number for the sampling
+                bias_t: The sampling bias period
+                X: The large state space
+                X_t: The smaller, target state space
+
+            Outputs:
+                A random sample of the informed state space
+        """
+        # Perform sampling as normal until the cost is found
+        if self._c_best < np.inf:
+            return biased_sample(iteration=iteration, bias_t=bias_t, X=self._X, X_t=X_t)
+        return bias_sample_ellipse(iteration=iteration,
+                                   bias_t=bias_t,
+                                   X=self._X_bound,
+                                   X_t=X_t,
+                                   center=self._center,
+                                   a=self._a,
+                                   b=self._b,
+                                   alpha=self._alpha)
+
+    def update_best(self, c_best: float) -> None:
+        """ Updates the informed ellipse parameters based on the new best cost
+
+            Inputs:
+                c_best: The best path cost seen
+        """
+        # Update ellipse parameters
+        self._c_best = c_best
+        self._a = c_best/2.
+        self._b = np.sqrt(self._c_best**2 - self._c_min**2) / 2.
+
+        # Determine range of ellipse bounding box
+        A = self._c_a**2/self._a**2 + self._s_a**2/self._b**2
+        B = 2*self._c_a*self._s_a*(1/self._a**2 - 1/self._b**2)
+        C = self._s_a**2/self._a**2+self._c_a**2/self._b**2
+        F = -1.
+        x_diff = np.sqrt((4.*C*F)/(B**2-4*A*C))
+        y_diff =np.sqrt((4.*A*F)/(B**2-4*A*C))
+
+        # Update ellipse bounding box parameters
+        x_lim_low = np.max([self._X.x_lim[0], self._center.x-x_diff])
+        x_lim_up = np.min([self._X.x_lim[1], self._center.x+x_diff])
+        y_lim_low = np.max([self._X.y_lim[0], self._center.y-y_diff])
+        y_lim_up = np.min([self._X.y_lim[1], self._center.y+y_diff])
+        self._X_bound = StateSpace(x_lim=(x_lim_low, x_lim_up), y_lim=(y_lim_low, y_lim_up))
+
+def rrt_star_informed(x_root: TwoDimArray,
+                      X_t: StateSpace,
+                      X: StateSpace,
+                      dist: float,
+                      bias_t: int,
+                      world: World,
+                      num_iterations: int,
+                      num_nearest: int) -> tuple[list[float], list[float], Tree]:
+    """ Performs a search from the root node to the target set using the rapidly exploring
+        random tree algorithm with an informed sampling set
+
+        Note that if X_t is a single point, the produced tree may have multiple nodes corresponding to the same goal point.
+
+        Inputs:
+            x_root: The root of the tree (i.e., the starting point of the search)
+            X_t: target set
+            X: state space
+            dist: maximum distance for extending the tree
+            bias_t: biasing of the state space
+            world: the world through which the search is being made
+            num_interations: Number of iterations to run the rrt_star
+            num_nearest: Number of nearest agents to use in the extend-star and rewire algorithms
+
+        Returns:
+            The path through the state space from the start to the end
+                x_vec: Vector of x indices
+                y_vec: Vector of y indices
+                tree: The resulting tree used in planning
+    """
+
+    # Create the tree and cost storing structures
+    tree, cost = initialize(root=x_root)
+
+    # Create the sampler
+    sampler = InformedSampler(X=X, x_start=x_root, x_end=furthest_point(X=X_t, x=x_root))
+
+    # Loop through the space until a solution is found
+    iteration = 0 # Stores the interation count
+    min_index = -1 # Stores the index of the minimum cost terminal node
+    min_cost = np.inf # Stores the cost of the shortest found solution
+    for iteration in range(num_iterations):
+        # Extend the tree towards a biased sample
+        x_rand = sampler.sample(iteration=iteration, bias_t=bias_t, X_t=X_t)
+        x_new, ind_p, cost_new, ind_near = \
+            extend_star(x_rand=x_rand, tree=tree, dist=dist, cost=cost, world=world, n_nearest=num_nearest)
+
+        # Insert the point into the tree
+        if cost_new < np.inf:
+            # Insert the new node
+            node_index = insert_node(new_node=x_new, parent_ind=ind_p, tree=tree, cost=cost)
+
+            # Rewire the tree
+            rewire(ind_p=node_index, ind_near=ind_near, tree=tree, cost=cost, world=world)
+
+            # Update the minimum cost (rewiring may make the path shorter)
+            if min_index >=0:
+                if min_cost > cost[min_index]:
+                    min_cost = cost[min_index]
+                    sampler.update_best(c_best=min_cost)
+
+            # Evaluate a newly found solution
+            if X_t.contains(state=x_new):
+                if cost[node_index] < min_cost:
+                    min_cost = cost[node_index]
+                    min_index = node_index
+
+        # Update the interation count for the next iteration
+        iteration += 1
+
+    # Return the best solution. If a solution has not been found, return the one that got the closest
+    if min_index < 0:
+        print("Solution not found, returning the point that got the closest")
+        _, min_index = nearest(x=sample(X=X_t), tree=tree)
+
+    x_vec, y_vec, _ = solution(node_index=min_index, tree=tree)
     return (x_vec, y_vec, tree)
