@@ -12,6 +12,7 @@ from py_sim.path_planning.graph_search import DirectedPathGraph as Tree
 from py_sim.path_planning.graph_search import World
 from py_sim.tools.sim_types import TwoDimArray
 
+
 Cost = dict[int, float] # Storage structure for storing the cost of a node in the graph
                         # it maps from node index to cost
 
@@ -427,6 +428,8 @@ def rrt(x_root: TwoDimArray,
         # Update the interation count for the next iteration
         iteration += 1
 
+
+
 def path_smooth(x_vec: list[float], y_vec: list[float], world: World) -> tuple[list[float], list[float]]:
     """ Smooth the set of waypoints given the world. The input path is refined in a suboptimal way
         to try to eliminate unecessary intermediary nodes
@@ -795,7 +798,7 @@ def rrt_star_informed(x_root: TwoDimArray,
     tree, cost = initialize(root=x_root)
 
     # Create the sampler
-    sampler = InformedSampler(X=X, x_start=x_root, x_end=furthest_point(X=X_t, x=x_root))
+    sampler = InformedSampler(X=X, x_start=x_root, x_end=X_t.furthest_point(x=x_root))
 
     # Loop through the space until a solution is found
     iteration = 0 # Stores the interation count
