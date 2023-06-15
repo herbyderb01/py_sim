@@ -86,16 +86,12 @@ disable=raw-checker-failed,
         ungrouped-imports,
         consider-using-f-string,
         unspecified-encoding,
+        no-name-in-module,
         too-many-arguments, # If passing variable by name then this isn't a big deal
-        no-member, # Removes no-member checking - should be fixed
-        no-name-in-module, # Should be fixed
-        super-with-arguments, # Should be fixed for proper python styling
         wrong-import-order,  # allow isort to worry about import order
-        fixme, # Remove this to find all todo items
+        #fixme, # Remove this to find all todo items
         invalid-name, # Names conform to book and not to python standards
         too-many-branches, # Should fix to reduce code complexity
-        too-many-statements, # Should fix to reduce code complexity
-        too-many-function-args # Should fix to increase readibility
 
 
 # Enable the message, report, category or checker with the given id(s). You can
