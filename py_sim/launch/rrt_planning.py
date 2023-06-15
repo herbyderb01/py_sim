@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import py_sim.path_planning.rrt_planner as rrt
 import py_sim.worlds.polygon_world as poly_world
-from py_sim.plotting.plot_constructor import create_plot_manifest
+from py_sim.plotting.plot_constructor import create_plot_manifest, RRTPlotter
 from py_sim.tools.sim_types import TwoDimArray, UnicycleState
 
 
@@ -55,14 +55,18 @@ def test_rrt_planner() -> None:
     obstacle_world = poly_world.generate_world_obstacles()
     #obstacle_world = poly_world.generate_non_convex_obstacles()
 
+    # Create the RRT plotter
+    plotter = RRTPlotter(world=obstacle_world, plot_iterations=20, pause_plotting=False)
+
     # Create a plan
     x_start = TwoDimArray(x=-4.5, y=4.)
-    # x_vec, y_vec, tree = rrt.rrt(x_root=x_start,
-    #                              X_t=Xt,
-    #                              X=X,
-    #                              dist=3.,
-    #                              bias_t=100,
-    #                              world=obstacle_world)
+    x_vec, y_vec, tree = rrt.rrt(x_root=x_start,
+                                 X_t=Xt,
+                                 X=X,
+                                 dist=3.,
+                                 bias_t=100,
+                                 world=obstacle_world,
+                                 plotter=plotter)
     # x_vec, y_vec, tree = rrt.rrt_star(x_root=x_start,
     #                                   X_t=Xt,
     #                                   X=X,
@@ -71,14 +75,14 @@ def test_rrt_planner() -> None:
     #                                   world=obstacle_world,
     #                                   num_iterations=10000,
     #                                   num_nearest=10)
-    x_vec, y_vec, tree = rrt.rrt_star_informed(x_root=x_start,
-                                               X_t=Xt,
-                                               X=X,
-                                               dist=3.,
-                                               bias_t=50,
-                                               world=obstacle_world,
-                                               num_iterations=10000,
-                                               num_nearest=10)
+    # x_vec, y_vec, tree = rrt.rrt_star_informed(x_root=x_start,
+    #                                            X_t=Xt,
+    #                                            X=X,
+    #                                            dist=3.,
+    #                                            bias_t=50,
+    #                                            world=obstacle_world,
+    #                                            num_iterations=10000,
+    #                                            num_nearest=10)
 
     # Smooth the resulting plan
     x_vec_smooth, y_vec_smooth = rrt.path_smooth(x_vec=x_vec, y_vec=y_vec, world=obstacle_world)

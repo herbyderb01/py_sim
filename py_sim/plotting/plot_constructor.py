@@ -4,12 +4,16 @@ from typing import Optional
 
 import matplotlib.pyplot as plt
 import networkx as nx
+import numpy as np
 import py_sim.plotting.plotting as pt
 from py_sim.path_planning.forward_grid_search import ForwardGridSearch
 from py_sim.path_planning.graph_search import GraphType, PathGraph
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
 from py_sim.tools.sim_types import UnicycleStateType, VectorField
 from py_sim.worlds.polygon_world import PolygonWorld
+from py_sim.tools.sim_types import TwoDimArray, StateSpace
+from py_sim.path_planning.graph_search import DirectedPathGraph as Tree
+from matplotlib.figure import Figure
 
 
 def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too-many-arguments
@@ -144,3 +148,119 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
         nx.drawing.nx_pylab.draw(G=graph.graph, pos=graph.node_location, ax=ax, node_size=graph_node_size )
 
     return plots
+
+def plot_rrt(pause_plotting: bool,
+             world: PolygonWorld,
+             tree: Tree,
+             x_start: TwoDimArray,
+             X: StateSpace,
+             X_t: StateSpace,
+             x_rand: TwoDimArray,
+             x_new: TwoDimArray,
+             ind_p: int,
+             ind_near: Optional[list[int]] = None,
+             fig: Optional[Figure] = None) -> Figure:
+    """Plots the rrt data
+    """
+    # Initialize the figure
+    if fig is None:
+        fig, ax = plt.subplots()
+    else:
+        fig.clear()
+        ax = fig.add_axes(rect=(0, 0, 1, 1))
+
+    # Setup the axes
+    ax.set_title("RRT planner plot")
+    ax.set_ylim(ymin=X.y_lim[0], ymax=X.y_lim[1])
+    ax.set_xlim(xmin=X.x_lim[0], xmax=X.x_lim[1])
+
+    # Plot the world
+    pt.plot_polygon_world(ax=ax, world=world)
+
+    # Plot the graph
+    nx.drawing.nx_pylab.draw(G=tree.graph, pos=tree.node_location, ax=ax, node_size=0.1 )
+
+    # Plot the start and goal locations
+    pt.initialize_position_plot(ax=ax, color=(1., 0., 0., 1.), location=x_start)
+    pt.initialize_position_plot(ax=ax, color=(1., 0., 0., 1.), location=TwoDimArray(x=X_t.x_lim[0], y=X_t.y_lim[0]))
+
+    # Plot the randomly chosen location
+    pt.initialize_position_plot(ax=ax, color=(0., 1., 1., 1.), location=x_rand)
+
+    # Plot the new and parent positions as well as the new possible edge
+    pt.initialize_position_plot(ax=ax, color=(1., 0., 1., 1.), location=x_new)
+    x_parent = tree.get_node_position(node=ind_p)
+    pt.initialize_position_plot(ax=ax, color=(0., 1., 0., 1.), location=x_parent)
+    ax.plot([x_parent.x, x_new.x], [x_parent.y, x_new.y], color=(0., 1., 0., 1.))
+
+    # Loop through and plot all of the neighborhood set
+    if ind_near is not None:
+        for ind in ind_near:
+            pt.initialize_position_plot(ax=ax,
+                                        color=(0., 0., 0., 1.),
+                                        location=tree.get_node_position(node=ind))
+
+    # Get the figure ready for plotting
+    fig.canvas.draw()
+    fig.canvas.flush_events()
+    plt.show(block=False)
+
+    # Stop if requested
+    if pause_plotting:
+        input("press any key to continue")
+
+    return fig
+
+class RRTPlotter:
+    """Stores data needed for plotting rrt plans
+    """
+    def __init__(self, world: PolygonWorld, plot_iterations: int, pause_plotting: bool) -> None:
+        """ Initializes the RRT Plotter with the data needed for plotting the rrt plan
+
+            Inputs:
+                world: The polygon world in which the plotting occurs
+                plot_iterations: Every plot_iterations, the planner will be plotted
+                pause_plotting: If True, each step is paused until the user enters a key
+        """
+        self.world = world                      # Polygon world to draw
+        self.plot_iterations = plot_iterations  # Every plot_iterations, the planner will be plotted
+        self.pause_plotting = pause_plotting    # If True, each step is paused until the user enters a key
+        self.fig: Optional[Figure] = None       # Figure on which the plotting occurs
+
+    def plot_plan(self,
+                  iteration: int,
+                  tree: Tree,
+                  x_start: TwoDimArray,
+                  X: StateSpace,
+                  X_t: StateSpace,
+                  x_rand: TwoDimArray,
+                  x_new: TwoDimArray,
+                  ind_p: int,
+                  ind_near: Optional[list[int]] = None,
+                  force_plot: bool = False) -> None:
+        """ Plots the rrt plan segment
+
+            Inputs:
+                iteration: The iteration number of the planner
+                tree: Underlying tree for the plan
+                x_start: the start location of the plan
+                X_t: target set
+                X: state space
+                x_rand: The newly sampled point
+                x_new: The point that the planner is attempting to add to the tree
+                ind_p: The parent index within tree to which x_new it being added
+                ind_near: The set of nearest neighbors over which the search is performed
+                force_plot: True => the plot will be plotted regardless of iteration
+        """
+        if force_plot or np.mod(iteration, self.plot_iterations):
+            self.fig = plot_rrt(pause_plotting=self.pause_plotting,
+                                world=self.world,
+                                tree=tree,
+                                x_start=x_start,
+                                X=X,
+                                X_t=X_t,
+                                x_rand=x_rand,
+                                x_new=x_new,
+                                ind_p= ind_p,
+                                ind_near=ind_near,
+                                fig=self.fig)

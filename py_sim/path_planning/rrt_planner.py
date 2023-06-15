@@ -10,75 +10,11 @@ import numpy as np
 import numpy.typing as npt
 from py_sim.path_planning.graph_search import DirectedPathGraph as Tree
 from py_sim.path_planning.graph_search import World
-from py_sim.tools.sim_types import TwoDimArray
+from py_sim.tools.sim_types import TwoDimArray, StateSpace
+from py_sim.plotting.plot_constructor import RRTPlotter
 
 Cost = dict[int, float] # Storage structure for storing the cost of a node in the graph
                         # it maps from node index to cost
-
-class StateSpace:
-    """Defines the rectangular limits of a state space"""
-    def __init__(self, x_lim: tuple[float, float], y_lim: tuple[float, float]) -> None:
-        """ Initializes the state space limits. Note that the limits must be increasing.
-
-            Inputs:
-                x_lim: Lower and upper limit for the x value
-                y_lim: lower and upper limit for the y value
-        """
-        # Store the data
-        self.x_lim = x_lim
-        self.y_lim = y_lim
-
-        # Check the limits
-        if x_lim[1] < x_lim[0] or y_lim[1] < y_lim[0]:
-            raise ValueError("Limits must be increasing")
-
-    def contains(self, state: TwoDimArray) -> bool:
-        """ Evaluates if the state is in the state space. Returns true if it is
-
-            Inputs:
-                state: State to be evaluated
-
-            Outputs:
-                True if the state is in the state space, false otherwise
-        """
-        return bool(state.x >= self.x_lim[0] and state.x <= self.x_lim[1] and \
-                    state.y >= self.y_lim[0] and state.y <= self.y_lim[1])
-
-    def furthest_point(self, x: TwoDimArray) -> TwoDimArray:
-        """Returns the furthest point in the state space furthest from x
-
-            Inputs:
-                x: An point to evaluate
-
-            Outputs:
-                The furthest point from x
-        """
-        # Evaluate bottom left corner
-        x_out = TwoDimArray(x=self.x_lim[0], y=self.y_lim[0])
-        dist = np.linalg.norm(x_out.state-x.state)
-
-        # Evaluate top left corner
-        x_tl = TwoDimArray(x=self.x_lim[0], y=self.y_lim[1])
-        dist_tl = np.linalg.norm(x_tl.state-x.state)
-        if dist_tl > dist:
-            dist = dist_tl
-            x_out = x_tl
-
-        # Evaluate top right corner
-        x_tr = TwoDimArray(x=self.x_lim[1], y=self.y_lim[1])
-        dist_tr = np.linalg.norm(x_tr.state-x.state)
-        if dist_tr > dist:
-            dist = dist_tr
-            x_out = x_tr
-
-        # Evaluate bottom right corner
-        x_br = TwoDimArray(x=self.x_lim[1], y=self.y_lim[0])
-        dist_br = np.linalg.norm(x_br.state-x.state)
-        if dist_br > dist:
-            dist = dist_br
-            x_out = x_br
-
-        return x_out
 
 ################ Basic Proceedures #################
 def initialize(root: TwoDimArray) -> tuple[Tree, Cost]:
@@ -385,7 +321,8 @@ def rrt(x_root: TwoDimArray,
         X: StateSpace,
         dist: float,
         bias_t: int,
-        world: World) -> tuple[list[float], list[float], Tree]:
+        world: World,
+        plotter: Optional[RRTPlotter] = None) -> tuple[list[float], list[float], Tree]:
     """ Performs a search from the root node to the target set using the rapidly exploring random tree algorithm
 
         Inputs:
@@ -412,6 +349,18 @@ def rrt(x_root: TwoDimArray,
         # Extend the tree towards a biased sample
         x_rand = biased_sample(iteration=iteration, bias_t=bias_t, X=X, X_t=X_t)
         x_new, ind_p, cost_new = extend(x_rand=x_rand, tree=tree, dist=dist, cost=cost, world=world)
+
+        # Check for plotting
+        if plotter is not None:
+            plotter.plot_plan(iteration=iteration,
+                              tree=tree,
+                              x_start=x_root,
+                              X=X,
+                              X_t=X_t,
+                              x_rand=x_rand,
+                              x_new=x_new,
+                              ind_p= ind_p,
+                              force_plot=X_t.contains(state=x_new))
 
         # Insert the point into the tree
         if cost_new < np.inf:
