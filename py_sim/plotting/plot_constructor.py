@@ -6,14 +6,20 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import py_sim.plotting.plotting as pt
+from matplotlib.figure import Figure
+from matplotlib.patches import Ellipse
 from py_sim.path_planning.forward_grid_search import ForwardGridSearch
+from py_sim.path_planning.graph_search import DirectedPathGraph as Tree
 from py_sim.path_planning.graph_search import GraphType, PathGraph
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
-from py_sim.tools.sim_types import UnicycleStateType, VectorField
+from py_sim.tools.sim_types import (
+    EllipseParameters,
+    StateSpace,
+    TwoDimArray,
+    UnicycleStateType,
+    VectorField,
+)
 from py_sim.worlds.polygon_world import PolygonWorld
-from py_sim.tools.sim_types import TwoDimArray, StateSpace
-from py_sim.path_planning.graph_search import DirectedPathGraph as Tree
-from matplotlib.figure import Figure
 
 
 def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too-many-arguments
@@ -159,6 +165,8 @@ def plot_rrt(pause_plotting: bool,
              x_new: TwoDimArray,
              ind_p: int,
              ind_near: Optional[list[int]] = None,
+             ind_rewire: Optional[list[int]] = None,
+             sampling_ellipses: Optional[list[EllipseParameters]] = None,
              fig: Optional[Figure] = None) -> Figure:
     """Plots the rrt data
     """
@@ -174,15 +182,18 @@ def plot_rrt(pause_plotting: bool,
     ax.set_ylim(ymin=X.y_lim[0], ymax=X.y_lim[1])
     ax.set_xlim(xmin=X.x_lim[0], xmax=X.x_lim[1])
 
+    # Plot the sampling ellipses
+    if sampling_ellipses is not None:
+        for ell in sampling_ellipses:
+            ax.add_patch(p=Ellipse(xy=(ell.center.x, ell.center.y), width=2.*ell.a, height=2.*ell.b,
+                                   angle=np.rad2deg(ell.alpha), visible=True, fill=True,
+                                   facecolor=(0., 0., 1., 0.25)))
+
     # Plot the world
     pt.plot_polygon_world(ax=ax, world=world)
 
     # Plot the graph
     nx.drawing.nx_pylab.draw(G=tree.graph, pos=tree.node_location, ax=ax, node_size=0.1 )
-
-    # Plot the start and goal locations
-    pt.initialize_position_plot(ax=ax, color=(1., 0., 0., 1.), location=x_start)
-    pt.initialize_position_plot(ax=ax, color=(1., 0., 0., 1.), location=TwoDimArray(x=X_t.x_lim[0], y=X_t.y_lim[0]))
 
     # Plot the randomly chosen location
     pt.initialize_position_plot(ax=ax, color=(0., 1., 1., 1.), location=x_rand)
@@ -199,6 +210,16 @@ def plot_rrt(pause_plotting: bool,
             pt.initialize_position_plot(ax=ax,
                                         color=(0., 0., 0., 1.),
                                         location=tree.get_node_position(node=ind))
+
+    # Plot the rewire set
+    if ind_rewire is not None:
+        for ind in ind_rewire:
+            x_neigh = tree.get_node_position(node=ind)
+            ax.plot([x_new.x, x_neigh.x], [x_new.y, x_neigh.y], color=(0., 0., 1., 1.))
+
+    # Plot the start and goal locations
+    pt.initialize_position_plot(ax=ax, color=(1., 0., 0., 1.), location=x_start)
+    pt.initialize_position_plot(ax=ax, color=(1., 0., 0., 1.), location=TwoDimArray(x=X_t.x_lim[0], y=X_t.y_lim[0]))
 
     # Get the figure ready for plotting
     fig.canvas.draw()
@@ -237,6 +258,8 @@ class RRTPlotter:
                   x_new: TwoDimArray,
                   ind_p: int,
                   ind_near: Optional[list[int]] = None,
+                  ind_rewire: Optional[list[int]] = None,
+                  sampling_ellipses: Optional[list[EllipseParameters]] = None,
                   force_plot: bool = False) -> None:
         """ Plots the rrt plan segment
 
@@ -250,9 +273,11 @@ class RRTPlotter:
                 x_new: The point that the planner is attempting to add to the tree
                 ind_p: The parent index within tree to which x_new it being added
                 ind_near: The set of nearest neighbors over which the search is performed
+                ind_rewire: The set of nodes that were rewired through x_new
+                sampling_ellipses: List of all ellipses used for sampling
                 force_plot: True => the plot will be plotted regardless of iteration
         """
-        if force_plot or np.mod(iteration, self.plot_iterations):
+        if force_plot or np.mod(iteration, self.plot_iterations) == 0:
             self.fig = plot_rrt(pause_plotting=self.pause_plotting,
                                 world=self.world,
                                 tree=tree,
@@ -263,4 +288,6 @@ class RRTPlotter:
                                 x_new=x_new,
                                 ind_p= ind_p,
                                 ind_near=ind_near,
+                                ind_rewire=ind_rewire,
+                                sampling_ellipses=sampling_ellipses,
                                 fig=self.fig)

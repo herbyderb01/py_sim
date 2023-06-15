@@ -313,3 +313,41 @@ class StateSpace:
             x_out = x_br
 
         return x_out
+
+class EllipseParameters:
+    """ Defines the parameters necessary for defining an ellipse
+
+        a: Major axis radius
+        b: Minor axis radius
+        center: Center point of the ellipse
+        alpha: orientation from x-axis of ellipse
+    """
+    def __init__(self, a: float = 0., b: float = 0., center: TwoDimArray = TwoDimArray(), alpha: float = 0.) -> None:
+        """Store the parameters"""
+        self.a: float = a
+        self.b: float = b
+        self.center: TwoDimArray = center
+        self._alpha: float = alpha
+        self._c_a: float = np.cos(alpha)
+        self._s_a: float = np.sin(alpha)
+
+    @property
+    def alpha(self) -> float:
+        """Return the alpha component"""
+        return self._alpha
+    @alpha.setter
+    def alpha(self, val: float) -> None:
+        """Sets alpha and the trig function values"""
+        self._c_a = np.cos(val)
+        self._s_a = np.sin(val)
+        self._alpha = val
+
+    @property
+    def c_a(self) -> float:
+        """Returns the cosine of alpha"""
+        return self._c_a
+
+    @property
+    def s_a(self) -> float:
+        """Returns the sine of alpha"""
+        return self._s_a

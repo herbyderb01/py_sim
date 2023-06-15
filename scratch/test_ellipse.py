@@ -92,8 +92,8 @@ def main() -> None:
 
     # Plot the ellipse
     ellipse = patches.Ellipse(xy=(center.x, center.y), width=a*2, height=b*2, angle=np.rad2deg(alpha), visible=True, fill=False)
-    #ax.add_patch(ellipse)
-    ax.add_artist(ellipse)
+    ax.add_patch(ellipse)
+    #ax.add_artist(ellipse)
 
     ###### Leave the plot displayed ######
     # Display the plot
