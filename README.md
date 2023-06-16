@@ -1,3 +1,43 @@
+**Table of Contents**
+- [Overview](#overview)
+  - [Quick Run Guide](#quick-run-guide)
+    - [Simulation examples](#simulation-examples)
+    - [Planning examples](#planning-examples)
+- [Installing](#installing)
+  - [Creating and activating a Python virtual environment](#creating-and-activating-a-python-virtual-environment)
+  - [Installing the `py_sim` package](#installing-the-py_sim-package)
+- [Code Compliance](#code-compliance)
+  - [Compliant Tools](#compliant-tools)
+    - [Pylint](#pylint)
+    - [Isort](#isort)
+    - [Mypy](#mypy)
+  - [Other potential tools](#other-potential-tools)
+    - [Pydocstyle](#pydocstyle)
+    - [Black](#black)
+
+# Overview
+## Quick Run Guide
+After [installing](#installing) and activating the virtual environment, several example files can be used to exercise different capabilities. Use the command
+```bash
+    python .\py_sim\launch\[file],
+```
+where *[file]* can be replaced with the options that follow. These options are categorized into simulation and planning example.
+
+### Simulation examples
+The simulation examples demonstrate the vehicle actively controlling and moving about the environment.
+* `simple_sim.py`: Provides an example of using a control law within the simulation with position and state plotting occurring actively during the movement of the vehicle.
+* `simple_vector_fields.py`: Provides and example of using a vector field control law with the vector field overlaid onto the live plotting of the moving vehicle.
+* `vector_field_nav.py`: Provides an example with an obstacle world and range sensors in combination with a vehicle moving about the environment.
+
+### Planning examples
+The planning examples show static deliberative planning capabilities (i.e., planning a path through an environment from the start position to the end position)
+
+
+
+C:\Users\greg\Documents\python-robot-sim\documentation\figures
+
+
+# Installing
 ## Creating and activating a Python virtual environment
 It is assumed that the python virtual environment is located at the same level as the `py_sim` folder and is named `venv`. This is not a requirement. To create the virtual environment, navigate the terminal to the parent of `py_sim` and run the following command:
 
