@@ -25,7 +25,7 @@ def dynamics(state: UnicyleStateProtocol, control: UnicyleControlProtocol) -> Un
             d/dt y = v sin(spi)
             d/dt psi = w
 
-        Controls:
+        Inputs:
             state: The current state of the vehicle
             control: The current input of the vehicle
 

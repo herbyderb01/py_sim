@@ -11,3 +11,5 @@ matplotlib
 networkx
 control
 rtree
+sphinx
+myst-parser

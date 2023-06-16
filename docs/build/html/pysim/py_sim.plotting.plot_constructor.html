@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>py_sim.plotting.plot_constructor module &#8212; Python Planning Sim 23.06-0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="py_sim.plotting.plotting module" href="py_sim.plotting.plotting.html" />
+    <link rel="prev" title="py_sim.plotting package" href="py_sim.plotting.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-py_sim.plotting.plot_constructor">
+<span id="py-sim-plotting-plot-constructor-module"></span><h1>py_sim.plotting.plot_constructor module<a class="headerlink" href="#module-py_sim.plotting.plot_constructor" title="Permalink to this heading">¶</a></h1>
+<p>plot_constructor.py: Constructs plot manifiests</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="py_sim.plotting.plot_constructor.RRTPlotter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plot_constructor.</span></span><span class="sig-name descname"><span class="pre">RRTPlotter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.worlds.polygon_world.html#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld"><span class="pre">PolygonWorld</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pause_plotting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plot_constructor.RRTPlotter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Stores data needed for plotting rrt plans</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.plotting.plot_constructor.RRTPlotter.plot_plan">
+<span class="sig-name descname"><span class="pre">plot_plan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iteration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.DirectedPathGraph" title="py_sim.path_planning.graph_search.DirectedPathGraph"><span class="pre">DirectedPathGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_rand</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_goal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_near</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_rewire</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_ellipses</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.EllipseParameters" title="py_sim.tools.sim_types.EllipseParameters"><span class="pre">py_sim.tools.sim_types.EllipseParameters</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plot_constructor.RRTPlotter.plot_plan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the rrt plan segment</p>
+<dl class="simple">
+<dt>Inputs:</dt><dd><p>iteration: The iteration number of the planner
+tree: Underlying tree for the plan
+x_start: the start location of the plan
+X_t: target set
+X: state space
+x_rand: The newly sampled point
+x_new: The point that the planner is attempting to add to the tree
+ind_p: The parent index within tree to which x_new it being added
+ind_goal: The index to the lowest cost goal location within the tree
+ind_near: The set of nearest neighbors over which the search is performed
+ind_rewire: The set of nodes that were rewired through x_new
+sampling_ellipses: List of all ellipses used for sampling
+force_plot: True =&gt; the plot will be plotted regardless of iteration</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="py_sim.plotting.plot_constructor.create_plot_manifest">
+<span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plot_constructor.</span></span><span class="sig-name descname"><span class="pre">create_plot_manifest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UnicycleStateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_limits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_limits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position_dot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position_triangle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_trajectory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unicycle_time_series</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.2,</span> <span class="pre">0.36,</span> <span class="pre">0.78,</span> <span class="pre">1.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vectorfield</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorField" title="py_sim.tools.sim_types.VectorField"><span class="pre">VectorField</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.worlds.polygon_world.html#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld"><span class="pre">PolygonWorld</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_occupancy_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_occupancy_cells</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_occupancy_circles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range_bearing_locations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range_bearing_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.forward_grid_search.html#py_sim.path_planning.forward_grid_search.ForwardGridSearch" title="py_sim.path_planning.forward_grid_search.ForwardGridSearch"><span class="pre">ForwardGridSearch</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.PathGraph" title="py_sim.path_planning.graph_search.PathGraph"><span class="pre">PathGraph</span></a><span class="p"><span class="pre">[</span></span><span class="pre">GraphType</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_node_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.PlotManifest" title="py_sim.plotting.plotting.PlotManifest"><span class="pre">PlotManifest</span></a><span class="p"><span class="pre">[</span></span><span class="pre">UnicycleStateType</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.plotting.plot_constructor.create_plot_manifest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a plot manifest given the following inputs</p>
+<dl>
+<dt>Inputs:</dt><dd><p>y_limits: min and max y-values to plot
+x_limits: min and max x-values to plot
+position_dot: Plot the vehicle position as a circle
+position_triangle: Plot the vehicle position as a triangle
+state_trajectory: Plot the trajectory that the vehicle travelled
+unicycle_time_series: Plot the time series state
+color: Color of the state plots
+vectorfield: The vectorfield class to be plotted
+vector_res: The grid resolution of the vectorfield
+world: Polygon world in operation
+grid: Occupancy grid to be used for plotting,
+plot_occupancy_grid: True -&gt; a grid will be plotted displaying occupancy,</p>
+<blockquote>
+<div><p>(fairly fast and very accurate)</p>
+</div></blockquote>
+<dl class="simple">
+<dt>plot_occupancy_cells: True -&gt; a square for each occupied cell will be plotted</dt><dd><p>(slow, but accurate),</p>
+</dd>
+<dt>plot_occupancy_circles: True -&gt; a circle will be plotted in each occupied cell</dt><dd><p>(fast, but approximate),</p>
+</dd>
+</dl>
+<p>range_bearing_locations: plot the range measurement locations
+range_bearing_lines: plot the lines for the range bearing measurements
+planner: plots the occupancy grid, visited nodes, and planned path of the grid planner
+graph: plots the graph of possible paths
+graph_node_size: The size of the node circle in the graph plot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="py_sim.plotting.plot_constructor.plot_rrt">
+<span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plot_constructor.</span></span><span class="sig-name descname"><span class="pre">plot_rrt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pause_plotting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.worlds.polygon_world.html#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld"><span class="pre">PolygonWorld</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.DirectedPathGraph" title="py_sim.path_planning.graph_search.DirectedPathGraph"><span class="pre">DirectedPathGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_rand</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_goal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_near</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_rewire</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_ellipses</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.EllipseParameters" title="py_sim.tools.sim_types.EllipseParameters"><span class="pre">py_sim.tools.sim_types.EllipseParameters</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Figure</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Figure</span></span></span><a class="headerlink" href="#py_sim.plotting.plot_constructor.plot_rrt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the rrt data</p>
+<dl class="simple">
+<dt>Inputs:</dt><dd><p>pause_plotting: If True, each step is paused until the user enters a key
+world: The polygon world in which the plotting occurs
+tree: Underlying tree for the plan
+x_start: the start location of the plan
+X: state space
+X_t: target set
+x_rand: The newly sampled point
+x_new: The point that the planner is attempting to add to the tree
+ind_p: The parent index within tree to which x_new it being added
+ind_goal: The index to the lowest cost goal location within the tree
+ind_near: The set of nearest neighbors over which the search is performed
+ind_rewire: The set of nodes that were rewired through x_new
+sampling_ellipses: List of all ellipses used for sampling
+fig: the figure on which to make the plots</p>
+</dd>
+<dt>Returns:</dt><dd><p>The figure on which the data is plotted</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Python Planning Sim</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="py_sim.html">py_sim package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#installing">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#code-compliance">Code Compliance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#generating-code-documentation">Generating Code Documentation</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="py_sim.html">py_sim package</a><ul>
+  <li><a href="py_sim.plotting.html">py_sim.plotting package</a><ul>
+      <li>Previous: <a href="py_sim.plotting.html" title="previous chapter">py_sim.plotting package</a></li>
+      <li>Next: <a href="py_sim.plotting.plotting.html" title="next chapter">py_sim.plotting.plotting module</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Greg Droge.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/pysim/py_sim.plotting.plot_constructor.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
