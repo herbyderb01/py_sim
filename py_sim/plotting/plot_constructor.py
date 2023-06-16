@@ -171,6 +171,25 @@ def plot_rrt(pause_plotting: bool,
              sampling_ellipses: Optional[list[EllipseParameters]] = None,
              fig: Optional[Figure] = None) -> Figure:
     """Plots the rrt data
+
+        Inputs:
+            pause_plotting: If True, each step is paused until the user enters a key
+            world: The polygon world in which the plotting occurs
+            tree: Underlying tree for the plan
+            x_start: the start location of the plan
+            X: state space
+            X_t: target set
+            x_rand: The newly sampled point
+            x_new: The point that the planner is attempting to add to the tree
+            ind_p: The parent index within tree to which x_new it being added
+            ind_goal: The index to the lowest cost goal location within the tree
+            ind_near: The set of nearest neighbors over which the search is performed
+            ind_rewire: The set of nodes that were rewired through x_new
+            sampling_ellipses: List of all ellipses used for sampling
+            fig: the figure on which to make the plots
+
+        Returns:
+            The figure on which the data is plotted
     """
     # Initialize the figure
     if fig is None:
