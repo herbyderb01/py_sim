@@ -76,26 +76,26 @@ def test_rrt_planner() -> None:
     #                                          num_iterations=10000,
     #                                          num_nearest=50,
     #                                          plotter=plotter)
-    x_vec, y_vec, _, tree, __ = rrt.rrt_star_informed(x_root=x_start,
-                                                      X_t=Xt,
-                                                      X=X,
-                                                      dist=3.,
-                                                      bias_t=50,
-                                                      world=obstacle_world,
-                                                      num_iterations=10000,
-                                                      num_nearest=50,
-                                                      plotter=plotter)
-    # x_vec, y_vec, _, tree, __ = rrt.rrt_star_smart(x_root=x_start,
-    #                                                X_t=Xt,
-    #                                                X=X,
-    #                                                dist=3.,
-    #                                                bias_t=50,
-    #                                                world=obstacle_world,
-    #                                                num_iterations=10000,
-    #                                                num_nearest=50,
-    #                                                beacon_radius=2.,
-    #                                                bias_explore=10,
-    #                                                plotter=plotter)
+    # x_vec, y_vec, _, tree, __ = rrt.rrt_star_informed(x_root=x_start,
+    #                                                   X_t=Xt,
+    #                                                   X=X,
+    #                                                   dist=3.,
+    #                                                   bias_t=50,
+    #                                                   world=obstacle_world,
+    #                                                   num_iterations=10000,
+    #                                                   num_nearest=50,
+    #                                                   plotter=plotter)
+    x_vec, y_vec, _, tree, __ = rrt.rrt_star_smart(x_root=x_start,
+                                                   X_t=Xt,
+                                                   X=X,
+                                                   dist=3.,
+                                                   bias_t=50,
+                                                   world=obstacle_world,
+                                                   num_iterations=10000,
+                                                   num_nearest=50,
+                                                   beacon_radius=2.,
+                                                   bias_explore=10,
+                                                   plotter=plotter)
 
     # Smooth the resulting plan
     x_vec_smooth, y_vec_smooth = rrt.path_smooth(x_vec=x_vec, y_vec=y_vec, world=obstacle_world)

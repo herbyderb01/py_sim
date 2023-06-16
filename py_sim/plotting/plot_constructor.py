@@ -11,6 +11,7 @@ from matplotlib.patches import Ellipse
 from py_sim.path_planning.forward_grid_search import ForwardGridSearch
 from py_sim.path_planning.graph_search import DirectedPathGraph as Tree
 from py_sim.path_planning.graph_search import GraphType, PathGraph
+from py_sim.path_planning.rrt_procedures import solution
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
 from py_sim.tools.sim_types import (
     EllipseParameters,
@@ -164,6 +165,7 @@ def plot_rrt(pause_plotting: bool,
              x_rand: TwoDimArray,
              x_new: TwoDimArray,
              ind_p: int,
+             ind_goal: int = -1,
              ind_near: Optional[list[int]] = None,
              ind_rewire: Optional[list[int]] = None,
              sampling_ellipses: Optional[list[EllipseParameters]] = None,
@@ -221,6 +223,11 @@ def plot_rrt(pause_plotting: bool,
     pt.initialize_position_plot(ax=ax, color=(1., 0., 0., 1.), location=x_start)
     pt.initialize_position_plot(ax=ax, color=(1., 0., 0., 1.), location=TwoDimArray(x=X_t.x_lim[0], y=X_t.y_lim[0]))
 
+    # Plot the path to the goal
+    if ind_goal >= 0:
+        x_vec, y_vec, _ = solution(node_index=ind_goal, tree=tree)
+        ax.plot(x_vec, y_vec, color=(1., 0., 0., 1.))
+
     # Get the figure ready for plotting
     fig.canvas.draw()
     fig.canvas.flush_events()
@@ -257,6 +264,7 @@ class RRTPlotter:
                   x_rand: TwoDimArray,
                   x_new: TwoDimArray,
                   ind_p: int,
+                  ind_goal: int = -1,
                   ind_near: Optional[list[int]] = None,
                   ind_rewire: Optional[list[int]] = None,
                   sampling_ellipses: Optional[list[EllipseParameters]] = None,
@@ -272,6 +280,7 @@ class RRTPlotter:
                 x_rand: The newly sampled point
                 x_new: The point that the planner is attempting to add to the tree
                 ind_p: The parent index within tree to which x_new it being added
+                ind_goal: The index to the lowest cost goal location within the tree
                 ind_near: The set of nearest neighbors over which the search is performed
                 ind_rewire: The set of nodes that were rewired through x_new
                 sampling_ellipses: List of all ellipses used for sampling
@@ -287,6 +296,7 @@ class RRTPlotter:
                                 x_rand=x_rand,
                                 x_new=x_new,
                                 ind_p= ind_p,
+                                ind_goal=ind_goal,
                                 ind_near=ind_near,
                                 ind_rewire=ind_rewire,
                                 sampling_ellipses=sampling_ellipses,
