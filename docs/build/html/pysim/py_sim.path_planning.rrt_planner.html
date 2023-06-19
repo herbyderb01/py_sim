@@ -44,19 +44,78 @@ by James Swedeen, Greg Droge, and Randall Christensen</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">InformedSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.InformedSampler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>InformedSampler maintains parameters required for informed sampling</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.InformedSampler._c_min">
+<span class="sig-name descname"><span class="pre">_c_min</span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.InformedSampler._c_min" title="Permalink to this definition">¶</a></dt>
+<dd><p>The lowest possible length path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.InformedSampler._c_best">
+<span class="sig-name descname"><span class="pre">_c_best</span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.InformedSampler._c_best" title="Permalink to this definition">¶</a></dt>
+<dd><p>The length of the best path found</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.InformedSampler.ellipse">
+<span class="sig-name descname"><span class="pre">ellipse</span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.InformedSampler.ellipse" title="Permalink to this definition">¶</a></dt>
+<dd><p>The parameters of the ellipse for the informed search</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.EllipseParameters" title="py_sim.tools.sim_types.EllipseParameters">EllipseParameters</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.InformedSampler._X">
+<span class="sig-name descname"><span class="pre">_X</span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.InformedSampler._X" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maintains the bounding state space in which to sample</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace">StateSpace</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.InformedSampler._X_bound">
+<span class="sig-name descname"><span class="pre">_X_bound</span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.InformedSampler._X_bound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bound for sampling ellipse</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace">StateSpace</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.InformedSampler.sample">
 <span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iteration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.InformedSampler.sample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs a biased sampling over the informed ellipse</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>iteration: the iteration number for the sampling
-bias_t: The sampling bias period
-X_t: The target state space</p>
-</dd>
-</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A random sample of the informed state space</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iteration</strong> – the iteration number for the sampling</p></li>
+<li><p><strong>bias_t</strong> – The sampling bias period</p></li>
+<li><p><strong>X_t</strong> – The target state space</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A random sample of the informed state space</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -65,8 +124,9 @@ X_t: The target state space</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.InformedSampler.update_best">
 <span class="sig-name descname"><span class="pre">update_best</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c_best</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.InformedSampler.update_best" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates the informed ellipse parameters based on the new best cost</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>c_best: The best path cost seen</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>c_best</strong> – The best path cost seen</p>
 </dd>
 </dl>
 </dd></dl>
@@ -77,30 +137,88 @@ X_t: The target state space</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.SmartSampler">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">SmartSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.SmartSampler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Defines a sampler which performs most sampling in the beacon set, sampling
-the beacons using a circle of a given radius</p>
+<dl class="simple">
+<dt>Defines a sampler which performs most sampling in the beacon set, sampling</dt><dd><p>the beacons using a circle of a given radius</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.SmartSampler._X">
+<span class="sig-name descname"><span class="pre">_X</span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.SmartSampler._X" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bounding state space</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace">StateSpace</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.SmartSampler._radius">
+<span class="sig-name descname"><span class="pre">_radius</span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.SmartSampler._radius" title="Permalink to this definition">¶</a></dt>
+<dd><p>Radius around each beacon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.SmartSampler._beacons">
+<span class="sig-name descname"><span class="pre">_beacons</span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.SmartSampler._beacons" title="Permalink to this definition">¶</a></dt>
+<dd><p>The beacons (defined as ellipses)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.EllipseParameters" title="py_sim.tools.sim_types.EllipseParameters">EllipseParameters</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.SmartSampler._bound_boxes">
+<span class="sig-name descname"><span class="pre">_bound_boxes</span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.SmartSampler._bound_boxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bounding box for each beacon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace">StateSpace</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.SmartSampler._n_beacons">
+<span class="sig-name descname"><span class="pre">_n_beacons</span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.SmartSampler._n_beacons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the number of beacons</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.SmartSampler.beacons">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">beacons</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.EllipseParameters" title="py_sim.tools.sim_types.EllipseParameters"><span class="pre">py_sim.tools.sim_types.EllipseParameters</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py_sim.path_planning.rrt_planner.SmartSampler.beacons" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the beacons</p>
+<dd><p>Returns the beacons list</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.SmartSampler.sample">
 <span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iteration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_explore</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.SmartSampler.sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>Uses smart sampling sample the state space. Before the first beacons are initialize, the
-full state space is sampled using biased sampling. Once the beacons are establish, the
+<dd><dl class="simple">
+<dt>Uses smart sampling sample the state space. Before the first beacons are initialize, the</dt><dd><p>full state space is sampled using biased sampling. Once the beacons are establish, the
 sampling is performed nearly exclusively in the beacon set with every bias_explore
 samples being in the state space</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>iteration: the iteration number for the sampling
-bias_t: The sampling bias period
-X_t: The target state space</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A random, smart sampling of the state space</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iteration</strong> – the iteration number for the sampling</p></li>
+<li><p><strong>bias_t</strong> – The sampling bias period</p></li>
+<li><p><strong>X_t</strong> – The target state space</p></li>
+<li><p><strong>Returns</strong> – TwoDimArray: A random, smart sampling of the state space</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -109,9 +227,12 @@ X_t: The target state space</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.SmartSampler.update_beacons">
 <span class="sig-name descname"><span class="pre">update_beacons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.SmartSampler.update_beacons" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates the beacon locations</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>x_vec: The x-coordinate for the beacon positions
-y_vec: The y-coordinate for the beacon positions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_vec</strong> – The x-coordinate for the beacon positions</p></li>
+<li><p><strong>y_vec</strong> – The y-coordinate for the beacon positions</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -121,19 +242,25 @@ y_vec: The y-coordinate for the beacon positions</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.bias_sample_ellipse">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">bias_sample_ellipse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iteration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ellipse</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.EllipseParameters" title="py_sim.tools.sim_types.EllipseParameters"><span class="pre">EllipseParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.bias_sample_ellipse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Performs a biased sampling of an ellipse. Note that X_t in X X_t must intersect with the
-ellipse. If a value cannot be found then a ValueError will be raised</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>iteration: the iteration number for the sampling
-bias_t: The sampling bias period
-X: The large state space
-X_t: The smaller, target state space
-ellipse: Parameters defining the sampling ellipse</p>
+<dd><dl class="simple">
+<dt>Performs a biased sampling of an ellipse. Note that X_t in X X_t must intersect with the</dt><dd><p>ellipse. If a value cannot be found then a ValueError will be raised</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Point inside the ellipse obtained through a uniform sampling distribution</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iteration</strong> – the iteration number for the sampling</p></li>
+<li><p><strong>bias_t</strong> – The sampling bias period</p></li>
+<li><p><strong>X</strong> – The large state space</p></li>
+<li><p><strong>X_t</strong> – The smaller, target state space</p></li>
+<li><p><strong>ellipse</strong> – Parameters defining the sampling ellipse</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Point inside the ellipse obtained through a uniform sampling distribution</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -141,22 +268,28 @@ ellipse: Parameters defining the sampling ellipse</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.ellipse_bounding_box">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">ellipse_bounding_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ellipse</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.EllipseParameters" title="py_sim.tools.sim_types.EllipseParameters"><span class="pre">EllipseParameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.ellipse_bounding_box" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given ellipse parameters, a rectangular bounding box is calculated and passed out
-through the define state space</p>
-<dl>
+<dd><dl>
+<dt>Given ellipse parameters, a rectangular bounding box is calculated and passed out</dt><dd><p>through the define state space</p>
+<dl class="simple">
 <dt>The bounding box formula was derived through a combination from the following:</dt><dd><p><a class="reference external" href="https://www.maa.org/external_archive/joma/Volume8/Kalman/General.html">https://www.maa.org/external_archive/joma/Volume8/Kalman/General.html</a>
 <a class="reference external" href="https://www.researchgate.net/figure/Minimum-bounding-box-for-an-ellipse_fig4_327977026">https://www.researchgate.net/figure/Minimum-bounding-box-for-an-ellipse_fig4_327977026</a></p>
 </dd>
-<dt>Inputs:</dt><dd><p>ellipse: The parameters to define an ellipse
-X: The limiting state space (i.e., if the ellipse goes out of this state space,</p>
-<blockquote>
-<div><p>it will still form the limit for the defined bounding box)</p>
-</div></blockquote>
+</dl>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The resulting bounding box for the ellipse, constrained by X</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ellipse</strong> – The parameters to define an ellipse</p></li>
+<li><p><strong>X</strong> – The limiting state space (i.e., if the ellipse goes out of this state space,
+it will still form the limit for the defined bounding box)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting bounding box for the ellipse, constrained by X</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace">StateSpace</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -164,19 +297,29 @@ X: The limiting state space (i.e., if the ellipse goes out of this state space,<
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.extend">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">extend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_rand</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.DirectedPathGraph" title="py_sim.path_planning.graph_search.DirectedPathGraph"><span class="pre">DirectedPathGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.World" title="py_sim.path_planning.graph_search.World"><span class="pre">World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">py_sim.tools.sim_types.TwoDimArray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.extend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a sample, x_rand, and Tree, the Extend procedure finds the closes vertex to x_rand
-that is already in the tree and checks if a valid extension can be made from the tree
+<dd><dl class="simple">
+<dt>Given a sample, x_rand, and Tree, the Extend procedure finds the closes vertex to x_rand</dt><dd><p>that is already in the tree and checks if a valid extension can be made from the tree
 towards x_rand</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>x_rand: A random (or otherwise sampled) state to be added to the tree
-tree: tree to be extended
-dist: max distance from the tree for placement of the new point
-cost: dictionary of node costs
-world: World through which the node is being evaluated</p>
 </dd>
-<dt>Outputs:</dt><dd><p>x_new: The new node to be added to the tree
-ind_p: The parent index for the node being added
-cost_new: The cost to come to the new point - infinite if not valid</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_rand</strong> – A random (or otherwise sampled) state to be added to the tree</p></li>
+<li><p><strong>tree</strong> – tree to be extended</p></li>
+<li><p><strong>dist</strong> – max distance from the tree for placement of the new point</p></li>
+<li><p><strong>cost</strong> – dictionary of node costs</p></li>
+<li><p><strong>world</strong> – World through which the node is being evaluated</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>x_new: The new node to be added to the tree</p>
+<p>ind_p: The parent index for the node being added</p>
+<p>cost_new: The cost to come to the new point - infinite if not valid</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[<a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a>, int, float]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -184,19 +327,29 @@ cost_new: The cost to come to the new point - infinite if not valid</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.extend_star">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">extend_star</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_rand</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.DirectedPathGraph" title="py_sim.path_planning.graph_search.DirectedPathGraph"><span class="pre">DirectedPathGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.World" title="py_sim.path_planning.graph_search.World"><span class="pre">World</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_nearest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">py_sim.tools.sim_types.TwoDimArray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.extend_star" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a tree, the extend* procedure finds the best “local” connection for extending the tree in the direction of
-a random sample from the state space. It returns a new point to be added to the tree as well as the parent</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>x_rand: A random (or otherwise sampled) state to be added to the tree
-tree: tree to be extended
-dist: max distance from the tree for placement of the new point
-cost: dictionary of node costs
-world: World through which the node is being evaluated
-n_nearest: Number of nearest neighbors to consider</p>
+<dd><dl class="simple">
+<dt>Given a tree, the extend* procedure finds the best “local” connection for extending the tree in the direction of</dt><dd><p>a random sample from the state space. It returns a new point to be added to the tree as well as the parent</p>
 </dd>
-<dt>Outputs:</dt><dd><p>x_new: The new node to be added to the tree
-ind_p: The parent index for the node being added
-cost_new: The cost to come to the new point - infinite if not valid</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_rand</strong> – A random (or otherwise sampled) state to be added to the tree</p></li>
+<li><p><strong>tree</strong> – tree to be extended</p></li>
+<li><p><strong>dist</strong> – max distance from the tree for placement of the new point</p></li>
+<li><p><strong>cost</strong> – dictionary of node costs</p></li>
+<li><p><strong>world</strong> – World through which the node is being evaluated</p></li>
+<li><p><strong>n_nearest</strong> – Number of nearest neighbors to consider</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>x_new: The new node to be added to the tree</p>
+<p>ind_p: The parent index for the node being added</p>
+<p>cost_new: The cost to come to the new point - infinite if not valid</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[<a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a>, int, float, list[int]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -205,11 +358,18 @@ cost_new: The cost to come to the new point - infinite if not valid</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.in_ellipse">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">in_ellipse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ell</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.EllipseParameters" title="py_sim.tools.sim_types.EllipseParameters"><span class="pre">EllipseParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.in_ellipse" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns true if the given point is within the defined ellipse</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>point: The point being evaluated
-ell: Parameters defining the ellipse being evaluated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> – The point being evaluated</p></li>
+<li><p><strong>ell</strong> – Parameters defining the ellipse being evaluated</p></li>
+</ul>
 </dd>
-<dt>Outputs:</dt><dd><p>True if <strong>point</strong> in the ellipse, False otherwise</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if <strong>point</strong> in the ellipse, False otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -217,21 +377,25 @@ ell: Parameters defining the ellipse being evaluated</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.optimize_path">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">optimize_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.DirectedPathGraph" title="py_sim.path_planning.graph_search.DirectedPathGraph"><span class="pre">DirectedPathGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.World" title="py_sim.path_planning.graph_search.World"><span class="pre">World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.optimize_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines Algorithm 13, Optimize path. Straightens out the path to avoid watiting for
-the sampling to straigten the path.</p>
-<dl>
-<dt>Inputs:</dt><dd><dl class="simple">
-<dt>X_b: a list of indices (beacons) that form a path though tree. If they do not form a path</dt><dd><p>then this function will not optimize anything. Can be created using “solution(…)”</p>
-</dd>
-</dl>
-<p>tree: tree that is being created in the search
-cost: dictionary of node costs
-world: World through which the path is being evaluated</p>
+<dd><dl class="simple">
+<dt>Defines Algorithm 13, Optimize path. Straightens out the path to avoid watiting for</dt><dd><p>the sampling to straigten the path.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a revised solution (x, y, index) vectors without unnecessary intermediary nodes</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_b</strong> – a list of indices (beacons) that form a path though tree. If they do not form a path
+then this function will not optimize anything. Can be created using “solution(…)”</p></li>
+<li><p><strong>tree</strong> – tree that is being created in the search</p></li>
+<li><p><strong>cost</strong> – dictionary of node costs</p></li>
+<li><p><strong>world</strong> – World through which the path is being evaluated</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a revised solution (x, y, index) vectors without unnecessary intermediary nodes</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[float], list[float], list[int]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -239,28 +403,53 @@ world: World through which the path is being evaluated</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.path_smooth">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">path_smooth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.World" title="py_sim.path_planning.graph_search.World"><span class="pre">World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.path_smooth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Smooth the set of waypoints given the world. The input path is refined in a suboptimal way
-to try to eliminate unecessary intermediary nodes</p>
+<dd><dl>
+<dt>Smooth the set of waypoints given the world. The input path is refined in a suboptimal way</dt><dd><p>to try to eliminate unecessary intermediary nodes</p>
 <p>This is an implementation of the Smooth RRT Path Algorithm 11 from Beard “Small Unmanned Aircraft” book</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_vec</strong> – List of x-positions</p></li>
+<li><p><strong>y_vec</strong> – List of y-positions</p></li>
+<li><p><strong>world</strong> – world through which the planning is occuring</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>x_vec: smoothed x-positions</p>
+<p>y_vec: smoothed y-positions</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[float], list[float]]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.rewire">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">rewire</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_near</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.DirectedPathGraph" title="py_sim.path_planning.graph_search.DirectedPathGraph"><span class="pre">DirectedPathGraph</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.World" title="py_sim.path_planning.graph_search.World"><span class="pre">World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.rewire" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a tree with node indexed by ind_p and set of neighboring nodes ind_near, rewire updates the tree
-such that ind_new is made the parent of elements in the neighboring sets if it results in a lower cost
+<dd><dl class="simple">
+<dt>Given a tree with node indexed by ind_p and set of neighboring nodes ind_near, rewire updates the tree</dt><dd><p>such that ind_new is made the parent of elements in the neighboring sets if it results in a lower cost
 path for the neighbor.</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ind_p: Index of the node about which the tree is being rewired
-ind_near: Indices of nodes that are neighbors to the node indexed by ind_new
-tree: Search tree being rewired
-cost: dictionary of node costs
-world: World through which the node is being evaluated</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List of nodes to which rewiring was done through ind_p</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind_p</strong> – Index of the node about which the tree is being rewired</p></li>
+<li><p><strong>ind_near</strong> – Indices of nodes that are neighbors to the node indexed by ind_new</p></li>
+<li><p><strong>tree</strong> – Search tree being rewired</p></li>
+<li><p><strong>cost</strong> – dictionary of node costs</p></li>
+<li><p><strong>world</strong> – World through which the node is being evaluated</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of nodes to which rewiring was done through ind_p</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -269,27 +458,31 @@ world: World through which the node is being evaluated</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.rrt">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">rrt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.World" title="py_sim.path_planning.graph_search.World"><span class="pre">World</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.plotting.plot_constructor.html#py_sim.plotting.plot_constructor.RRTPlotter" title="py_sim.plotting.plot_constructor.RRTPlotter"><span class="pre">RRTPlotter</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.DirectedPathGraph" title="py_sim.path_planning.graph_search.DirectedPathGraph"><span class="pre">py_sim.path_planning.graph_search.DirectedPathGraph</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.rrt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs a search from the root node to the target set using the rapidly exploring random tree algorithm</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>x_root: The root of the tree (i.e., the starting point of the search)
-X_t: target set
-X: state space
-dist: maximum distance for extending the tree
-bias_t: biasing of the state space
-world: the world through which the search is being made
-plotter: an optional plotter for visualizing rrt</p>
-</dd>
-</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt>The path through the state space from the start to the end</dt><dd><p>x_vec: Vector of x indices
-y_vec: Vector of y indices
-ind_vec: The indices used within tree for the solution
-tree: The resulting tree used in planning
-cost: The resulting cost for each node</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_root</strong> – The root of the tree (i.e., the starting point of the search)</p></li>
+<li><p><strong>X_t</strong> – target set</p></li>
+<li><p><strong>X</strong> – state space</p></li>
+<li><p><strong>dist</strong> – maximum distance for extending the tree</p></li>
+<li><p><strong>bias_t</strong> – biasing of the state space</p></li>
+<li><p><strong>world</strong> – the world through which the search is being made</p></li>
+<li><p><strong>plotter</strong> – an optional plotter for visualizing rrt</p></li>
+</ul>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The path through the state space from the start to the end</p>
+<blockquote>
+<div><p>x_vec: Vector of x indices</p>
+<p>y_vec: Vector of y indices</p>
+<p>ind_vec: The indices used within tree for the solution</p>
+<p>tree: The resulting tree used in planning</p>
+<p>cost: The resulting cost for each node</p>
+</div></blockquote>
 </p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[float], list[float], list[int], Tree, Cost]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -298,30 +491,36 @@ cost: The resulting cost for each node</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.rrt_star">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">rrt_star</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.World" title="py_sim.path_planning.graph_search.World"><span class="pre">World</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_nearest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.plotting.plot_constructor.html#py_sim.plotting.plot_constructor.RRTPlotter" title="py_sim.plotting.plot_constructor.RRTPlotter"><span class="pre">RRTPlotter</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.DirectedPathGraph" title="py_sim.path_planning.graph_search.DirectedPathGraph"><span class="pre">py_sim.path_planning.graph_search.DirectedPathGraph</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.rrt_star" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs a search from the root node to the target set using the rapidly exploring random tree algorithm</p>
-<p>Note that if X_t is a single point, the produced tree may have multiple nodes corresponding to the same goal point.</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>x_root: The root of the tree (i.e., the starting point of the search)
-X_t: target set
-X: state space
-dist: maximum distance for extending the tree
-bias_t: biasing of the state space
-world: the world through which the search is being made
-num_interations: Number of iterations to run the rrt_star
-num_nearest: Number of nearest agents to use in the extend-star and rewire algorithms
-plotter: an optional plotter for visualizing rrt</p>
-</dd>
-</dl>
+<blockquote>
+<div><p>Note that if X_t is a single point, the produced tree may have multiple nodes corresponding to the same goal point.</p>
+</div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt>The path through the state space from the start to the end</dt><dd><p>x_vec: Vector of x indices
-y_vec: Vector of y indices
-ind_vec: The indices used within tree for the solution
-tree: The resulting tree used in planning
-cost: The resulting cost for each node</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_root</strong> – The root of the tree (i.e., the starting point of the search)</p></li>
+<li><p><strong>X_t</strong> – target set</p></li>
+<li><p><strong>X</strong> – state space</p></li>
+<li><p><strong>dist</strong> – maximum distance for extending the tree</p></li>
+<li><p><strong>bias_t</strong> – biasing of the state space</p></li>
+<li><p><strong>world</strong> – the world through which the search is being made</p></li>
+<li><p><strong>num_interations</strong> – Number of iterations to run the rrt_star</p></li>
+<li><p><strong>num_nearest</strong> – Number of nearest agents to use in the extend-star and rewire algorithms</p></li>
+<li><p><strong>plotter</strong> – an optional plotter for visualizing rrt</p></li>
+</ul>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The path through the state space from the start to the end</p>
+<blockquote>
+<div><p>x_vec: Vector of x indices</p>
+<p>y_vec: Vector of y indices</p>
+<p>ind_vec: The indices used within tree for the solution</p>
+<p>tree: The resulting tree used in planning</p>
+<p>cost: The resulting cost for each node</p>
+</div></blockquote>
 </p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[float], list[float], list[int], Tree, Cost]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -329,31 +528,38 @@ cost: The resulting cost for each node</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.rrt_star_informed">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">rrt_star_informed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.World" title="py_sim.path_planning.graph_search.World"><span class="pre">World</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_nearest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.plotting.plot_constructor.html#py_sim.plotting.plot_constructor.RRTPlotter" title="py_sim.plotting.plot_constructor.RRTPlotter"><span class="pre">RRTPlotter</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.DirectedPathGraph" title="py_sim.path_planning.graph_search.DirectedPathGraph"><span class="pre">py_sim.path_planning.graph_search.DirectedPathGraph</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.rrt_star_informed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Performs a search from the root node to the target set using the rapidly exploring
-random tree algorithm with an informed sampling set</p>
+<dd><dl>
+<dt>Performs a search from the root node to the target set using the rapidly exploring</dt><dd><p>random tree algorithm with an informed sampling set</p>
 <p>Note that if X_t is a single point, the produced tree may have multiple nodes corresponding to the same goal point.</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>x_root: The root of the tree (i.e., the starting point of the search)
-X_t: target set
-X: state space
-dist: maximum distance for extending the tree
-bias_t: biasing of the state space
-world: the world through which the search is being made
-num_interations: Number of iterations to run the rrt_star
-num_nearest: Number of nearest agents to use in the extend-star and rewire algorithms</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt>The path through the state space from the start to the end</dt><dd><p>x_vec: Vector of x indices
-y_vec: Vector of y indices
-ind_vec: The indices used within tree for the solution
-tree: The resulting tree used in planning
-cost: The resulting cost for each node</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_root</strong> – The root of the tree (i.e., the starting point of the search)</p></li>
+<li><p><strong>X_t</strong> – target set</p></li>
+<li><p><strong>X</strong> – state space</p></li>
+<li><p><strong>dist</strong> – maximum distance for extending the tree</p></li>
+<li><p><strong>bias_t</strong> – biasing of the state space</p></li>
+<li><p><strong>world</strong> – the world through which the search is being made</p></li>
+<li><p><strong>num_interations</strong> – Number of iterations to run the rrt_star</p></li>
+<li><p><strong>num_nearest</strong> – Number of nearest agents to use in the extend-star and rewire algorithms</p></li>
+<li><p><strong>plotter</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="py_sim.plotting.plot_constructor.html#py_sim.plotting.plot_constructor.RRTPlotter" title="py_sim.plotting.plot_constructor.RRTPlotter"><em>RRTPlotter</em></a><em>]</em>) – The plotter to be used during planning</p></li>
+</ul>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The path through the state space from the start to the end</p>
+<blockquote>
+<div><p>x_vec: Vector of x indices</p>
+<p>y_vec: Vector of y indices</p>
+<p>ind_vec: The indices used within tree for the solution</p>
+<p>tree: The resulting tree used in planning</p>
+<p>cost: The resulting cost for each node</p>
+</div></blockquote>
 </p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[float], list[float], list[int], Tree, Cost]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -361,33 +567,39 @@ cost: The resulting cost for each node</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.rrt_star_smart">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">rrt_star_smart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.World" title="py_sim.path_planning.graph_search.World"><span class="pre">World</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_nearest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beacon_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_explore</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.plotting.plot_constructor.html#py_sim.plotting.plot_constructor.RRTPlotter" title="py_sim.plotting.plot_constructor.RRTPlotter"><span class="pre">RRTPlotter</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.DirectedPathGraph" title="py_sim.path_planning.graph_search.DirectedPathGraph"><span class="pre">py_sim.path_planning.graph_search.DirectedPathGraph</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.rrt_star_smart" title="Permalink to this definition">¶</a></dt>
-<dd><p>Performs a search from the root node to the target set using the rapidly exploring
-random tree algorithm with a smart sampling set</p>
+<dd><dl>
+<dt>Performs a search from the root node to the target set using the rapidly exploring</dt><dd><p>random tree algorithm with a smart sampling set</p>
 <p>Note that if X_t is a single point, the produced tree may have multiple nodes corresponding to the same goal point.</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>x_root: The root of the tree (i.e., the starting point of the search)
-X_t: target set
-X: state space
-dist: maximum distance for extending the tree
-bias_t: biasing of the state space
-world: the world through which the search is being made
-num_interations: Number of iterations to run the rrt_star
-num_nearest: Number of nearest agents to use in the extend-star and rewire algorithms
-beacon_radius: The radius of each beacon to search
-bias_explore: The bias for exploring instead of searching within beacon</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt>The path through the state space from the start to the end</dt><dd><p>x_vec: Vector of x indices
-y_vec: Vector of y indices
-ind_vec: The indices used within tree for the solution
-tree: The resulting tree used in planning
-cost: The resulting cost for each node</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_root</strong> – The root of the tree (i.e., the starting point of the search)</p></li>
+<li><p><strong>X_t</strong> – target set</p></li>
+<li><p><strong>X</strong> – state space</p></li>
+<li><p><strong>dist</strong> – maximum distance for extending the tree</p></li>
+<li><p><strong>bias_t</strong> – biasing of the state space</p></li>
+<li><p><strong>world</strong> – the world through which the search is being made</p></li>
+<li><p><strong>num_interations</strong> – Number of iterations to run the rrt_star</p></li>
+<li><p><strong>num_nearest</strong> – Number of nearest agents to use in the extend-star and rewire algorithms</p></li>
+<li><p><strong>beacon_radius</strong> – The radius of each beacon to search</p></li>
+<li><p><strong>bias_explore</strong> – The bias for exploring instead of searching within beacon</p></li>
+</ul>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The path through the state space from the start to the end</p>
+<blockquote>
+<div><p>x_vec: Vector of x indices</p>
+<p>y_vec: Vector of y indices</p>
+<p>ind_vec: The indices used within tree for the solution</p>
+<p>tree: The resulting tree used in planning</p>
+<p>cost: The resulting cost for each node</p>
+</div></blockquote>
 </p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[float], list[float], list[int], Tree, Cost]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -396,14 +608,18 @@ cost: The resulting cost for each node</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.rrt_planner.sample_ellipse">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.rrt_planner.</span></span><span class="sig-name descname"><span class="pre">sample_ellipse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateSpace" title="py_sim.tools.sim_types.StateSpace"><span class="pre">StateSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ellipse</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.EllipseParameters" title="py_sim.tools.sim_types.EllipseParameters"><span class="pre">EllipseParameters</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.path_planning.rrt_planner.sample_ellipse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs a sampling of an ellipse. If a value cannot be found then a ValueError will be raised.</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>X: The large state space
-ellipse: Parameters defining the sampling ellipse</p>
-</dd>
-</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Point inside the ellipse obtained through a uniform sampling distribution</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – The large state space</p></li>
+<li><p><strong>ellipse</strong> – Parameters defining the sampling ellipse</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Point inside the ellipse obtained through a uniform sampling distribution</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a></p>
 </dd>
 </dl>
 </dd></dl>

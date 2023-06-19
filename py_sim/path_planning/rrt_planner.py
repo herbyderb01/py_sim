@@ -21,16 +21,19 @@ def extend(x_rand: TwoDimArray, tree: Tree, dist: float, cost: Cost, world: Worl
         that is already in the tree and checks if a valid extension can be made from the tree
         towards x_rand
 
-        Inputs:
-            x_rand: A random (or otherwise sampled) state to be added to the tree
-            tree: tree to be extended
-            dist: max distance from the tree for placement of the new point
-            cost: dictionary of node costs
-            world: World through which the node is being evaluated
+    Args:
+        x_rand: A random (or otherwise sampled) state to be added to the tree
+        tree: tree to be extended
+        dist: max distance from the tree for placement of the new point
+        cost: dictionary of node costs
+        world: World through which the node is being evaluated
 
-        Outputs:
+    Returns:
+        tuple[TwoDimArray, int, float]:
             x_new: The new node to be added to the tree
+
             ind_p: The parent index for the node being added
+
             cost_new: The cost to come to the new point - infinite if not valid
     """
     x_nearest, ind_nearest = proc.nearest(x=x_rand, tree=tree)
@@ -48,22 +51,28 @@ def rrt(x_root: TwoDimArray,
              tuple[list[float], list[float], list[int], Tree, Cost]:
     """ Performs a search from the root node to the target set using the rapidly exploring random tree algorithm
 
-        Inputs:
-            x_root: The root of the tree (i.e., the starting point of the search)
-            X_t: target set
-            X: state space
-            dist: maximum distance for extending the tree
-            bias_t: biasing of the state space
-            world: the world through which the search is being made
-            plotter: an optional plotter for visualizing rrt
+    Args:
+        x_root: The root of the tree (i.e., the starting point of the search)
+        X_t: target set
+        X: state space
+        dist: maximum distance for extending the tree
+        bias_t: biasing of the state space
+        world: the world through which the search is being made
+        plotter: an optional plotter for visualizing rrt
 
-        Returns:
-            The path through the state space from the start to the end
-                x_vec: Vector of x indices
-                y_vec: Vector of y indices
-                ind_vec: The indices used within tree for the solution
-                tree: The resulting tree used in planning
-                cost: The resulting cost for each node
+    Returns:
+        tuple[list[float], list[float], list[int], Tree, Cost]:
+        The path through the state space from the start to the end
+
+            x_vec: Vector of x indices
+
+            y_vec: Vector of y indices
+
+            ind_vec: The indices used within tree for the solution
+
+            tree: The resulting tree used in planning
+
+            cost: The resulting cost for each node
     """
 
     # Create the tree and cost storing structures
@@ -105,6 +114,17 @@ def path_smooth(x_vec: list[float], y_vec: list[float], world: World) -> tuple[l
         to try to eliminate unecessary intermediary nodes
 
         This is an implementation of the Smooth RRT Path Algorithm 11 from Beard "Small Unmanned Aircraft" book
+
+    Args:
+        x_vec: List of x-positions
+        y_vec: List of y-positions
+        world: world through which the planning is occuring
+
+    Returns:
+        tuple[list[float], list[float]]:
+            x_vec: smoothed x-positions
+
+            y_vec: smoothed y-positions
     """
     # Check the inputs
     n_nodes = len(x_vec)
@@ -162,17 +182,20 @@ def extend_star(x_rand: TwoDimArray,
     """ Given a tree, the extend* procedure finds the best "local" connection for extending the tree in the direction of
         a random sample from the state space. It returns a new point to be added to the tree as well as the parent
 
-        Inputs:
-            x_rand: A random (or otherwise sampled) state to be added to the tree
-            tree: tree to be extended
-            dist: max distance from the tree for placement of the new point
-            cost: dictionary of node costs
-            world: World through which the node is being evaluated
-            n_nearest: Number of nearest neighbors to consider
+    Args:
+        x_rand: A random (or otherwise sampled) state to be added to the tree
+        tree: tree to be extended
+        dist: max distance from the tree for placement of the new point
+        cost: dictionary of node costs
+        world: World through which the node is being evaluated
+        n_nearest: Number of nearest neighbors to consider
 
-        Outputs:
+    Returns:
+        tuple[TwoDimArray, int, float, list[int]]:
             x_new: The new node to be added to the tree
+
             ind_p: The parent index for the node being added
+
             cost_new: The cost to come to the new point - infinite if not valid
     """
     # Get an extension from the tree
@@ -200,15 +223,15 @@ def rewire(ind_p: int, ind_near: list[int], tree: Tree, cost: Cost, world: World
         such that ind_new is made the parent of elements in the neighboring sets if it results in a lower cost
         path for the neighbor.
 
-        Inputs:
-            ind_p: Index of the node about which the tree is being rewired
-            ind_near: Indices of nodes that are neighbors to the node indexed by ind_new
-            tree: Search tree being rewired
-            cost: dictionary of node costs
-            world: World through which the node is being evaluated
+    Args:
+        ind_p: Index of the node about which the tree is being rewired
+        ind_near: Indices of nodes that are neighbors to the node indexed by ind_new
+        tree: Search tree being rewired
+        cost: dictionary of node costs
+        world: World through which the node is being evaluated
 
-        Returns:
-            List of nodes to which rewiring was done through ind_p
+    Returns:
+        list[int]: List of nodes to which rewiring was done through ind_p
     """
 
     # Loop through each of the neighboring states to evaluate the rewire
@@ -262,24 +285,30 @@ def rrt_star(x_root: TwoDimArray,
 
         Note that if X_t is a single point, the produced tree may have multiple nodes corresponding to the same goal point.
 
-        Inputs:
-            x_root: The root of the tree (i.e., the starting point of the search)
-            X_t: target set
-            X: state space
-            dist: maximum distance for extending the tree
-            bias_t: biasing of the state space
-            world: the world through which the search is being made
-            num_interations: Number of iterations to run the rrt_star
-            num_nearest: Number of nearest agents to use in the extend-star and rewire algorithms
-            plotter: an optional plotter for visualizing rrt
+    Args:
+        x_root: The root of the tree (i.e., the starting point of the search)
+        X_t: target set
+        X: state space
+        dist: maximum distance for extending the tree
+        bias_t: biasing of the state space
+        world: the world through which the search is being made
+        num_interations: Number of iterations to run the rrt_star
+        num_nearest: Number of nearest agents to use in the extend-star and rewire algorithms
+        plotter: an optional plotter for visualizing rrt
 
-        Returns:
-            The path through the state space from the start to the end
-                x_vec: Vector of x indices
-                y_vec: Vector of y indices
-                ind_vec: The indices used within tree for the solution
-                tree: The resulting tree used in planning
-                cost: The resulting cost for each node
+    Returns:
+        tuple[list[float], list[float], list[int], Tree, Cost]:
+        The path through the state space from the start to the end
+
+            x_vec: Vector of x indices
+
+            y_vec: Vector of y indices
+
+            ind_vec: The indices used within tree for the solution
+
+            tree: The resulting tree used in planning
+
+            cost: The resulting cost for each node
     """
 
     # Create the tree and cost storing structures
@@ -358,12 +387,12 @@ def rrt_star(x_root: TwoDimArray,
 def in_ellipse(point: TwoDimArray, ell: EllipseParameters) -> bool:
     """ returns true if the given point is within the defined ellipse
 
-        Inputs:
-            point: The point being evaluated
-            ell: Parameters defining the ellipse being evaluated
+    Args:
+        point: The point being evaluated
+        ell: Parameters defining the ellipse being evaluated
 
-        Outputs:
-            True if **point** in the ellipse, False otherwise
+    Returns:
+        bool: True if **point** in the ellipse, False otherwise
     """
     # Translate the point so that (0,0) corresponds to the center
     p = TwoDimArray(vec=point.state-ell.center.state) # translated point so that the center is the adjusted origin
@@ -378,15 +407,15 @@ def bias_sample_ellipse(iteration: int, bias_t: int, X: StateSpace, X_t: StateSp
     """ Performs a biased sampling of an ellipse. Note that X_t in X X_t must intersect with the
         ellipse. If a value cannot be found then a ValueError will be raised
 
-        Inputs:
-            iteration: the iteration number for the sampling
-            bias_t: The sampling bias period
-            X: The large state space
-            X_t: The smaller, target state space
-            ellipse: Parameters defining the sampling ellipse
+    Args:
+        iteration: the iteration number for the sampling
+        bias_t: The sampling bias period
+        X: The large state space
+        X_t: The smaller, target state space
+        ellipse: Parameters defining the sampling ellipse
 
-        Returns:
-            Point inside the ellipse obtained through a uniform sampling distribution
+    Returns:
+        TwoDimArray: Point inside the ellipse obtained through a uniform sampling distribution
     """
     # Sample until a valid point is found
     for _ in range(1000):
@@ -398,12 +427,12 @@ def bias_sample_ellipse(iteration: int, bias_t: int, X: StateSpace, X_t: StateSp
 def sample_ellipse(X: StateSpace, ellipse: EllipseParameters ) -> TwoDimArray:
     """ Performs a sampling of an ellipse. If a value cannot be found then a ValueError will be raised.
 
-        Inputs:
-            X: The large state space
-            ellipse: Parameters defining the sampling ellipse
+    Args:
+        X: The large state space
+        ellipse: Parameters defining the sampling ellipse
 
-        Returns:
-            Point inside the ellipse obtained through a uniform sampling distribution
+    Returns:
+        TwoDimArray: Point inside the ellipse obtained through a uniform sampling distribution
     """
     # Sample until a valid point is found
     for _ in range(1000):
@@ -420,13 +449,13 @@ def ellipse_bounding_box(ellipse: EllipseParameters, X: StateSpace) -> StateSpac
             https://www.maa.org/external_archive/joma/Volume8/Kalman/General.html
             https://www.researchgate.net/figure/Minimum-bounding-box-for-an-ellipse_fig4_327977026
 
-        Inputs:
-            ellipse: The parameters to define an ellipse
-            X: The limiting state space (i.e., if the ellipse goes out of this state space,
-               it will still form the limit for the defined bounding box)
+    Args:
+        ellipse: The parameters to define an ellipse
+        X: The limiting state space (i.e., if the ellipse goes out of this state space,
+            it will still form the limit for the defined bounding box)
 
-        Returns:
-            The resulting bounding box for the ellipse, constrained by X
+    Returns:
+        StateSpace: The resulting bounding box for the ellipse, constrained by X
     """
     # Determine range of ellipse bounding box
     A = ellipse.c_a**2/ellipse.a**2 + ellipse.s_a**2/ellipse.b**2
@@ -444,7 +473,16 @@ def ellipse_bounding_box(ellipse: EllipseParameters, X: StateSpace) -> StateSpac
     return StateSpace(x_lim=(x_lim_low, x_lim_up), y_lim=(y_lim_low, y_lim_up))
 
 class InformedSampler:
-    """InformedSampler maintains parameters required for informed sampling"""
+    """InformedSampler maintains parameters required for informed sampling
+
+    Attributes:
+        _c_min(float): The lowest possible length path
+        _c_best(float): The length of the best path found
+        ellipse(EllipseParameters): The parameters of the ellipse for the informed search
+        _X(StateSpace): Maintains the bounding state space in which to sample
+        _X_bound(StateSpace): Bound for sampling ellipse
+
+    """
     def __init__(self, X: StateSpace, x_start: TwoDimArray, x_end: TwoDimArray) -> None:
         """Create the initial parameters"""
         self._c_min = np.linalg.norm(x_end.state-x_start.state)
@@ -462,13 +500,13 @@ class InformedSampler:
     def sample(self, iteration: int, bias_t: int, X_t: StateSpace) -> TwoDimArray:
         """Performs a biased sampling over the informed ellipse
 
-            Inputs:
-                iteration: the iteration number for the sampling
-                bias_t: The sampling bias period
-                X_t: The target state space
+        Args:
+            iteration: the iteration number for the sampling
+            bias_t: The sampling bias period
+            X_t: The target state space
 
-            Returns:
-                A random sample of the informed state space
+        Returns:
+            TwoDimArray: A random sample of the informed state space
         """
         # Perform sampling as normal until the cost is found
         if self._c_best < np.inf:
@@ -479,12 +517,11 @@ class InformedSampler:
                                    ellipse=self.ellipse)
         return proc.biased_sample(iteration=iteration, bias_t=bias_t, X=self._X, X_t=X_t)
 
-
     def update_best(self, c_best: float) -> None:
         """ Updates the informed ellipse parameters based on the new best cost
 
-            Inputs:
-                c_best: The best path cost seen
+        Args:
+            c_best: The best path cost seen
         """
         # Update ellipse parameters
         self._c_best = c_best
@@ -509,24 +546,30 @@ def rrt_star_informed(x_root: TwoDimArray,
 
         Note that if X_t is a single point, the produced tree may have multiple nodes corresponding to the same goal point.
 
-        Inputs:
-            x_root: The root of the tree (i.e., the starting point of the search)
-            X_t: target set
-            X: state space
-            dist: maximum distance for extending the tree
-            bias_t: biasing of the state space
-            world: the world through which the search is being made
-            num_interations: Number of iterations to run the rrt_star
-            num_nearest: Number of nearest agents to use in the extend-star and rewire algorithms
+    Args:
+        x_root: The root of the tree (i.e., the starting point of the search)
+        X_t: target set
+        X: state space
+        dist: maximum distance for extending the tree
+        bias_t: biasing of the state space
+        world: the world through which the search is being made
+        num_interations: Number of iterations to run the rrt_star
+        num_nearest: Number of nearest agents to use in the extend-star and rewire algorithms
+        plotter(Optional[RRTPlotter]): The plotter to be used during planning
 
-        Returns:
-            The path through the state space from the start to the end
-                x_vec: Vector of x indices
-                y_vec: Vector of y indices
-                ind_vec: The indices used within tree for the solution
-                tree: The resulting tree used in planning
-                cost: The resulting cost for each node
+    Returns:
+        tuple[list[float], list[float], list[int], Tree, Cost]:
+        The path through the state space from the start to the end
 
+            x_vec: Vector of x indices
+
+            y_vec: Vector of y indices
+
+            ind_vec: The indices used within tree for the solution
+
+            tree: The resulting tree used in planning
+
+            cost: The resulting cost for each node
     """
 
     # Create the tree and cost storing structures
@@ -612,15 +655,16 @@ def optimize_path(X_b: list[int], tree: Tree, cost: Cost, world: World) -> tuple
     """ Defines Algorithm 13, Optimize path. Straightens out the path to avoid watiting for
         the sampling to straigten the path.
 
-        Inputs:
-            X_b: a list of indices (beacons) that form a path though tree. If they do not form a path
-                  then this function will not optimize anything. Can be created using "solution(...)"
-            tree: tree that is being created in the search
-            cost: dictionary of node costs
-            world: World through which the path is being evaluated
+    Args:
+        X_b: a list of indices (beacons) that form a path though tree. If they do not form a path
+                then this function will not optimize anything. Can be created using "solution(...)"
+        tree: tree that is being created in the search
+        cost: dictionary of node costs
+        world: World through which the path is being evaluated
 
-        Returns:
-            a revised solution (x, y, index) vectors without unnecessary intermediary nodes
+    Returns:
+        tuple[list[float], list[float], list[int]]:
+        a revised solution (x, y, index) vectors without unnecessary intermediary nodes
     """
     # Setup indices for evaluating the paths
     p = 0       # The index to the parent in the path
@@ -646,14 +690,21 @@ def optimize_path(X_b: list[int], tree: Tree, cost: Cost, world: World) -> tuple
 class SmartSampler:
     """ Defines a sampler which performs most sampling in the beacon set, sampling
         the beacons using a circle of a given radius
+
+    Attributes:
+        _X(StateSpace): Bounding state space
+        _radius(float): Radius around each beacon
+        _beacons(list[EllipseParameters]): The beacons (defined as ellipses)
+        _bound_boxes(list[StateSpace]): The bounding box for each beacon
+        _n_beacons(int): Stores the number of beacons
     """
     def __init__(self, X: StateSpace, radius: float) -> None:
         """ Initializes a smart sampler with the bounding state space and
             radius to use for each of the beacon circles
 
-            Inputs:
-                X: The bounding state space
-                radius: The radius of each of the circles to use around the beacons
+        Args:
+            X: The bounding state space
+            radius: The radius of each of the circles to use around the beacons
         """
         # Store inputs
         self._X = X                                 # Bounding state space
@@ -664,15 +715,15 @@ class SmartSampler:
 
     @property
     def beacons(self) -> list[EllipseParameters]:
-        """Returns the beacons"""
+        """Returns the beacons list"""
         return self._beacons
 
     def update_beacons(self, x_vec: list[float], y_vec: list[float]) -> None:
         """Updates the beacon locations
 
-            Inputs:
-                x_vec: The x-coordinate for the beacon positions
-                y_vec: The y-coordinate for the beacon positions
+        Args:
+            x_vec: The x-coordinate for the beacon positions
+            y_vec: The y-coordinate for the beacon positions
         """
         # Loop through and create new beaconds and bounding boxes
         self._beacons = []
@@ -695,13 +746,13 @@ class SmartSampler:
             sampling is performed nearly exclusively in the beacon set with every bias_explore
             samples being in the state space
 
-            Inputs:
-                iteration: the iteration number for the sampling
-                bias_t: The sampling bias period
-                X_t: The target state space
+        Args:
+            iteration: the iteration number for the sampling
+            bias_t: The sampling bias period
+            X_t: The target state space
 
             Returns:
-                A random, smart sampling of the state space
+                TwoDimArray: A random, smart sampling of the state space
         """
         # Standard biased sampling if no beacons defined
         if self._n_beacons < 1:
@@ -733,26 +784,31 @@ def rrt_star_smart(x_root: TwoDimArray,
 
         Note that if X_t is a single point, the produced tree may have multiple nodes corresponding to the same goal point.
 
-        Inputs:
-            x_root: The root of the tree (i.e., the starting point of the search)
-            X_t: target set
-            X: state space
-            dist: maximum distance for extending the tree
-            bias_t: biasing of the state space
-            world: the world through which the search is being made
-            num_interations: Number of iterations to run the rrt_star
-            num_nearest: Number of nearest agents to use in the extend-star and rewire algorithms
-            beacon_radius: The radius of each beacon to search
-            bias_explore: The bias for exploring instead of searching within beacon
+    Args:
+        x_root: The root of the tree (i.e., the starting point of the search)
+        X_t: target set
+        X: state space
+        dist: maximum distance for extending the tree
+        bias_t: biasing of the state space
+        world: the world through which the search is being made
+        num_interations: Number of iterations to run the rrt_star
+        num_nearest: Number of nearest agents to use in the extend-star and rewire algorithms
+        beacon_radius: The radius of each beacon to search
+        bias_explore: The bias for exploring instead of searching within beacon
 
-        Returns:
-            The path through the state space from the start to the end
-                x_vec: Vector of x indices
-                y_vec: Vector of y indices
-                ind_vec: The indices used within tree for the solution
-                tree: The resulting tree used in planning
-                cost: The resulting cost for each node
+    Returns:
+        tuple[list[float], list[float], list[int], Tree, Cost]:
+        The path through the state space from the start to the end
 
+            x_vec: Vector of x indices
+
+            y_vec: Vector of y indices
+
+            ind_vec: The indices used within tree for the solution
+
+            tree: The resulting tree used in planning
+
+            cost: The resulting cost for each node
     """
 
     # Create the tree and cost storing structures

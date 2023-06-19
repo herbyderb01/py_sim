@@ -27,7 +27,7 @@ class World(Protocol):
             edge_shrink_dist: The distance that the edges will be moved towards each other
 
         Returns:
-            True if the edge intersects the obstacles, false if it does not
+            bool: True if the edge intersects the obstacles, false if it does not
         """
 
 GraphType = TypeVar("GraphType", bound=nx.Graph)
@@ -148,6 +148,7 @@ class PathGraph(Generic[GraphType]):
         Returns:
             tuple[list[float], list[float]]:
                 x_vec: List of x indices
+
                 y_vec: List of y indices
         """
         # Initialize the outputs
@@ -206,6 +207,7 @@ class PathGraph(Generic[GraphType]):
                 nearest_points: A list of the nearest neighbors found. Each is a (2,) array
                     Can be more than n_nearest if points are equidistant
                     Can be less than n_nearest if there are less points
+
                 nearest_ind: The corresponding indices
         """
         # Initialize the output
