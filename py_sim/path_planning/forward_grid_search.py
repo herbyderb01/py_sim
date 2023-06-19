@@ -1,5 +1,8 @@
 """forward_grid_search.py: Defines a general framework for forward search
    through a grid world
+
+Attributes:
+    segment_length(list[float]): Defines the length of a single grid direction movement. List is organized [L, LU, U, RU, R, RD, D, LD]
 """
 from abc import ABC, abstractmethod
 from enum import IntEnum
@@ -11,7 +14,18 @@ from py_sim.tools.simple_priority_queue import SimplePriorityQueue
 
 
 class GD(IntEnum):
-    """Define the basic grid directions"""
+    """Define the basic grid directions used for the search
+
+    Attributes:
+        L: Left
+        LU: Diagonal, left and up
+        U: Up
+        RU: Diagonal, right and up
+        R: Right
+        RD: Diagonal, right and down
+        D: Down
+        LD: Diagonal, left and down
+    """
     L = 0 # Left
     LU = 1 # Diagonal, left and up
     U = 2 # Up
@@ -26,35 +40,41 @@ segment_length: list[float] = [1., 1.41, 1., 1.41, 1., 1.41, 1., 1.41]
 
 class ForwardGridSearch(ABC):
     """ Defines a general framework for forward search through a grid
+
+    Attributes:
+        grid(BinaryOccupancyGrid): Occupancy grid over which to search
+        queue(SimplePriorityQueue): The priority queue sorting the active nodes
+        ind_start(int): The starting index value
+        ind_end(int): The ending index value for the search
     """
 
     @abstractmethod
     def add_index_to_queue(self, ind_new: int, ind_parent: int,  direction: GD) -> None:
         """Adds the index to the queue and store parent
 
-            Inputs:
-                ind_new: Index of the new location
-                ind_parent: Index of the parent node
-                direction: The direction from the ind_parent cell to the ind_new cell
+        Args:
+            ind_new: Index of the new location
+            ind_parent: Index of the parent node
+            direction: The direction from the ind_parent cell to the ind_new cell
         """
 
     def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None: # pylint: disable=unused-argument
         """resolves duplicate sighting of the index - default is to do nothing
 
-        Inputs:
+        Args:
             ind_duplicate: index that has been seen again
             ind_poss_parent: The possible parent that was seen in index
-            duplicate
-             direction is the direction of the duplicate from the parent
+                duplicate
+            direction: is the direction of the duplicate from the parent
         """
 
     def __init__(self, grid: BinaryOccupancyGrid, ind_start: int, ind_end: int) -> None:
         """ Initializes the forward search by storing the grid and creating the index queue
 
-            Inputs:
-                grid: Occupancy grid over which to search
-                ind_start: The starting index value
-                ind_end: The ending index value for the search
+        Args:
+            grid: Occupancy grid over which to search
+            ind_start: The starting index value
+            ind_end: The ending index value for the search
         """
         super().__init__()
 
@@ -77,9 +97,12 @@ class ForwardGridSearch(ABC):
         """Returns a list of indices from the start index to end_index. Assumes that
            planning has already been performed. Throws a ValueError if the end index cannot be connected to the starting index
 
-            Inputs:
+            Args:
                 end_index: The index to which to plan. If None, then the
                 plan end index will be used
+
+            Returns:
+                list[int]: Indices of the plan from start to end
         """
         # Create the index from which to start the search
         if end_index is None:
@@ -104,11 +127,11 @@ class ForwardGridSearch(ABC):
         """ Calculates the length of a plan. If the plan is not provided then
             it is calculated using get_plan with self.ind_end
 
-            Inputs:
-                plan: Optional plan for which the length will be calculated
+        Args:
+            plan: Optional plan for which the length will be calculated
 
-            Outputs:
-                Plan length
+        Returns:
+            float: Plan length
         """
         # Get the plan
         if plan is None:
@@ -149,9 +172,10 @@ class ForwardGridSearch(ABC):
     def step(self) -> tuple[int, bool]:
         """Creates one step through the while loop
 
-            Outputs:
+        Returns:
+            tuple[int, bool]:
                 ind: The index of the node that was visited
-                     -1 => that there are no elements in the queue
+                        -1 => that there are no elements in the queue
                 succ: true => goal reached, false => it was not
         """
 
@@ -190,6 +214,13 @@ class ForwardGridSearch(ABC):
 
 def get_neighboring_nodes(index: int, grid: BinaryOccupancyGrid) -> tuple[list[int], list[GD]]:
     """ Returns a list of neighboring nodes and the resulting directions
+
+    Args:
+        index: grid index for which the neighbors are returned
+        grid: Occupancy grid defining obstacle locations in the grid
+
+    Returns:
+        tuple[list[int], list[GD]]: list of node indices and corresponding list of directions
     """
     # Initialize outputs
     indices: list[int] = []
@@ -218,7 +249,11 @@ def get_neighboring_nodes(index: int, grid: BinaryOccupancyGrid) -> tuple[list[i
     return (indices, dirs)
 
 class BreadFirstGridSearch(ForwardGridSearch):
-    """Defines a bread-first search through the grid"""
+    """Defines a bread-first search through the grid
+
+    Attributes:
+        cost(float): Variable used to implement a FIFO queue. Stores the cost of the next element.
+    """
     def __init__(self, grid: BinaryOccupancyGrid, ind_start: int, ind_end: int) -> None:
         super().__init__(grid, ind_start, ind_end)
         self.cost: float = 1. # Variable used to implement a FIFO queue
@@ -227,10 +262,10 @@ class BreadFirstGridSearch(ForwardGridSearch):
         """Adds index purely based on the number of indices in the queue to implement
            a FIFO queue
 
-             Inputs:
-                ind_new: Index of the new location
-                ind_parent: Index of the parent node
-                direction: The direction from the ind_parent cell to the ind_new cell
+        Args:
+            ind_new: Index of the new location
+            ind_parent: Index of the parent node
+            direction: The direction from the ind_parent cell to the ind_new cell
         """
         # A min queue is employed so having an always incrementing cost
         # will ensure that the next item popped off will be the item
@@ -239,7 +274,11 @@ class BreadFirstGridSearch(ForwardGridSearch):
         self.cost += 1. # Update the cost for the next element to be added for a LIFO queue
 
 class DepthFirstGridSearch(ForwardGridSearch):
-    """Defines a depth-first search through the grid"""
+    """Defines a depth-first search through the grid
+
+    Attributes:
+        cost(float): Variable used to implement a FIFO queue. Stores the cost of the next element.
+    """
     def __init__(self, grid: BinaryOccupancyGrid, ind_start: int, ind_end: int) -> None:
         super().__init__(grid, ind_start, ind_end)
         self.cost: float = -1. # Variable used to implement a LIFO queue
@@ -248,10 +287,10 @@ class DepthFirstGridSearch(ForwardGridSearch):
         """Adds index purely based on the number of indices in the queue to implement
            a LIFO queue
 
-             Inputs:
-                ind_new: Index of the new location
-                ind_parent: Index of the parent node
-                direction: The direction from the ind_parent cell to the ind_new cell
+        Args:
+            ind_new: Index of the new location
+            ind_parent: Index of the parent node
+            direction: The direction from the ind_parent cell to the ind_new cell
         """
         # A min queue is employed so having an decrementing cost
         # will ensure that the next item popped off will be the item
@@ -260,7 +299,11 @@ class DepthFirstGridSearch(ForwardGridSearch):
         self.cost -= 1. # Update the cost for the next element to be added for a LIFO queue
 
 class DijkstraGridSearch(ForwardGridSearch):
-    """Defines a cost-wavefront search through the grid"""
+    """Defines a cost-wavefront search through the grid
+
+    Attributes:
+        c2c(npt.NDArray[Any]): Grid storing the value of the cost to come to each node
+    """
     def __init__(self, grid: BinaryOccupancyGrid, ind_start: int, ind_end: int) -> None:
         super().__init__(grid, ind_start, ind_end)
 
@@ -271,10 +314,10 @@ class DijkstraGridSearch(ForwardGridSearch):
     def add_index_to_queue(self, ind_new: int, ind_parent: int, direction: GD) -> None:
         """Adds index to queue based on the cost to come to that new index.
 
-             Inputs:
-                ind_new: Index of the new location
-                ind_parent: Index of the parent node
-                direction: The direction from the ind_parent cell to the ind_new cell
+        Args:
+            ind_new: Index of the new location
+            ind_parent: Index of the parent node
+            direction: The direction from the ind_parent cell to the ind_new cell
         """
         # Calculate the cost to come as the cost of the parent plus the edge cost
         cost = segment_length[direction] + self.c2c.item(ind_parent)
@@ -288,11 +331,11 @@ class DijkstraGridSearch(ForwardGridSearch):
            to the node has a lower cost-to-come than the previous path found, if so then the
            cost is updated
 
-        Inputs:
+        Args:
             ind_duplicate: index that has been seen again
             ind_poss_parent: The possible parent that was seen in index
-            duplicate
-            direction is the direction of the duplicate from the parent
+                duplicate
+            direction: is the direction of the duplicate from the parent
         """
         # Calculate the cost-to-come of the new possible edge
         cost_possible = segment_length[direction] + self.c2c.item(ind_poss_parent)
@@ -306,7 +349,11 @@ class DijkstraGridSearch(ForwardGridSearch):
             self.parent_mapping[ind_duplicate] = ind_poss_parent
 
 class AstarGridSearch(ForwardGridSearch):
-    """Defines a cost-wavefront search through the grid"""
+    """Defines a cost-wavefront search through the grid
+
+    Attributes:
+        c2c(npt.NDArray[Any]): Grid storing the value of the cost to come to each node
+    """
     def __init__(self, grid: BinaryOccupancyGrid, ind_start: int, ind_end: int) -> None:
         super().__init__(grid, ind_start, ind_end)
 
@@ -321,11 +368,11 @@ class AstarGridSearch(ForwardGridSearch):
     def cost_to_go_heuristic(self, ind: int) -> float:
         """Calculates a heuristic on the cost to go from the index in question
 
-            Inputs:
-                ind: grid index in question
+        Args:
+            ind: grid index in question
 
-            Outputs:
-                Euclidean grid distance from ind to the goal index
+        Returns:
+            float: Euclidean grid distance from ind to the goal index
         """
         # Get an array of the row/column indices
         row, col = ind2sub(n_cols=self.grid.n_cols, ind=ind)
@@ -337,10 +384,10 @@ class AstarGridSearch(ForwardGridSearch):
     def add_index_to_queue(self, ind_new: int, ind_parent: int, direction: GD) -> None:
         """Adds index to queue based on the cost to come to that new index.
 
-             Inputs:
-                ind_new: Index of the new location
-                ind_parent: Index of the parent node
-                direction: The direction from the ind_parent cell to the ind_new cell
+        Args:
+            ind_new: Index of the new location
+            ind_parent: Index of the parent node
+            direction: The direction from the ind_parent cell to the ind_new cell
         """
         # Calculate the cost to come as the cost of the parent plus the edge cost
         c2c = segment_length[direction] + self.c2c.item(ind_parent)
@@ -355,11 +402,11 @@ class AstarGridSearch(ForwardGridSearch):
            to the node has a lower cost-to-come than the previous path found, if so then the
            cost is updated
 
-        Inputs:
+        Args:
             ind_duplicate: index that has been seen again
             ind_poss_parent: The possible parent that was seen in index
-            duplicate
-            direction is the direction of the duplicate from the parent
+                duplicate
+            direction: the direction of the duplicate from the parent
         """
         # Calculate the cost-to-come of the new possible edge
         c2c_possible = segment_length[direction] + self.c2c.item(ind_poss_parent)
@@ -374,7 +421,11 @@ class AstarGridSearch(ForwardGridSearch):
             self.parent_mapping[ind_duplicate] = ind_poss_parent
 
 class GreedyGridSearch(ForwardGridSearch):
-    """Defines a cost-wavefront search through the grid"""
+    """Defines a cost-wavefront search through the grid
+
+    Attributes:
+        c2c(npt.NDArray[Any]): Grid storing the value of the cost to come to each node
+    """
     def __init__(self, grid: BinaryOccupancyGrid, ind_start: int, ind_end: int) -> None:
         super().__init__(grid, ind_start, ind_end)
 
@@ -389,11 +440,11 @@ class GreedyGridSearch(ForwardGridSearch):
     def cost_to_go_heuristic(self, ind: int) -> float:
         """Calculates a heuristic on the cost to go from the index in question
 
-            Inputs:
-                ind: grid index in question
+        Args:
+            ind: grid index in question
 
-            Outputs:
-                Euclidean grid distance from ind to the goal index
+        Returns:
+            float: Euclidean grid distance from ind to the goal index
         """
         # Get an array of the row/column indices
         row, col = ind2sub(n_cols=self.grid.n_cols, ind=ind)
@@ -405,10 +456,10 @@ class GreedyGridSearch(ForwardGridSearch):
     def add_index_to_queue(self, ind_new: int, ind_parent: int, direction: GD) -> None:
         """Adds index to queue based on the cost to come to that new index.
 
-             Inputs:
-                ind_new: Index of the new location
-                ind_parent: Index of the parent node
-                direction: The direction from the ind_parent cell to the ind_new cell
+        Args:
+            ind_new: Index of the new location
+            ind_parent: Index of the parent node
+            direction: The direction from the ind_parent cell to the ind_new cell
         """
         # Calculate the cost to come as the cost of the parent plus the edge cost
         c2c = segment_length[direction] + self.c2c.item(ind_parent)
@@ -423,11 +474,11 @@ class GreedyGridSearch(ForwardGridSearch):
            to the node has a lower cost-to-come than the previous path found, if so then the
            cost is updated
 
-        Inputs:
+        Args:
             ind_duplicate: index that has been seen again
-            ind_poss_parent: The possible parent that was seen in index
-            duplicate
-            direction is the direction of the duplicate from the parent
+            ind_poss_parent: The possible parent that was seen for index
+                duplicate
+            direction: the direction of the duplicate from the parent
         """
         # Calculate the cost-to-come of the new possible edge
         c2c_possible = segment_length[direction] + self.c2c.item(ind_poss_parent)

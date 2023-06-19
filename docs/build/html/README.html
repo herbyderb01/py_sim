@@ -87,6 +87,8 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">simple_sim.py</span></code>: Provides an example of using a control law within the simulation with position and state plotting occurring actively during the movement of the vehicle.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">simple_vector_fields.py</span></code>: Provides and example of using a vector field control law with the vector field overlaid onto the live plotting of the moving vehicle.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">vector_field_nav.py</span></code>: Provides an example with an obstacle world and range sensors in combination with a vehicle moving about the environment.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">graph_planning.py</span></code>: Provides an example of path planning using a graph search with a topology graph, visibility graph, and Voronoi graph</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid_planning.py</span></code>: Provides a framework for visualization of planning using an occupancy grid. Basic graph search techniques are implemented, including breadth-first, depth-first, Dijkstra, A*, and greedy searches.</p></li>
 </ul>
 </section>
 <section id="planning-examples">
@@ -230,10 +232,37 @@
 <li class="toctree-l1"><a class="reference internal" href="pysim/py_sim.html">py_sim package</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#installing">Installing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#code-compliance">Code Compliance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#generating-code-documentation">Generating Code Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-run-guide">Quick Run Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simulation-examples">Simulation examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#planning-examples">Planning examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#installing">Installing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-and-activating-a-python-virtual-environment">Creating and activating a Python virtual environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-the-py-sim-package">Installing the <code class="docutils literal notranslate"><span class="pre">py_sim</span></code> package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#code-compliance">Code Compliance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#compliant-tools">Compliant Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pylint">Pylint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#isort">Isort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mypy">Mypy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#other-potential-tools">Other potential tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pydocstyle">Pydocstyle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#black">Black</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#generating-code-documentation">Generating Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#generate-the-initial-documentation">Generate the Initial Documentation</a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">

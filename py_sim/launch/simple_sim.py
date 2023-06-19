@@ -1,4 +1,8 @@
-"""simple_sim.py performs a test with a single vehicle"""
+"""simple_sim.py performs a test with a single vehicle
+
+    Provides an example of using a control law within the simulation with position and state plotting occurring actively during the movement of the vehicle.
+
+"""
 
 from typing import Generic
 
@@ -21,7 +25,14 @@ from py_sim.tools.sim_types import (
 
 
 class SimpleSim(Generic[UnicycleStateType, InputType, ControlParamType], SingleAgentSim[UnicycleStateType]):
-    """Framework for implementing a simulator that just tests out a feedback controller"""
+    """Framework for implementing a simulator that just tests out a feedback controller
+
+    Attributes:
+        dynamics(Dynamics[UnicycleStateType, InputType]): The dynamics function to be used for simulation
+        controller(Control[UnicycleStateType, InputType, ControlParamType]): The control law to be used during simulation
+        control_params(ControlParamType): The parameters of the control law to be used in simulation
+
+    """
     def __init__(self,
                 initial_state: UnicycleStateType,
                 dynamics: Dynamics[UnicycleStateType, InputType],
@@ -32,7 +43,7 @@ class SimpleSim(Generic[UnicycleStateType, InputType, ControlParamType], SingleA
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
-            Inputs:
+            Args:
                 initial_state: The starting state of the vehicle
                 dynamics: The dynamics function to be used for simulation
                 controller: The control law to be used during simulation
@@ -49,6 +60,8 @@ class SimpleSim(Generic[UnicycleStateType, InputType, ControlParamType], SingleA
 
     def update(self) -> None:
         """Calls all of the update functions
+
+        The following are updated:
             * Calculate the control to be executed
             * Update the state
             * Update the time

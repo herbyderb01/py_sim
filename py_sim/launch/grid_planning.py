@@ -1,4 +1,11 @@
 """grid_planning.py: Provides a framework for visualization of planning using an occupancy grid
+
+Basic graph search techniques are implemented, including:
+    * Breadth-first
+    * Depth-first
+    * Dijkstra
+    * A*
+    * Greedy
 """
 
 import time
@@ -20,7 +27,12 @@ from py_sim.tools.sim_types import (
 
 
 class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]):
-    """Framework for implementing a simulator that just tests out a feedback controller"""
+    """Framework for implementing a simulator that just tests out a feedback controller
+
+    Attributes:
+        world(PolygonWorld): World in which the planning occurs
+        planner(ForwardGridSearch): The planner that is used for planning
+    """
     def __init__(self,  # pylint: disable=too-many-arguments
                 initial_state: UnicycleStateType,
                 n_inputs: int,
@@ -30,12 +42,12 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
-            Inputs:
-                initial_state: The starting state of the vehicle
-                n_input: The number of inputs for the dynamics function
-                plots: The plot manifest for creating the sim plots
-                world: The polygon world used for planning
-                planner: The path planner
+        Args:
+            initial_state: The starting state of the vehicle
+            n_input: The number of inputs for the dynamics function
+            plots: The plot manifest for creating the sim plots
+            world: The polygon world used for planning
+            planner: The path planner
         """
 
         super().__init__(initial_state=initial_state, n_inputs=n_inputs, plots=plots)
@@ -52,8 +64,8 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
         """Makes a single update to the plan. Returns true if the planner
            has popped the goal off of the planning queue
 
-            Inputs:
-                plan_steps: The number of planning steps to take
+        Args:
+            plan_steps: The number of planning steps to take
         """
         # Determine the planning step
         steps = plan_steps
@@ -78,7 +90,9 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
         self.update_plot() # Plot the latest data
 
 def test_grid_planner() -> None:
-    """ Plans a path in the following steps:
+    """ Plans a path using a grid-based approach
+
+       Grid path planning done in the following steps:
         * Create a world
         * Create a planner
         * Create the plotting

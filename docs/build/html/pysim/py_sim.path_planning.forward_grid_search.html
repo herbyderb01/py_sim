@@ -33,21 +33,48 @@
             
   <section id="module-py_sim.path_planning.forward_grid_search">
 <span id="py-sim-path-planning-forward-grid-search-module"></span><h1>py_sim.path_planning.forward_grid_search module<a class="headerlink" href="#module-py_sim.path_planning.forward_grid_search" title="Permalink to this heading">¶</a></h1>
-<p>forward_grid_search.py: Defines a general framework for forward search
-through a grid world</p>
+<dl class="simple">
+<dt>forward_grid_search.py: Defines a general framework for forward search</dt><dd><p>through a grid world</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.segment_length">
+<span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.forward_grid_search.</span></span><span class="sig-name descname"><span class="pre">segment_length</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.segment_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the length of a single grid direction movement. List is organized [L, LU, U, RU, R, RD, D, LD]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.AstarGridSearch">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.forward_grid_search.</span></span><span class="sig-name descname"><span class="pre">AstarGridSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.AstarGridSearch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch" title="py_sim.path_planning.forward_grid_search.ForwardGridSearch"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardGridSearch</span></code></a></p>
 <p>Defines a cost-wavefront search through the grid</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.AstarGridSearch.c2c">
+<span class="sig-name descname"><span class="pre">c2c</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.AstarGridSearch.c2c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Grid storing the value of the cost to come to each node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>npt.NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.AstarGridSearch.add_index_to_queue">
 <span class="sig-name descname"><span class="pre">add_index_to_queue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind_new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.path_planning.forward_grid_search.GD" title="py_sim.path_planning.forward_grid_search.GD"><span class="pre">GD</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.AstarGridSearch.add_index_to_queue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds index to queue based on the cost to come to that new index.</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ind_new: Index of the new location
-ind_parent: Index of the parent node
-direction: The direction from the ind_parent cell to the ind_new cell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind_new</strong> – Index of the new location</p></li>
+<li><p><strong>ind_parent</strong> – Index of the parent node</p></li>
+<li><p><strong>direction</strong> – The direction from the ind_parent cell to the ind_new cell</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -56,10 +83,15 @@ direction: The direction from the ind_parent cell to the ind_new cell</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.AstarGridSearch.cost_to_go_heuristic">
 <span class="sig-name descname"><span class="pre">cost_to_go_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.AstarGridSearch.cost_to_go_heuristic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates a heuristic on the cost to go from the index in question</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ind: grid index in question</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ind</strong> – grid index in question</p>
 </dd>
-<dt>Outputs:</dt><dd><p>Euclidean grid distance from ind to the goal index</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Euclidean grid distance from ind to the goal index</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -71,10 +103,15 @@ direction: The direction from the ind_parent cell to the ind_new cell</p>
 <dt>resolves duplicate sighting of the index - checks to see if the lowest cost to come</dt><dd><p>to the node has a lower cost-to-come than the previous path found, if so then the
 cost is updated</p>
 </dd>
-<dt>Inputs:</dt><dd><p>ind_duplicate: index that has been seen again
-ind_poss_parent: The possible parent that was seen in index
-duplicate
-direction is the direction of the duplicate from the parent</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind_duplicate</strong> – index that has been seen again</p></li>
+<li><p><strong>ind_poss_parent</strong> – The possible parent that was seen in index
+duplicate</p></li>
+<li><p><strong>direction</strong> – the direction of the duplicate from the parent</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -86,19 +123,33 @@ direction is the direction of the duplicate from the parent</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.forward_grid_search.</span></span><span class="sig-name descname"><span class="pre">BreadFirstGridSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.BreadFirstGridSearch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch" title="py_sim.path_planning.forward_grid_search.ForwardGridSearch"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardGridSearch</span></code></a></p>
 <p>Defines a bread-first search through the grid</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.BreadFirstGridSearch.cost">
+<span class="sig-name descname"><span class="pre">cost</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.BreadFirstGridSearch.cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Variable used to implement a FIFO queue. Stores the cost of the next element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.BreadFirstGridSearch.add_index_to_queue">
 <span class="sig-name descname"><span class="pre">add_index_to_queue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind_new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.path_planning.forward_grid_search.GD" title="py_sim.path_planning.forward_grid_search.GD"><span class="pre">GD</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.BreadFirstGridSearch.add_index_to_queue" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds index purely based on the number of indices in the queue to implement
-a FIFO queue</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Inputs:</dt><dd><p>ind_new: Index of the new location
-ind_parent: Index of the parent node
-direction: The direction from the ind_parent cell to the ind_new cell</p>
+<dd><dl class="simple">
+<dt>Adds index purely based on the number of indices in the queue to implement</dt><dd><p>a FIFO queue</p>
 </dd>
 </dl>
-</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind_new</strong> – Index of the new location</p></li>
+<li><p><strong>ind_parent</strong> – Index of the parent node</p></li>
+<li><p><strong>direction</strong> – The direction from the ind_parent cell to the ind_new cell</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -108,19 +159,33 @@ direction: The direction from the ind_parent cell to the ind_new cell</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.forward_grid_search.</span></span><span class="sig-name descname"><span class="pre">DepthFirstGridSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.DepthFirstGridSearch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch" title="py_sim.path_planning.forward_grid_search.ForwardGridSearch"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardGridSearch</span></code></a></p>
 <p>Defines a depth-first search through the grid</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.DepthFirstGridSearch.cost">
+<span class="sig-name descname"><span class="pre">cost</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.DepthFirstGridSearch.cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Variable used to implement a FIFO queue. Stores the cost of the next element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.DepthFirstGridSearch.add_index_to_queue">
 <span class="sig-name descname"><span class="pre">add_index_to_queue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind_new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.path_planning.forward_grid_search.GD" title="py_sim.path_planning.forward_grid_search.GD"><span class="pre">GD</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.DepthFirstGridSearch.add_index_to_queue" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds index purely based on the number of indices in the queue to implement
-a LIFO queue</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Inputs:</dt><dd><p>ind_new: Index of the new location
-ind_parent: Index of the parent node
-direction: The direction from the ind_parent cell to the ind_new cell</p>
+<dd><dl class="simple">
+<dt>Adds index purely based on the number of indices in the queue to implement</dt><dd><p>a LIFO queue</p>
 </dd>
 </dl>
-</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind_new</strong> – Index of the new location</p></li>
+<li><p><strong>ind_parent</strong> – Index of the parent node</p></li>
+<li><p><strong>direction</strong> – The direction from the ind_parent cell to the ind_new cell</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -130,14 +195,28 @@ direction: The direction from the ind_parent cell to the ind_new cell</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.forward_grid_search.</span></span><span class="sig-name descname"><span class="pre">DijkstraGridSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.DijkstraGridSearch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch" title="py_sim.path_planning.forward_grid_search.ForwardGridSearch"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardGridSearch</span></code></a></p>
 <p>Defines a cost-wavefront search through the grid</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.DijkstraGridSearch.c2c">
+<span class="sig-name descname"><span class="pre">c2c</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.DijkstraGridSearch.c2c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Grid storing the value of the cost to come to each node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>npt.NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.DijkstraGridSearch.add_index_to_queue">
 <span class="sig-name descname"><span class="pre">add_index_to_queue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind_new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.path_planning.forward_grid_search.GD" title="py_sim.path_planning.forward_grid_search.GD"><span class="pre">GD</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.DijkstraGridSearch.add_index_to_queue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds index to queue based on the cost to come to that new index.</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ind_new: Index of the new location
-ind_parent: Index of the parent node
-direction: The direction from the ind_parent cell to the ind_new cell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind_new</strong> – Index of the new location</p></li>
+<li><p><strong>ind_parent</strong> – Index of the parent node</p></li>
+<li><p><strong>direction</strong> – The direction from the ind_parent cell to the ind_new cell</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -149,10 +228,15 @@ direction: The direction from the ind_parent cell to the ind_new cell</p>
 <dt>resolves duplicate sighting of the index - checks to see if the lowest cost to come</dt><dd><p>to the node has a lower cost-to-come than the previous path found, if so then the
 cost is updated</p>
 </dd>
-<dt>Inputs:</dt><dd><p>ind_duplicate: index that has been seen again
-ind_poss_parent: The possible parent that was seen in index
-duplicate
-direction is the direction of the duplicate from the parent</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind_duplicate</strong> – index that has been seen again</p></li>
+<li><p><strong>ind_poss_parent</strong> – The possible parent that was seen in index
+duplicate</p></li>
+<li><p><strong>direction</strong> – is the direction of the duplicate from the parent</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -164,14 +248,61 @@ direction is the direction of the duplicate from the parent</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.forward_grid_search.</span></span><span class="sig-name descname"><span class="pre">ForwardGridSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>Defines a general framework for forward search through a grid</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.grid">
+<span class="sig-name descname"><span class="pre">grid</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Occupancy grid over which to search</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid">BinaryOccupancyGrid</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.queue">
+<span class="sig-name descname"><span class="pre">queue</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>The priority queue sorting the active nodes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.simple_priority_queue.html#py_sim.tools.simple_priority_queue.SimplePriorityQueue" title="py_sim.tools.simple_priority_queue.SimplePriorityQueue">SimplePriorityQueue</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.ind_start">
+<span class="sig-name descname"><span class="pre">ind_start</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.ind_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>The starting index value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.ind_end">
+<span class="sig-name descname"><span class="pre">ind_end</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.ind_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ending index value for the search</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.add_index_to_queue">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_index_to_queue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind_new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.path_planning.forward_grid_search.GD" title="py_sim.path_planning.forward_grid_search.GD"><span class="pre">GD</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.add_index_to_queue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds the index to the queue and store parent</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ind_new: Index of the new location
-ind_parent: Index of the parent node
-direction: The direction from the ind_parent cell to the ind_new cell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind_new</strong> – Index of the new location</p></li>
+<li><p><strong>ind_parent</strong> – Index of the parent node</p></li>
+<li><p><strong>direction</strong> – The direction from the ind_parent cell to the ind_new cell</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -179,12 +310,19 @@ direction: The direction from the ind_parent cell to the ind_new cell</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.calculate_plan_length">
 <span class="sig-name descname"><span class="pre">calculate_plan_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.calculate_plan_length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the length of a plan. If the plan is not provided then
-it is calculated using get_plan with self.ind_end</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>plan: Optional plan for which the length will be calculated</p>
+<dd><dl class="simple">
+<dt>Calculates the length of a plan. If the plan is not provided then</dt><dd><p>it is calculated using get_plan with self.ind_end</p>
 </dd>
-<dt>Outputs:</dt><dd><p>Plan length</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>plan</strong> – Optional plan for which the length will be calculated</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Plan length</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -196,8 +334,10 @@ it is calculated using get_plan with self.ind_end</p>
 planning has already been performed. Throws a ValueError if the end index cannot be connected to the starting index</p>
 <blockquote>
 <div><dl class="simple">
-<dt>Inputs:</dt><dd><p>end_index: The index to which to plan. If None, then the
+<dt>Args:</dt><dd><p>end_index: The index to which to plan. If None, then the
 plan end index will be used</p>
+</dd>
+<dt>Returns:</dt><dd><p>list[int]: Indices of the plan from start to end</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -207,13 +347,14 @@ plan end index will be used</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.resolve_duplicate">
 <span class="sig-name descname"><span class="pre">resolve_duplicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind_duplicate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_poss_parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.path_planning.forward_grid_search.GD" title="py_sim.path_planning.forward_grid_search.GD"><span class="pre">GD</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.resolve_duplicate" title="Permalink to this definition">¶</a></dt>
 <dd><p>resolves duplicate sighting of the index - default is to do nothing</p>
-<dl>
-<dt>Inputs:</dt><dd><p>ind_duplicate: index that has been seen again
-ind_poss_parent: The possible parent that was seen in index
-duplicate</p>
-<blockquote>
-<div><p>direction is the direction of the duplicate from the parent</p>
-</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind_duplicate</strong> – index that has been seen again</p></li>
+<li><p><strong>ind_poss_parent</strong> – The possible parent that was seen in index
+duplicate</p></li>
+<li><p><strong>direction</strong> – is the direction of the duplicate from the parent</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -228,12 +369,17 @@ duplicate</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.step">
 <span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates one step through the while loop</p>
-<dl>
-<dt>Outputs:</dt><dd><dl class="simple">
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
 <dt>ind: The index of the node that was visited</dt><dd><p>-1 =&gt; that there are no elements in the queue</p>
 </dd>
 </dl>
 <p>succ: true =&gt; goal reached, false =&gt; it was not</p>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[int, bool]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -244,45 +390,93 @@ duplicate</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.forward_grid_search.</span></span><span class="sig-name descname"><span class="pre">GD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
-<p>Define the basic grid directions</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.D">
-<span class="sig-name descname"><span class="pre">D</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.D" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<p>Define the basic grid directions used for the search</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.L">
-<span class="sig-name descname"><span class="pre">L</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.L" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.LD">
-<span class="sig-name descname"><span class="pre">LD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.LD" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">L</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.L" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.LU">
-<span class="sig-name descname"><span class="pre">LU</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.LU" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.R">
-<span class="sig-name descname"><span class="pre">R</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.R" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.RD">
-<span class="sig-name descname"><span class="pre">RD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.RD" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.RU">
-<span class="sig-name descname"><span class="pre">RU</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.RU" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">LU</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.LU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Diagonal, left and up</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.U">
-<span class="sig-name descname"><span class="pre">U</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.U" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">U</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.U" title="Permalink to this definition">¶</a></dt>
+<dd><p>Up</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.RU">
+<span class="sig-name descname"><span class="pre">RU</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.RU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Diagonal, right and up</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.R">
+<span class="sig-name descname"><span class="pre">R</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.R" title="Permalink to this definition">¶</a></dt>
+<dd><p>Right</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.RD">
+<span class="sig-name descname"><span class="pre">RD</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.RD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Diagonal, right and down</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.D">
+<span class="sig-name descname"><span class="pre">D</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Down</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GD.LD">
+<span class="sig-name descname"><span class="pre">LD</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GD.LD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Diagonal, left and down</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">D</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">L</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">LD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">LU</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">R</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">RD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">RU</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">U</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -292,14 +486,28 @@ duplicate</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.forward_grid_search.</span></span><span class="sig-name descname"><span class="pre">GreedyGridSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GreedyGridSearch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch" title="py_sim.path_planning.forward_grid_search.ForwardGridSearch"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardGridSearch</span></code></a></p>
 <p>Defines a cost-wavefront search through the grid</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GreedyGridSearch.c2c">
+<span class="sig-name descname"><span class="pre">c2c</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GreedyGridSearch.c2c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Grid storing the value of the cost to come to each node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>npt.NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GreedyGridSearch.add_index_to_queue">
 <span class="sig-name descname"><span class="pre">add_index_to_queue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind_new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.path_planning.forward_grid_search.GD" title="py_sim.path_planning.forward_grid_search.GD"><span class="pre">GD</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GreedyGridSearch.add_index_to_queue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds index to queue based on the cost to come to that new index.</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ind_new: Index of the new location
-ind_parent: Index of the parent node
-direction: The direction from the ind_parent cell to the ind_new cell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind_new</strong> – Index of the new location</p></li>
+<li><p><strong>ind_parent</strong> – Index of the parent node</p></li>
+<li><p><strong>direction</strong> – The direction from the ind_parent cell to the ind_new cell</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -308,10 +516,15 @@ direction: The direction from the ind_parent cell to the ind_new cell</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.GreedyGridSearch.cost_to_go_heuristic">
 <span class="sig-name descname"><span class="pre">cost_to_go_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.GreedyGridSearch.cost_to_go_heuristic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates a heuristic on the cost to go from the index in question</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ind: grid index in question</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ind</strong> – grid index in question</p>
 </dd>
-<dt>Outputs:</dt><dd><p>Euclidean grid distance from ind to the goal index</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Euclidean grid distance from ind to the goal index</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -323,10 +536,15 @@ direction: The direction from the ind_parent cell to the ind_new cell</p>
 <dt>resolves duplicate sighting of the index - checks to see if the lowest cost to come</dt><dd><p>to the node has a lower cost-to-come than the previous path found, if so then the
 cost is updated</p>
 </dd>
-<dt>Inputs:</dt><dd><p>ind_duplicate: index that has been seen again
-ind_poss_parent: The possible parent that was seen in index
-duplicate
-direction is the direction of the duplicate from the parent</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind_duplicate</strong> – index that has been seen again</p></li>
+<li><p><strong>ind_poss_parent</strong> – The possible parent that was seen for index
+duplicate</p></li>
+<li><p><strong>direction</strong> – the direction of the duplicate from the parent</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -337,6 +555,20 @@ direction is the direction of the duplicate from the parent</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.get_neighboring_nodes">
 <span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.forward_grid_search.</span></span><span class="sig-name descname"><span class="pre">get_neighboring_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#py_sim.path_planning.forward_grid_search.GD" title="py_sim.path_planning.forward_grid_search.GD"><span class="pre">py_sim.path_planning.forward_grid_search.GD</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.get_neighboring_nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of neighboring nodes and the resulting directions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – grid index for which the neighbors are returned</p></li>
+<li><p><strong>grid</strong> – Occupancy grid defining obstacle locations in the grid</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of node indices and corresponding list of directions</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[int], list[<a class="reference internal" href="#py_sim.path_planning.forward_grid_search.GD" title="py_sim.path_planning.forward_grid_search.GD">GD</a>]]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

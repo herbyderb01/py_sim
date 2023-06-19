@@ -1,4 +1,6 @@
 """simple_vector_fields.py: Provides a series of examples of vector field following for basic fields
+
+Provides and example of using a vector field control law with the vector field overlaid onto the live plotting of the moving vehicle
 """
 
 from typing import Generic
@@ -29,7 +31,14 @@ from py_sim.vectorfield.vectorfields import (  # pylint: disable=unused-import
 
 
 class VectorFollower(Generic[UnicycleStateType, InputType, ControlParamType], SingleAgentSim[UnicycleStateType]):
-    """Framework for implementing a simulator that just tests out a feedback controller"""
+    """Framework for implementing a simulator that uses a vector field for feedback
+
+    Attributes:
+        dynamics(Dynamics[UnicycleStateType, InputType]): The dynamics function to be used for simulation
+        controller(Control[UnicycleStateType, InputType, ControlParamType]): The control law to be used during simulation
+        control_params(ControlParamType): The parameters of the control law to be used in simulation
+        vector_field(VectorField): Vector field that the vehicle will follow
+    """
     def __init__(self,
                 initial_state: UnicycleStateType,
                 dynamics: Dynamics[UnicycleStateType, InputType],
@@ -41,12 +50,12 @@ class VectorFollower(Generic[UnicycleStateType, InputType, ControlParamType], Si
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
-            Inputs:
-                initial_state: The starting state of the vehicle
-                dynamics: The dynamics function to be used for simulation
-                controller: The control law to be used during simulation
-                control_params: The parameters of the control law to be used in simulation
-                n_input: The number of inputs for the dynamics function
+        Args:
+            initial_state: The starting state of the vehicle
+            dynamics: The dynamics function to be used for simulation
+            controller: The control law to be used during simulation
+            control_params: The parameters of the control law to be used in simulation
+            n_input: The number of inputs for the dynamics function
         """
 
         super().__init__(initial_state=initial_state, n_inputs=n_inputs, plots=plots)
@@ -58,8 +67,11 @@ class VectorFollower(Generic[UnicycleStateType, InputType, ControlParamType], Si
         self.vector_field: VectorField = vector_field
 
     def update(self) -> None:
-        """Calls all of the update functions
-            * Calculate the control to be executed
+        """Calls all of the updates in the sim.
+
+          The following are updated:
+            * Calculates the desired vector
+            * Calculate the control to follow the vector
             * Update the state
             * Update the time
         """
@@ -83,7 +95,9 @@ class VectorFollower(Generic[UnicycleStateType, InputType, ControlParamType], Si
         self.data.next.time = self.data.current.time + self.params.sim_step
 
 def run_simple_vectorfield_example() -> None:
-    """Runs an example of a go-to-goal vector field"""
+    """Runs an example of a go-to-goal vector field combined with an obstacle avoidance
+    field.
+    """
     # Initialize the state and control
     vel_params = UniVelVecParams(vd_field_max=5., k_wd= 2.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)

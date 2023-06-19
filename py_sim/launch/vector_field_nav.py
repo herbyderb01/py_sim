@@ -31,7 +31,16 @@ from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
 
 
 class NavVectorFollower(Generic[UnicycleStateType, InputType, ControlParamType], SingleAgentSim[UnicycleStateType]):
-    """Framework for implementing a simulator that just tests out a feedback controller"""
+    """Framework for implementing a simulator that uses a vector field for feedback control through a polygon world with a distance measurement
+
+    Attributes:
+        dynamics(Dynamics[UnicycleStateType, InputType]): The dynamics function to be used for simulation
+        controller(Control[UnicycleStateType, InputType, ControlParamType]): The control law to be used during simulation
+        control_params(ControlParamType): The parameters of the control law to be used in simulation
+        vector_field(VectorField): Vector field that the vehicle will follow
+        world(PolygonWorld): World in which the vehicle is operating
+        sensor(RangeBearingSensor): The sensor used for detecting obstacles
+    """
     def __init__(self,  # pylint: disable=too-many-arguments
                 initial_state: UnicycleStateType,
                 dynamics: Dynamics[UnicycleStateType, InputType],
@@ -45,12 +54,12 @@ class NavVectorFollower(Generic[UnicycleStateType, InputType, ControlParamType],
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
-            Inputs:
-                initial_state: The starting state of the vehicle
-                dynamics: The dynamics function to be used for simulation
-                controller: The control law to be used during simulation
-                control_params: The parameters of the control law to be used in simulation
-                n_input: The number of inputs for the dynamics function
+        Args:
+            initial_state: The starting state of the vehicle
+            dynamics: The dynamics function to be used for simulation
+            controller: The control law to be used during simulation
+            control_params: The parameters of the control law to be used in simulation
+            n_input: The number of inputs for the dynamics function
         """
 
         super().__init__(initial_state=initial_state, n_inputs=n_inputs, plots=plots)
@@ -64,7 +73,11 @@ class NavVectorFollower(Generic[UnicycleStateType, InputType, ControlParamType],
         self.sensor: RangeBearingSensor = sensor
 
     def update(self) -> None:
-        """Calls all of the update functions
+        """Calls all of the update functions.
+
+        Updates performed:
+            * Calculate the range and bearing measurements
+            * Calculate the resulting vector to be followed
             * Calculate the control to be executed
             * Update the state
             * Update the time
@@ -94,7 +107,8 @@ class NavVectorFollower(Generic[UnicycleStateType, InputType, ControlParamType],
         self.data.next.time = self.data.current.time + self.params.sim_step
 
 def run_simple_vectorfield_example() -> None:
-    """Runs an example of a go-to-goal vector field"""
+    """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed
+    """
     # Initialize the state and control
     vel_params = UniVelVecParams(vd_field_max=5., k_wd= 2.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)

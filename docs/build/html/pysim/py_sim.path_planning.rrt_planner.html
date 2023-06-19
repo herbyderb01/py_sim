@@ -53,7 +53,10 @@ by James Swedeen, Greg Droge, and Randall Christensen</p>
 bias_t: The sampling bias period
 X_t: The target state space</p>
 </dd>
-<dt>Returns:</dt><dd><p>A random sample of the informed state space</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A random sample of the informed state space</p>
 </dd>
 </dl>
 </dd></dl>
@@ -94,7 +97,10 @@ samples being in the state space</p>
 bias_t: The sampling bias period
 X_t: The target state space</p>
 </dd>
-<dt>Returns:</dt><dd><p>A random, smart sampling of the state space</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A random, smart sampling of the state space</p>
 </dd>
 </dl>
 </dd></dl>
@@ -124,7 +130,10 @@ X: The large state space
 X_t: The smaller, target state space
 ellipse: Parameters defining the sampling ellipse</p>
 </dd>
-<dt>Returns:</dt><dd><p>Point inside the ellipse obtained through a uniform sampling distribution</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Point inside the ellipse obtained through a uniform sampling distribution</p>
 </dd>
 </dl>
 </dd></dl>
@@ -144,7 +153,10 @@ X: The limiting state space (i.e., if the ellipse goes out of this state space,<
 <div><p>it will still form the limit for the defined bounding box)</p>
 </div></blockquote>
 </dd>
-<dt>Returns:</dt><dd><p>The resulting bounding box for the ellipse, constrained by X</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The resulting bounding box for the ellipse, constrained by X</p>
 </dd>
 </dl>
 </dd></dl>
@@ -216,7 +228,10 @@ the sampling to straigten the path.</p>
 cost: dictionary of node costs
 world: World through which the path is being evaluated</p>
 </dd>
-<dt>Returns:</dt><dd><p>a revised solution (x, y, index) vectors without unnecessary intermediary nodes</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a revised solution (x, y, index) vectors without unnecessary intermediary nodes</p>
 </dd>
 </dl>
 </dd></dl>
@@ -242,7 +257,10 @@ tree: Search tree being rewired
 cost: dictionary of node costs
 world: World through which the node is being evaluated</p>
 </dd>
-<dt>Returns:</dt><dd><p>List of nodes to which rewiring was done through ind_p</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of nodes to which rewiring was done through ind_p</p>
 </dd>
 </dl>
 </dd></dl>
@@ -260,7 +278,10 @@ bias_t: biasing of the state space
 world: the world through which the search is being made
 plotter: an optional plotter for visualizing rrt</p>
 </dd>
-<dt>Returns:</dt><dd><dl class="simple">
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
 <dt>The path through the state space from the start to the end</dt><dd><p>x_vec: Vector of x indices
 y_vec: Vector of y indices
 ind_vec: The indices used within tree for the solution
@@ -268,6 +289,7 @@ tree: The resulting tree used in planning
 cost: The resulting cost for each node</p>
 </dd>
 </dl>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -288,7 +310,10 @@ num_interations: Number of iterations to run the rrt_star
 num_nearest: Number of nearest agents to use in the extend-star and rewire algorithms
 plotter: an optional plotter for visualizing rrt</p>
 </dd>
-<dt>Returns:</dt><dd><dl class="simple">
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
 <dt>The path through the state space from the start to the end</dt><dd><p>x_vec: Vector of x indices
 y_vec: Vector of y indices
 ind_vec: The indices used within tree for the solution
@@ -296,6 +321,7 @@ tree: The resulting tree used in planning
 cost: The resulting cost for each node</p>
 </dd>
 </dl>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -316,7 +342,10 @@ world: the world through which the search is being made
 num_interations: Number of iterations to run the rrt_star
 num_nearest: Number of nearest agents to use in the extend-star and rewire algorithms</p>
 </dd>
-<dt>Returns:</dt><dd><dl class="simple">
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
 <dt>The path through the state space from the start to the end</dt><dd><p>x_vec: Vector of x indices
 y_vec: Vector of y indices
 ind_vec: The indices used within tree for the solution
@@ -324,6 +353,7 @@ tree: The resulting tree used in planning
 cost: The resulting cost for each node</p>
 </dd>
 </dl>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -346,7 +376,10 @@ num_nearest: Number of nearest agents to use in the extend-star and rewire algor
 beacon_radius: The radius of each beacon to search
 bias_explore: The bias for exploring instead of searching within beacon</p>
 </dd>
-<dt>Returns:</dt><dd><dl class="simple">
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
 <dt>The path through the state space from the start to the end</dt><dd><p>x_vec: Vector of x indices
 y_vec: Vector of y indices
 ind_vec: The indices used within tree for the solution
@@ -354,6 +387,7 @@ tree: The resulting tree used in planning
 cost: The resulting cost for each node</p>
 </dd>
 </dl>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -366,7 +400,10 @@ cost: The resulting cost for each node</p>
 <dt>Inputs:</dt><dd><p>X: The large state space
 ellipse: Parameters defining the sampling ellipse</p>
 </dd>
-<dt>Returns:</dt><dd><p>Point inside the ellipse obtained through a uniform sampling distribution</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Point inside the ellipse obtained through a uniform sampling distribution</p>
 </dd>
 </dl>
 </dd></dl>

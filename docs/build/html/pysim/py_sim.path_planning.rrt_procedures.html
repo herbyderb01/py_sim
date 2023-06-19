@@ -70,7 +70,10 @@ tree: search tree</p>
 <dt>Inputs:</dt><dd><p>path: 2xn matrix where each column is a position
 world: world used to check each individual edge for obstacles</p>
 </dd>
-<dt>Returns:</dt><dd><p>Whether (True) or not (False) the path is obstacle free</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Whether (True) or not (False) the path is obstacle free</p>
 </dd>
 </dl>
 </dd></dl>
@@ -117,7 +120,13 @@ create a series of points bewteen them</p>
 <dt>Inputs:</dt><dd><p>x_start: starting point
 x_end: ending point</p>
 </dd>
-<dt>Returns:</dt><dd><p>edge: 2xn matrix where each column is a state. The first column is x_start and second is x_end</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2xn matrix where each column is a state. The first column is x_start and second is x_end</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>edge</p>
 </dd>
 </dl>
 </dd></dl>
@@ -129,7 +138,10 @@ x_end: ending point</p>
 <dl class="simple">
 <dt>Inputs:</dt><dd><p>root: Root node to be added to the tree</p>
 </dd>
-<dt>Returns:</dt><dd><p>Initialize tree and the resulting dictionary of costs to be updated</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Initialize tree and the resulting dictionary of costs to be updated</p>
 </dd>
 </dl>
 </dd></dl>
@@ -145,7 +157,10 @@ parent_ind: Index of the parent to which the node will be added
 tree: search tree
 cost: dictionary node indices to costs</p>
 </dd>
-<dt>Returns:</dt><dd><p>Index of the new node within the tree</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Index of the new node within the tree</p>
 </dd>
 </dl>
 </dd></dl>
@@ -159,8 +174,14 @@ cost: dictionary node indices to costs</p>
 tree: Tree over which the search is performed
 n_nearest: Number of nearest items to search</p>
 </dd>
-<dt>Returns:</dt><dd><p>x_nearest: List of node states in the form of (2,) vector for each state
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of node states in the form of (2,) vector for each state
 ind_nearest: List of node indices</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>x_nearest</p>
 </dd>
 </dl>
 </dd></dl>
@@ -173,8 +194,14 @@ ind_nearest: List of node indices</p>
 <dt>Inputs:</dt><dd><p>x: State about which the search is performed
 tree: Tree over which the search is performed</p>
 </dd>
-<dt>Returns:</dt><dd><p>x_nearest: State of the nearest node
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>State of the nearest node
 ind_nearest: Node index of the nearest node</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>x_nearest</p>
 </dd>
 </dl>
 </dd></dl>
@@ -199,7 +226,10 @@ tree: search tree</p>
 <dl class="simple">
 <dt>Inputs:</dt><dd><p>X: State space for sampling</p>
 </dd>
-<dt>Returns:</dt><dd><p>Position generated uniformly within the limits</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Position generated uniformly within the limits</p>
 </dd>
 </dl>
 </dd></dl>
@@ -212,9 +242,15 @@ tree: search tree</p>
 <dt>Inputs:</dt><dd><p>node_index: Node in question
 tree: search tree through which the path is determined</p>
 </dd>
-<dt>Returns:</dt><dd><p>x_vec: Vector of x indices
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Vector of x indices
 y_vec: Vector of y indices
 ind_vec: Vector of node indices within the tree</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>x_vec</p>
 </dd>
 </dl>
 </dd></dl>
@@ -228,7 +264,10 @@ ind_vec: Vector of node indices within the tree</p>
 y: position defining the direction
 dist: distance along the path for the point</p>
 </dd>
-<dt>Returns:</dt><dd><p>Calculated point in the direction of y</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Calculated point in the direction of y</p>
 </dd>
 </dl>
 </dd></dl>

@@ -1,4 +1,10 @@
-"""grid_planning.py: Provides a framework for visualization of planning using an occupancy grid
+"""rrt_planning.py: Provides a framework for visualization of rrt planning through an obstacle world.
+
+Available planners include:
+    * RRT - rapidly exploring random tree
+    * RRT* - optimal rapidly exploring random tree
+    * I-RRT* - informed RRT*. Reduces the search space through sampling of the informed ellipse.
+    * S-RRT* - smart RRT*. Reduces the search space through sampling of beacons. Also smooths the path when a better path is found.
 """
 
 from typing import cast
@@ -14,12 +20,12 @@ from py_sim.tools.sim_types import TwoDimArray, UnicycleState
 def path_length(x_vec: list[float], y_vec: list[float]) -> float:
     """Calculates the length of the path given the x and y coordinates
 
-        Inputs:
-            x_vec: Vector of x values
-            y_vec: Vector of y values
+    Args:
+        x_vec: Vector of x values
+        y_vec: Vector of y values
 
-        Returns:
-            Total path length
+    Returns:
+        float: Total path length
     """
     # Initialize the path variables
     path = np.array([x_vec, y_vec] )
@@ -37,7 +43,9 @@ def path_length(x_vec: list[float], y_vec: list[float]) -> float:
 
 
 def test_rrt_planner() -> None:
-    """ Plans a path in the following steps:
+    """ Plans a path through the world using an RRT planner.
+
+    The plan is created in the following steps:
         * Create a world
         * Create a planner
         * Create the plotting

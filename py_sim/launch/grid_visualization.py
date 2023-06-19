@@ -23,12 +23,12 @@ class GridVisualization(Generic[UnicycleStateType], SingleAgentSim[UnicycleState
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
-            Inputs:
-                initial_state: The starting state of the vehicle
-                dynamics: The dynamics function to be used for simulation
-                controller: The control law to be used during simulation
-                control_params: The parameters of the control law to be used in simulation
-                n_input: The number of inputs for the dynamics function
+        Args:
+            initial_state: The starting state of the vehicle
+            dynamics: The dynamics function to be used for simulation
+            controller: The control law to be used during simulation
+            control_params: The parameters of the control law to be used in simulation
+            n_input: The number of inputs for the dynamics function
         """
 
         super().__init__(initial_state=initial_state, n_inputs=n_inputs, plots=plots)

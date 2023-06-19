@@ -114,7 +114,10 @@ points to lie on the obstacle</p>
 </div></blockquote>
 <p>edge_shrink_dist: The distance that the edges will be moved towards each other</p>
 </dd>
-<dt>Returns:</dt><dd><p>True if the edge intersects the obstacles, false if it does not</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the edge intersects the obstacles, false if it does not</p>
 </dd>
 </dl>
 </dd></dl>
@@ -138,16 +141,20 @@ points to lie on the obstacle</p>
 <span class="sig-prename descclassname"><span class="pre">py_sim.worlds.polygon_world.</span></span><span class="sig-name descname"><span class="pre">find_closest_intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.find_closest_intersection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finds the closest intersection point between an edge and an edge list.
 Proximity is based on the location of the first point in edge 1</p>
-<dl>
+<dl class="simple">
 <dt>Inputs:</dt><dd><p>edge1: 2x2 matrix of points where each point is a column
 edge_list: list of 2x2 matrices consisting of edges</p>
 </dd>
-<dt>Returns:</dt><dd><p>Null if no intersection found
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>Null if no intersection found
 (inter_dist, inter_point) if an intersection is found</p>
 <blockquote>
 <div><p>inter_dist is the distance from the first point on edge 1 to the intersection point
 inter_point: 2x1 matrix representing the position of intersection</p>
 </div></blockquote>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -173,7 +180,10 @@ inter_point: 2x1 matrix representing the position of intersection</p>
 <dt>Inputs:</dt><dd><p>edge1: 2x2 matrix of points where each point is a column
 edge2: 2x2 matrix of points where each point is a column</p>
 </dd>
-<dt>Return:</dt><dd><p>None if no intersection exists, the intersection point as a column vector if it does</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None if no intersection exists, the intersection point as a column vector if it does</p>
 </dd>
 </dl>
 </dd></dl>

@@ -34,30 +34,94 @@
   <section id="module-py_sim.path_planning.graph_search">
 <span id="py-sim-path-planning-graph-search-module"></span><h1>py_sim.path_planning.graph_search module<a class="headerlink" href="#module-py_sim.path_planning.graph_search" title="Permalink to this heading">¶</a></h1>
 <p>graph_search.py provides the utilities required for searching a graph to find a plan</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.graph_search.GraphType">
+<span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.graph_search.</span></span><span class="sig-name descname"><span class="pre">GraphType</span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.GraphType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a type for using a graph with bound of nx.Graph</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TypeVar</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.DirectedPathGraph">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.graph_search.</span></span><span class="sig-name descname"><span class="pre">DirectedPathGraph</span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.DirectedPathGraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#py_sim.path_planning.graph_search.PathGraph" title="py_sim.path_planning.graph_search.PathGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">PathGraph</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DiGraph</span></code>]</p>
-<p>An undirected graph default for the PathGraph</p>
+<p>A directed graph default for the PathGraph</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.path_planning.graph_search.</span></span><span class="sig-name descname"><span class="pre">PathGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">GraphType</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphType</span></code>]</p>
-<p>Provides an interface to networkx graph creation to ensure that
-node position information and edge weights are appropriately defined
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="#py_sim.path_planning.graph_search.GraphType" title="py_sim.path_planning.graph_search.GraphType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphType</span></code></a>]</p>
+<dl class="simple">
+<dt>Provides an interface to networkx graph creation to ensure that</dt><dd><p>node position information and edge weights are appropriately defined
 for graph search methods</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.graph">
+<span class="sig-name descname"><span class="pre">graph</span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>The graph over which the search is performed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>GraphType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.node_location">
+<span class="sig-name descname"><span class="pre">node_location</span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.node_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maps from the node number to the node position (shape (2,))</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, npt.NDArray[Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.rtree">
+<span class="sig-name descname"><span class="pre">rtree</span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.rtree" title="Permalink to this definition">¶</a></dt>
+<dd><p>rtree used for rapid nearest neighbor searching</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph._last_index">
+<span class="sig-name descname"><span class="pre">_last_index</span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph._last_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores a counter for node indices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.add_edge">
 <span class="sig-name descname"><span class="pre">add_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.add_edge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds the edge into the graph with the optional weight. If no weight is provided
-then euclidean distance between the nodes is used</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>node_1: First node in the edge
-node_2: Second node in the edge</p>
+<dd><dl class="simple">
+<dt>Adds the edge into the graph with the optional weight. If no weight is provided</dt><dd><p>then euclidean distance between the nodes is used</p>
 </dd>
-<dt>Output:</dt><dd><p>True if the edge was added, false if the nodes do no exist in the graph (thus not added)</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_1</strong> – First node in the edge</p></li>
+<li><p><strong>node_2</strong> – Second node in the edge</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Output:</dt><dd><p>bool: True if the edge was added, false if the nodes do no exist in the graph (thus not added)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -66,10 +130,15 @@ node_2: Second node in the edge</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.add_node">
 <span class="sig-name descname"><span class="pre">add_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.add_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a node given the position. The node location is assumed unique, but not checked</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>position: the physical (x,y) location of the node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>position</strong> – the physical (x,y) location of the node</p>
 </dd>
-<dt>Returns:</dt><dd><p>The node index added</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The node index added</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -78,12 +147,19 @@ node_2: Second node in the edge</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.add_node_and_edges">
 <span class="sig-name descname"><span class="pre">add_node_and_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.path_planning.graph_search.World" title="py_sim.path_planning.graph_search.World"><span class="pre">World</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_connections</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.add_node_and_edges" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a node as well as edges to all other nodes that do not intersect with the obstacles</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>position: Node position to be added
-world: Polygon world used to check for obstacles
-n_connections: The number of connections to add</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – Node position to be added</p></li>
+<li><p><strong>world</strong> – Polygon world used to check for obstacles</p></li>
+<li><p><strong>n_connections</strong> – The number of connections to add</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>The index for the node added</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The index for the node added</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -92,17 +168,33 @@ n_connections: The number of connections to add</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.calculate_path_length">
 <span class="sig-name descname"><span class="pre">calculate_path_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.calculate_path_length" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the length of the path through a graph</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nodes</strong> – ordered list of indices for the nodes in the graph</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>path length</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.convert_to_cartesian">
 <span class="sig-name descname"><span class="pre">convert_to_cartesian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.convert_to_cartesian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a list of nodes into x and y vectors</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>nodes: Node indices to be converted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nodes</strong> – Node indices to be converted</p>
 </dd>
-<dt>Outputs:</dt><dd><p>x_vec: List of x indices
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>x_vec: List of x indices
 y_vec: List of y indices</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[float], list[float]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -111,11 +203,18 @@ y_vec: List of y indices</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.get_edge_weight">
 <span class="sig-name descname"><span class="pre">get_edge_weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.get_edge_weight" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the stored weight of the edge</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>node_1: parent node
-node_2: child node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_1</strong> – parent node</p></li>
+<li><p><strong>node_2</strong> – child node</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>The passed in weight</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The stored weight of the edge</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -124,10 +223,15 @@ node_2: child node</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.get_node_position">
 <span class="sig-name descname"><span class="pre">get_node_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.get_node_position" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the position of the given node</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>node: index of the node being evaluated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> – index of the node being evaluated</p>
 </dd>
-<dt>Outputs:</dt><dd><p>The position of the node</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The position of the node</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -136,16 +240,24 @@ node_2: child node</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.nearest">
 <span class="sig-name descname"><span class="pre">nearest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_nearest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.nearest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finds the n_nearest neighbors to the given point</p>
-<dl>
-<dt>Inputs:</dt><dd><p>point: Point around which to find the nearest neighbors
-n_nearest: The number of nearest neighbors to find</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> – Point around which to find the nearest neighbors</p></li>
+<li><p><strong>n_nearest</strong> – The number of nearest neighbors to find</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><dl class="simple">
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
 <dt>nearest_points: A list of the nearest neighbors found. Each is a (2,) array</dt><dd><p>Can be more than n_nearest if points are equidistant
 Can be less than n_nearest if there are less points</p>
 </dd>
 </dl>
 <p>nearest_ind: The corresponding indices</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[npt.NDArray[Any]], list[int]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -160,12 +272,25 @@ Can be less than n_nearest if there are less points</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.remove">
 <span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.remove" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes the node from the graph if it exists</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> – Index of the node to be removed</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.PathGraph.remove_edge">
 <span class="sig-name descname"><span class="pre">remove_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.PathGraph.remove_edge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes the edge, if it exists</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_1</strong> – Index of the first node in the edge to be removed</p></li>
+<li><p><strong>node_2</strong> – Index of the second node in the edge to be removed</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -186,16 +311,18 @@ Can be less than n_nearest if there are less points</p>
 <dt class="sig sig-object py" id="py_sim.path_planning.graph_search.World.intersects_obstacle">
 <span class="sig-name descname"><span class="pre">intersects_obstacle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shrink_edge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_shrink_dist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#py_sim.path_planning.graph_search.World.intersects_obstacle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines whether an edge intersects an obstacle, returns true if it does</p>
-<dl>
-<dt>Inputs:</dt><dd><p>edge: 2x2 matrix of points where each point is a column
-shrink_edge: True implies that the edge points will be moved towards each</p>
-<blockquote>
-<div><p>other before checking for intersection. This allows, for example, the edge
-points to lie on the obstacle</p>
-</div></blockquote>
-<p>edge_shrink_dist: The distance that the edges will be moved towards each other</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>edge</strong> – 2x2 matrix of points where each point is a column</p></li>
+<li><p><strong>shrink_edge</strong> – True implies that the edge points will be moved towards each
+other before checking for intersection. This allows, for example, the edge
+points to lie on the obstacle</p></li>
+<li><p><strong>edge_shrink_dist</strong> – The distance that the edges will be moved towards each other</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>True if the edge intersects the obstacles, false if it does not</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the edge intersects the obstacles, false if it does not</p>
 </dd>
 </dl>
 </dd></dl>

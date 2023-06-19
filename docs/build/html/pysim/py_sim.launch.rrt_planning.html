@@ -33,16 +33,32 @@
             
   <section id="module-py_sim.launch.rrt_planning">
 <span id="py-sim-launch-rrt-planning-module"></span><h1>py_sim.launch.rrt_planning module<a class="headerlink" href="#module-py_sim.launch.rrt_planning" title="Permalink to this heading">¶</a></h1>
-<p>grid_planning.py: Provides a framework for visualization of planning using an occupancy grid</p>
+<p>rrt_planning.py: Provides a framework for visualization of rrt planning through an obstacle world.</p>
+<dl class="simple">
+<dt>Available planners include:</dt><dd><ul class="simple">
+<li><p>RRT - rapidly exploring random tree</p></li>
+<li><p>RRT* - optimal rapidly exploring random tree</p></li>
+<li><p>I-RRT* - informed RRT*. Reduces the search space through sampling of the informed ellipse.</p></li>
+<li><p>S-RRT* - smart RRT*. Reduces the search space through sampling of beacons. Also smooths the path when a better path is found.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.launch.rrt_planning.path_length">
 <span class="sig-prename descclassname"><span class="pre">py_sim.launch.rrt_planning.</span></span><span class="sig-name descname"><span class="pre">path_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#py_sim.launch.rrt_planning.path_length" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the length of the path given the x and y coordinates</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>x_vec: Vector of x values
-y_vec: Vector of y values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_vec</strong> – Vector of x values</p></li>
+<li><p><strong>y_vec</strong> – Vector of y values</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>Total path length</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Total path length</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -50,12 +66,17 @@ y_vec: Vector of y values</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.launch.rrt_planning.test_rrt_planner">
 <span class="sig-prename descclassname"><span class="pre">py_sim.launch.rrt_planning.</span></span><span class="sig-name descname"><span class="pre">test_rrt_planner</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.launch.rrt_planning.test_rrt_planner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plans a path in the following steps:
-* Create a world
-* Create a planner
-* Create the plotting
-* Incrementally calculate the plan until plan calculated
-* Calculate the plan length</p>
+<dd><p>Plans a path through the world using an RRT planner.</p>
+<dl class="simple">
+<dt>The plan is created in the following steps:</dt><dd><ul class="simple">
+<li><p>Create a world</p></li>
+<li><p>Create a planner</p></li>
+<li><p>Create the plotting</p></li>
+<li><p>Incrementally calculate the plan until plan calculated</p></li>
+<li><p>Calculate the plan length</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

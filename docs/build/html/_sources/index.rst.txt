@@ -27,9 +27,9 @@ Planning Package Reference
 
    pysim/py_sim
 
-Root Readme file
------------
+Readme
+------
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 4
 
    README

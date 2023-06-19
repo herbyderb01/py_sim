@@ -1,4 +1,4 @@
-"""grid_planning.py: Provides a framework for visualization of planning using an occupancy grid
+"""grid_planning.py: Provides an example of path planning using a graph search with a topology graph, visibility graph, and Voronoi graph
 """
 
 import matplotlib.pyplot as plt
@@ -9,7 +9,9 @@ from py_sim.tools.sim_types import TwoDimArray, UnicycleState
 
 
 def test_graph_planner() -> None:
-    """ Plans a path in the following steps:
+    """ Plans a path using a graphical representation.
+
+      Planning occurs in the following steps:
         * Create a world
         * Create a planner
         * Create the plotting

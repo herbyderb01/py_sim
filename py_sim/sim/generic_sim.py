@@ -55,7 +55,18 @@ class Sim(Protocol[StateType]):
         """Stores data after update"""
 
 class SingleAgentSim(Generic[StateType]):
-    """Implements the main functions for a single agent simulation"""
+    """Implements the main functions for a single agent simulation
+
+    Attributes:
+        params(SimParameters): parameters for running the simulation
+        data(Data): Stores the current and next slice of information
+        lock(Lock): Lock used for writing to the data
+        stop(Event): Event used to indicate that the simulator should be stopped
+        figs(list[Figure]): Stores the figures that are used for plotting
+        axes(dict[Axes, Figure]): Stores the axes used for plotting and their corresponding figures
+        state_plots(list[StatePlot[StateType]]): Plots depending solely on state
+        data_plots(list[DataPlot[StateType]]): Plots that depend on the data
+    """
     def __init__(self,
                 initial_state: StateType,
                 n_inputs: int,

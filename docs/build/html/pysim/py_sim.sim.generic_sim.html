@@ -123,6 +123,94 @@ the simulation, but are needed for simulation execution</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.sim.generic_sim.</span></span><span class="sig-name descname"><span class="pre">SingleAgentSim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.PlotManifest" title="py_sim.plotting.plotting.PlotManifest"><span class="pre">PlotManifest</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code>]</p>
 <p>Implements the main functions for a single agent simulation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim.params">
+<span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>parameters for running the simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.sim.generic_sim.SimParameters" title="py_sim.sim.generic_sim.SimParameters">SimParameters</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the current and next slice of information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data">Data</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim.lock">
+<span class="sig-name descname"><span class="pre">lock</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim.lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lock used for writing to the data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Lock</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Event used to indicate that the simulator should be stopped</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Event</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim.figs">
+<span class="sig-name descname"><span class="pre">figs</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim.figs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the figures that are used for plotting</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Figure]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim.axes">
+<span class="sig-name descname"><span class="pre">axes</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim.axes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the axes used for plotting and their corresponding figures</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[Axes, Figure]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim.state_plots">
+<span class="sig-name descname"><span class="pre">state_plots</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim.state_plots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots depending solely on state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.StatePlot" title="py_sim.plotting.plotting.StatePlot">StatePlot</a>[StateType]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim.data_plots">
+<span class="sig-name descname"><span class="pre">data_plots</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim.data_plots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots that depend on the data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.DataPlot" title="py_sim.plotting.plotting.DataPlot">DataPlot</a>[StateType]]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim.continuous_plotting">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">continuous_plotting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim.continuous_plotting" title="Permalink to this definition">¶</a></dt>

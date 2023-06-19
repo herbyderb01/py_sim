@@ -30,6 +30,8 @@ The simulation examples demonstrate the vehicle actively controlling and moving 
 * `simple_sim.py`: Provides an example of using a control law within the simulation with position and state plotting occurring actively during the movement of the vehicle.
 * `simple_vector_fields.py`: Provides and example of using a vector field control law with the vector field overlaid onto the live plotting of the moving vehicle.
 * `vector_field_nav.py`: Provides an example with an obstacle world and range sensors in combination with a vehicle moving about the environment.
+* `graph_planning.py`: Provides an example of path planning using a graph search with a topology graph, visibility graph, and Voronoi graph
+* `grid_planning.py`: Provides a framework for visualization of planning using an occupancy grid. Basic graph search techniques are implemented, including breadth-first, depth-first, Dijkstra, A*, and greedy searches.
 
 ### Planning examples
 The planning examples show static deliberative planning capabilities (i.e., planning a path through an environment from the start position to the end position)
