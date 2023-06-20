@@ -37,8 +37,52 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.sim.generic_sim.Sim">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.sim.generic_sim.</span></span><span class="sig-name descname"><span class="pre">Sim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.sim.generic_sim.Sim" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code>[<a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateType" title="py_sim.tools.sim_types.StateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code></a>]</p>
 <p>Basic class formulation for simulating</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.Sim.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.Sim.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>The simulation data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data">Data</a>[StateType]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.Sim.params">
+<span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.Sim.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulation parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.sim.generic_sim.SimParameters" title="py_sim.sim.generic_sim.SimParameters">SimParameters</a>[StateType]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.Sim.lock">
+<span class="sig-name descname"><span class="pre">lock</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.Sim.lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lock for thread safe plotting</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Lock</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.Sim.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.Sim.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sim should stop when the event is true</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Event</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.sim.generic_sim.Sim.continuous_plotting">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">continuous_plotting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.generic_sim.Sim.continuous_plotting" title="Permalink to this definition">¶</a></dt>
@@ -46,18 +90,18 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.sim.generic_sim.Sim.data">
-<span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py_sim.sim.generic_sim.Sim.data" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.sim.generic_sim.Sim.lock">
-<span class="sig-name descname"><span class="pre">lock</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">allocate_lock</span></em><a class="headerlink" href="#py_sim.sim.generic_sim.Sim.lock" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">lock</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">allocate_lock</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.sim.generic_sim.Sim.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#py_sim.sim.generic_sim.SimParameters" title="py_sim.sim.generic_sim.SimParameters"><span class="pre">SimParameters</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py_sim.sim.generic_sim.Sim.params" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#py_sim.sim.generic_sim.SimParameters" title="py_sim.sim.generic_sim.SimParameters"><span class="pre">SimParameters</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -67,8 +111,8 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.sim.generic_sim.Sim.stop">
-<span class="sig-name descname"><span class="pre">stop</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Event</span></em><a class="headerlink" href="#py_sim.sim.generic_sim.Sim.stop" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">stop</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Event</span></em><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -88,40 +132,83 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.sim.generic_sim.SimParameters">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.sim.generic_sim.</span></span><span class="sig-name descname"><span class="pre">SimParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StateType</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.sim.generic_sim.SimParameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code>]</p>
-<p>Contains a fixed set of parameters that do not change throughout
-the simulation, but are needed for simulation execution</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateType" title="py_sim.tools.sim_types.StateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code></a>]</p>
+<dl class="simple">
+<dt>Contains a fixed set of parameters that do not change throughout</dt><dd><p>the simulation, but are needed for simulation execution</p>
+</dd>
+</dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SimParameters.sim_plot_period">
-<span class="sig-name descname"><span class="pre">sim_plot_period</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#py_sim.sim.generic_sim.SimParameters.sim_plot_period" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SimParameters.sim_step">
-<span class="sig-name descname"><span class="pre">sim_step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.1</span></em><a class="headerlink" href="#py_sim.sim.generic_sim.SimParameters.sim_step" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SimParameters.initial_state">
+<span class="sig-name descname"><span class="pre">initial_state</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SimParameters.initial_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>State at the beginning of the simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>StateType</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.sim.generic_sim.SimParameters.sim_update_period">
-<span class="sig-name descname"><span class="pre">sim_update_period</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.1</span></em><a class="headerlink" href="#py_sim.sim.generic_sim.SimParameters.sim_update_period" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">sim_update_period</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SimParameters.sim_update_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Period for successive calls to updating the simulation variables</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SimParameters.sim_plot_period">
+<span class="sig-name descname"><span class="pre">sim_plot_period</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SimParameters.sim_plot_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Period for which the plotting should occur</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.generic_sim.SimParameters.sim_step">
+<span class="sig-name descname"><span class="pre">sim_step</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SimParameters.sim_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulation time step (seconds)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.sim.generic_sim.SimParameters.t0">
-<span class="sig-name descname"><span class="pre">t0</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#py_sim.sim.generic_sim.SimParameters.t0" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">t0</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SimParameters.t0" title="Permalink to this definition">¶</a></dt>
+<dd><p>The initial time of the simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.sim.generic_sim.SimParameters.tf">
-<span class="sig-name descname"><span class="pre">tf</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20.0</span></em><a class="headerlink" href="#py_sim.sim.generic_sim.SimParameters.tf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">tf</span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SimParameters.tf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Final time of the simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.sim.generic_sim.</span></span><span class="sig-name descname"><span class="pre">SingleAgentSim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.PlotManifest" title="py_sim.plotting.plotting.PlotManifest"><span class="pre">PlotManifest</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateType" title="py_sim.tools.sim_types.StateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code></a>]</p>
 <p>Implements the main functions for a single agent simulation</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim.params">
@@ -221,6 +308,11 @@ the simulation, but are needed for simulation execution</p>
 <dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim.initialize_data_storage">
 <span class="sig-name descname"><span class="pre">initialize_data_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim.initialize_data_storage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes all of the storage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_inputs</strong> – The number of inputs for the control trajectory</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -233,6 +325,11 @@ the simulation, but are needed for simulation execution</p>
 <dt class="sig sig-object py" id="py_sim.sim.generic_sim.SingleAgentSim.store_data_slice">
 <span class="sig-name descname"><span class="pre">store_data_slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim_slice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Slice" title="py_sim.tools.sim_types.Slice"><span class="pre">Slice</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.generic_sim.SingleAgentSim.store_data_slice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stores the state trajectory data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sim_slice</strong> – The information to be stored</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -260,8 +357,9 @@ updating current while plotting the data</p>
 <dt class="sig sig-object py" id="py_sim.sim.generic_sim.start_simple_sim">
 <span class="sig-prename descclassname"><span class="pre">py_sim.sim.generic_sim.</span></span><span class="sig-name descname"><span class="pre">start_simple_sim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.sim.generic_sim.Sim" title="py_sim.sim.generic_sim.Sim"><span class="pre">Sim</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.generic_sim.start_simple_sim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts the simulation and the plotting of a simple sequential simulator</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>sim: The simulation to be run</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sim</strong> – The simulation to be run</p>
 </dd>
 </dl>
 </dd></dl>

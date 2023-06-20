@@ -39,10 +39,6 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.worlds.polygon_world.</span></span><span class="sig-name descname"><span class="pre">ConvexPolygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.worlds.polygon_world.ConvexPolygon" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Stores the data required for convex polygon definition and evaluation</p>
-<dl>
-<dt>Properties:</dt><dd><p>vertices: 2xm matrix of points where each column is a point and m is the number of points
-normal_matrix: mx2 matrix of normal vectors to polygon sides where each normal vector is represented as a row
-offset: mx1 column vector giving the offset of each point</p>
 <blockquote>
 <div><dl class="simple">
 <dt>Note that for two points, p1 and p2, the normal to these points can be calculated as</dt><dd><p>n = J&#64;(p2-p1), where J is a 90 degree rotation matrix rotating the vectors clockwise</p>
@@ -57,18 +53,64 @@ The offset matrix stores -n’p1 for each row</p>
 </dd>
 </dl>
 </div></blockquote>
-<dl class="simple">
-<dt>edges: list of 2x2 matrices where the first column corresponds to the</dt><dd><p>starting point and the second to the ending point</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.worlds.polygon_world.ConvexPolygon.vertices">
+<span class="sig-name descname"><span class="pre">vertices</span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.ConvexPolygon.vertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>2xm matrix of points where each column is a point and m is the number of points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.worlds.polygon_world.ConvexPolygon.normal_matrix">
+<span class="sig-name descname"><span class="pre">normal_matrix</span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.ConvexPolygon.normal_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>mx2 matrix of normal vectors to polygon sides where each normal vector is represented as a row</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.worlds.polygon_world.ConvexPolygon.offset">
+<span class="sig-name descname"><span class="pre">offset</span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.ConvexPolygon.offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>mx1 column vector giving the offset of each point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.worlds.polygon_world.ConvexPolygon.edges">
+<span class="sig-name descname"><span class="pre">edges</span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.ConvexPolygon.edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of 2x2 matrices where the first column corresponds to the
+starting point and the second to the ending point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[npt.NDArray[Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.worlds.polygon_world.ConvexPolygon.inside_polygon">
 <span class="sig-name descname"><span class="pre">inside_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.ConvexPolygon.inside_polygon" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns true if the given point is inside the polygon</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>point: 2x1 point to be evaluated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>point</strong> – 2x1 point to be evaluated</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the point is inside the polygon</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -80,13 +122,44 @@ The offset matrix stores -n’p1 for each row</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.worlds.polygon_world.</span></span><span class="sig-name descname"><span class="pre">PolygonWorld</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.worlds.polygon_world.PolygonWorld" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Defines a world made up of distinct polygons</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.worlds.polygon_world.PolygonWorld.polygons">
+<span class="sig-name descname"><span class="pre">polygons</span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.PolygonWorld.polygons" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of all polygons in the world</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#py_sim.worlds.polygon_world.ConvexPolygon" title="py_sim.worlds.polygon_world.ConvexPolygon">ConvexPolygon</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.worlds.polygon_world.PolygonWorld.edges">
+<span class="sig-name descname"><span class="pre">edges</span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.PolygonWorld.edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aggregate list of all edges in the world</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[npt.NDArray[Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.worlds.polygon_world.PolygonWorld.find_closest_obstacle">
 <span class="sig-name descname"><span class="pre">find_closest_obstacle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.PolygonWorld.find_closest_obstacle" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Finds the closest intersection point between an edge and the edges forming the obstacles.</dt><dd><p>Proximity is based on the location of the first point in the given edge</p>
 </dd>
-<dt>Inputs:</dt><dd><p>edge: 2x2 matrix of points where each point is a column</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>edge</strong> – 2x2 matrix of points where each point is a column</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None if no instersection found, (distance, intersection point) if it is found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[tuple[float, npt.NDArray[Any]]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -95,8 +168,15 @@ The offset matrix stores -n’p1 for each row</p>
 <dt class="sig sig-object py" id="py_sim.worlds.polygon_world.PolygonWorld.inside_obstacle">
 <span class="sig-name descname"><span class="pre">inside_obstacle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.PolygonWorld.inside_obstacle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns true if the given point is inside any of the polygons defining the world</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>Point: 2x1 point to be evaluated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Point</strong> – 2x1 point to be evaluated</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the point is in an obstacle</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -105,19 +185,21 @@ The offset matrix stores -n’p1 for each row</p>
 <dt class="sig sig-object py" id="py_sim.worlds.polygon_world.PolygonWorld.intersects_obstacle">
 <span class="sig-name descname"><span class="pre">intersects_obstacle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shrink_edge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_shrink_dist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.PolygonWorld.intersects_obstacle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines whether an edge intersects an obstacle, returns true if it does</p>
-<dl>
-<dt>Inputs:</dt><dd><p>edge: 2x2 matrix of points where each point is a column
-shrink_edge: True implies that the edge points will be moved towards each</p>
-<blockquote>
-<div><p>other before checking for intersection. This allows, for example, the edge
-points to lie on the obstacle</p>
-</div></blockquote>
-<p>edge_shrink_dist: The distance that the edges will be moved towards each other</p>
-</dd>
-</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>True if the edge intersects the obstacles, false if it does not</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>edge</strong> – 2x2 matrix of points where each point is a column</p></li>
+<li><p><strong>shrink_edge</strong> – True implies that the edge points will be moved towards each
+other before checking for intersection. This allows, for example, the edge
+points to lie on the obstacle</p></li>
+<li><p><strong>edge_shrink_dist</strong> – The distance that the edges will be moved towards each other</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the edge intersects the obstacles, false if it does not</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -128,12 +210,28 @@ points to lie on the obstacle</p>
 <dt class="sig sig-object py" id="py_sim.worlds.polygon_world.create_visibility_graph">
 <span class="sig-prename descclassname"><span class="pre">py_sim.worlds.polygon_world.</span></span><span class="sig-name descname"><span class="pre">create_visibility_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld"><span class="pre">PolygonWorld</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.UndirectedPathGraph" title="py_sim.path_planning.graph_search.UndirectedPathGraph"><span class="pre">UndirectedPathGraph</span></a></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.create_visibility_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a visibility graph from the polygon world</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The resulting visibility graph for the world</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.UndirectedPathGraph" title="py_sim.path_planning.graph_search.UndirectedPathGraph">UndirectedPathGraph</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.worlds.polygon_world.create_voronoi_graph">
 <span class="sig-prename descclassname"><span class="pre">py_sim.worlds.polygon_world.</span></span><span class="sig-name descname"><span class="pre">create_voronoi_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld"><span class="pre">PolygonWorld</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_limits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_limits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.UndirectedPathGraph" title="py_sim.path_planning.graph_search.UndirectedPathGraph"><span class="pre">UndirectedPathGraph</span></a></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.create_voronoi_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a voronoi graph from the polygon world</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The resulting voronoi graph for the world</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.UndirectedPathGraph" title="py_sim.path_planning.graph_search.UndirectedPathGraph">UndirectedPathGraph</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -141,20 +239,24 @@ points to lie on the obstacle</p>
 <span class="sig-prename descclassname"><span class="pre">py_sim.worlds.polygon_world.</span></span><span class="sig-name descname"><span class="pre">find_closest_intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.find_closest_intersection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finds the closest intersection point between an edge and an edge list.
 Proximity is based on the location of the first point in edge 1</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>edge1: 2x2 matrix of points where each point is a column
-edge_list: list of 2x2 matrices consisting of edges</p>
-</dd>
-</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p>Null if no intersection found
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>edge1</strong> – 2x2 matrix of points where each point is a column</p></li>
+<li><p><strong>edge_list</strong> – list of 2x2 matrices consisting of edges</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Null if no intersection found
 (inter_dist, inter_point) if an intersection is found</p>
 <blockquote>
-<div><p>inter_dist is the distance from the first point on edge 1 to the intersection point
-inter_point: 2x1 matrix representing the position of intersection</p>
+<div><p>inter_dist is the distance from the first point on edge 1 to the intersection point</p>
+<p>inter_point: 2x1 matrix representing the position of intersection</p>
 </div></blockquote>
 </p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[tuple[float, npt.NDArray[Any]]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -163,27 +265,49 @@ inter_point: 2x1 matrix representing the position of intersection</p>
 <dt class="sig sig-object py" id="py_sim.worlds.polygon_world.generate_non_convex_obstacles">
 <span class="sig-prename descclassname"><span class="pre">py_sim.worlds.polygon_world.</span></span><span class="sig-name descname"><span class="pre">generate_non_convex_obstacles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld"><span class="pre">PolygonWorld</span></a></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.generate_non_convex_obstacles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a simple world that is non-convex and bad for greedy planners</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A polygon world with non-convex region</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld">PolygonWorld</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.worlds.polygon_world.generate_world_obstacles">
 <span class="sig-prename descclassname"><span class="pre">py_sim.worlds.polygon_world.</span></span><span class="sig-name descname"><span class="pre">generate_world_obstacles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld"><span class="pre">PolygonWorld</span></a></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.generate_world_obstacles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a world with three different obstacles</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A polygon world with three obstacles</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld">PolygonWorld</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.worlds.polygon_world.line_segment_intersection">
 <span class="sig-prename descclassname"><span class="pre">py_sim.worlds.polygon_world.</span></span><span class="sig-name descname"><span class="pre">line_segment_intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.line_segment_intersection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines the intersection point of an two line segments or None if the intersection does not exist.</p>
-<p>The intersection is found by determining the scaling along edge1 of the point of intersection</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>edge1: 2x2 matrix of points where each point is a column
-edge2: 2x2 matrix of points where each point is a column</p>
-</dd>
-</dl>
+<blockquote>
+<div><p>The intersection is found by determining the scaling along edge1 of the point of intersection</p>
+</div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None if no intersection exists, the intersection point as a column vector if it does</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>edge1</strong> – 2x2 matrix of points where each point is a column</p></li>
+<li><p><strong>edge2</strong> – 2x2 matrix of points where each point is a column</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None if no intersection exists, the intersection point as a column vector if it does</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[npt.NDArray[Any]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -192,12 +316,28 @@ edge2: 2x2 matrix of points where each point is a column</p>
 <dt class="sig sig-object py" id="py_sim.worlds.polygon_world.topology_non_convex_obstacles">
 <span class="sig-prename descclassname"><span class="pre">py_sim.worlds.polygon_world.</span></span><span class="sig-name descname"><span class="pre">topology_non_convex_obstacles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.UndirectedPathGraph" title="py_sim.path_planning.graph_search.UndirectedPathGraph"><span class="pre">UndirectedPathGraph</span></a></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.topology_non_convex_obstacles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a topology graph for the non convex obstacles world</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The graph representing the world</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.UndirectedPathGraph" title="py_sim.path_planning.graph_search.UndirectedPathGraph">UndirectedPathGraph</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.worlds.polygon_world.topology_world_obstacles">
 <span class="sig-prename descclassname"><span class="pre">py_sim.worlds.polygon_world.</span></span><span class="sig-name descname"><span class="pre">topology_world_obstacles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.UndirectedPathGraph" title="py_sim.path_planning.graph_search.UndirectedPathGraph"><span class="pre">UndirectedPathGraph</span></a></span></span><a class="headerlink" href="#py_sim.worlds.polygon_world.topology_world_obstacles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a topology graph for the world obstacles world</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The graph representing the world</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="py_sim.path_planning.graph_search.html#py_sim.path_planning.graph_search.UndirectedPathGraph" title="py_sim.path_planning.graph_search.UndirectedPathGraph">UndirectedPathGraph</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

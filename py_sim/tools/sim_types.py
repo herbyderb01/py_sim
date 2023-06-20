@@ -1,5 +1,10 @@
 """types.py: Defines several types that are used throughout the code
 
+Attributes:
+    StateType(TypeVar): A type bound by State
+    InputType(TypeVar): A type bound by Input
+    ControlParamType(TypeVar): A type placeholder for any control parameters
+    UnicycleStateType(TypeVar): A type bound by UnicycleState
 """
 
 import copy
@@ -11,14 +16,24 @@ import numpy.typing as npt
 
 # Generic definitions for the state and input
 class State(Protocol):
-    """The basic form of a state"""
-    state: npt.NDArray[Any] # The state vector of the vehicle
-    n_states: int # The number of elements in the state
+    """The basic form of a state
+
+    Attributes:
+        state(NDArray[Any]): The state vector of the vehicle
+        n_states(int): The number of elements in the state
+    """
+    state: npt.NDArray[Any]
+    n_states: int
 
 class Input(Protocol):
-    """The basic form of a control input"""
-    input: npt.NDArray[Any] # A vector of inputs
-    n_inputs: int # The number of inputs (i.e., rows in input)
+    """The basic form of a control input
+
+    Attributes:
+        input(NDArray[Any]): A vector of inputs
+        n_inputs(int): The number of inputs (i.e., rows in input)
+    """
+    input: npt.NDArray[Any]
+    n_inputs: int
 
 StateType = TypeVar("StateType", bound=State)
 InputType = TypeVar("InputType", bound=Input)
@@ -27,6 +42,11 @@ ControlParamType = TypeVar("ControlParamType")
 class Slice(Generic[StateType]):
     """ Contains a "slice" of data - the data produced / needed
         at a single time
+
+    Attributes:
+        time(float): Simulation time corresponding to the state
+        state(StateType): State of the vehicle
+        input_vec(Optional[npt.NDArray[Any]]): Input applied at the stated time, None => not yet calculated
     """
     def __init__(self, state: StateType, time: float = 0.) -> None:
         self.time = time # Simulation time corresponding to the state
@@ -34,7 +54,17 @@ class Slice(Generic[StateType]):
         self.input_vec: Optional[npt.NDArray[Any]] = None # Input applied at the stated time, None => not yet calculated
 
 class Data(Generic[StateType]):
-    """Stores the changing simulation information"""
+    """Stores the changing simulation information
+
+    Attributes:
+        current(Slice): Stores the current slice of data to be read
+        next(Slice): Stores the next data to be created
+        state_traj(NDArray[Any]): Each column corresponds to a trajectory data
+        time_traj(NDArray[Any]): vector Each element is the time for the state in question
+        traj_index_latest(int): Index into the state and time trajectory of the latest data
+        control_traj(NDArray[Any]): Each column corresponds to a control input vector
+        range_bearing_latest(RangeBearingMeasurements): Stores the latest data received for range-bearing measurements
+    """
     def __init__(self, current: Slice[StateType]) -> None:
         self.current = current # Stores the current slice of data to be read
         self.next = copy.deepcopy(current) # Stores the next data to be created
@@ -45,19 +75,42 @@ class Data(Generic[StateType]):
         self.range_bearing_latest = RangeBearingMeasurements() # Stores the latest data received for range-bearing measurements
 
     def get_state_vec(self,index: int) -> npt.NDArray[Any]:
-        """Returns a state vector of valid values"""
+        """Returns a vector of the valid values for a given state
+
+        Args:
+            index: The index of the state being requested
+
+        Returns:
+            NDArray[Any]: The array of state values from initial time to current time
+        """
         return self.state_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on second argument
 
     def get_time_vec(self) -> npt.NDArray[Any]:
-        """Returns the valid time vector"""
+        """Returns the vector of valid time values from the initial time to the current time"""
         return self.time_traj[0:self.traj_index_latest+1]
 
     def get_control_vec(self, index: int) -> npt.NDArray[Any]:
-        """Returns the control vector of valid values"""
+        """Returns the control referenced by index over all valid time values
+
+        Args:
+            index: The index of the desired control input within the control vector
+
+        Returns:
+            NDArray[Any]: The requested control over time
+        """
         return self.control_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on the second argument
 
 class TwoDArrayType(Protocol):
-    """Defines a Two dimensional array with an x and y component"""
+    """Defines a Two dimensional array with an x and y component
+
+    Attributes:
+        IND_X(int): The index of the x-component
+        IND_Y(int): The index of the y-component
+        state(NDArray[Any]): The 2-D array
+        n_states(int): The number of states in state
+        x(float): The value of the x component
+        y(float): The value of the y component
+    """
     IND_X: int # The index of the x-component
     IND_Y: int # The index of the y-component
     state: npt.NDArray[Any] # The 2-D array
@@ -67,6 +120,14 @@ class TwoDArrayType(Protocol):
 
 class TwoDimArray:
     """Provides a representation of a two dimensional array
+
+    Attributes:
+        IND_X(int): The index of the x-component
+        IND_Y(int): The index of the y-component
+        state(NDArray[Any]): The 2-D array
+        n_states(int): The number of states in state
+        x(float): The value of the x component
+        y(float): The value of the y component
     """
     IND_X: int = 0 # The index of the x-component
     IND_Y: int = 1  # The index of the y-component
@@ -103,27 +164,71 @@ class TwoDimArray:
 class Dynamics(Protocol[StateType, InputType]): # type: ignore
     """Class taking the form of a state dynamics function call"""
     def __call__(self, state: StateType, control: InputType) -> StateType:
-        """Dynamic function call ( xdot = f(x,u) )"""
+        """Dynamic function call ( xdot = f(x,u) )
+
+        Args:
+            state: The current state
+            control: The current control input
+
+        Returns:
+            StateType: The time derivative of the state
+        """
 
 class Control(Protocol[StateType, InputType, ControlParamType]): # type: ignore
     """Class taking the form of the control function"""
     def __call__(self, time: float, state: StateType, params: ControlParamType) -> InputType:
-        """Control function call (u = g(t, x, P))"""
+        """Control function call (u = g(t, x, P))
+
+        Args:
+            time: The time for which the control is being calculated
+            state: The state at the time the control is calculated
+            params: The paramters for the control law
+
+        Returns:
+            InputType: The resulting control input
+        """
 
 class VectorControl(Protocol[StateType, InputType, ControlParamType]): # type: ignore
-    """Class taking the form of the control function"""
+    """Class taking the form of the control function for a vector field"""
     def __call__(self, time: float, state: StateType, vec: TwoDimArray, params: ControlParamType) -> InputType:
         """Control function call (u = g(t, x, vec, P)) where vec is the desired vector to follow
+
+        Args:
+            time: The time for which the control is being calculated
+            state: The state at the time the control is calculated
+            vec: The vector to be followed
+            params: The paramters for the control law
+
+        Returns:
+            InputType: The resulting control input
         """
 
 class ArcParams():
-    """Parameters required for defining an arc"""
+    """Parameters required for defining an arc
+
+    Args:
+        v_d(float): Desired translational velocity
+        w_d(float): Desired rotational velocity
+    """
     def __init__(self, v_d: float = 0., w_d: float = 0.) -> None:
         self.v_d = v_d # Desired translational velocity
         self.w_d = w_d # Desired rotational velocity
 
 class UnicyleStateProtocol(Protocol):
-    """Protocol for the state when calling the unicycle functions"""
+    """Protocol for the state when calling the unicycle functions
+
+    Attributes:
+        IND_X(int): The index of the x-position
+        IND_Y(int): The index of the y-position
+        IND_PSI(int): The index of the orientation
+        state(NDArray[Any]): The state vector of the vehicle
+        position(NDArray[Any]): The position vector of the vehicle
+        n_states(int): The number of states in the state vector
+        x(float): The x-position
+        y(float): The y-position
+        psi(float): The orientation
+
+    """
     IND_X: int  # The index of the x-position
     IND_Y: int  # The index of the y-position
     IND_PSI: int  # The index of the orientation
@@ -135,7 +240,16 @@ class UnicyleStateProtocol(Protocol):
     psi: float # The orientation
 
 class UnicyleControlProtocol(Protocol):
-    """Protocol for the input when calling the unicycle functions"""
+    """Protocol for the input when calling the unicycle functions
+
+    Attributes:
+        IND_V(int): The index of the translational velocity input
+        IND_W(int): The index of the rotational velocity input
+        input(NDArray[Any]): The input vector
+        n_inputs(int): The number of inputs (i.e., rows in input)
+        v(float): The value of the translational velocity
+        w(float): The value of the rotational velocity
+    """
     IND_V: int # The index of the translational velocity input
     IND_W: int # The index of the rotational velocity input
     input: npt.NDArray[Any] # The input vector
@@ -146,6 +260,17 @@ class UnicyleControlProtocol(Protocol):
 class UnicycleState:
     """Provides a representation of the vehicle whose state consists of
        an (x,y) position and an orientation (psi)
+
+    Attributes:
+        IND_X(int): The index of the x-position
+        IND_Y(int): The index of the y-position
+        IND_PSI(int): The index of the orientation
+        state(NDArray[Any]): The state vector of the vehicle
+        position(NDArray[Any]): The position vector of the vehicle
+        n_states(int): The number of states in the state vector
+        x(float): The x-position
+        y(float): The y-position
+        psi(float): The orientation
     """
     IND_X: int = 0 # The index of the x-position
     IND_Y: int = 1  # The index of the y-position
@@ -199,7 +324,16 @@ class UnicycleState:
 UnicycleStateType = TypeVar("UnicycleStateType", bound=UnicycleState)
 
 class UnicycleControl:
-    """Stores the inputs required for the Unicycle dynamics (translational and rotation velocity)"""
+    """Stores the inputs required for the Unicycle dynamics (translational and rotation velocity)
+
+    Attributes:
+        IND_V(int): The index of the translational velocity input
+        IND_W(int): The index of the rotational velocity input
+        input(NDArray[Any]): The input vector
+        n_inputs(int): The number of inputs (i.e., rows in input)
+        v(float): The value of the translational velocity
+        w(float): The value of the rotational velocity
+    """
     IND_V: int = 0# The index of the translational velocity input
     IND_W: int = 1# The index of the rotational velocity input
     n_inputs: int = 2 # The number of inputs (i.e., rows in input)
@@ -239,10 +373,24 @@ class UnicycleControl:
 class VectorField(Protocol):
     """Defines the functions needed for a vector field class"""
     def calculate_vector(self, state: UnicyleStateProtocol, time: float) ->TwoDimArray:
-        """Calculates a vector given the time and unicycle state"""
+        """Calculates a vector given the time and unicycle state
+
+        Args:
+            state: Current position and orientation
+            time: time in question (seconds)
+
+        Returns:
+            TwoDimArray: The resulting vector
+        """
 
 class RangeBearingMeasurements:
-    """Storage for range and bearing measurements"""
+    """Storage for range and bearing measurements
+
+    Attributes:
+        range(list[float]): Range to a number of measurements
+        bearing(list[float]): Bearing to the measurements
+        location(list[TwoDimArray]): Location of each of the measurements
+    """
     def __init__(self) -> None:
         """Creates empty vectors of range and bearing measurements"""
         self.range: list[float] = [] # Range to a number of measurements
@@ -250,11 +398,16 @@ class RangeBearingMeasurements:
         self.location: list[TwoDimArray] = [] # Location of each of the measurements
 
 class StateSpace:
-    """Defines the rectangular limits of a state space"""
+    """Defines the rectangular limits of a state space
+
+    Attributes:
+        x_lim(tuple[float, float]): Lower and upper limit for the x value
+        y_lim(tuple[float, float]): Lower and upper limit for the y value
+    """
     def __init__(self, x_lim: tuple[float, float], y_lim: tuple[float, float]) -> None:
         """ Initializes the state space limits. Note that the limits must be increasing.
 
-            Inputs:
+            Args:
                 x_lim: Lower and upper limit for the x value
                 y_lim: lower and upper limit for the y value
         """
@@ -269,11 +422,11 @@ class StateSpace:
     def contains(self, state: TwoDimArray) -> bool:
         """ Evaluates if the state is in the state space. Returns true if it is
 
-            Inputs:
-                state: State to be evaluated
+        Args:
+            state: State to be evaluated
 
-            Outputs:
-                True if the state is in the state space, false otherwise
+        Returns:
+            bool: True if the state is in the state space, false otherwise
         """
         return bool(state.x >= self.x_lim[0] and state.x <= self.x_lim[1] and \
                     state.y >= self.y_lim[0] and state.y <= self.y_lim[1])
@@ -281,11 +434,11 @@ class StateSpace:
     def furthest_point(self, x: TwoDimArray) -> TwoDimArray:
         """Returns the furthest point in the state space furthest from x
 
-            Inputs:
-                x: An point to evaluate
+        Args:
+            x: An point to evaluate
 
-            Outputs:
-                The furthest point from x
+        Returns:
+            TwoDimArray: The furthest point from x
         """
         # Evaluate bottom left corner
         x_out = TwoDimArray(x=self.x_lim[0], y=self.y_lim[0])
@@ -317,10 +470,13 @@ class StateSpace:
 class EllipseParameters:
     """ Defines the parameters necessary for defining an ellipse
 
+    Attributes:
         a: Major axis radius
         b: Minor axis radius
         center: Center point of the ellipse
         alpha: orientation from x-axis of ellipse
+        c_a: the cosine of alpha
+        s_a: the sine of alpha
     """
     def __init__(self, a: float = 0., b: float = 0., center: TwoDimArray = TwoDimArray(), alpha: float = 0.) -> None:
         """Store the parameters"""

@@ -34,41 +34,192 @@
   <section id="module-py_sim.tools.sim_types">
 <span id="py-sim-tools-sim-types-module"></span><h1>py_sim.tools.sim_types module<a class="headerlink" href="#module-py_sim.tools.sim_types" title="Permalink to this heading">¶</a></h1>
 <p>types.py: Defines several types that are used throughout the code</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.StateType">
+<span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">StateType</span></span><a class="headerlink" href="#py_sim.tools.sim_types.StateType" title="Permalink to this definition">¶</a></dt>
+<dd><p>A type bound by State</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TypeVar</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.InputType">
+<span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">InputType</span></span><a class="headerlink" href="#py_sim.tools.sim_types.InputType" title="Permalink to this definition">¶</a></dt>
+<dd><p>A type bound by Input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TypeVar</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.ControlParamType">
+<span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">ControlParamType</span></span><a class="headerlink" href="#py_sim.tools.sim_types.ControlParamType" title="Permalink to this definition">¶</a></dt>
+<dd><p>A type placeholder for any control parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TypeVar</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleStateType">
+<span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">UnicycleStateType</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleStateType" title="Permalink to this definition">¶</a></dt>
+<dd><p>A type bound by UnicycleState</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TypeVar</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.ArcParams">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">ArcParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w_d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.tools.sim_types.ArcParams" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Parameters required for defining an arc</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v_d</strong> (<em>float</em>) – Desired translational velocity</p></li>
+<li><p><strong>w_d</strong> (<em>float</em>) – Desired rotational velocity</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.Control">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">Control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.tools.sim_types.Control" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code>[<a class="reference internal" href="#py_sim.tools.sim_types.StateType" title="py_sim.tools.sim_types.StateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code></a>, <a class="reference internal" href="#py_sim.tools.sim_types.InputType" title="py_sim.tools.sim_types.InputType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code></a>, <a class="reference internal" href="#py_sim.tools.sim_types.ControlParamType" title="py_sim.tools.sim_types.ControlParamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code></a>]</p>
 <p>Class taking the form of the control function</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.Data">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.tools.sim_types.Slice" title="py_sim.tools.sim_types.Slice"><span class="pre">Slice</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.tools.sim_types.Data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="#py_sim.tools.sim_types.StateType" title="py_sim.tools.sim_types.StateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code></a>]</p>
 <p>Stores the changing simulation information</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.Data.current">
+<span class="sig-name descname"><span class="pre">current</span></span><a class="headerlink" href="#py_sim.tools.sim_types.Data.current" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the current slice of data to be read</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.tools.sim_types.Slice" title="py_sim.tools.sim_types.Slice">Slice</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.Data.next">
+<span class="sig-name descname"><span class="pre">next</span></span><a class="headerlink" href="#py_sim.tools.sim_types.Data.next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the next data to be created</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.tools.sim_types.Slice" title="py_sim.tools.sim_types.Slice">Slice</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.Data.state_traj">
+<span class="sig-name descname"><span class="pre">state_traj</span></span><a class="headerlink" href="#py_sim.tools.sim_types.Data.state_traj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Each column corresponds to a trajectory data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.Data.time_traj">
+<span class="sig-name descname"><span class="pre">time_traj</span></span><a class="headerlink" href="#py_sim.tools.sim_types.Data.time_traj" title="Permalink to this definition">¶</a></dt>
+<dd><p>vector Each element is the time for the state in question</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.Data.traj_index_latest">
+<span class="sig-name descname"><span class="pre">traj_index_latest</span></span><a class="headerlink" href="#py_sim.tools.sim_types.Data.traj_index_latest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index into the state and time trajectory of the latest data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.Data.control_traj">
+<span class="sig-name descname"><span class="pre">control_traj</span></span><a class="headerlink" href="#py_sim.tools.sim_types.Data.control_traj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Each column corresponds to a control input vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.Data.range_bearing_latest">
+<span class="sig-name descname"><span class="pre">range_bearing_latest</span></span><a class="headerlink" href="#py_sim.tools.sim_types.Data.range_bearing_latest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the latest data received for range-bearing measurements</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.tools.sim_types.RangeBearingMeasurements" title="py_sim.tools.sim_types.RangeBearingMeasurements">RangeBearingMeasurements</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.Data.get_control_vec">
 <span class="sig-name descname"><span class="pre">get_control_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.tools.sim_types.Data.get_control_vec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the control vector of valid values</p>
+<dd><p>Returns the control referenced by index over all valid time values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> – The index of the desired control input within the control vector</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The requested control over time</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.Data.get_state_vec">
 <span class="sig-name descname"><span class="pre">get_state_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.tools.sim_types.Data.get_state_vec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a state vector of valid values</p>
+<dd><p>Returns a vector of the valid values for a given state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> – The index of the state being requested</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The array of state values from initial time to current time</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.Data.get_time_vec">
 <span class="sig-name descname"><span class="pre">get_time_vec</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.tools.sim_types.Data.get_time_vec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the valid time vector</p>
+<dd><p>Returns the vector of valid time values from the initial time to the current time</p>
 </dd></dl>
 
 </dd></dl>
@@ -76,7 +227,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.Dynamics">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">Dynamics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.tools.sim_types.Dynamics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code>[<a class="reference internal" href="#py_sim.tools.sim_types.StateType" title="py_sim.tools.sim_types.StateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code></a>, <a class="reference internal" href="#py_sim.tools.sim_types.InputType" title="py_sim.tools.sim_types.InputType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code></a>]</p>
 <p>Class taking the form of a state dynamics function call</p>
 </dd></dl>
 
@@ -85,25 +236,57 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">EllipseParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center:</span> <span class="pre">~py_sim.tools.sim_types.TwoDimArray</span> <span class="pre">=</span> <span class="pre">&lt;py_sim.tools.sim_types.TwoDimArray</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.tools.sim_types.EllipseParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Defines the parameters necessary for defining an ellipse</p>
-<p>a: Major axis radius
-b: Minor axis radius
-center: Center point of the ellipse
-alpha: orientation from x-axis of ellipse</p>
-<dl class="py property">
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.EllipseParameters.a">
+<span class="sig-name descname"><span class="pre">a</span></span><a class="headerlink" href="#py_sim.tools.sim_types.EllipseParameters.a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Major axis radius</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.EllipseParameters.b">
+<span class="sig-name descname"><span class="pre">b</span></span><a class="headerlink" href="#py_sim.tools.sim_types.EllipseParameters.b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minor axis radius</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.EllipseParameters.center">
+<span class="sig-name descname"><span class="pre">center</span></span><a class="headerlink" href="#py_sim.tools.sim_types.EllipseParameters.center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Center point of the ellipse</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.EllipseParameters.alpha">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alpha</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.EllipseParameters.alpha" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#py_sim.tools.sim_types.EllipseParameters.alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>orientation from x-axis of ellipse</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.EllipseParameters.c_a">
+<span class="sig-name descname"><span class="pre">c_a</span></span><a class="headerlink" href="#py_sim.tools.sim_types.EllipseParameters.c_a" title="Permalink to this definition">¶</a></dt>
+<dd><p>the cosine of alpha</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.EllipseParameters.s_a">
+<span class="sig-name descname"><span class="pre">s_a</span></span><a class="headerlink" href="#py_sim.tools.sim_types.EllipseParameters.s_a" title="Permalink to this definition">¶</a></dt>
+<dd><p>the sine of alpha</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alpha</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the alpha component</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.EllipseParameters.c_a">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">c_a</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.EllipseParameters.c_a" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id1">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">c_a</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the cosine of alpha</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.EllipseParameters.s_a">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">s_a</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.EllipseParameters.s_a" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id2">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">s_a</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the sine of alpha</p>
 </dd></dl>
 
@@ -116,12 +299,34 @@ alpha: orientation from x-axis of ellipse</p>
 <p>The basic form of a control input</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.Input.input">
-<span class="sig-name descname"><span class="pre">input</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py_sim.tools.sim_types.Input.input" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">input</span></span><a class="headerlink" href="#py_sim.tools.sim_types.Input.input" title="Permalink to this definition">¶</a></dt>
+<dd><p>A vector of inputs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.Input.n_inputs">
-<span class="sig-name descname"><span class="pre">n_inputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#py_sim.tools.sim_types.Input.n_inputs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">n_inputs</span></span><a class="headerlink" href="#py_sim.tools.sim_types.Input.n_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of inputs (i.e., rows in input)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">input</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">n_inputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -131,14 +336,82 @@ alpha: orientation from x-axis of ellipse</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">RangeBearingMeasurements</span></span><a class="headerlink" href="#py_sim.tools.sim_types.RangeBearingMeasurements" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Storage for range and bearing measurements</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.RangeBearingMeasurements.range">
+<span class="sig-name descname"><span class="pre">range</span></span><a class="headerlink" href="#py_sim.tools.sim_types.RangeBearingMeasurements.range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Range to a number of measurements</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.RangeBearingMeasurements.bearing">
+<span class="sig-name descname"><span class="pre">bearing</span></span><a class="headerlink" href="#py_sim.tools.sim_types.RangeBearingMeasurements.bearing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bearing to the measurements</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.RangeBearingMeasurements.location">
+<span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#py_sim.tools.sim_types.RangeBearingMeasurements.location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Location of each of the measurements</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.Slice">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">Slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.tools.sim_types.Slice" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code>]</p>
-<p>Contains a “slice” of data - the data produced / needed
-at a single time</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="#py_sim.tools.sim_types.StateType" title="py_sim.tools.sim_types.StateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code></a>]</p>
+<dl class="simple">
+<dt>Contains a “slice” of data - the data produced / needed</dt><dd><p>at a single time</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.Slice.time">
+<span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#py_sim.tools.sim_types.Slice.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulation time corresponding to the state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.Slice.state">
+<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#py_sim.tools.sim_types.Slice.state" title="Permalink to this definition">¶</a></dt>
+<dd><p>State of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>StateType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.Slice.input_vec">
+<span class="sig-name descname"><span class="pre">input_vec</span></span><a class="headerlink" href="#py_sim.tools.sim_types.Slice.input_vec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input applied at the stated time, None =&gt; not yet calculated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[npt.NDArray[Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -147,13 +420,35 @@ at a single time</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
 <p>The basic form of a state</p>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.State.state">
+<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#py_sim.tools.sim_types.State.state" title="Permalink to this definition">¶</a></dt>
+<dd><p>The state vector of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.State.n_states">
-<span class="sig-name descname"><span class="pre">n_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#py_sim.tools.sim_types.State.n_states" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">n_states</span></span><a class="headerlink" href="#py_sim.tools.sim_types.State.n_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of elements in the state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">n_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.State.state">
-<span class="sig-name descname"><span class="pre">state</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py_sim.tools.sim_types.State.state" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">state</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -163,14 +458,41 @@ at a single time</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">StateSpace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_lim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.tools.sim_types.StateSpace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Defines the rectangular limits of a state space</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.StateSpace.x_lim">
+<span class="sig-name descname"><span class="pre">x_lim</span></span><a class="headerlink" href="#py_sim.tools.sim_types.StateSpace.x_lim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lower and upper limit for the x value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.StateSpace.y_lim">
+<span class="sig-name descname"><span class="pre">y_lim</span></span><a class="headerlink" href="#py_sim.tools.sim_types.StateSpace.y_lim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lower and upper limit for the y value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.StateSpace.contains">
 <span class="sig-name descname"><span class="pre">contains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#py_sim.tools.sim_types.StateSpace.contains" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluates if the state is in the state space. Returns true if it is</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>state: State to be evaluated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state</strong> – State to be evaluated</p>
 </dd>
-<dt>Outputs:</dt><dd><p>True if the state is in the state space, false otherwise</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the state is in the state space, false otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -179,10 +501,15 @@ at a single time</p>
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.StateSpace.furthest_point">
 <span class="sig-name descname"><span class="pre">furthest_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.tools.sim_types.StateSpace.furthest_point" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the furthest point in the state space furthest from x</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>x: An point to evaluate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – An point to evaluate</p>
 </dd>
-<dt>Outputs:</dt><dd><p>The furthest point from x</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The furthest point from x</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -196,32 +523,98 @@ at a single time</p>
 <p>Defines a Two dimensional array with an x and y component</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDArrayType.IND_X">
-<span class="sig-name descname"><span class="pre">IND_X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#py_sim.tools.sim_types.TwoDArrayType.IND_X" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">IND_X</span></span><a class="headerlink" href="#py_sim.tools.sim_types.TwoDArrayType.IND_X" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the x-component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDArrayType.IND_Y">
-<span class="sig-name descname"><span class="pre">IND_Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#py_sim.tools.sim_types.TwoDArrayType.IND_Y" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDArrayType.n_states">
-<span class="sig-name descname"><span class="pre">n_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#py_sim.tools.sim_types.TwoDArrayType.n_states" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">IND_Y</span></span><a class="headerlink" href="#py_sim.tools.sim_types.TwoDArrayType.IND_Y" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the y-component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDArrayType.state">
-<span class="sig-name descname"><span class="pre">state</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py_sim.tools.sim_types.TwoDArrayType.state" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#py_sim.tools.sim_types.TwoDArrayType.state" title="Permalink to this definition">¶</a></dt>
+<dd><p>The 2-D array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDArrayType.n_states">
+<span class="sig-name descname"><span class="pre">n_states</span></span><a class="headerlink" href="#py_sim.tools.sim_types.TwoDArrayType.n_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of states in state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDArrayType.x">
-<span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.TwoDArrayType.x" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#py_sim.tools.sim_types.TwoDArrayType.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>The value of the x component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDArrayType.y">
-<span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.TwoDArrayType.y" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#py_sim.tools.sim_types.TwoDArrayType.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>The value of the y component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">IND_X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">IND_Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">n_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">state</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id11" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id12" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -233,28 +626,94 @@ at a single time</p>
 <p>Provides a representation of a two dimensional array</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDimArray.IND_X">
-<span class="sig-name descname"><span class="pre">IND_X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#py_sim.tools.sim_types.TwoDimArray.IND_X" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">IND_X</span></span><a class="headerlink" href="#py_sim.tools.sim_types.TwoDimArray.IND_X" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the x-component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDimArray.IND_Y">
-<span class="sig-name descname"><span class="pre">IND_Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#py_sim.tools.sim_types.TwoDimArray.IND_Y" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">IND_Y</span></span><a class="headerlink" href="#py_sim.tools.sim_types.TwoDimArray.IND_Y" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the y-component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDimArray.state">
+<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#py_sim.tools.sim_types.TwoDimArray.state" title="Permalink to this definition">¶</a></dt>
+<dd><p>The 2-D array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDimArray.n_states">
-<span class="sig-name descname"><span class="pre">n_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#py_sim.tools.sim_types.TwoDimArray.n_states" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">n_states</span></span><a class="headerlink" href="#py_sim.tools.sim_types.TwoDimArray.n_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of states in state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDimArray.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#py_sim.tools.sim_types.TwoDimArray.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>The value of the x component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDimArray.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#py_sim.tools.sim_types.TwoDimArray.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>The value of the y component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">IND_X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#id13" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">IND_Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id14" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">n_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#id15" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDimArray.x">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.TwoDimArray.x" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id16">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id16" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the x-component value</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.TwoDimArray.y">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.TwoDimArray.y" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id17">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id17" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the y-component value</p>
 </dd></dl>
 
@@ -267,28 +726,94 @@ at a single time</p>
 <p>Stores the inputs required for the Unicycle dynamics (translational and rotation velocity)</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleControl.IND_V">
-<span class="sig-name descname"><span class="pre">IND_V</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleControl.IND_V" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">IND_V</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleControl.IND_V" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the translational velocity input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleControl.IND_W">
-<span class="sig-name descname"><span class="pre">IND_W</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleControl.IND_W" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">IND_W</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleControl.IND_W" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the rotational velocity input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleControl.input">
+<span class="sig-name descname"><span class="pre">input</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleControl.input" title="Permalink to this definition">¶</a></dt>
+<dd><p>The input vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleControl.n_inputs">
-<span class="sig-name descname"><span class="pre">n_inputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleControl.n_inputs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">n_inputs</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleControl.n_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of inputs (i.e., rows in input)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleControl.v">
+<span class="sig-name descname"><span class="pre">v</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleControl.v" title="Permalink to this definition">¶</a></dt>
+<dd><p>The value of the translational velocity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleControl.w">
+<span class="sig-name descname"><span class="pre">w</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleControl.w" title="Permalink to this definition">¶</a></dt>
+<dd><p>The value of the rotational velocity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">IND_V</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#id18" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">IND_W</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id19" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">n_inputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#id20" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleControl.v">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">v</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleControl.v" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id21">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">v</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id21" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the translational velocity</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleControl.w">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">w</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleControl.w" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id22">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">w</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id22" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the rotational velocity value</p>
 </dd></dl>
 
@@ -298,49 +823,150 @@ at a single time</p>
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">UnicycleState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Provides a representation of the vehicle whose state consists of
-an (x,y) position and an orientation (psi)</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.IND_PSI">
-<span class="sig-name descname"><span class="pre">IND_PSI</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.IND_PSI" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dl class="simple">
+<dt>Provides a representation of the vehicle whose state consists of</dt><dd><p>an (x,y) position and an orientation (psi)</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.IND_X">
-<span class="sig-name descname"><span class="pre">IND_X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.IND_X" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">IND_X</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.IND_X" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the x-position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.IND_Y">
-<span class="sig-name descname"><span class="pre">IND_Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.IND_Y" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">IND_Y</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.IND_Y" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the y-position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.IND_PSI">
+<span class="sig-name descname"><span class="pre">IND_PSI</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.IND_PSI" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the orientation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.state">
+<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.state" title="Permalink to this definition">¶</a></dt>
+<dd><p>The state vector of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.position">
+<span class="sig-name descname"><span class="pre">position</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.position" title="Permalink to this definition">¶</a></dt>
+<dd><p>The position vector of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.n_states">
-<span class="sig-name descname"><span class="pre">n_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.n_states" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">n_states</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.n_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of states in the state vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>The x-position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>The y-position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.psi">
+<span class="sig-name descname"><span class="pre">psi</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.psi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The orientation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">IND_PSI</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#id23" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">IND_X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#id24" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">IND_Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id25" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">n_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#id26" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.position">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.position" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id27">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id27" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the 2D position vector</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.psi">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">psi</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.psi" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id28">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">psi</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id28" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the orientation value</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.x">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.x" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id29">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id29" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the x-position value</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicycleState.y">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicycleState.y" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id30">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id30" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the y-position value</p>
 </dd></dl>
 
@@ -353,32 +979,98 @@ an (x,y) position and an orientation (psi)</p>
 <p>Protocol for the input when calling the unicycle functions</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleControlProtocol.IND_V">
-<span class="sig-name descname"><span class="pre">IND_V</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleControlProtocol.IND_V" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">IND_V</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleControlProtocol.IND_V" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the translational velocity input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleControlProtocol.IND_W">
-<span class="sig-name descname"><span class="pre">IND_W</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleControlProtocol.IND_W" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">IND_W</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleControlProtocol.IND_W" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the rotational velocity input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleControlProtocol.input">
-<span class="sig-name descname"><span class="pre">input</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleControlProtocol.input" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">input</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleControlProtocol.input" title="Permalink to this definition">¶</a></dt>
+<dd><p>The input vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleControlProtocol.n_inputs">
-<span class="sig-name descname"><span class="pre">n_inputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleControlProtocol.n_inputs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">n_inputs</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleControlProtocol.n_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of inputs (i.e., rows in input)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleControlProtocol.v">
-<span class="sig-name descname"><span class="pre">v</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleControlProtocol.v" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">v</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleControlProtocol.v" title="Permalink to this definition">¶</a></dt>
+<dd><p>The value of the translational velocity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleControlProtocol.w">
-<span class="sig-name descname"><span class="pre">w</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleControlProtocol.w" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">w</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleControlProtocol.w" title="Permalink to this definition">¶</a></dt>
+<dd><p>The value of the rotational velocity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">IND_V</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id31" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id32">
+<span class="sig-name descname"><span class="pre">IND_W</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id32" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id33">
+<span class="sig-name descname"><span class="pre">input</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id33" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id34">
+<span class="sig-name descname"><span class="pre">n_inputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id34" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id35">
+<span class="sig-name descname"><span class="pre">v</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id35" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id36">
+<span class="sig-name descname"><span class="pre">w</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id36" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -389,48 +1081,147 @@ an (x,y) position and an orientation (psi)</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
 <p>Protocol for the state when calling the unicycle functions</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.IND_PSI">
-<span class="sig-name descname"><span class="pre">IND_PSI</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.IND_PSI" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.IND_X">
-<span class="sig-name descname"><span class="pre">IND_X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.IND_X" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">IND_X</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.IND_X" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the x-position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.IND_Y">
-<span class="sig-name descname"><span class="pre">IND_Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.IND_Y" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">IND_Y</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.IND_Y" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the y-position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.n_states">
-<span class="sig-name descname"><span class="pre">n_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.n_states" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.position">
-<span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.position" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.psi">
-<span class="sig-name descname"><span class="pre">psi</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.psi" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.IND_PSI">
+<span class="sig-name descname"><span class="pre">IND_PSI</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.IND_PSI" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the orientation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.state">
-<span class="sig-name descname"><span class="pre">state</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.state" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.state" title="Permalink to this definition">¶</a></dt>
+<dd><p>The state vector of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.position">
+<span class="sig-name descname"><span class="pre">position</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.position" title="Permalink to this definition">¶</a></dt>
+<dd><p>The position vector of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.n_states">
+<span class="sig-name descname"><span class="pre">n_states</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.n_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of states in the state vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.x">
-<span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.x" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>The x-position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.y">
-<span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.y" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>The y-position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.tools.sim_types.UnicyleStateProtocol.psi">
+<span class="sig-name descname"><span class="pre">psi</span></span><a class="headerlink" href="#py_sim.tools.sim_types.UnicyleStateProtocol.psi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The orientation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id37">
+<span class="sig-name descname"><span class="pre">IND_PSI</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id37" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id38">
+<span class="sig-name descname"><span class="pre">IND_X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id38" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id39">
+<span class="sig-name descname"><span class="pre">IND_Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id39" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id40">
+<span class="sig-name descname"><span class="pre">n_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id40" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id41">
+<span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id41" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id42">
+<span class="sig-name descname"><span class="pre">psi</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id42" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id43">
+<span class="sig-name descname"><span class="pre">state</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id43" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id44">
+<span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id44" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id45">
+<span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id45" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -438,8 +1229,8 @@ an (x,y) position and an orientation (psi)</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.VectorControl">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.tools.sim_types.</span></span><span class="sig-name descname"><span class="pre">VectorControl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.tools.sim_types.VectorControl" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code>]</p>
-<p>Class taking the form of the control function</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code>[<a class="reference internal" href="#py_sim.tools.sim_types.StateType" title="py_sim.tools.sim_types.StateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code></a>, <a class="reference internal" href="#py_sim.tools.sim_types.InputType" title="py_sim.tools.sim_types.InputType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code></a>, <a class="reference internal" href="#py_sim.tools.sim_types.ControlParamType" title="py_sim.tools.sim_types.ControlParamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code></a>]</p>
+<p>Class taking the form of the control function for a vector field</p>
 </dd></dl>
 
 <dl class="py class">
@@ -451,6 +1242,20 @@ an (x,y) position and an orientation (psi)</p>
 <dt class="sig sig-object py" id="py_sim.tools.sim_types.VectorField.calculate_vector">
 <span class="sig-name descname"><span class="pre">calculate_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.tools.sim_types.UnicyleStateProtocol" title="py_sim.tools.sim_types.UnicyleStateProtocol"><span class="pre">UnicyleStateProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.tools.sim_types.VectorField.calculate_vector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates a vector given the time and unicycle state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state</strong> – Current position and orientation</p></li>
+<li><p><strong>time</strong> – time in question (seconds)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting vector</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

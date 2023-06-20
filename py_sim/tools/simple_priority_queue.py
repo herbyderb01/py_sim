@@ -5,7 +5,12 @@ from heapq import heapify, heappop, heappush
 
 
 class SimplePriorityQueue:
-    """Defines a priority queue where the first element is a cost and the second an index"""
+    """Defines a priority queue for indices where the queue is sorted based on the cost
+
+    Attributes:
+        q(list[tuple[float, int]]): List sorted as a heap which each element is a (cost, index)
+        cost_dict(dict[int, float]): Mapping from the index to the cost
+    """
     def __init__(self) -> None:
         # Initialize an empty queue
         self.q: list[tuple[float, int]] = []
@@ -15,21 +20,27 @@ class SimplePriorityQueue:
     def push(self, cost: float, index: int) -> None:
         """Pushes the index onto the queue with a priority of cost. This does not check for duplicates.
 
-            Inputs:
-                cost: The priority of the index
-                index: Index being added
+        Args:
+            cost: The priority of the index
+            index: Index being added
         """
         heappush(self.q, (cost, index))
         self.cost_dict[index] = cost
 
     def peek(self) -> int:
         """Peeks at the lowest cost index in the queue
+
+        Returns:
+            The index with the lowest cost
         """
         (_, val) = self.q[0]
         return val
 
     def pop(self) -> int:
         """Pops the lowest cost element from the queue
+
+        Returns:
+            The index with the lowest cost
         """
         # Get the lowest cost element
         (_, index) = heappop(self.q)
@@ -40,7 +51,14 @@ class SimplePriorityQueue:
         return index
 
     def contains(self, index: int) -> bool:
-        """Returns true if the index is in the priority queue"""
+        """Returns true if the index is in the priority queue
+
+        Args:
+            index: The index being searched for the in the queue
+
+        Returns:
+            bool: True if index in priority queue
+        """
         return index in self.cost_dict
 
     def update(self, cost: float, index: int) -> None:
@@ -49,6 +67,10 @@ class SimplePriorityQueue:
         Note that this function is rather inefficient due to the resorting. A more
         efficient technique uses bubble sort algorithms to adjust the position of
         the element being replaced
+
+        Args:
+            cost: The new cost for the given index
+            index: The index in question
         """
         # Check to see if the index is in the queue
         if not self.contains(index):
@@ -66,5 +88,9 @@ class SimplePriorityQueue:
         heapify(self.q)
 
     def count(self) -> int:
-        """Returns the number of elements in the queue"""
+        """Returns the number of elements in the queue
+
+        Returns:
+            int: Number of elements in the queue
+        """
         return len(self.q)

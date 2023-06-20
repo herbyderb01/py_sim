@@ -6,14 +6,20 @@ from py_sim.tools.sim_types import TwoDimArray, UnicyleStateProtocol, VectorFiel
 
 
 class GoToGoalField:
-    """Defines a go-to-goal vector field"""
+    """Defines a go-to-goal vector field
+
+    Attributes:
+        x_g(TwoDimArray): 2D goal position that vector field attempts to reach
+        v_max(float): Maximum translational velocity
+        sig_sq(float): Convergence factor for going to zero velocity, squared
+    """
     def __init__(self, x_g: TwoDimArray, v_max: float, sig: float = 1.) -> None:
         """Initializes the go-to-goal vector field
 
-            Inputs:
-                x_g: 2D goal position that vector field attempts to reach
-                v_max: Maximum translational velocity
-                sig: Convergence factor for going to zero velocity
+        Args:
+            x_g: 2D goal position that vector field attempts to reach
+            v_max: Maximum translational velocity
+            sig: Convergence factor for going to zero velocity
         """
         self.x_g = x_g          # Goal
         self.v_max = v_max      # Max velocity
@@ -22,12 +28,12 @@ class GoToGoalField:
     def calculate_vector(self, state: UnicyleStateProtocol, time: float = 0.) -> TwoDimArray: # pylint: disable=unused-argument
         """Calculates a vector from the state to the goal, the vector is scaled to respect max velocity
 
-            Inputs:
-                state: State of the vehicle
-                time: Time of the state
+        Args:
+            state: State of the vehicle
+            time: Time of the state
 
-            Outputs:
-                Vector pointing towards the goal
+        Returns:
+            TwoDimArray: Vector pointing towards the goal
         """
         # Calculate the vector pointing towards the goal
         g = self.x_g.state - state.position
@@ -45,15 +51,22 @@ class GoToGoalField:
         return result
 
 class AvoidObstacle:
-    """Defines an avoid obstacle vector field with a finite sphere of influence"""
+    """Defines an avoid obstacle vector field with a finite sphere of influence
+
+    Attributes:
+        x_o(TwoDimArray): Position of the obstacle to avoid
+        v_max(float): Maximum velocity of the vector field
+        S(float): Sphere of influence
+        R(float): Radius of max effect
+    """
     def __init__(self, x_o: TwoDimArray, v_max: float, S: float = 5., R: float = 1.) -> None:
         """Create the vector field selfect
 
-            Inputs:
-                x_o: Position of the obstacle to avoid
-                v_max: Maximum velocity of the vector field
-                S: Sphere of influence
-                R: Radius of max effect
+        Args:
+            x_o: Position of the obstacle to avoid
+            v_max: Maximum velocity of the vector field
+            S: Sphere of influence
+            R: Radius of max effect
         """
         # Store inputs
         self.x_o = x_o
@@ -64,12 +77,12 @@ class AvoidObstacle:
     def calculate_vector(self, state: UnicyleStateProtocol, time: float = 0.) -> TwoDimArray: # pylint: disable=unused-argument
         """Calculates a vector from the state to the goal, the vector is scaled to respect max velocity
 
-            Inputs:
-                state: State of the vehicle
-                time: Time of the state
+        Args:
+            state: State of the vehicle
+            time: Time of the state
 
-            Outputs:
-                Vector pointing towards the goal
+        Returns:
+            TwoDimArray: Vector pointing towards the goal
         """
         g = state.position - self.x_o.state
 
@@ -91,14 +104,20 @@ class AvoidObstacle:
         return TwoDimArray(vec=g)
 
 class SummedField:
-    """Defines a vector field that is the summation of passed in fields"""
+    """Defines a vector field that is the summation of passed in fields
+
+    Attributes:
+        fields(list[VectorField]): List of individual vector fields to be summed together
+        weights(list[float]): Weight associated with each vector field
+        v_max(float): maximum allowable velocity
+    """
     def __init__(self, fields: list[VectorField], weights: list[float], v_max: float) -> None:
         """Stores a sum of vector fields to be plotted
 
-            Inputs:
-                fields: List of individual vector fields to be summed together
-                weights: Weight associated with each vector field
-                v_max: maximum allowable velocity
+        Args:
+            fields: List of individual vector fields to be summed together
+            weights: Weight associated with each vector field
+            v_max: maximum allowable velocity
         """
         # Store the data
         self.fields = fields
@@ -112,12 +131,12 @@ class SummedField:
     def calculate_vector(self, state: UnicyleStateProtocol, time: float = 0.) -> TwoDimArray:
         """Calculates a summed vector and thresholds it to v_max
 
-            Inputs:
-                state: State of the vehicle
-                time: Time of the state
+        Args:
+            state: State of the vehicle
+            time: Time of the state
 
-            Outputs:
-                Resulting summed vector
+        Returns:
+            TwoDimArray: Resulting summed vector
         """
         # Get the summed vector
         g = TwoDimArray(x=0., y=0.)

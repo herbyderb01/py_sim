@@ -14,25 +14,24 @@ from scipy.spatial import Voronoi
 class ConvexPolygon():
     """Stores the data required for convex polygon definition and evaluation
 
-        Properties:
-            vertices: 2xm matrix of points where each column is a point and m is the number of points
-            normal_matrix: mx2 matrix of normal vectors to polygon sides where each normal vector is represented as a row
-            offset: mx1 column vector giving the offset of each point
+        Note that for two points, p1 and p2, the normal to these points can be calculated as
+            n = J@(p2-p1), where J is a 90 degree rotation matrix rotating the vectors clockwise
 
-                Note that for two points, p1 and p2, the normal to these points can be calculated as
-                    n = J@(p2-p1), where J is a 90 degree rotation matrix rotating the vectors clockwise
+        A third point can be determined to be in the halfplane of the normal given that
+            n'@(p3-p1) > 0
 
-                A third point can be determined to be in the halfplane of the normal given that
-                    n'@(p3-p1) > 0
+        The normal_matrix stores n' on each row
+        The offset matrix stores -n'p1 for each row
 
-                The normal_matrix stores n' on each row
-                The offset matrix stores -n'p1 for each row
+        Thus, a point, p3 can be determined to be inside the convex polygon if b has all positive elements for
+            b = normal_matrix@p3 + c
 
-                Thus, a point, p3 can be determined to be inside the convex polygon if b has all positive elements for
-                    b = normal_matrix@p3 + c
-
-            edges: list of 2x2 matrices where the first column corresponds to the
-                   starting point and the second to the ending point
+    Attributes:
+        vertices(NDArray[Any]): 2xm matrix of points where each column is a point and m is the number of points
+        normal_matrix(NDArray[Any]): mx2 matrix of normal vectors to polygon sides where each normal vector is represented as a row
+        offset(NDArray[Any]): mx1 column vector giving the offset of each point
+        edges(list[npt.NDArray[Any]]): list of 2x2 matrices where the first column corresponds to the
+                starting point and the second to the ending point
 
     """
     def __init__(self, vertices: npt.NDArray[Any]) -> None:
@@ -44,8 +43,8 @@ class ConvexPolygon():
         The vertices should be defined traversing counter clockwise around the polygon from a
         top down view.
 
-            Inputs:
-                vertices: 2xm matrix of points where each column consists of a single point.
+        Args:
+            vertices: 2xm matrix of points where each column consists of a single point.
         """
         # Check the vertices shape
         if vertices.shape[0] != 2 or vertices.shape[1] < 3:
@@ -99,8 +98,11 @@ class ConvexPolygon():
     def inside_polygon(self, point: npt.NDArray[Any]) -> bool:
         """ Returns true if the given point is inside the polygon
 
-            Inputs:
-                point: 2x1 point to be evaluated
+        Args:
+            point: 2x1 point to be evaluated
+
+        Returns:
+            bool: True if the point is inside the polygon
         """
         # Ensure that the point is the correct shape
         point = np.reshape(point, (2,1))
@@ -116,13 +118,18 @@ class ConvexPolygon():
         return True
 
 class PolygonWorld():
-    """Defines a world made up of distinct polygons"""
+    """Defines a world made up of distinct polygons
+
+    Attributes:
+        polygons(list[ConvexPolygon]): List of all polygons in the world
+        edges(list[npt.NDArray[Any]]): Aggregate list of all edges in the world
+    """
     def __init__(self, vertices: list[npt.NDArray[Any]]) -> None:
         """Creates a world of polygons given the list of matrices where each matrix defines a series of points
 
-            Inputs:
-                verticies: List of matrices where each matrix has 2 rows and at least 3 columns. Each matrix defines a convex
-                polygon where vertices are defined in a counter-clockwise fashion (see notes to ConvexPolygon() above)
+        Args:
+            verticies: List of matrices where each matrix has 2 rows and at least 3 columns. Each matrix defines a convex
+            polygon where vertices are defined in a counter-clockwise fashion (see notes to ConvexPolygon() above)
         """
         # Create a list of convex polygons
         self.polygons: list[ConvexPolygon] = []
@@ -138,8 +145,11 @@ class PolygonWorld():
     def inside_obstacle(self, point: npt.NDArray[Any]) -> bool:
         """Returns true if the given point is inside any of the polygons defining the world
 
-            Inputs:
-                Point: 2x1 point to be evaluated
+        Args:
+            Point: 2x1 point to be evaluated
+
+        Returns:
+            bool: True if the point is in an obstacle
         """
         # Loop through each polygon and determine if the point is inside the polygon
         for polygon in self.polygons:
@@ -152,8 +162,11 @@ class PolygonWorld():
         """ Finds the closest intersection point between an edge and the edges forming the obstacles.
             Proximity is based on the location of the first point in the given edge
 
-        Inputs:
+        Args:
             edge: 2x2 matrix of points where each point is a column
+
+        Returns:
+            Optional[tuple[float, npt.NDArray[Any]]]: None if no instersection found, (distance, intersection point) if it is found
         """
         # Loop through each edge and find the closest
         return find_closest_intersection(edge1=edge, edge_list=self.edges)
@@ -161,15 +174,15 @@ class PolygonWorld():
     def intersects_obstacle(self, edge: npt.NDArray[Any], shrink_edge: bool = False, edge_shrink_dist: float = 1.e-3) -> bool:
         """ Determines whether an edge intersects an obstacle, returns true if it does
 
-            Inputs:
-                edge: 2x2 matrix of points where each point is a column
-                shrink_edge: True implies that the edge points will be moved towards each
-                  other before checking for intersection. This allows, for example, the edge
-                  points to lie on the obstacle
-                edge_shrink_dist: The distance that the edges will be moved towards each other
+        Args:
+            edge: 2x2 matrix of points where each point is a column
+            shrink_edge: True implies that the edge points will be moved towards each
+                other before checking for intersection. This allows, for example, the edge
+                points to lie on the obstacle
+            edge_shrink_dist: The distance that the edges will be moved towards each other
 
-            Returns:
-                True if the edge intersects the obstacles, false if it does not
+        Returns:
+            bool: True if the edge intersects the obstacles, false if it does not
         """
         # Shrink the edge
         if shrink_edge:
@@ -202,12 +215,12 @@ def line_segment_intersection(edge1: npt.NDArray[Any], edge2: npt.NDArray[Any]) 
 
         The intersection is found by determining the scaling along edge1 of the point of intersection
 
-        Inputs:
-            edge1: 2x2 matrix of points where each point is a column
-            edge2: 2x2 matrix of points where each point is a column
+    Args:
+        edge1: 2x2 matrix of points where each point is a column
+        edge2: 2x2 matrix of points where each point is a column
 
-        Return:
-            None if no intersection exists, the intersection point as a column vector if it does
+    Return:
+        Optional[npt.NDArray[Any]]: None if no intersection exists, the intersection point as a column vector if it does
     """
     # Extract the (x,y) coordinates of each point
     x1 = edge1[0,0] # Edge 1 start
@@ -238,15 +251,18 @@ def find_closest_intersection(edge1: npt.NDArray[Any],
     """ Finds the closest intersection point between an edge and an edge list.
         Proximity is based on the location of the first point in edge 1
 
-        Inputs:
+        Args:
             edge1: 2x2 matrix of points where each point is a column
             edge_list: list of 2x2 matrices consisting of edges
 
         Returns:
-            Null if no intersection found
-            (inter_dist, inter_point) if an intersection is found
-                inter_dist is the distance from the first point on edge 1 to the intersection point
-                inter_point: 2x1 matrix representing the position of intersection
+            Optional[tuple[float, npt.NDArray[Any]]]:
+                Null if no intersection found
+                (inter_dist, inter_point) if an intersection is found
+
+                    inter_dist is the distance from the first point on edge 1 to the intersection point
+
+                    inter_point: 2x1 matrix representing the position of intersection
     """
     # Extract the point of interest
     p1 = edge1[:,0:1]
@@ -273,7 +289,11 @@ def find_closest_intersection(edge1: npt.NDArray[Any],
     return (inter_dist, inter_point)
 
 def generate_world_obstacles() -> PolygonWorld:
-    """Generates a world with three different obstacles"""
+    """Generates a world with three different obstacles
+
+    Returns:
+        PolygonWorld: A polygon world with three obstacles
+    """
     V1 = np.array([[6., 5., 1.],
                      [1., 6., 4.]])
     V2 = np.array([[17., 21., 21., 17.],
@@ -283,7 +303,11 @@ def generate_world_obstacles() -> PolygonWorld:
     return PolygonWorld(vertices=[V1, V2, V3])
 
 def topology_world_obstacles() -> UndirectedPathGraph:
-    """Generates a topology graph for the world obstacles world"""
+    """Generates a topology graph for the world obstacles world
+
+    Returns:
+        UndirectedPathGraph: The graph representing the world
+    """
     graph = UndirectedPathGraph()
 
     # Add the nodes
@@ -326,7 +350,11 @@ def topology_world_obstacles() -> UndirectedPathGraph:
     return graph
 
 def generate_non_convex_obstacles() -> PolygonWorld:
-    """Generates a simple world that is non-convex and bad for greedy planners"""
+    """Generates a simple world that is non-convex and bad for greedy planners
+
+    Returns:
+        PolygonWorld: A polygon world with non-convex region
+    """
     V1 = np.array([[6., 5., 1.],
                      [1., 6., 4.]])
     V2 = np.array([[6., 3., 7.],
@@ -336,7 +364,11 @@ def generate_non_convex_obstacles() -> PolygonWorld:
     return PolygonWorld(vertices=[V1, V2, V3])
 
 def topology_non_convex_obstacles() -> UndirectedPathGraph:
-    """Generates a topology graph for the non convex obstacles world"""
+    """Generates a topology graph for the non convex obstacles world
+
+    Returns:
+        UndirectedPathGraph: The graph representing the world
+    """
     graph = UndirectedPathGraph()
 
     # Add the nodes
@@ -367,6 +399,9 @@ def topology_non_convex_obstacles() -> UndirectedPathGraph:
 
 def create_visibility_graph(world: PolygonWorld) -> UndirectedPathGraph:
     """ Creates a visibility graph from the polygon world
+
+    Returns:
+        UndirectedPathGraph: The resulting visibility graph for the world
     """
 
     # Add in all edges corresponding to edges in the polygon
@@ -419,6 +454,9 @@ def create_voronoi_graph(world: PolygonWorld,
                          y_limits: tuple[float, float],
                          resolution: float = 1.) -> UndirectedPathGraph:
     """ Creates a voronoi graph from the polygon world
+
+    Returns:
+        UndirectedPathGraph: The resulting voronoi graph for the world
     """
     # Create points along the boundary
     points = np.zeros((2,0))

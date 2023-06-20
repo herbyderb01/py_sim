@@ -38,13 +38,20 @@
 <dt class="sig sig-object py" id="py_sim.sim.integration.euler_update">
 <span class="sig-prename descclassname"><span class="pre">py_sim.sim.integration.</span></span><span class="sig-name descname"><span class="pre">euler_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Dynamics" title="py_sim.tools.sim_types.Dynamics"><span class="pre">Dynamics</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">InputType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.sim.integration.euler_update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs an eulers update to simulate forward one step on the dynamics</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>dynamics: a function handle for calculating the time derivative of the state
-initial: the starting state of the vehicle
-control: the control input to be applied
-dt: the time step of the update</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dynamics</strong> – a function handle for calculating the time derivative of the state</p></li>
+<li><p><strong>initial</strong> – the starting state of the vehicle</p></li>
+<li><p><strong>control</strong> – the control input to be applied</p></li>
+<li><p><strong>dt</strong> – the time step of the update</p></li>
+</ul>
 </dd>
-<dt>Outputs:</dt><dd><p>The resulting time derivative of the state</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting time derivative of the state</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
 </dd>
 </dl>
 </dd></dl>
