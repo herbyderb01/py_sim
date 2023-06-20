@@ -13,13 +13,22 @@ from py_sim.worlds.polygon_world import PolygonWorld
 class RangeBearingSensor:
     """ Class that stores the variables needed for calculating a range bearing measurement and interpreting those
         readings with respect to the vehicle
+
+    Attributes:
+        n_lines(int): Number of lines in the sensor class
+        max_dist(float): Maximum distance that each sensor can see
+        ind_left(list[int]): Stores indices for sensors on the left of the vehicle
+        ind_right(list[int]): Stores indices for sensors on the right of the vehicle
+        ind_front(list[int]): Stores indices for sensors on the front of the vehicle
+        ind_rear(list[int]): Stores indices for sensors on the rear of the vehicle
+        orien(NDArray[Any]): Array of orientations for each of the sensors
     """
     def __init__(self, n_lines: int, max_dist: float) -> None:
         """Initializes the readings for the sensors and the interpretation of the readings with respect to the vehicle
 
-            Inputs:
-                n_lines: Number of lines in the sensor class
-                max_dist: Maximum distance that each sensor can see
+        Args:
+            n_lines: Number of lines in the sensor class
+            max_dist: Maximum distance that each sensor can see
         """
         # Store the input variables
         self.n_lines = n_lines
@@ -54,8 +63,12 @@ class RangeBearingSensor:
     def calculate_range_bearing_measurement(self, pose: UnicyleStateProtocol, world: PolygonWorld) -> RangeBearingMeasurements:
         """Calculates the range / bearing measurements given the current pose of the vehicle
 
-            Inputs:
+            Args:
                 pose: Position and orientation of the vehicle
+                world: Polygon world in which the vehicle is operating
+
+            Returns:
+                RangeBearingMeasurements: Measurements given the vehicle pose and polygon world
         """
 
         # Initialize the output

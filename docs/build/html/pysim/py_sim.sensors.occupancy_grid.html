@@ -38,30 +38,125 @@
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.sensors.occupancy_grid.</span></span><span class="sig-name descname"><span class="pre">BinaryOccupancyGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_lim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Stores a binary occupancy grid
-Constants:</p>
-<blockquote>
-<div><p>FREE:  Boolean indicating that a location is free of obstacles
-OCCUPIED:  Boolean indicating that a location is occupied</p>
-</div></blockquote>
-<dl class="simple">
-<dt>Properties:</dt><dd><p>res: Resolution of the occupancy grid
-x_lim: min and max x-values
-y_lim: min and max y-values
-tl_corner: Location of the top-left corner
-n_cols: Number of columns in the grid
-n_rows: Number of rows in the grid
-grid: Binary grid storing the occupancy</p>
-</dd>
-</dl>
+<p>Stores a binary occupancy grid</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.FREE">
-<span class="sig-name descname"><span class="pre">FREE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.FREE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">FREE</span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.FREE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean indicating that a location is free of obstacles</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.OCCUPIED">
-<span class="sig-name descname"><span class="pre">OCCUPIED</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.OCCUPIED" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">OCCUPIED</span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.OCCUPIED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean indicating that a location is occupied</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.res">
+<span class="sig-name descname"><span class="pre">res</span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.res" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resolution of the occupancy grid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.x_lim">
+<span class="sig-name descname"><span class="pre">x_lim</span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.x_lim" title="Permalink to this definition">¶</a></dt>
+<dd><p>min and max x-values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.y_lim">
+<span class="sig-name descname"><span class="pre">y_lim</span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.y_lim" title="Permalink to this definition">¶</a></dt>
+<dd><p>min and max y-values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.tl_corner">
+<span class="sig-name descname"><span class="pre">tl_corner</span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.tl_corner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Location of the top-left corner</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.n_cols">
+<span class="sig-name descname"><span class="pre">n_cols</span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.n_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of columns in the grid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.n_rows">
+<span class="sig-name descname"><span class="pre">n_rows</span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.n_rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of rows in the grid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.grid">
+<span class="sig-name descname"><span class="pre">grid</span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary grid storing the occupancy</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.max_index">
+<span class="sig-name descname"><span class="pre">max_index</span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.max_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the maximum scalar index of the grid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">FREE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">OCCUPIED</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -80,11 +175,18 @@ grid: Binary grid storing the occupancy</p>
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.get_cell_box">
 <span class="sig-name descname"><span class="pre">get_cell_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.get_cell_box" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the bounding box for a cell given by the row and column indices</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>row: Index for the grid row
-col: Index for the grid column</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row</strong> – Index for the grid row</p></li>
+<li><p><strong>col</strong> – Index for the grid column</p></li>
+</ul>
 </dd>
-<dt>Outputs:</dt><dd><p>(x_vec, y_vec): Define the coordinates of the cell corners. Each has four elements.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(x_vec, y_vec): Define the coordinates of the cell corners. Each has four elements.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[float], list[float]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -93,10 +195,15 @@ col: Index for the grid column</p>
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.index_to_position">
 <span class="sig-name descname"><span class="pre">index_to_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.index_to_position" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a single matrix index to a position</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ind: Matrix scalar index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ind</strong> – Matrix scalar index</p>
 </dd>
-<dt>Outputs:</dt><dd><p>q: 2x1 position corresponding to the point</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>2x1 position corresponding to the point</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -105,11 +212,18 @@ col: Index for the grid column</p>
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.indices_to_position">
 <span class="sig-name descname"><span class="pre">indices_to_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.indices_to_position" title="Permalink to this definition">¶</a></dt>
 <dd><p>indices_to_position converts (row,column) indices into a position</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>row: row index inside grid
-col: column index inside grid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row</strong> – row index inside grid</p></li>
+<li><p><strong>col</strong> – column index inside grid</p></li>
+</ul>
 </dd>
-<dt>Outputs:</dt><dd><p>q: 2x1 position corresponding to the point</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>2x1 position corresponding to the point</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -117,15 +231,19 @@ col: column index inside grid</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.is_occupied">
 <span class="sig-name descname"><span class="pre">is_occupied</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.is_occupied" title="Permalink to this definition">¶</a></dt>
-<dd><p>is_occupied returns true if the position is in an occupied
-cell, false otherwise. An invalid position is considered occupied</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>q: 2x1 position</p>
+<dd><dl class="simple">
+<dt>is_occupied returns true if the position is in an occupied</dt><dd><p>cell, false otherwise. An invalid position is considered occupied</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>False if free, true otherwise</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – 2x1 position</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>False if free, true otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -134,11 +252,17 @@ cell, false otherwise. An invalid position is considered occupied</p>
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.position_to_index">
 <span class="sig-name descname"><span class="pre">position_to_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.position_to_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>position_to_index converts a position into a scalar index into the matrix</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>q: 2x1 position corresponding to the point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – 2x1 position corresponding to the point</p>
 </dd>
-<dt>Outputs:</dt><dd><p>index: single index into the matrix
-Valid: boolean indicating whether the passed in position is valid (True)</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>index: single index into the matrix</p>
+<p>Valid: boolean indicating whether the passed in position is valid (True)</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[int, bool]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -147,12 +271,18 @@ Valid: boolean indicating whether the passed in position is valid (True)</p>
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.position_to_mat_coord">
 <span class="sig-name descname"><span class="pre">position_to_mat_coord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.position_to_mat_coord" title="Permalink to this definition">¶</a></dt>
 <dd><p>position_to_mat_coord converts a position into matrix coordinates</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>q: 2x1 position corresponding to the point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – 2x1 position corresponding to the point</p>
 </dd>
-<dt>Outputs:</dt><dd><p>row: row index inside grid
-col: column index inside grid
-Valid: boolean indicating whether the passed in position is valid (True)</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>row: row index inside grid</p>
+<p>col: column index inside grid</p>
+<p>Valid: boolean indicating whether the passed in position is valid (True)</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[int, int, bool]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -160,10 +290,13 @@ Valid: boolean indicating whether the passed in position is valid (True)</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.set_free">
 <span class="sig-name descname"><span class="pre">set_free</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.set_free" title="Permalink to this definition">¶</a></dt>
-<dd><p>set_free sets the grid location corresponding to the 2x1
-position q as free</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>q: 2x1 position</p>
+<dd><dl class="simple">
+<dt>set_free sets the grid location corresponding to the 2x1</dt><dd><p>position q as free</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – 2x1 position</p>
 </dd>
 </dl>
 </dd></dl>
@@ -171,10 +304,13 @@ position q as free</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.set_occupied">
 <span class="sig-name descname"><span class="pre">set_occupied</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.set_occupied" title="Permalink to this definition">¶</a></dt>
-<dd><p>set_occupied sets the grid location corresponding to the 2x1
-position q as occupied. Does nothing if q is out of bounds</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>q: 2x1 position</p>
+<dd><dl class="simple">
+<dt>set_occupied sets the grid location corresponding to the 2x1</dt><dd><p>position q as occupied. Does nothing if q is out of bounds</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – 2x1 position</p>
 </dd>
 </dl>
 </dd></dl>
@@ -185,10 +321,20 @@ position q as occupied. Does nothing if q is out of bounds</p>
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.generate_occupancy_from_polygon_world">
 <span class="sig-prename descclassname"><span class="pre">py_sim.sensors.occupancy_grid.</span></span><span class="sig-name descname"><span class="pre">generate_occupancy_from_polygon_world</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.worlds.polygon_world.html#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld"><span class="pre">PolygonWorld</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_lim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_lim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.generate_occupancy_from_polygon_world" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts an occupancy grid from a binary world</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>world: World to be converted to binary occupancy grid
-res: resolution of the occupancy grid
-x_lim, y_lim: Limits of the occupancy grid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>world</strong> – World to be converted to binary occupancy grid</p></li>
+<li><p><strong>res</strong> – resolution of the occupancy grid</p></li>
+<li><p><strong>x_lim</strong> – Limits of the occupancy grid</p></li>
+<li><p><strong>y_lim</strong> – Limits of the occupancy grid</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>generated occupancy grid</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid">BinaryOccupancyGrid</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -197,11 +343,18 @@ x_lim, y_lim: Limits of the occupancy grid</p>
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.ind2sub">
 <span class="sig-prename descclassname"><span class="pre">py_sim.sensors.occupancy_grid.</span></span><span class="sig-name descname"><span class="pre">ind2sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.ind2sub" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a scalar index into the row and column indices</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>n_cols: number of total columns
-ind: index in question</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_cols</strong> – number of total columns</p></li>
+<li><p><strong>ind</strong> – index in question</p></li>
+</ul>
 </dd>
-<dt>Outputs:</dt><dd><p>(row-index, column-index) for ind</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(row-index, column-index) for ind</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[int, int]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -210,15 +363,20 @@ ind: index in question</p>
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.occupancy_positions">
 <span class="sig-prename descclassname"><span class="pre">py_sim.sensors.occupancy_grid.</span></span><span class="sig-name descname"><span class="pre">occupancy_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cells</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.occupancy_positions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines the occupied and free positions from an occupancy grid</p>
-<dl>
-<dt>Inputs:</dt><dd><p>grid: The occupancy grid to be evaluated
-cell: A binary matrix that stores the occupancy. If None, then grid.grid is used.</p>
-<blockquote>
-<div><p>Must be same size as grid</p>
-</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> – The occupancy grid to be evaluated</p></li>
+<li><p><strong>cell</strong> – A binary matrix that stores the occupancy. If None, then grid.grid is used.
+Must be same size as grid</p></li>
+</ul>
 </dd>
-<dt>Outputs:</dt><dd><p>(x_occupied, y_occupied, x_free, y_free): (x,y) coordinates of occupied
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(x_occupied, y_occupied, x_free, y_free): (x,y) coordinates of occupied
 and free locations in the grid</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[float], list[float], list[float], list[float]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -227,12 +385,19 @@ and free locations in the grid</p>
 <dt class="sig sig-object py" id="py_sim.sensors.occupancy_grid.sub2ind">
 <span class="sig-prename descclassname"><span class="pre">py_sim.sensors.occupancy_grid.</span></span><span class="sig-name descname"><span class="pre">sub2ind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_ind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_ind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#py_sim.sensors.occupancy_grid.sub2ind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a (row_ind, col_ind) indexing into a single scalar indexing</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>n_cols: Number of columns in the matrix
-row_ind: Index of the row in question
-col_ind: Index of the column in question</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_cols</strong> – Number of columns in the matrix</p></li>
+<li><p><strong>row_ind</strong> – Index of the row in question</p></li>
+<li><p><strong>col_ind</strong> – Index of the column in question</p></li>
+</ul>
 </dd>
-<dt>Outputs:</dt><dd><p>Index of the single scalar item number</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Index of the single scalar item number</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>

@@ -19,23 +19,39 @@ from py_sim.tools.sim_types import Data, Slice, StateType
 class SimParameters(Generic[StateType]):
     """ Contains a fixed set of parameters that do not change throughout
         the simulation, but are needed for simulation execution
+
+    Attributes:
+        initial_state(StateType): State at the beginning of the simulation
+        sim_update_period(float): Period for successive calls to updating the simulation variables
+        sim_plot_period(float): Period for which the plotting should occur
+        sim_step(float): Simulation time step (seconds)
+        t0(float): The initial time of the simulation
+        tf(float): Final time of the simulation
     """
-    # Update parameters
-    sim_update_period: float = 0.1 # Period for successive calls to updating the simulation variables
-    sim_plot_period: float = 1. # Period for which the plotting should occur
-
-    # Timing parameters
-    sim_step: float = 0.1 # Simulation time step (seconds), i.e., each call to the update() function is
-                          # spaced by sim_step seconds in the simulation
-    t0: float = 0. # The initial time of the simulation
-    tf: float = 20. # Final time of the simulation
-
     def __init__(self, initial_state: StateType) -> None:
         # Initial state of the vehicle
         self.initial_state: StateType = initial_state
 
+        # Update parameters
+        self.sim_update_period: float = 0.1 # Period for successive calls to updating the simulation variables
+        self.sim_plot_period: float = 1. # Period for which the plotting should occur
+
+        # Timing parameters
+        self.sim_step: float = 0.1 # Simulation time step (seconds), i.e., each call to the update() function is
+                            # spaced by sim_step seconds in the simulation
+        self.t0: float = 0. # The initial time of the simulation
+        self.tf: float = 20. # Final time of the simulation
+
 class Sim(Protocol[StateType]):
-    """Basic class formulation for simulating"""
+    """Basic class formulation for simulating
+
+    Attributes:
+        data(Data[StateType]): The simulation data
+        params(SimParameters[StateType]): Simulation parameters
+        lock(Lock): Lock for thread safe plotting
+        stop(Event): The sim should stop when the event is true
+
+    """
     data: Data[StateType] # The simulation data
     params: SimParameters[StateType] # Simulation parameters
     lock: Lock # Lock for thread safe plotting
@@ -97,7 +113,11 @@ class SingleAgentSim(Generic[StateType]):
         self.data_plots: list[DataPlot[StateType]] = plots.data_plots
 
     def initialize_data_storage(self, n_inputs: int) -> None:
-        """Initializes all of the storage"""
+        """Initializes all of the storage
+
+        Args:
+            n_inputs: The number of inputs for the control trajectory
+        """
         num_elements_traj: int = int( (self.params.tf - self.params.t0)/self.params.sim_step ) + 2
             # Number of elements in the trajectory + 2 for the start and end times
         self.data.state_traj = np.zeros((self.data.current.state.n_states, num_elements_traj))
@@ -131,7 +151,11 @@ class SingleAgentSim(Generic[StateType]):
             fig.canvas.flush_events()
 
     def store_data_slice(self, sim_slice: Slice[StateType]) -> None:
-        """Stores the state trajectory data"""
+        """Stores the state trajectory data
+
+        Args:
+            sim_slice: The information to be stored
+        """
         with self.lock:
             # Check size - double if insufficient
             if self.data.traj_index_latest+1 >= self.data.state_traj.shape[1]: # Larger than allocated
@@ -195,8 +219,8 @@ async def run_sim_simple(sim: Sim[StateType]) -> None:
 def start_simple_sim(sim: Sim[StateType]) -> None:
     """Starts the simulation and the plotting of a simple sequential simulator
 
-        Inputs:
-            sim: The simulation to be run
+    Args:
+        sim: The simulation to be run
     """
 
     async def run_sim(sim: Sim[StateType]) -> None:
