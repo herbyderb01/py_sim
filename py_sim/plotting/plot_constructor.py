@@ -1,4 +1,4 @@
-"""plot_constructor.py: Constructs plot manifiests
+"""plot_constructor.py: Constructs the plot manifest for general simulation and for RRT plotting
 """
 from typing import Optional
 
@@ -46,29 +46,32 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                          ) -> pt.PlotManifest[UnicycleStateType]:
     """Creates a plot manifest given the following inputs
 
-        Inputs:
-            y_limits: min and max y-values to plot
-            x_limits: min and max x-values to plot
-            position_dot: Plot the vehicle position as a circle
-            position_triangle: Plot the vehicle position as a triangle
-            state_trajectory: Plot the trajectory that the vehicle travelled
-            unicycle_time_series: Plot the time series state
-            color: Color of the state plots
-            vectorfield: The vectorfield class to be plotted
-            vector_res: The grid resolution of the vectorfield
-            world: Polygon world in operation
-            grid: Occupancy grid to be used for plotting,
-            plot_occupancy_grid: True -> a grid will be plotted displaying occupancy,
-                                 (fairly fast and very accurate)
-            plot_occupancy_cells: True -> a square for each occupied cell will be plotted
-                                  (slow, but accurate),
-            plot_occupancy_circles: True -> a circle will be plotted in each occupied cell
-                                    (fast, but approximate),
-            range_bearing_locations: plot the range measurement locations
-            range_bearing_lines: plot the lines for the range bearing measurements
-            planner: plots the occupancy grid, visited nodes, and planned path of the grid planner
-            graph: plots the graph of possible paths
-            graph_node_size: The size of the node circle in the graph plot
+    Args:
+        y_limits: min and max y-values to plot
+        x_limits: min and max x-values to plot
+        position_dot: Plot the vehicle position as a circle
+        position_triangle: Plot the vehicle position as a triangle
+        state_trajectory: Plot the trajectory that the vehicle travelled
+        unicycle_time_series: Plot the time series state
+        color: Color of the state plots
+        vectorfield: The vectorfield class to be plotted
+        vector_res: The grid resolution of the vectorfield
+        world: Polygon world in operation
+        grid: Occupancy grid to be used for plotting,
+        plot_occupancy_grid: True -> a grid will be plotted displaying occupancy,
+                                (fairly fast and very accurate)
+        plot_occupancy_cells: True -> a square for each occupied cell will be plotted
+                                (slow, but accurate),
+        plot_occupancy_circles: True -> a circle will be plotted in each occupied cell
+                                (fast, but approximate),
+        range_bearing_locations: plot the range measurement locations
+        range_bearing_lines: plot the lines for the range bearing measurements
+        planner: plots the occupancy grid, visited nodes, and planned path of the grid planner
+        graph: plots the graph of possible paths
+        graph_node_size: The size of the node circle in the graph plot
+
+    Returns:
+        PlotManifest[UnicycleStateType]: A plot manifest used for simulation plotting
     """
     # Create the manifest to be returned
     plots = pt.PlotManifest[UnicycleStateType]()
@@ -172,24 +175,24 @@ def plot_rrt(pause_plotting: bool,
              fig: Optional[Figure] = None) -> Figure:
     """Plots the rrt data
 
-        Inputs:
-            pause_plotting: If True, each step is paused until the user enters a key
-            world: The polygon world in which the plotting occurs
-            tree: Underlying tree for the plan
-            x_start: the start location of the plan
-            X: state space
-            X_t: target set
-            x_rand: The newly sampled point
-            x_new: The point that the planner is attempting to add to the tree
-            ind_p: The parent index within tree to which x_new it being added
-            ind_goal: The index to the lowest cost goal location within the tree
-            ind_near: The set of nearest neighbors over which the search is performed
-            ind_rewire: The set of nodes that were rewired through x_new
-            sampling_ellipses: List of all ellipses used for sampling
-            fig: the figure on which to make the plots
+    Args:
+        pause_plotting: If True, each step is paused until the user enters a key
+        world: The polygon world in which the plotting occurs
+        tree: Underlying tree for the plan
+        x_start: the start location of the plan
+        X: state space
+        X_t: target set
+        x_rand: The newly sampled point
+        x_new: The point that the planner is attempting to add to the tree
+        ind_p: The parent index within tree to which x_new it being added
+        ind_goal: The index to the lowest cost goal location within the tree
+        ind_near: The set of nearest neighbors over which the search is performed
+        ind_rewire: The set of nodes that were rewired through x_new
+        sampling_ellipses: List of all ellipses used for sampling
+        fig: the figure on which to make the plots
 
-        Returns:
-            The figure on which the data is plotted
+    Returns:
+        Figure: The figure on which the data is plotted
     """
     # Initialize the figure
     if fig is None:
@@ -260,14 +263,20 @@ def plot_rrt(pause_plotting: bool,
 
 class RRTPlotter:
     """Stores data needed for plotting rrt plans
+
+    Attributes:
+        world(PolygonWorld): The polygon world in which the plotting occurs
+        plot_iterations(int): Every plot_iterations, the planner will be plotted
+        pause_plotting(bool): If True, each step is paused until the user enters a key
+        fig(Optional[Figure]): Figure on which the plotting occurs. Initialized in first call to "plot_plan"
     """
     def __init__(self, world: PolygonWorld, plot_iterations: int, pause_plotting: bool) -> None:
         """ Initializes the RRT Plotter with the data needed for plotting the rrt plan
 
-            Inputs:
-                world: The polygon world in which the plotting occurs
-                plot_iterations: Every plot_iterations, the planner will be plotted
-                pause_plotting: If True, each step is paused until the user enters a key
+        Args:
+            world: The polygon world in which the plotting occurs
+            plot_iterations: Every plot_iterations, the planner will be plotted
+            pause_plotting: If True, each step is paused until the user enters a key
         """
         self.world = world                      # Polygon world to draw
         self.plot_iterations = plot_iterations  # Every plot_iterations, the planner will be plotted
@@ -290,20 +299,20 @@ class RRTPlotter:
                   force_plot: bool = False) -> None:
         """ Plots the rrt plan segment
 
-            Inputs:
-                iteration: The iteration number of the planner
-                tree: Underlying tree for the plan
-                x_start: the start location of the plan
-                X_t: target set
-                X: state space
-                x_rand: The newly sampled point
-                x_new: The point that the planner is attempting to add to the tree
-                ind_p: The parent index within tree to which x_new it being added
-                ind_goal: The index to the lowest cost goal location within the tree
-                ind_near: The set of nearest neighbors over which the search is performed
-                ind_rewire: The set of nodes that were rewired through x_new
-                sampling_ellipses: List of all ellipses used for sampling
-                force_plot: True => the plot will be plotted regardless of iteration
+        Args:
+            iteration: The iteration number of the planner
+            tree: Underlying tree for the plan
+            x_start: the start location of the plan
+            X_t: target set
+            X: state space
+            x_rand: The newly sampled point
+            x_new: The point that the planner is attempting to add to the tree
+            ind_p: The parent index within tree to which x_new it being added
+            ind_goal: The index to the lowest cost goal location within the tree
+            ind_near: The set of nearest neighbors over which the search is performed
+            ind_rewire: The set of nodes that were rewired through x_new
+            sampling_ellipses: List of all ellipses used for sampling
+            force_plot: True => the plot will be plotted regardless of iteration
         """
         if force_plot or np.mod(iteration, self.plot_iterations) == 0:
             self.fig = plot_rrt(pause_plotting=self.pause_plotting,

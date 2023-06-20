@@ -34,6 +34,94 @@
   <section id="module-py_sim.plotting.plotting">
 <span id="py-sim-plotting-plotting-module"></span><h1>py_sim.plotting.plotting module<a class="headerlink" href="#module-py_sim.plotting.plotting" title="Permalink to this heading">¶</a></h1>
 <p>plotting.py: Plotting utilities</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.Color">
+<span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">Color</span></span><a class="headerlink" href="#py_sim.plotting.plotting.Color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a type for the color tuple</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[float, float, float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.blue">
+<span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">blue</span></span><a class="headerlink" href="#py_sim.plotting.plotting.blue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quick color definition</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[float, float, float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.red">
+<span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">red</span></span><a class="headerlink" href="#py_sim.plotting.plotting.red" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quick color definition</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[float, float, float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.green">
+<span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">green</span></span><a class="headerlink" href="#py_sim.plotting.plotting.green" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quick color definition</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[float, float, float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.black">
+<span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">black</span></span><a class="headerlink" href="#py_sim.plotting.plotting.black" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quick color definition</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[float, float, float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.white">
+<span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">white</span></span><a class="headerlink" href="#py_sim.plotting.plotting.white" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quick color definition</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[float, float, float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.LocationStateType">
+<span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">LocationStateType</span></span><a class="headerlink" href="#py_sim.plotting.plotting.LocationStateType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a state with a location bound by TwoDArrayType</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TypeVar</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.VectorFieldType">
+<span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">VectorFieldType</span></span><a class="headerlink" href="#py_sim.plotting.plotting.VectorFieldType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a type correpsonding to a vector field to be plotted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TypeVar</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.DataPlot">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">DataPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.DataPlot" title="Permalink to this definition">¶</a></dt>
@@ -43,6 +131,11 @@
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.DataPlot.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.DataPlot.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates the plot given the latest data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – The data to be used for the plot update</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -52,6 +145,28 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">DataTimeSeries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_ind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.DataTimeSeries" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code>]</p>
 <p>Plots the time series of a given state withing the data object</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.DataTimeSeries.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><a class="headerlink" href="#py_sim.plotting.plotting.DataTimeSeries.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference to the line being plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Line2D</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.DataTimeSeries.state_ind">
+<span class="sig-name descname"><span class="pre">state_ind</span></span><a class="headerlink" href="#py_sim.plotting.plotting.DataTimeSeries.state_ind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index to the state within the state vector that is being plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.DataTimeSeries.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.DataTimeSeries.plot" title="Permalink to this definition">¶</a></dt>
@@ -67,12 +182,34 @@
 <p>Protocol defining exactly what the Plan Visited needs for plotting</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.GridVisitedType.grid">
-<span class="sig-name descname"><span class="pre">grid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></em><a class="headerlink" href="#py_sim.plotting.plotting.GridVisitedType.grid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">grid</span></span><a class="headerlink" href="#py_sim.plotting.plotting.GridVisitedType.grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Occupancy grid for the planning space dimensions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid">BinaryOccupancyGrid</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.GridVisitedType.visited">
-<span class="sig-name descname"><span class="pre">visited</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py_sim.plotting.plotting.GridVisitedType.visited" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">visited</span></span><a class="headerlink" href="#py_sim.plotting.plotting.GridVisitedType.visited" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean grid for visited locations same size as grid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">grid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">visited</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -82,13 +219,68 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">OrientedPositionParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.OrientedPositionParams" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Contains parameters for plotting an oriented position</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.OrientedPositionParams.rad">
+<span class="sig-name descname"><span class="pre">rad</span></span><a class="headerlink" href="#py_sim.plotting.plotting.OrientedPositionParams.rad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Radius of the position being plotted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.OrientedPositionParams.color">
+<span class="sig-name descname"><span class="pre">color</span></span><a class="headerlink" href="#py_sim.plotting.plotting.OrientedPositionParams.color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Color of the plotted position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Color</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanPlotter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">PlanPlotter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.plotting.plotting.PlanType" title="py_sim.plotting.plotting.PlanType"><span class="pre">PlanType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.PlanPlotter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="#py_sim.plotting.plotting.LocationStateType" title="py_sim.plotting.plotting.LocationStateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code></a>]</p>
 <p>Plots the resulting plan to the goal location</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanPlotter.planner">
+<span class="sig-name descname"><span class="pre">planner</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanPlotter.planner" title="Permalink to this definition">¶</a></dt>
+<dd><p>reference to the planner used for planning</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.plotting.plotting.PlanType" title="py_sim.plotting.plotting.PlanType">PlanType</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanPlotter.ind_end">
+<span class="sig-name descname"><span class="pre">ind_end</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanPlotter.ind_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ending index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanPlotter.handle_path">
+<span class="sig-name descname"><span class="pre">handle_path</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanPlotter.handle_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference to the path being plotted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Line2D</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanPlotter.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanPlotter.plot" title="Permalink to this definition">¶</a></dt>
@@ -100,8 +292,30 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanQueuePlotter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">PlanQueuePlotter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.plotting.plotting.QueueType" title="py_sim.plotting.plotting.QueueType"><span class="pre">QueueType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">1.0,</span> <span class="pre">0.0,</span> <span class="pre">1.0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.PlanQueuePlotter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="#py_sim.plotting.plotting.LocationStateType" title="py_sim.plotting.plotting.LocationStateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code></a>]</p>
 <p>Plots the positions of the elements in the planner queue</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanQueuePlotter.planner">
+<span class="sig-name descname"><span class="pre">planner</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanQueuePlotter.planner" title="Permalink to this definition">¶</a></dt>
+<dd><p>The planner being used for plotting</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.plotting.plotting.QueueType" title="py_sim.plotting.plotting.QueueType">QueueType</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanQueuePlotter.handle_queue">
+<span class="sig-name descname"><span class="pre">handle_queue</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanQueuePlotter.handle_queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>The reference to the positions being plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Line2D</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanQueuePlotter.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanQueuePlotter.plot" title="Permalink to this definition">¶</a></dt>
@@ -115,6 +329,28 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">PlanType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.PlanType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></p>
 <p>Protocol defining exactly what is needed to plot the plan</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanType.grid">
+<span class="sig-name descname"><span class="pre">grid</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanType.grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Occupancy grid for the planning space dimensions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid">BinaryOccupancyGrid</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanType.parent_mapping">
+<span class="sig-name descname"><span class="pre">parent_mapping</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanType.parent_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the mapping from an index to its parent</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanType.get_plan">
 <span class="sig-name descname"><span class="pre">get_plan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">end_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanType.get_plan" title="Permalink to this definition">¶</a></dt>
@@ -122,13 +358,13 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanType.grid">
-<span class="sig-name descname"><span class="pre">grid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></em><a class="headerlink" href="#py_sim.plotting.plotting.PlanType.grid" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">grid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></em><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanType.parent_mapping">
-<span class="sig-name descname"><span class="pre">parent_mapping</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py_sim.plotting.plotting.PlanType.parent_mapping" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">parent_mapping</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -138,6 +374,28 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">PlanVisitedGridPlotter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.plotting.plotting.GridVisitedType" title="py_sim.plotting.plotting.GridVisitedType"><span class="pre">GridVisitedType</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.PlanVisitedGridPlotter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Plots the visited positions of a graph forward search planner as well as the occupancy grid as a grid</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanVisitedGridPlotter.handle_im">
+<span class="sig-name descname"><span class="pre">handle_im</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanVisitedGridPlotter.handle_im" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference to the image of the visited elements</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>AxesImage</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanVisitedGridPlotter.planner">
+<span class="sig-name descname"><span class="pre">planner</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanVisitedGridPlotter.planner" title="Permalink to this definition">¶</a></dt>
+<dd><p>planner to be plotted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.plotting.plotting.GridVisitedType" title="py_sim.plotting.plotting.GridVisitedType">GridVisitedType</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanVisitedGridPlotter.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanVisitedGridPlotter.plot" title="Permalink to this definition">¶</a></dt>
@@ -149,8 +407,30 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanVisitedPlotter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">PlanVisitedPlotter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.plotting.plotting.GridVisitedType" title="py_sim.plotting.plotting.GridVisitedType"><span class="pre">GridVisitedType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.5)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.PlanVisitedPlotter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="#py_sim.plotting.plotting.LocationStateType" title="py_sim.plotting.plotting.LocationStateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code></a>]</p>
 <p>Plots the visited positions of a graph forward search planner</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanVisitedPlotter.handle_visited">
+<span class="sig-name descname"><span class="pre">handle_visited</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanVisitedPlotter.handle_visited" title="Permalink to this definition">¶</a></dt>
+<dd><p>The reference to the positions that have been visited</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Line2D</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanVisitedPlotter.planner">
+<span class="sig-name descname"><span class="pre">planner</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanVisitedPlotter.planner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference to the grid/visited locations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.plotting.plotting.GridVisitedType" title="py_sim.plotting.plotting.GridVisitedType">GridVisitedType</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PlanVisitedPlotter.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlanVisitedPlotter.plot" title="Permalink to this definition">¶</a></dt>
@@ -165,23 +445,67 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code>]</p>
 <p>Defines data necessary for plotting</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlotManifest.axes">
-<span class="sig-name descname"><span class="pre">axes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">matplotlib.axes._axes.Axes</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#py_sim.plotting.plotting.PlotManifest.axes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlotManifest.data_plots">
-<span class="sig-name descname"><span class="pre">data_plots</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#py_sim.plotting.plotting.DataPlot" title="py_sim.plotting.plotting.DataPlot"><span class="pre">py_sim.plotting.plotting.DataPlot</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#py_sim.plotting.plotting.PlotManifest.data_plots" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PlotManifest.figs">
-<span class="sig-name descname"><span class="pre">figs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">matplotlib.figure.Figure</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#py_sim.plotting.plotting.PlotManifest.figs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">figs</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlotManifest.figs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Figures created for plotting</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Figure]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlotManifest.axes">
+<span class="sig-name descname"><span class="pre">axes</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlotManifest.axes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mapping of axis name to the axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str, Axes]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PlotManifest.state_plots">
-<span class="sig-name descname"><span class="pre">state_plots</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#py_sim.plotting.plotting.StatePlot" title="py_sim.plotting.plotting.StatePlot"><span class="pre">py_sim.plotting.plotting.StatePlot</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#py_sim.plotting.plotting.PlotManifest.state_plots" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">state_plots</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlotManifest.state_plots" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of all the state plots</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#py_sim.plotting.plotting.StatePlot" title="py_sim.plotting.plotting.StatePlot">StatePlot</a>[StateType]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PlotManifest.data_plots">
+<span class="sig-name descname"><span class="pre">data_plots</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlotManifest.data_plots" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of all the data plots</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#py_sim.plotting.plotting.DataPlot" title="py_sim.plotting.plotting.DataPlot">DataPlot</a>[StateType]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">axes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">matplotlib.axes._axes.Axes</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">data_plots</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#py_sim.plotting.plotting.DataPlot" title="py_sim.plotting.plotting.DataPlot"><span class="pre">py_sim.plotting.plotting.DataPlot</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">figs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">matplotlib.figure.Figure</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">state_plots</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#py_sim.plotting.plotting.StatePlot" title="py_sim.plotting.plotting.StatePlot"><span class="pre">py_sim.plotting.plotting.StatePlot</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -191,6 +515,28 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">PosePlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.PosePlot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Plotes the position and orientation as a triangular like object</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PosePlot.params">
+<span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PosePlot.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>The parameters needed for plotting the pose</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py_sim.plotting.plotting.OrientedPositionParams" title="py_sim.plotting.plotting.OrientedPositionParams">OrientedPositionParams</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PosePlot.poly_plot">
+<span class="sig-name descname"><span class="pre">poly_plot</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PosePlot.poly_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference to the polygon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Polygon</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PosePlot.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol" title="py_sim.tools.sim_types.UnicyleStateProtocol"><span class="pre">UnicyleStateProtocol</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.PosePlot.plot" title="Permalink to this definition">¶</a></dt>
@@ -204,10 +550,26 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">PositionPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">ax:</span> <span class="pre">~matplotlib.axes._axes.Axes,</span> <span class="pre">color:</span> <span class="pre">tuple[float,</span> <span class="pre">float,</span> <span class="pre">float,</span> <span class="pre">float],</span> <span class="pre">label:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'',</span> <span class="pre">location:</span> <span class="pre">~py_sim.tools.sim_types.TwoDArrayType</span> <span class="pre">=</span> <span class="pre">&lt;py_sim.tools.sim_types.TwoDimArray</span> <span class="pre">object&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.PositionPlot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Plots the position as a circle</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.PositionPlot.position_plot">
+<span class="sig-name descname"><span class="pre">position_plot</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PositionPlot.position_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference to the position plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Line2D</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PositionPlot.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.PositionPlot.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates the plot given the new 2D position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state</strong> – State to be plotted</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -219,12 +581,34 @@
 <p>Protocol defining exactly what is needed for plotting the queue</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.QueueType.grid">
-<span class="sig-name descname"><span class="pre">grid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></em><a class="headerlink" href="#py_sim.plotting.plotting.QueueType.grid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">grid</span></span><a class="headerlink" href="#py_sim.plotting.plotting.QueueType.grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Occupancy grid for the planning space dimensions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid">BinaryOccupancyGrid</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.QueueType.queue">
-<span class="sig-name descname"><span class="pre">queue</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="py_sim.tools.simple_priority_queue.html#py_sim.tools.simple_priority_queue.SimplePriorityQueue" title="py_sim.tools.simple_priority_queue.SimplePriorityQueue"><span class="pre">SimplePriorityQueue</span></a></em><a class="headerlink" href="#py_sim.plotting.plotting.QueueType.queue" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">queue</span></span><a class="headerlink" href="#py_sim.plotting.plotting.QueueType.queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>The queue for active nodes being considered</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.simple_priority_queue.html#py_sim.tools.simple_priority_queue.SimplePriorityQueue" title="py_sim.tools.simple_priority_queue.SimplePriorityQueue">SimplePriorityQueue</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">grid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></em><a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">queue</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="py_sim.tools.simple_priority_queue.html#py_sim.tools.simple_priority_queue.SimplePriorityQueue" title="py_sim.tools.simple_priority_queue.SimplePriorityQueue"><span class="pre">SimplePriorityQueue</span></a></em><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -232,8 +616,52 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.RangeBearingLines">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">RangeBearingLines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">1.0,</span> <span class="pre">0.0,</span> <span class="pre">1.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.RangeBearingLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="#py_sim.plotting.plotting.LocationStateType" title="py_sim.plotting.plotting.LocationStateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code></a>]</p>
 <p>Plots the positions of detections be the range bearing sensors</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.RangeBearingLines.ax">
+<span class="sig-name descname"><span class="pre">ax</span></span><a class="headerlink" href="#py_sim.plotting.plotting.RangeBearingLines.ax" title="Permalink to this definition">¶</a></dt>
+<dd><p>The axis on which to create the plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Axes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.RangeBearingLines.color">
+<span class="sig-name descname"><span class="pre">color</span></span><a class="headerlink" href="#py_sim.plotting.plotting.RangeBearingLines.color" title="Permalink to this definition">¶</a></dt>
+<dd><p>The color to plot (rgb-alpha, i.e., color and transparency)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Color</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.RangeBearingLines.label">
+<span class="sig-name descname"><span class="pre">label</span></span><a class="headerlink" href="#py_sim.plotting.plotting.RangeBearingLines.label" title="Permalink to this definition">¶</a></dt>
+<dd><p>The label to assign to the trajectory plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.RangeBearingLines.handles">
+<span class="sig-name descname"><span class="pre">handles</span></span><a class="headerlink" href="#py_sim.plotting.plotting.RangeBearingLines.handles" title="Permalink to this definition">¶</a></dt>
+<dd><p>The references to each of the sensor lines</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Line2D]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.RangeBearingLines.initialize_line_plots">
 <span class="sig-name descname"><span class="pre">initialize_line_plots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.RangeBearingLines.initialize_line_plots" title="Permalink to this definition">¶</a></dt>
@@ -251,8 +679,19 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.RangeBearingPlot">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">RangeBearingPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">1.0,</span> <span class="pre">0.0,</span> <span class="pre">1.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.RangeBearingPlot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="#py_sim.plotting.plotting.LocationStateType" title="py_sim.plotting.plotting.LocationStateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code></a>]</p>
 <p>Plots the positions of detections be the range bearing sensors</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.RangeBearingPlot.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><a class="headerlink" href="#py_sim.plotting.plotting.RangeBearingPlot.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>reference to the line being plotted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Line2D</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.RangeBearingPlot.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.RangeBearingPlot.plot" title="Permalink to this definition">¶</a></dt>
@@ -269,7 +708,8 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.StatePlot.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StateType</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.StatePlot.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates the plot for the given state type</p>
+<dd><p>Updates the plot for the given state type
+:param state: The state to be used for the update</p>
 </dd></dl>
 
 </dd></dl>
@@ -277,8 +717,19 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.StateTrajPlot">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">StateTrajPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.StateTrajPlot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="#py_sim.plotting.plotting.LocationStateType" title="py_sim.plotting.plotting.LocationStateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code></a>]</p>
 <p>Plots the state trajectory one pose at a time</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.StateTrajPlot.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><a class="headerlink" href="#py_sim.plotting.plotting.StateTrajPlot.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference to the line being plotted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Line2D</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.StateTrajPlot.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.StateTrajPlot.plot" title="Permalink to this definition">¶</a></dt>
@@ -292,6 +743,13 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">UnicycleTimeSeriesPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'-'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Figure</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">matplotlib.axes._axes.Axes</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.UnicycleTimeSeriesPlot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">UnicycleStateType</span></code>]</p>
 <p>Plots the unicycle state vs time with each state in its own subplot</p>
+<p>fig(Figure): Figure on which the trajectories are plot
+axs(npt.NDArray(Axes)): The subplot axes on which everything is plot
+handle_x(Line2D): reference to the line on which the x state is plot
+handle_y(Line2D): reference to the line on which the y state is plot
+handle_psi(Line2D): reference to the line on which the psi state is plot
+handle_v(Line2D): reference to the line on which the v state is plot
+handle_w(Line2D): reference to the line on which the w state is plot</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.UnicycleTimeSeriesPlot.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">UnicycleStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.UnicycleTimeSeriesPlot.plot" title="Permalink to this definition">¶</a></dt>
@@ -303,8 +761,52 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.VectorFieldPlot">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">VectorFieldPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_limits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_limits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">VectorFieldType</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.plotting.plotting.VectorFieldPlot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">VectorFieldType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="#py_sim.plotting.plotting.VectorFieldType" title="py_sim.plotting.plotting.VectorFieldType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VectorFieldType</span></code></a>]</p>
 <p>Plots vector fields given the current state</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.VectorFieldPlot.vector_field">
+<span class="sig-name descname"><span class="pre">vector_field</span></span><a class="headerlink" href="#py_sim.plotting.plotting.VectorFieldPlot.vector_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>The vectorfield class to be plotted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>VectorFieldType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.VectorFieldPlot.x_vals">
+<span class="sig-name descname"><span class="pre">x_vals</span></span><a class="headerlink" href="#py_sim.plotting.plotting.VectorFieldPlot.x_vals" title="Permalink to this definition">¶</a></dt>
+<dd><p>The x positions of all the elements being plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.VectorFieldPlot.y_vals">
+<span class="sig-name descname"><span class="pre">y_vals</span></span><a class="headerlink" href="#py_sim.plotting.plotting.VectorFieldPlot.y_vals" title="Permalink to this definition">¶</a></dt>
+<dd><p>The y positions of all the elements being plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.plotting.plotting.VectorFieldPlot.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><a class="headerlink" href="#py_sim.plotting.plotting.VectorFieldPlot.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>The reference to the quivers being plotted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Quiver</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.VectorFieldPlot.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data"><span class="pre">Data</span></a><span class="p"><span class="pre">[</span></span><span class="pre">UnicycleStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.VectorFieldPlot.plot" title="Permalink to this definition">¶</a></dt>
@@ -317,18 +819,20 @@
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.create_oriented_polygon">
 <span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">create_oriented_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol" title="py_sim.tools.sim_types.UnicyleStateProtocol"><span class="pre">UnicyleStateProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.create_oriented_polygon" title="Permalink to this definition">¶</a></dt>
 <dd><p>create_oriented_polygon: Returns the oriented polygon to represent a given pose</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>pose: The position and orientation of the vehicle
-rad: The radius of the vehicle</p>
-</dd>
-</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The x-coordinate vector
-y: The y-coordinate vector</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose</strong> – The position and orientation of the vehicle</p></li>
+<li><p><strong>rad</strong> – The radius of the vehicle</p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>x</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>x: The x-coordinate vector</p>
+<p>y: The y-coordinate vector</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[float], list[float]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -337,12 +841,19 @@ y: The y-coordinate vector</p>
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.init_oriented_position_plot">
 <span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">init_oriented_position_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax:</span> <span class="pre">~matplotlib.axes._axes.Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params:</span> <span class="pre">~py_sim.plotting.plotting.OrientedPositionParams</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose:</span> <span class="pre">~py_sim.tools.sim_types.UnicyleStateProtocol</span> <span class="pre">=</span> <span class="pre">&lt;py_sim.tools.sim_types.UnicycleState</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Polygon</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.init_oriented_position_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>init_oriented_position_plot Creates a triangle-like shape to show the orientaiton of the vehicle</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ax: The axis on which to create the plot
-params: The parameters defining the plot
-pose: The position and orientation of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> – The axis on which to create the plot</p></li>
+<li><p><strong>params</strong> – The parameters defining the plot</p></li>
+<li><p><strong>pose</strong> – The position and orientation of the vehicle</p></li>
+</ul>
 </dd>
-<dt>Outputs:</dt><dd><p>Polygon reference for later updating</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Polygon reference for later updating</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Polygon</p>
 </dd>
 </dl>
 </dd></dl>
@@ -351,15 +862,22 @@ pose: The position and orientation of the vehicle</p>
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.initialize_2d_line_plot">
 <span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">initialize_2d_line_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'-'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Line2D</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.initialize_2d_line_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes a two-dimensional line plot</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ax: The axis on which to create the plot
-x: initial x-position
-y: initial y-position
-color: The color to plot (rgb-alpha, i.e., color and transparency)
-style: The line style of the plot
-label: The label to assign to the trajectory plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> – The axis on which to create the plot</p></li>
+<li><p><strong>x</strong> – initial x-position</p></li>
+<li><p><strong>y</strong> – initial y-position</p></li>
+<li><p><strong>color</strong> – The color to plot (rgb-alpha, i.e., color and transparency)</p></li>
+<li><p><strong>style</strong> – The line style of the plot</p></li>
+<li><p><strong>label</strong> – The label to assign to the trajectory plot</p></li>
+</ul>
 </dd>
-<dt>Outputs:</dt><dd><p>Reference to the plot (Line2D) for later modification</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Reference to the plot (Line2D) for later modification</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Line2D</p>
 </dd>
 </dl>
 </dd></dl>
@@ -371,12 +889,12 @@ label: The label to assign to the trajectory plot</p>
 to the position plot</p>
 <blockquote>
 <div><dl class="simple">
-<dt>Inputs:</dt><dd><p>ax: The axis on which to create the plot
+<dt>Args:</dt><dd><p>ax: The axis on which to create the plot
 color: The color to plot (rgb-alpha, i.e., color and transparency)
 label: The label to assign to the position
 location: The oiriginal location of the position</p>
 </dd>
-<dt>Outputs:</dt><dd><p>Reference to the plot (Line2D) for later modification</p>
+<dt>Returns:</dt><dd><p>Line2D: Reference to the plot (Line2D) for later modification</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -386,13 +904,20 @@ location: The oiriginal location of the position</p>
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.plot_occupancy_grid_cells">
 <span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_occupancy_grid_cells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_occupied</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_free</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0,</span> <span class="pre">0.5)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">matplotlib.patches.Polygon</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.plot_occupancy_grid_cells" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plots the occupancy grid as circles</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ax: axis on which the grid should be plotted
-grid: grid to be plotted
-color_occupied: color of the occupied regions
-color_free: color of the free regions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> – axis on which the grid should be plotted</p></li>
+<li><p><strong>grid</strong> – grid to be plotted</p></li>
+<li><p><strong>color_occupied</strong> – color of the occupied regions</p></li>
+<li><p><strong>color_free</strong> – color of the free regions.</p></li>
+</ul>
 </dd>
-<dt>Outputs:</dt><dd><p>plot handles for occupied and free plots, each one being a cell</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>plot handles for occupied and free plots, each one being a cell</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Polygon]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -401,13 +926,20 @@ color_free: color of the free regions.</p>
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.plot_occupancy_grid_circles">
 <span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_occupancy_grid_circles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_occupied</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_free</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">matplotlib.lines.Line2D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">matplotlib.lines.Line2D</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.plot_occupancy_grid_circles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plots the occupancy grid as circles</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ax: axis on which the grid should be plotted
-grid: grid to be plotted
-color_occupied: color of the occupied regions
-color_free: color of the free regions. If not provided then the free regions are not plotted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> – axis on which the grid should be plotted</p></li>
+<li><p><strong>grid</strong> – grid to be plotted</p></li>
+<li><p><strong>color_occupied</strong> – color of the occupied regions</p></li>
+<li><p><strong>color_free</strong> – color of the free regions. If not provided then the free regions are not plotted</p></li>
+</ul>
 </dd>
-<dt>Outputs:</dt><dd><p>plot handles for occupied and free plots</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>plot handles for occupied and free plots</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[Line2D, Optional[Line2D]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -415,32 +947,43 @@ color_free: color of the free regions. If not provided then the free regions are
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.plot_occupancy_grid_image">
 <span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_occupancy_grid_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid" title="py_sim.sensors.occupancy_grid.BinaryOccupancyGrid"><span class="pre">BinaryOccupancyGrid</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AxesImage</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.plot_occupancy_grid_image" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plots the occupancy grid as an image as well as the grid lines. This is much faster
-then plotting the grid cells individually, especially for large occupancy grids.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Inputs:</dt><dd><p>ax: axis on which the grid should be plotted
-grid: grid to be plotted</p>
-</dd>
-<dt>Outputs:</dt><dd><p>The handle for the image used to plot the occupancy map</p>
+<dd><dl class="simple">
+<dt>Plots the occupancy grid as an image as well as the grid lines. This is much faster</dt><dd><p>then plotting the grid cells individually, especially for large occupancy grids.</p>
 </dd>
 </dl>
-</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> – axis on which the grid should be plotted</p></li>
+<li><p><strong>grid</strong> – grid to be plotted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The handle for the image used to plot the occupancy map</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>AxesImage</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.plot_polygon_world">
 <span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_polygon_world</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.worlds.polygon_world.html#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld"><span class="pre">PolygonWorld</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(1.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.9)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">matplotlib.patches.Polygon</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.plot_polygon_world" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plots each of the polygons in the world</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ax: axis on which the world should be plotted
-world: the instance of the world to be plotted
-color: the color of the obstacles</p>
-</dd>
-</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list of all of the polygon plot objects</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> – axis on which the world should be plotted</p></li>
+<li><p><strong>world</strong> – the instance of the world to be plotted</p></li>
+<li><p><strong>color</strong> – the color of the obstacles</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of all of the polygon plot objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Polygon]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -448,27 +991,37 @@ color: the color of the obstacles</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.plot_visited">
 <span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_visited</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.plotting.plotting.GridVisitedType" title="py_sim.plotting.plotting.GridVisitedType"><span class="pre">GridVisitedType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AxesImage</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.plot_visited" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plots the occupancy grid as an image as well as the grid lines. This is much faster
-then plotting the grid cells individually, especially for large occupancy grids.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Inputs:</dt><dd><p>ax: axis on which the grid should be plotted
-grid: grid to be plotted</p>
-</dd>
-<dt>Outputs:</dt><dd><p>The handle for the image used to plot the occupancy map</p>
+<dd><dl class="simple">
+<dt>Plots the occupancy grid as an image as well as the grid lines. This is much faster</dt><dd><p>then plotting the grid cells individually, especially for large occupancy grids.</p>
 </dd>
 </dl>
-</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> – axis on which the grid should be plotted</p></li>
+<li><p><strong>grid</strong> – grid to be plotted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The handle for the image used to plot the occupancy map</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>AxesImage</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.update_2d_line_plot">
 <span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">update_2d_line_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Line2D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.update_2d_line_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>update_traj_plot: Updates the trajectory with the latest location</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>line: Reference to the line to be updated
-x_vec: The data for the x coordinate
-y_vec: The data for the y coordinate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>line</strong> – Reference to the line to be updated</p></li>
+<li><p><strong>x_vec</strong> – The data for the x coordinate</p></li>
+<li><p><strong>y_vec</strong> – The data for the y coordinate</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -477,10 +1030,13 @@ y_vec: The data for the y coordinate</p>
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.update_oriented_position_plot">
 <span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">update_oriented_position_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Polygon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.plotting.plotting.OrientedPositionParams" title="py_sim.plotting.plotting.OrientedPositionParams"><span class="pre">OrientedPositionParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol" title="py_sim.tools.sim_types.UnicyleStateProtocol"><span class="pre">UnicyleStateProtocol</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.update_oriented_position_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>update_oriented_position_plot: Updates the plot for the orientated position</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>ax: The axis on which to create the plot
-params: The parameters defining the plot
-pose: The position and orientation of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> – The axis on which to create the plot</p></li>
+<li><p><strong>params</strong> – The parameters defining the plot</p></li>
+<li><p><strong>pose</strong> – The position and orientation of the vehicle</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -489,9 +1045,12 @@ pose: The position and orientation of the vehicle</p>
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.update_position_plot">
 <span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">update_position_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Line2D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.update_position_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>update_position_plot: Updates the position of a previously drawn circle</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>line: Reference to the line to be updated
-location: The (x,y) position of the new location</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>line</strong> – Reference to the line to be updated</p></li>
+<li><p><strong>location</strong> – The (x,y) position of the new location</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -500,9 +1059,12 @@ location: The (x,y) position of the new location</p>
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.update_traj_plot">
 <span class="sig-prename descclassname"><span class="pre">py_sim.plotting.plotting.</span></span><span class="sig-name descname"><span class="pre">update_traj_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Line2D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.plotting.plotting.update_traj_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>update_traj_plot: Updates the trajectory with the latest location</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><p>line: Reference to the line to be updated
-location: The (x,y) position of the new location</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>line</strong> – Reference to the line to be updated</p></li>
+<li><p><strong>location</strong> – The (x,y) position of the new location</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
