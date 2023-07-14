@@ -24,21 +24,22 @@ def test_graph_planner() -> None:
     x_limits=(-5, 25)
 
     # Create the obstacle world
-    obstacle_world = poly_world.generate_world_obstacles()
-    #obstacle_world = poly_world.generate_non_convex_obstacles()
+    #obstacle_world = poly_world.generate_world_obstacles()
+    obstacle_world = poly_world.generate_non_convex_obstacles()
 
     # Create the graph to be used for planning
     #graph = poly_world.topology_world_obstacles()
     #graph = poly_world.topology_non_convex_obstacles()
-    #graph = poly_world.create_visibility_graph(world=obstacle_world)
-    graph = poly_world.create_voronoi_graph(world=obstacle_world, y_limits=y_limits, x_limits=x_limits, resolution=0.1)
+    graph = poly_world.create_visibility_graph(world=obstacle_world)
+    # graph = poly_world.create_voronoi_graph(world=obstacle_world, y_limits=y_limits, x_limits=x_limits, resolution=0.1)
 
 
     # Create the starting and stopping indices
-    ind_start = graph.add_node_and_edges(position=TwoDimArray(x=-4.5, y=4.),
-                                         world=obstacle_world, n_connections=3)
-    ind_end = graph.add_node_and_edges(position=TwoDimArray(x=22.5, y=3.),
-                                       world=obstacle_world)
+    ind_start = graph.add_node_and_edges(position=TwoDimArray(x = -2., y=-3.),
+                                         world=obstacle_world, n_connections=5)
+    ind_end = graph.add_node_and_edges(position=TwoDimArray(x = 14., y=7.),
+                                       world=obstacle_world,
+                                       n_connections=5)
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
