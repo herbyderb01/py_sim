@@ -107,6 +107,7 @@ class TwoDArrayType(Protocol):
         IND_X(int): The index of the x-component
         IND_Y(int): The index of the y-component
         state(NDArray[Any]): The 2-D array
+        position(NDArray[Any]): The 2-D array (same as state)
         n_states(int): The number of states in state
         x(float): The value of the x component
         y(float): The value of the y component
@@ -219,7 +220,7 @@ class VectorControl(Protocol[StateType, InputType, ControlParamType]): # type: i
 class ArcParams():
     """Parameters required for defining an arc
 
-    Args:
+    Attributes:
         v_d(float): Desired translational velocity
         w_d(float): Desired rotational velocity
     """

@@ -322,9 +322,9 @@ class UnicycleTimeSeriesPlot():
         self.handle_w = initialize_2d_line_plot(ax=self.axs[4],x=0., y=0., color=color, style=style, label=label)
 
         # Label the axes and plots
-        self.axs[0].set_ylabel("X position")
-        self.axs[1].set_ylabel("Y position")
-        self.axs[2].set_ylabel("Orientation")
+        self.axs[0].set_ylabel("X")
+        self.axs[1].set_ylabel("Y")
+        self.axs[2].set_ylabel("Orien")
         self.axs[3].set_ylabel("$u_v$")
         self.axs[4].set_ylabel("$u_\\omega$")
         self.axs[4].set_xlabel("Time (sec)")
@@ -342,6 +342,69 @@ class UnicycleTimeSeriesPlot():
         for ax in self.axs:
             ax.relim()
             ax.autoscale_view(True, True, True)
+
+
+class SingleIntegratorTimeSeriesPlot():
+    """Plots the unicycle state vs time with each state in its own subplot
+
+    fig(Figure): Figure on which the trajectories are plot
+    axs(npt.NDArray(Axes)): The subplot axes on which everything is plot
+    handle_x(Line2D): reference to the line on which the x state is plot
+    handle_y(Line2D): reference to the line on which the y state is plot
+    handle_psi(Line2D): reference to the line on which the psi state is plot
+    handle_v(Line2D): reference to the line on which the v state is plot
+    handle_w(Line2D): reference to the line on which the w state is plot
+    """
+    def __init__(self,
+                 color: Color,
+                 style: str = "-",
+                 fig: Optional[Figure] = None,
+                 axs: Optional[ list[Axes] ] = None,
+                 label: str = "") -> None:
+        """Plot a unicycle time series plot
+
+        Args:
+            color: The color to plot (rgb-alpha, i.e., color and transparency)
+            style: The line style of the plot
+            fig: The figure on which to plot - If none or axes is none then a new figure is created
+            axs: The list of axes on which to plot - If none or fig is non then a new figure is created
+            label: The label for the line
+        """
+
+        # Create a new figure
+        if fig is None or axs is None:
+            self.fig, self.axs = plt.subplots(4,1)
+        else:
+            self.fig = fig
+            self.axs = axs
+
+        # Create a new time series for each unicycle state
+        self.handle_x = initialize_2d_line_plot(ax=self.axs[0],x=0., y=0., color=color, style=style, label=label)
+        self.handle_y = initialize_2d_line_plot(ax=self.axs[1],x=0., y=0., color=color, style=style, label=label)
+        self.handle_xdot = initialize_2d_line_plot(ax=self.axs[2],x=0., y=0., color=color, style=style, label=label)
+        self.handle_ydot = initialize_2d_line_plot(ax=self.axs[3],x=0., y=0., color=color, style=style, label=label)
+
+        # Label the axes and plots
+        self.axs[0].set_ylabel("X")
+        self.axs[1].set_ylabel("Y")
+        self.axs[2].set_ylabel("$\\dot{x}$")
+        self.axs[3].set_ylabel("$\\dot{y}$")
+        self.axs[3].set_xlabel("Time (sec)")
+
+    def plot(self, data: Data[LocationStateType]) -> None:
+        """ Plots the line trajectory
+        """
+        update_2d_line_plot(line=self.handle_x, x_vec=data.get_time_vec(), y_vec=data.get_state_vec(data.current.state.IND_X))
+        update_2d_line_plot(line=self.handle_y, x_vec=data.get_time_vec(), y_vec=data.get_state_vec(data.current.state.IND_Y))
+        update_2d_line_plot(line=self.handle_xdot, x_vec=data.get_time_vec(), y_vec=data.get_control_vec(TwoDimArray.IND_X))
+        update_2d_line_plot(line=self.handle_ydot, x_vec=data.get_time_vec(), y_vec=data.get_control_vec(TwoDimArray.IND_Y))
+
+        # Resize the axis
+        for ax in self.axs:
+            ax.relim()
+            ax.autoscale_view(True, True, True)
+
+
 
 class DataTimeSeries(Generic[StateType]):
     """Plots the time series of a given state withing the data object
