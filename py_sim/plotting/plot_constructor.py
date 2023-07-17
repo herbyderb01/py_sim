@@ -31,7 +31,7 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
                          position_dot: bool = False,
                          position_triangle: bool = False,
                          state_trajectory: bool = False,
-                         unicycle_time_series: bool = False,
+                         time_series: bool = False,
                          color: pt.Color = (0.2, 0.36, 0.78, 1.0),
                          vectorfield: Optional[VectorField] = None,
                          vector_res: float = 0.25,
@@ -54,7 +54,7 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
         position_dot: Plot the vehicle position as a circle
         position_triangle: Plot the vehicle position as a triangle
         state_trajectory: Plot the trajectory that the vehicle travelled
-        unicycle_time_series: Plot the time series state
+        time_series: Plot the time series state
         color: Color of the state plots
         vectorfield: The vectorfield class to be plotted
         vector_res: The grid resolution of the vectorfield
@@ -79,11 +79,13 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
     plots = pt.PlotManifest[LocationStateType]()
 
     # Create the desired data plots
-    if unicycle_time_series:
+    if time_series:
         if isinstance(initial_state, UnicycleState): # Ignore statement below is mismattch between LocationStateType and UnicycleState, checked by this if statement
             state_plot = pt.UnicycleTimeSeriesPlot(color=color)
             plots.data_plots.append(state_plot) # type: ignore
             plots.figs.append(state_plot.fig)
+        else:
+            print("Time series not plotted as no time series plot exists for ", type(initial_state))
 
     # Initialize the plotting of the vehicle visualization
     fig, ax = plt.subplots()
@@ -113,11 +115,15 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
         pt.plot_polygon_world(ax=ax, world=world)
 
     # Create the desired state plots
-    if position_dot:
-        plots.state_plots.append(pt.PositionPlot(ax=ax, label="Vehicle", color=color) )
     if position_triangle:
         if isinstance(initial_state, UnicycleStateProtocol): # Ignore statement below is mismattch between LocationStateType and UnicycleStateProtocol, checked by this if statement
             plots.state_plots.append(pt.PosePlot(ax=ax, rad=0.2)) # type: ignore
+        else:
+            position_dot = True
+            print("Plotting position dot as cannot plot triangle for type ", type(initial_state))
+    if position_dot:
+        plots.state_plots.append(pt.PositionPlot(ax=ax, label="Vehicle", color=color) )
+
 
     # Create the state trajectory plot
     if state_trajectory:

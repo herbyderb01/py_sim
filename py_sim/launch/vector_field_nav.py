@@ -131,7 +131,7 @@ def run_simple_vectorfield_example() -> None:
                                  position_dot=False,
                                  position_triangle=True,
                                  state_trajectory=True,
-                                 unicycle_time_series=True,
+                                 time_series=True,
                                  vectorfield=vector_field,
                                  vector_res=0.5,
                                  world=obstacle_world,

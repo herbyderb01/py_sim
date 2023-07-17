@@ -95,7 +95,7 @@ def run_arc_example() -> None:
                                  position_dot=False,
                                  position_triangle=True,
                                  state_trajectory=True,
-                                 unicycle_time_series=True)
+                                 time_series=True)
 
     # Create the simulation
     sim = SimpleSim(initial_state=state_initial,
