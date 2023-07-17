@@ -8,7 +8,7 @@ Attributes:
 """
 
 import copy
-from typing import Any, Generic, Optional, Protocol, TypeVar, cast
+from typing import Any, Generic, Optional, Protocol, TypeVar, cast, runtime_checkable
 
 import numpy as np
 import numpy.typing as npt
@@ -114,10 +114,12 @@ class TwoDArrayType(Protocol):
     IND_X: int # The index of the x-component
     IND_Y: int # The index of the y-component
     state: npt.NDArray[Any] # The 2-D array
+    position: npt.NDArray[Any] # The 2-D array, same as state
     n_states: int # The number of states in state
     x: float # The value of the x component
     y: float # The value of the y component
 
+LocationStateType = TypeVar("LocationStateType", bound=TwoDArrayType)
 class TwoDimArray:
     """Provides a representation of a two dimensional array
 
@@ -160,6 +162,17 @@ class TwoDimArray:
     def y(self, val: float) -> None:
         """Store the y-component value"""
         self.state[self.IND_Y,0] = val
+
+    @property
+    def position(self) -> npt.NDArray[Any]:
+        """Returns the (x,y) position"""
+        return self.state
+
+    @position.setter
+    def position(self, val: npt.NDArray[Any]) -> None:
+        """Sets the position"""
+        self.state.itemset(self.IND_X, val.item(self.IND_X))
+        self.state.itemset(self.IND_Y, val.item(self.IND_Y))
 
 class Dynamics(Protocol[StateType, InputType]): # type: ignore
     """Class taking the form of a state dynamics function call"""
@@ -214,7 +227,8 @@ class ArcParams():
         self.v_d = v_d # Desired translational velocity
         self.w_d = w_d # Desired rotational velocity
 
-class UnicyleStateProtocol(Protocol):
+@runtime_checkable
+class UnicycleStateProtocol(Protocol):
     """Protocol for the state when calling the unicycle functions
 
     Attributes:
@@ -372,7 +386,7 @@ class UnicycleControl:
 
 class VectorField(Protocol):
     """Defines the functions needed for a vector field class"""
-    def calculate_vector(self, state: UnicyleStateProtocol, time: float) ->TwoDimArray:
+    def calculate_vector(self, state: TwoDArrayType, time: float) ->TwoDimArray:
         """Calculates a vector given the time and unicycle state
 
         Args:

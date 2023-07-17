@@ -5,7 +5,7 @@ import numpy as np
 from py_sim.tools.sim_types import (
     RangeBearingMeasurements,
     TwoDimArray,
-    UnicyleStateProtocol,
+    UnicycleStateProtocol,
 )
 from py_sim.worlds.polygon_world import PolygonWorld
 
@@ -60,7 +60,7 @@ class RangeBearingSensor:
             else:
                 self.ind_rear.append(ind)
 
-    def calculate_range_bearing_measurement(self, pose: UnicyleStateProtocol, world: PolygonWorld) -> RangeBearingMeasurements:
+    def calculate_range_bearing_measurement(self, pose: UnicycleStateProtocol, world: PolygonWorld) -> RangeBearingMeasurements:
         """Calculates the range / bearing measurements given the current pose of the vehicle
 
             Args:

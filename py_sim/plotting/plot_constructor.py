@@ -15,15 +15,17 @@ from py_sim.path_planning.rrt_procedures import solution
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
 from py_sim.tools.sim_types import (
     EllipseParameters,
+    LocationStateType,
     StateSpace,
     TwoDimArray,
-    UnicycleStateType,
+    UnicycleState,
+    UnicycleStateProtocol,
     VectorField,
 )
 from py_sim.worlds.polygon_world import PolygonWorld
 
 
-def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too-many-arguments
+def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too-many-arguments
                          y_limits: tuple[float, float],
                          x_limits: tuple[float, float],
                          position_dot: bool = False,
@@ -43,7 +45,7 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
                          planner: Optional[ForwardGridSearch] = None,
                          graph: Optional[PathGraph[GraphType]] = None,
                          graph_node_size: int = 10
-                         ) -> pt.PlotManifest[UnicycleStateType]:
+                         ) -> pt.PlotManifest[LocationStateType]:
     """Creates a plot manifest given the following inputs
 
     Args:
@@ -71,16 +73,17 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
         graph_node_size: The size of the node circle in the graph plot
 
     Returns:
-        PlotManifest[UnicycleStateType]: A plot manifest used for simulation plotting
+        PlotManifest[StateType]: A plot manifest used for simulation plotting
     """
     # Create the manifest to be returned
-    plots = pt.PlotManifest[UnicycleStateType]()
+    plots = pt.PlotManifest[LocationStateType]()
 
     # Create the desired data plots
     if unicycle_time_series:
-        state_plot = pt.UnicycleTimeSeriesPlot[UnicycleStateType](color=color)
-        plots.data_plots.append(state_plot)
-        plots.figs.append(state_plot.fig)
+        if isinstance(initial_state, UnicycleState): # Ignore statement below is mismattch between LocationStateType and UnicycleState, checked by this if statement
+            state_plot = pt.UnicycleTimeSeriesPlot(color=color)
+            plots.data_plots.append(state_plot) # type: ignore
+            plots.figs.append(state_plot.fig)
 
     # Initialize the plotting of the vehicle visualization
     fig, ax = plt.subplots()
@@ -113,7 +116,8 @@ def create_plot_manifest(initial_state: UnicycleStateType, # pylint: disable=too
     if position_dot:
         plots.state_plots.append(pt.PositionPlot(ax=ax, label="Vehicle", color=color) )
     if position_triangle:
-        plots.state_plots.append(pt.PosePlot(ax=ax, rad=0.2))
+        if isinstance(initial_state, UnicycleStateProtocol): # Ignore statement below is mismattch between LocationStateType and UnicycleStateProtocol, checked by this if statement
+            plots.state_plots.append(pt.PosePlot(ax=ax, rad=0.2)) # type: ignore
 
     # Create the state trajectory plot
     if state_trajectory:

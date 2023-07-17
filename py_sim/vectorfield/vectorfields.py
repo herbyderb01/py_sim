@@ -2,7 +2,12 @@
 """
 
 import numpy as np
-from py_sim.tools.sim_types import TwoDimArray, UnicyleStateProtocol, VectorField
+from py_sim.tools.sim_types import (
+    TwoDArrayType,
+    TwoDimArray,
+    UnicycleStateProtocol,
+    VectorField,
+)
 
 
 class GoToGoalField:
@@ -25,7 +30,7 @@ class GoToGoalField:
         self.v_max = v_max      # Max velocity
         self.sig_sq = sig**2    # Square for convergence
 
-    def calculate_vector(self, state: UnicyleStateProtocol, time: float = 0.) -> TwoDimArray: # pylint: disable=unused-argument
+    def calculate_vector(self, state: TwoDArrayType, time: float = 0.) -> TwoDimArray: # pylint: disable=unused-argument
         """Calculates a vector from the state to the goal, the vector is scaled to respect max velocity
 
         Args:
@@ -74,7 +79,7 @@ class AvoidObstacle:
         self.S = S
         self.R = R
 
-    def calculate_vector(self, state: UnicyleStateProtocol, time: float = 0.) -> TwoDimArray: # pylint: disable=unused-argument
+    def calculate_vector(self, state: TwoDArrayType, time: float = 0.) -> TwoDimArray: # pylint: disable=unused-argument
         """Calculates a vector from the state to the goal, the vector is scaled to respect max velocity
 
         Args:
@@ -128,7 +133,7 @@ class SummedField:
         if len(fields) != len(weights):
             raise ValueError("Fields and weights must have the same number of objects")
 
-    def calculate_vector(self, state: UnicyleStateProtocol, time: float = 0.) -> TwoDimArray:
+    def calculate_vector(self, state: TwoDArrayType, time: float = 0.) -> TwoDimArray:
         """Calculates a summed vector and thresholds it to v_max
 
         Args:

@@ -28,13 +28,13 @@ from py_sim.sensors.occupancy_grid import (
 )
 from py_sim.tools.sim_types import (
     Data,
+    LocationStateType,
     StateType,
     TwoDArrayType,
     TwoDimArray,
     UnicycleControl,
     UnicycleState,
-    UnicycleStateType,
-    UnicyleStateProtocol,
+    UnicycleStateProtocol,
     VectorField,
 )
 from py_sim.tools.simple_priority_queue import SimplePriorityQueue
@@ -152,7 +152,7 @@ class PosePlot():
         self.params = OrientedPositionParams(rad=rad, color=color)
         self.poly_plot = init_oriented_position_plot(ax=ax, params=self.params)
 
-    def plot(self, state: UnicyleStateProtocol) -> None:
+    def plot(self, state: UnicycleStateProtocol) -> None:
         """Update the pose plot"""
         update_oriented_position_plot(plot=self.poly_plot, params=self.params, pose=state)
 
@@ -173,7 +173,7 @@ class OrientedPositionParams():
         self.rad = rad
         self.color = color
 
-def create_oriented_polygon(pose: UnicyleStateProtocol, rad: float) -> tuple[list[float], list[float]]:
+def create_oriented_polygon(pose: UnicycleStateProtocol, rad: float) -> tuple[list[float], list[float]]:
     """create_oriented_polygon: Returns the oriented polygon to represent a given pose
 
     Args:
@@ -205,7 +205,7 @@ def create_oriented_polygon(pose: UnicyleStateProtocol, rad: float) -> tuple[lis
     y = [p1.item(1), p2.item(1), p3.item(1), p4.item(1)]
     return (x,y)
 
-def init_oriented_position_plot(ax: Axes, params: OrientedPositionParams, pose: UnicyleStateProtocol = UnicycleState())->Polygon:
+def init_oriented_position_plot(ax: Axes, params: OrientedPositionParams, pose: UnicycleStateProtocol = UnicycleState())->Polygon:
     """init_oriented_position_plot Creates a triangle-like shape to show the orientaiton of the vehicle
 
         Args:
@@ -223,7 +223,7 @@ def init_oriented_position_plot(ax: Axes, params: OrientedPositionParams, pose: 
     (pose_plot,) = ax.fill(x, y, color=params.color)
     return pose_plot
 
-def update_oriented_position_plot(plot: Polygon, params: OrientedPositionParams, pose: UnicyleStateProtocol) -> None:
+def update_oriented_position_plot(plot: Polygon, params: OrientedPositionParams, pose: UnicycleStateProtocol) -> None:
     """update_oriented_position_plot: Updates the plot for the orientated position
 
     Args:
@@ -240,7 +240,6 @@ def update_oriented_position_plot(plot: Polygon, params: OrientedPositionParams,
 
 
 ############################# State Trajectory Plot Object ##############################
-LocationStateType = TypeVar("LocationStateType", bound=TwoDArrayType)
 class StateTrajPlot(Generic[LocationStateType]):
     """Plots the state trajectory one pose at a time
 
@@ -281,7 +280,7 @@ def update_traj_plot(line: Line2D, location: TwoDArrayType) -> None:
 
 
 ###################### Time Series Plot #######################
-class UnicycleTimeSeriesPlot(Generic[UnicycleStateType]):
+class UnicycleTimeSeriesPlot():
     """Plots the unicycle state vs time with each state in its own subplot
 
     fig(Figure): Figure on which the trajectories are plot
@@ -330,7 +329,7 @@ class UnicycleTimeSeriesPlot(Generic[UnicycleStateType]):
         self.axs[4].set_ylabel("$u_\\omega$")
         self.axs[4].set_xlabel("Time (sec)")
 
-    def plot(self, data: Data[UnicycleStateType]) -> None:
+    def plot(self, data: Data[UnicycleState]) -> None:
         """ Plots the line trajectory
         """
         update_2d_line_plot(line=self.handle_x, x_vec=data.get_time_vec(), y_vec=data.get_state_vec(data.current.state.IND_X))
@@ -435,7 +434,7 @@ class VectorFieldPlot(Generic[VectorFieldType]):
         # Create the initial plot
         self.handle = ax.quiver(self.x_vals, self.y_vals, self.x_vals, self.y_vals, color=color, angles='xy', scale_units='xy')
 
-    def plot(self, data: Data[UnicycleStateType]) -> None:
+    def plot(self, data: Data[LocationStateType]) -> None:
         """Update the pose plot"""
 
         # Create the grid of velocities (u = x velocity, v = y velocity)
@@ -443,15 +442,15 @@ class VectorFieldPlot(Generic[VectorFieldType]):
         v_vals = np.zeros(self.x_vals.shape)
 
         # Loop through and calculate the velocity at each point in the meshgrid
-        unicycle_state = UnicycleState(x=data.current.state.x, y=data.current.state.y, psi=data.current.state.psi)
+        position = TwoDimArray(x=data.current.state.x, y=data.current.state.y)
         for row in range(self.x_vals.shape[0]):
             for col in range(self.x_vals.shape[1]):
                 # Form the state
-                unicycle_state.x = self.x_vals[row,col]
-                unicycle_state.y = self.y_vals[row,col]
+                position.x = self.x_vals[row,col]
+                position.y = self.y_vals[row,col]
 
                 # Create the vector
-                vec = self.vector_field.calculate_vector(state=unicycle_state, time=data.current.time)
+                vec = self.vector_field.calculate_vector(state=position, time=data.current.time)
 
                 # Store the vector
                 u_vals[row,col] = vec.x

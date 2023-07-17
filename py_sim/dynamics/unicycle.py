@@ -9,12 +9,12 @@ from py_sim.tools.sim_types import (
     TwoDimArray,
     UnicycleControl,
     UnicycleState,
+    UnicycleStateProtocol,
     UnicyleControlProtocol,
-    UnicyleStateProtocol,
 )
 
 
-def dynamics(state: UnicyleStateProtocol, control: UnicyleControlProtocol) -> UnicycleState:
+def dynamics(state: UnicycleStateProtocol, control: UnicyleControlProtocol) -> UnicycleState:
     """ Calculates the dynamics of the unicycle.
 
     Note that even though a "UnicycleState" is returned, that actually corresponds to
@@ -37,7 +37,7 @@ def dynamics(state: UnicyleStateProtocol, control: UnicyleControlProtocol) -> Un
     return state_dot
 
 ###########################  Basic unicycle controllers ##################################
-def velocity_control(time: float, state: UnicyleStateProtocol, vd: float, wd: float) -> UnicycleControl: # pylint: disable=unused-argument
+def velocity_control(time: float, state: UnicycleStateProtocol, vd: float, wd: float) -> UnicycleControl: # pylint: disable=unused-argument
     """Implements a velocity control for the unicycle, which is simply copying the desired inputs
 
     Args:
@@ -51,7 +51,7 @@ def velocity_control(time: float, state: UnicyleStateProtocol, vd: float, wd: fl
     """
     return UnicycleControl(v=vd, w=wd)
 
-def arc_control(time: float, state: UnicyleStateProtocol, params: ArcParams) -> UnicycleControl:
+def arc_control(time: float, state: UnicycleStateProtocol, params: ArcParams) -> UnicycleControl:
     """ Implements the control for a circular arc
 
     Args:
@@ -96,7 +96,7 @@ class UniVelVecParamsProto(Protocol):
     vd_field_max: float # Maximum desired velocity
     k_wd: float         # Gain on the error in the desired rotation angle
 
-def desired_vector_follow_velocities(state: UnicyleStateProtocol,
+def desired_vector_follow_velocities(state: UnicycleStateProtocol,
                                      vec: TwoDimArray,
                                      params: UniVelVecParamsProto) -> tuple[float, float]:
     """ Calculates desired translational and rotational velocities to follow a vector field
@@ -129,7 +129,7 @@ def desired_vector_follow_velocities(state: UnicyleStateProtocol,
     return (vd, wd)
 
 def velocityVectorFieldControl(time: float,
-                               state: UnicyleStateProtocol,
+                               state: UnicycleStateProtocol,
                                vec: TwoDimArray,
                                params: UniVelVecParamsProto) -> UnicycleControl:
     """velocityVectorFieldControl will calculate the desired control to follow a vector field with the following inputs:

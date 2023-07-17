@@ -87,6 +87,7 @@ disable=raw-checker-failed,
         consider-using-f-string,
         unspecified-encoding,
         no-name-in-module,
+        line-too-long,
         too-many-arguments, # If passing variable by name then this isn't a big deal
         wrong-import-order,  # allow isort to worry about import order
         #fixme, # Remove this to find all todo items
