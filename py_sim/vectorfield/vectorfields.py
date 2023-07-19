@@ -154,3 +154,81 @@ class SummedField:
             g.state = (self.v_max/v_g) * g.state
 
         return g
+
+class G2GAvoid:
+    """Defines a vector field that sums go-to-goal and obstacle fields with update functions for each
+
+    Attributes:
+        n_obs(int): The number of obstacles
+        x_g(TwoDimArray): The goal position
+        v_max(float): Maximum translational velocity
+        _go_to_goal(GoToGoalField): The go to goal vector field
+        _avoid(list[AvoidObstacle]): The avoid obstacle fields
+        _summed(Summedfield): The combined field
+    """
+    def __init__(self, x_g: TwoDimArray, n_obs: int, v_max: float, S: float, R: float, sig: float = 1.) -> None:
+        # Store inputs
+        self.n_obs = n_obs
+
+        # Create the go-to-goal vector field
+        self._go_to_goal = GoToGoalField(x_g=x_g, v_max=v_max, sig=sig)
+        weights: list[float] = [1.]
+
+        # Create the obstacle avoid vector fields
+        self._avoid: list[AvoidObstacle] = []
+        for _ in range(n_obs):
+            self._avoid.append(AvoidObstacle(x_o=TwoDimArray(), v_max=v_max, S=S, R=R))
+            weights.append(1.)
+
+        # Create the summed vector field
+        fields: list[VectorField] = self._avoid + [self._go_to_goal]
+        self._summed = SummedField(weights=weights, fields=fields, v_max=v_max)
+
+    @property
+    def x_g(self) -> TwoDimArray:
+        """Goal position getter"""
+        return self._go_to_goal.x_g
+
+    @x_g.setter
+    def x_g(self, val: TwoDimArray) -> None:
+        """Set the goal position setter"""
+        self._go_to_goal.x_g = val
+
+    @property
+    def v_max(self) -> float:
+        """The maximum velocity getter"""
+        return self._go_to_goal.v_max
+
+    @v_max.setter
+    def v_max(self, val: float) -> None:
+        """The maximum velocity setter"""
+        self._go_to_goal.v_max = val
+        self._summed.v_max = val
+        for avoid in self._avoid:
+            avoid.v_max = val
+
+    def update_obstacles(self, locations: list[TwoDimArray]) -> None:
+        """Updates the positions of the obstacles
+
+        Args:
+            locations: The locations of the obstacles. Must be of length n_obs
+        """
+        # Check to ensure the locations are the right size
+        if len(locations) != self.n_obs:
+            raise ValueError("Cannot pass in a list of locations of the wrong size")
+
+        # Update the locations
+        for (avoid, location) in zip(self._avoid, locations):
+            avoid.x_o = location
+
+    def calculate_vector(self, state: TwoDArrayType, time: float = 0.) -> TwoDimArray:
+        """Calculates a vector from the state to the goal, the vector is scaled to respect max velocity
+
+        Args:
+            state: State of the vehicle
+            time: Time of the state
+
+        Returns:
+            TwoDimArray: Vector pointing towards the goal
+        """
+        return self._summed.calculate_vector(state=state, time=time)

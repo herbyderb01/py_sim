@@ -21,13 +21,8 @@ from py_sim.tools.sim_types import (
     UnicycleControl,
     UnicycleState,
     VectorControl,
-    VectorField,
 )
-from py_sim.vectorfield.vectorfields import (  # pylint: disable=unused-import
-    AvoidObstacle,
-    GoToGoalField,
-    SummedField,
-)
+from py_sim.vectorfield.vectorfields import G2GAvoid  # pylint: disable=unused-import
 from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
 
 
@@ -38,7 +33,7 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType],
         dynamics(Dynamics[LocationStateType, InputType]): The dynamics function to be used for simulation
         controller(Control[LocationStateType, InputType, ControlParamType]): The control law to be used during simulation
         control_params(ControlParamType): The parameters of the control law to be used in simulation
-        vector_field(VectorField): Vector field that the vehicle will follow
+        vector_field(G2GAvoid): Vector field that the vehicle will use to avoid obstacles while traversing to the goal
         world(PolygonWorld): World in which the vehicle is operating
         sensor(RangeBearingSensor): The sensor used for detecting obstacles
     """
@@ -49,7 +44,7 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType],
                 control_params: ControlParamType,
                 n_inputs: int,
                 plots: PlotManifest[LocationStateType],
-                vector_field: VectorField,
+                vector_field: G2GAvoid,
                 world: PolygonWorld,
                 sensor: RangeBearingSensor
                 ) -> None:
@@ -69,7 +64,7 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType],
         self.dynamics: Dynamics[LocationStateType, InputType] = dynamics
         self.controller: VectorControl[LocationStateType, InputType, ControlParamType] = controller
         self.control_params: ControlParamType = control_params
-        self.vector_field: VectorField = vector_field
+        self.vector_field: G2GAvoid = vector_field
         self.world: PolygonWorld = world
         self.sensor: RangeBearingSensor = sensor
 
@@ -89,6 +84,7 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType],
             world=self.world)
 
         # Calculate the desired vector
+        self.vector_field.update_obstacles(locations=self.data.range_bearing_latest.location)
         vec: TwoDimArray = self.vector_field.calculate_vector(state=self.data.current.state, time=self.data.current.time)
 
         # Calculate the control to follow the vector
@@ -115,12 +111,13 @@ def run_unicycle_simple_vectorfield_example() -> None:
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
     # Create the vector field
-    vector_field_g2g = GoToGoalField(x_g=TwoDimArray(x=10., y=5.), v_max=vel_params.vd_field_max, sig=1)
-    vector_field_avoid = AvoidObstacle(x_o=TwoDimArray(x=1., y=1.), v_max=vel_params.vd_field_max, S=2., R=1.)
-    vector_field = SummedField(fields=[vector_field_g2g, vector_field_avoid],
-                               weights=[1., 1.],
-                               v_max=vel_params.vd_field_max)
-    #vector_field = vector_field_g2g
+    n_lines = 10 # Number of sensor lines
+    vector_field = G2GAvoid(x_g=TwoDimArray(x=10., y=5.),
+                            n_obs=n_lines,
+                            v_max=vel_params.vd_field_max,
+                            S=1.5,
+                            R=1.,
+                            sig=1.)
 
     # Create the obstacle world
     obstacle_world = generate_world_obstacles()
@@ -148,7 +145,7 @@ def run_unicycle_simple_vectorfield_example() -> None:
                          plots=plot_manifest,
                          vector_field=vector_field,
                          world=obstacle_world,
-                         sensor=RangeBearingSensor(n_lines=10, max_dist=4.)
+                         sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.)
                          )
 
     # Update the simulation step variables
@@ -166,12 +163,13 @@ def run_single_simple_vectorfield_example() -> None:
     state_initial = TwoDimArray(x = 0., y= 0.)
 
     # Create the vector field
-    vector_field_g2g = GoToGoalField(x_g=TwoDimArray(x=10., y=5.), v_max=vel_params.v_max, sig=1)
-    vector_field_avoid = AvoidObstacle(x_o=TwoDimArray(x=1., y=1.), v_max=vel_params.v_max, S=2., R=1.)
-    vector_field = SummedField(fields=[vector_field_g2g, vector_field_avoid],
-                               weights=[1., 1.],
-                               v_max=vel_params.v_max)
-    #vector_field = vector_field_g2g
+    n_lines = 10 # Number of sensor lines
+    vector_field = G2GAvoid(x_g=TwoDimArray(x=10., y=5.),
+                            n_obs=n_lines,
+                            v_max=vel_params.v_max,
+                            S=1.5,
+                            R=1.,
+                            sig=1.)
 
     # Create the obstacle world
     obstacle_world = generate_world_obstacles()
@@ -198,7 +196,7 @@ def run_single_simple_vectorfield_example() -> None:
                          plots=plot_manifest,
                          vector_field=vector_field,
                          world=obstacle_world,
-                         sensor=RangeBearingSensor(n_lines=10, max_dist=4.)
+                         sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.)
                          )
 
     # Update the simulation step variables
@@ -208,5 +206,5 @@ def run_single_simple_vectorfield_example() -> None:
     start_simple_sim(sim=sim)
 
 if __name__ == "__main__":
-    run_unicycle_simple_vectorfield_example()
-    #run_single_simple_vectorfield_example()
+    #run_unicycle_simple_vectorfield_example()
+    run_single_simple_vectorfield_example()
