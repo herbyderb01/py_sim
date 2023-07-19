@@ -25,7 +25,7 @@ from py_sim.tools.sim_types import (
 from py_sim.worlds.polygon_world import PolygonWorld
 
 
-def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too-many-arguments
+def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too-many-arguments,too-many-statements
                          y_limits: tuple[float, float],
                          x_limits: tuple[float, float],
                          position_dot: bool = False,

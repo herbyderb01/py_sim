@@ -132,7 +132,7 @@ def run_integrator_example() -> None:
                     dynamics=single_integrator.dynamics,
                     controller=single_integrator.const_control,
                     control_params=const_params,
-                    n_inputs=2,
+                    n_inputs=single_integrator.PointInput.n_inputs,
                     plots=plot_manifest)
 
     # Update the simulation step variables
