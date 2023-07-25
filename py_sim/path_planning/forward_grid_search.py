@@ -123,6 +123,34 @@ class ForwardGridSearch(ABC):
         plan.reverse()
         return plan
 
+    def get_plan_cartesian(self, end_index: Optional[int] = None) -> tuple[list[float], list[float]]:
+        """Returns the (x,y) cartesian coordinates of each point along the plan. Assumes that
+           planning has already been performed. Throws a ValueError if the end index cannot be connected to the starting index
+
+            Args:
+                end_index: The index to which to plan. If None, then the plan end index will be used
+
+            Returns:
+                tuple[list[float], list[float]]: A list of x and y coordinates for each point along the plan
+        """
+        # Get the plan indices
+        indices = self.get_plan(end_index=end_index)
+
+        # Loop through and convert each of the plan indices into cartesian coordinates
+        x_vec: list[float] = []
+        y_vec: list[float] = []
+        for ind in indices:
+            # Get the corresponding row and column
+            (row, col) = ind2sub(n_cols=self.grid.n_cols, ind=ind)
+
+            # Get the position
+            position = self.grid.indices_to_position(row=row, col=col)
+            x_vec.append(position.x)
+            y_vec.append(position.y)
+
+        # Return the resulting plan
+        return (x_vec, y_vec)
+
     def calculate_plan_length(self, plan: Optional[list[int]]= None) -> float:
         """ Calculates the length of a plan. If the plan is not provided then
             it is calculated using get_plan with self.ind_end

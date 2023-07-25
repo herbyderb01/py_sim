@@ -7,6 +7,7 @@ from py_sim.dynamics import single_integrator
 from py_sim.dynamics.unicycle import UniVelVecParams
 from py_sim.dynamics.unicycle import dynamics as unicycle_dynamics
 from py_sim.dynamics.unicycle import velocityVectorFieldControl
+from py_sim.path_planning.path_generation import create_path
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.range_bearing import RangeBearingSensor
@@ -103,9 +104,14 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType],
         # Update the time by sim_step
         self.data.next.time = self.data.current.time + self.params.sim_step
 
-def run_unicycle_simple_vectorfield_example() -> None:
+def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
     """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed
+
+    Args:
+        follow_path: True => a path will be created and followed, False => the vector field will alone be used
+                     for navigating to the goal
     """
+
     # Initialize the state and control
     vel_params = UniVelVecParams(vd_field_max=5., k_wd= 2.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
@@ -122,6 +128,12 @@ def run_unicycle_simple_vectorfield_example() -> None:
     # Create the obstacle world
     obstacle_world = generate_world_obstacles()
 
+    # Create the plan
+    if follow_path:
+        plan = create_path(start=TwoDimArray(x=state_initial.x, y=state_initial.y), end=vector_field.x_g, obstacle_world=obstacle_world, plan_type="voronoi")
+    else:
+        plan = None # No plan to follow
+
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
                                  y_limits=(-5, 10),
@@ -134,7 +146,8 @@ def run_unicycle_simple_vectorfield_example() -> None:
                                  vector_res=0.5,
                                  world=obstacle_world,
                                  range_bearing_locations=True,
-                                 range_bearing_lines=True)
+                                 range_bearing_lines=True,
+                                 plan=plan)
 
     # Create the simulation
     sim = NavVectorFollower(initial_state=state_initial,
@@ -154,9 +167,12 @@ def run_unicycle_simple_vectorfield_example() -> None:
     sim.params.sim_update_period = 0.1
     start_simple_sim(sim=sim)
 
-
-def run_single_simple_vectorfield_example() -> None:
+def run_single_simple_vectorfield_example(follow_path: bool = False) -> None:
     """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed using a single integrator
+
+    Args:
+        follow_path: True => a path will be created and followed, False => the vector field will alone be used
+                     for navigating to the goal
     """
     # Initialize the state and control
     vel_params = single_integrator.VectorParams(v_max=5.)
@@ -174,6 +190,12 @@ def run_single_simple_vectorfield_example() -> None:
     # Create the obstacle world
     obstacle_world = generate_world_obstacles()
 
+    # Create the plan
+    if follow_path:
+        plan = create_path(start=TwoDimArray(x=state_initial.x, y=state_initial.y), end=vector_field.x_g, obstacle_world=obstacle_world, plan_type="voronoi")
+    else:
+        plan = None # No plan to follow
+
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
                                  y_limits=(-5, 10),
@@ -185,7 +207,8 @@ def run_single_simple_vectorfield_example() -> None:
                                  vector_res=0.5,
                                  world=obstacle_world,
                                  range_bearing_locations=True,
-                                 range_bearing_lines=True)
+                                 range_bearing_lines=True,
+                                 plan=plan)
 
     # Create the simulation
     sim = NavVectorFollower(initial_state=state_initial,
@@ -206,5 +229,10 @@ def run_single_simple_vectorfield_example() -> None:
     start_simple_sim(sim=sim)
 
 if __name__ == "__main__":
-    #run_unicycle_simple_vectorfield_example()
-    run_single_simple_vectorfield_example()
+    # Perform navigation without path planning (simple goal and avoid vector fields)
+    #run_unicycle_simple_vectorfield_example(follow_path=False)
+    #run_single_simple_vectorfield_example(follow_path=False)
+
+    # Perform navigation with path planning using a carrot follower
+    #run_unicycle_simple_vectorfield_example(follow_path=True)
+    run_single_simple_vectorfield_example(follow_path=True)

@@ -817,8 +817,16 @@ class PlanType(Protocol):
     """
     grid: BinaryOccupancyGrid
     parent_mapping: dict[int, int]
-    def get_plan(self, end_index: Optional[int] = None) -> list[int]:
-        """Returns the plan. If the end index is left unspecified, then it is the plan to the goal"""
+    def get_plan_cartesian(self, end_index: Optional[int] = None) -> tuple[list[float], list[float]]:
+        """Returns the (x,y) cartesian coordinates of each point along the plan. Assumes that
+           planning has already been performed. Throws a ValueError if the end index cannot be connected to the starting index
+
+            Args:
+                end_index: The index to which to plan. If None, then the plan end index will be used
+
+            Returns:
+                tuple[list[float], list[float]]: A list of x and y coordinates for each point along the plan
+        """
 
 class PlanPlotter(Generic[LocationStateType]):
     """Plots the resulting plan to the goal location
@@ -861,17 +869,7 @@ class PlanPlotter(Generic[LocationStateType]):
             return
 
         # Calculate the locations of the elements in the plan
-        plan = self.planner.get_plan(end_index=self.ind_end)
-        x_vec: list[float] = []
-        y_vec: list[float] = []
-        for ind in plan:
-            # Get the corresponding row and column
-            (row, col) = ind2sub(n_cols=self.planner.grid.n_cols, ind=ind)
-
-            # Get the position
-            position = self.planner.grid.indices_to_position(row=row, col=col)
-            x_vec.append(position.x)
-            y_vec.append(position.y)
+        (x_vec, y_vec) = self.planner.get_plan_cartesian(end_index=self.ind_end)
 
         # Plot the resulting positions
         update_2d_line_plot(line=self.handle_path,

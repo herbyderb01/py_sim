@@ -41,23 +41,20 @@ def test_graph_planner() -> None:
                                        world=obstacle_world,
                                        n_connections=5)
 
-    # Create the manifest for the plotting
-    plot_manifest = create_plot_manifest(initial_state=state_initial,
-                                 y_limits=y_limits,
-                                 x_limits=x_limits,
-                                 world=obstacle_world,
-                                 graph=graph
-                                 )
-
     # Create a plan
     plan = nx.dijkstra_path(G=graph.graph, source=ind_start, target=ind_end)
 
     # Visualize the plan
     x_vec, y_vec = graph.convert_to_cartesian(nodes=plan)
-    plot_manifest.axes['Vehicle_axis'].plot(x_vec, y_vec, "-", color=(0., 1., 0., 1.), linewidth=3)
-    for fig in plot_manifest.figs:
-        fig.canvas.draw()
-        fig.canvas.flush_events()
+
+    # Create the manifest for the plotting
+    _ = create_plot_manifest(initial_state=state_initial,
+                                 y_limits=y_limits,
+                                 x_limits=x_limits,
+                                 world=obstacle_world,
+                                 graph=graph,
+                                 plan = (x_vec, y_vec)
+                                 )
 
     # Calculate the plan length
     plan_length = graph.calculate_path_length(nodes=plan)

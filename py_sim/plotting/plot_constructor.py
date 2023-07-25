@@ -44,7 +44,9 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
                          range_bearing_lines: bool = False,
                          planner: Optional[ForwardGridSearch] = None,
                          graph: Optional[PathGraph[GraphType]] = None,
-                         graph_node_size: int = 10
+                         graph_node_size: int = 10,
+                         plan: Optional[tuple[list[float], list[float]]] = None,
+                         plan_color: pt.Color = (0., 1., 0., 1.)
                          ) -> pt.PlotManifest[LocationStateType]:
     """Creates a plot manifest given the following inputs
 
@@ -71,6 +73,8 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
         planner: plots the occupancy grid, visited nodes, and planned path of the grid planner
         graph: plots the graph of possible paths
         graph_node_size: The size of the node circle in the graph plot
+        plan: A fixed plan to plot
+        plan_color: the color of the plan being plotted
 
     Returns:
         PlotManifest[StateType]: A plot manifest used for simulation plotting
@@ -170,6 +174,10 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
     # Graph plot
     if graph is not None:
         nx.drawing.nx_pylab.draw(G=graph.graph, pos=graph.node_location, ax=ax, node_size=graph_node_size )
+
+    # Plot the plan
+    if plan is not None:
+        plots.axes['Vehicle_axis'].plot(plan[0], plan[1], "-", color=plan_color, linewidth=3)
 
     return plots
 
