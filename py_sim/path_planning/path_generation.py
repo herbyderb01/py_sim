@@ -1,7 +1,7 @@
 """create_path.py provides simple functions for creating a path through an environment
 """
 
-from typing import Generic, Optional
+from typing import Optional
 
 import networkx as nx
 import py_sim.path_planning.forward_grid_search as search
@@ -45,6 +45,7 @@ def create_path(start: TwoDimArray,
         ind_start, _ = grid.position_to_index(q=start)
         ind_end, _ = grid.position_to_index(q=end)
 
+        planner: search.ForwardGridSearch
         if plan_type == "breadth":
             planner = search.BreadFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
         elif plan_type == "depth":
@@ -64,7 +65,7 @@ def create_path(start: TwoDimArray,
         return planner.get_plan_cartesian()
 
     # Graph based planning
-    elif plan_type in ["visibility", "voronoi"]:
+    if plan_type in ["visibility", "voronoi"]:
         # Create the graph
         if plan_type == "visibility":
             graph = poly_world.create_visibility_graph(world=obstacle_world)
