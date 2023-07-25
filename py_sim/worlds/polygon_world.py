@@ -2,11 +2,12 @@
 """
 
 import copy
-from typing import Any, Optional, cast
+from typing import Any, Optional
 
 import numpy as np
 import numpy.typing as npt
 from py_sim.path_planning.graph_search import UndirectedPathGraph
+from py_sim.tools.projections import find_closest_intersection
 from py_sim.tools.sim_types import TwoDimArray
 from scipy.spatial import Voronoi
 
@@ -207,86 +208,6 @@ class PolygonWorld():
         if self.inside_obstacle(point=edge[:,1:2]):
             return True
         return False
-
-
-
-def line_segment_intersection(edge1: npt.NDArray[Any], edge2: npt.NDArray[Any]) -> Optional[npt.NDArray[Any]]:
-    """ Determines the intersection point of an two line segments or None if the intersection does not exist.
-
-        The intersection is found by determining the scaling along edge1 of the point of intersection
-
-    Args:
-        edge1: 2x2 matrix of points where each point is a column
-        edge2: 2x2 matrix of points where each point is a column
-
-    Return:
-        Optional[npt.NDArray[Any]]: None if no intersection exists, the intersection point as a column vector if it does
-    """
-    # Extract the (x,y) coordinates of each point
-    x1 = edge1[0,0] # Edge 1 start
-    y1 = edge1[1,0]
-    x2 = edge1[0,1] # Edge 1 end
-    y2 = edge1[1,1]
-    x3 = edge2[0,0] # Edge 2 start
-    y3 = edge2[1,0]
-    x4 = edge2[0,1] # Edge 2 end
-    y4 = edge2[1,1]
-
-    # Calculate the denominator
-    denom = (y4-y3)*(x2-x1) - (x4-x3)*(y2-y1)
-    if denom == 0: # parallel
-        return None
-    ua = ((x4-x3)*(y1-y3) - (y4-y3)*(x1-x3)) / denom
-    if ua < 0 or ua > 1: # out of range
-        return None
-    ub = ((x2-x1)*(y1-y3) - (y2-y1)*(x1-x3)) / denom
-    if ub < 0 or ub > 1: # out of range
-        return None
-    x = x1 + ua * (x2-x1)
-    y = y1 + ua * (y2-y1)
-    return np.array([[x],[y]])
-
-def find_closest_intersection(edge1: npt.NDArray[Any],
-                              edge_list: list[npt.NDArray[Any]]) -> Optional[tuple[float, npt.NDArray[Any]]]:
-    """ Finds the closest intersection point between an edge and an edge list.
-        Proximity is based on the location of the first point in edge 1
-
-        Args:
-            edge1: 2x2 matrix of points where each point is a column
-            edge_list: list of 2x2 matrices consisting of edges
-
-        Returns:
-            Optional[tuple[float, npt.NDArray[Any]]]:
-                Null if no intersection found
-                (inter_dist, inter_point) if an intersection is found
-
-                    inter_dist is the distance from the first point on edge 1 to the intersection point
-
-                    inter_point: 2x1 matrix representing the position of intersection
-    """
-    # Extract the point of interest
-    p1 = edge1[:,0:1]
-
-    # Initialize the result
-    inter_dist = np.inf     # Distance to the point of intersection
-    inter_point = np.zeros((2,1))
-
-    # Loop through and find the closest intersection to p1
-    for edge in edge_list:
-        result = line_segment_intersection(edge1=edge1, edge2=edge)
-        if result is not None:
-            # Calculate the distance to the result
-            dist = cast(float, np.linalg.norm(p1-result))
-
-            # Store the distance and point if better than previous
-            if dist < inter_dist:
-                inter_dist = dist
-                inter_point = result
-
-    # Return the result
-    if np.isinf(inter_dist):
-        return None
-    return (inter_dist, inter_point)
 
 def generate_world_obstacles() -> PolygonWorld:
     """Generates a world with three different obstacles
