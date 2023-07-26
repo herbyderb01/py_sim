@@ -1,20 +1,17 @@
 """vector_field_nav.py: Provides sample vector fields used for navigation
 """
 
-from typing import Generic, Optional
+from typing import Generic
 
-import numpy as np
 from py_sim.dynamics import single_integrator
 from py_sim.dynamics.unicycle import UniVelVecParams
 from py_sim.dynamics.unicycle import dynamics as unicycle_dynamics
 from py_sim.dynamics.unicycle import velocityVectorFieldControl
-from py_sim.path_planning.path_generation import create_path
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.range_bearing import RangeBearingSensor
 from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
 from py_sim.sim.integration import euler_update
-from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (
     ControlParamType,
     Dynamics,
@@ -27,7 +24,8 @@ from py_sim.tools.sim_types import (
     VectorField
 )
 from py_sim.vectorfield.vectorfields import G2GAvoid  # pylint: disable=unused-import
-from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
+from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles, generate_non_convex_obstacles
+from py_sim.vectorfield.grid_navigation_function import GridNavigationFunction
 
 
 class NavFieldFollower(Generic[LocationStateType, InputType, ControlParamType], SingleAgentSim[LocationStateType]):
@@ -116,15 +114,19 @@ def run_unicycle_simple_vectorfield_example() -> None:
 
     # Create the vector field
     n_lines = 10 # Number of sensor lines
-    vector_field = G2GAvoid(x_g=TwoDimArray(x=10., y=5.),
-                            n_obs=n_lines,
-                            v_max=vel_params.vd_field_max,
-                            S=1.5,
-                            R=1.,
-                            sig=1.)
 
     # Create the obstacle world
-    obstacle_world = generate_world_obstacles()
+    #obstacle_world = generate_world_obstacles()
+    obstacle_world = generate_non_convex_obstacles()
+
+    # Create the navigation vector field
+    nav_field = GridNavigationFunction(end=TwoDimArray(x=10., y=5.),
+                                       obstacle_world=obstacle_world,
+                                       plan_type="dijkstra",
+                                       v_des=vel_params.vd_field_max,
+                                       sig=1.,
+                                       x_lim = (-5., 25.),
+                                       y_lim = (-5., 10.))
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
@@ -134,7 +136,7 @@ def run_unicycle_simple_vectorfield_example() -> None:
                                  position_triangle=True,
                                  state_trajectory=True,
                                  time_series=True,
-                                 vectorfield=vector_field,
+                                 vectorfield=nav_field,
                                  vector_res=0.5,
                                  world=obstacle_world,
                                  range_bearing_locations=True,
@@ -148,7 +150,7 @@ def run_unicycle_simple_vectorfield_example() -> None:
                          control_params=vel_params,
                          n_inputs=UnicycleControl.n_inputs,
                          plots=plot_manifest,
-                         vector_field=vector_field,
+                         vector_field=nav_field,
                          world=obstacle_world,
                          sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.),
                          )
@@ -166,17 +168,21 @@ def run_single_simple_vectorfield_example() -> None:
     vel_params = single_integrator.VectorParams(v_max=5.)
     state_initial = TwoDimArray(x = 0., y= 0.)
 
-    # Create the vector field
+    # Create the sensors
     n_lines = 10 # Number of sensor lines
-    vector_field = G2GAvoid(x_g=TwoDimArray(x=10., y=5.),
-                            n_obs=n_lines,
-                            v_max=vel_params.v_max,
-                            S=1.5,
-                            R=1.,
-                            sig=1.)
 
     # Create the obstacle world
-    obstacle_world = generate_world_obstacles()
+    #obstacle_world = generate_world_obstacles()
+    obstacle_world = generate_non_convex_obstacles()
+
+    # Create the navigation vector field
+    nav_field = GridNavigationFunction(end=TwoDimArray(x=10., y=5.),
+                                       obstacle_world=obstacle_world,
+                                       plan_type="dijkstra",
+                                       v_des=vel_params.v_max,
+                                       sig=1.,
+                                       x_lim = (-5., 25.),
+                                       y_lim = (-5., 10.))
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
@@ -185,7 +191,7 @@ def run_single_simple_vectorfield_example() -> None:
                                  position_dot=True,
                                  state_trajectory=True,
                                  time_series=True,
-                                 vectorfield=vector_field,
+                                 vectorfield=nav_field,
                                  vector_res=0.5,
                                  world=obstacle_world,
                                  range_bearing_locations=True,
@@ -199,7 +205,7 @@ def run_single_simple_vectorfield_example() -> None:
                          control_params=vel_params,
                          n_inputs=single_integrator.PointInput.n_inputs,
                          plots=plot_manifest,
-                         vector_field=vector_field,
+                         vector_field=nav_field,
                          world=obstacle_world,
                          sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.)
                          )

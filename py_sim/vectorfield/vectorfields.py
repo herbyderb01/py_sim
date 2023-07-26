@@ -5,9 +5,9 @@ import numpy as np
 from py_sim.tools.sim_types import (
     TwoDArrayType,
     TwoDimArray,
-    UnicycleStateProtocol,
     VectorField,
 )
+
 
 
 class GoToGoalField:

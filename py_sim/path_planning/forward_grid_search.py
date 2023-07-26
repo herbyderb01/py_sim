@@ -46,6 +46,8 @@ class ForwardGridSearch(ABC):
         queue(SimplePriorityQueue): The priority queue sorting the active nodes
         ind_start(int): The starting index value
         ind_end(int): The ending index value for the search
+        parent_mapping(dict[int, int]): Stores the mapping from an index to its parent
+        visited(npt.NDArray[Any]): Binary matrix indicating if a node has been visited
     """
 
     @abstractmethod
@@ -196,6 +198,14 @@ class ForwardGridSearch(ABC):
                 break
 
         return goal_found
+
+    def complete_search(self) -> None:
+        """Searches the grid from the start to end, exhaustively searching until the entire grid has been covered
+        """
+        ind = 0
+        while ind >= 0: # Loops until ind = -1, which occurs when the queue is empty
+            # Perform a step
+            ind, _ = self.step()
 
     def step(self) -> tuple[int, bool]:
         """Creates one step through the while loop
