@@ -1,8 +1,9 @@
 """vector_field_nav.py: Provides sample vector fields used for navigation
 """
 
-from typing import Generic
+from typing import Generic, Optional
 
+import numpy as np
 from py_sim.dynamics import single_integrator
 from py_sim.dynamics.unicycle import UniVelVecParams
 from py_sim.dynamics.unicycle import dynamics as unicycle_dynamics
@@ -13,6 +14,7 @@ from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.range_bearing import RangeBearingSensor
 from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
 from py_sim.sim.integration import euler_update
+from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (
     ControlParamType,
     Dynamics,
@@ -47,7 +49,8 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType],
                 plots: PlotManifest[LocationStateType],
                 vector_field: G2GAvoid,
                 world: PolygonWorld,
-                sensor: RangeBearingSensor
+                sensor: RangeBearingSensor,
+                carrot: Optional[LineCarrot],
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
@@ -68,6 +71,7 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType],
         self.vector_field: G2GAvoid = vector_field
         self.world: PolygonWorld = world
         self.sensor: RangeBearingSensor = sensor
+        self.carrot: Optional[LineCarrot] = carrot
 
     def update(self) -> None:
         """Calls all of the update functions.
@@ -83,6 +87,11 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType],
         self.data.range_bearing_latest = self.sensor.calculate_range_bearing_measurement(\
             pose=self.data.current.state,
             world=self.world)
+
+        # Update the goal position
+        if self.carrot is not None:
+            self.vector_field.x_g = \
+                self.carrot.get_carrot_point(point=self.data.current.state)
 
         # Calculate the desired vector
         self.vector_field.update_obstacles(locations=self.data.range_bearing_latest.location)
@@ -113,7 +122,7 @@ def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
     """
 
     # Initialize the state and control
-    vel_params = UniVelVecParams(vd_field_max=5., k_wd= 2.)
+    vel_params = UniVelVecParams(vd_field_max=5., k_wd= 5.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
     # Create the vector field
@@ -129,10 +138,13 @@ def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
     obstacle_world = generate_world_obstacles()
 
     # Create the plan
+    plan = None # No plan to follow
+    carrot = None
     if follow_path:
         plan = create_path(start=TwoDimArray(x=state_initial.x, y=state_initial.y), end=vector_field.x_g, obstacle_world=obstacle_world, plan_type="voronoi")
-    else:
-        plan = None # No plan to follow
+        if plan is not None:
+            line = np.array([plan[0], plan[1]])
+            carrot = LineCarrot(line=line, s_dev_max=5., s_carrot=2.)
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
@@ -147,7 +159,8 @@ def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
                                  world=obstacle_world,
                                  range_bearing_locations=True,
                                  range_bearing_lines=True,
-                                 plan=plan)
+                                 plan=plan,
+                                 line_carrot=carrot)
 
     # Create the simulation
     sim = NavVectorFollower(initial_state=state_initial,
@@ -158,7 +171,8 @@ def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
                          plots=plot_manifest,
                          vector_field=vector_field,
                          world=obstacle_world,
-                         sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.)
+                         sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.),
+                         carrot=carrot
                          )
 
     # Update the simulation step variables
@@ -191,10 +205,13 @@ def run_single_simple_vectorfield_example(follow_path: bool = False) -> None:
     obstacle_world = generate_world_obstacles()
 
     # Create the plan
+    plan = None # No plan to follow
+    carrot = None
     if follow_path:
         plan = create_path(start=TwoDimArray(x=state_initial.x, y=state_initial.y), end=vector_field.x_g, obstacle_world=obstacle_world, plan_type="voronoi")
-    else:
-        plan = None # No plan to follow
+        if plan is not None:
+            line = np.array([plan[0], plan[1]])
+            carrot = LineCarrot(line=line, s_dev_max=5., s_carrot=2.)
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
@@ -208,7 +225,8 @@ def run_single_simple_vectorfield_example(follow_path: bool = False) -> None:
                                  world=obstacle_world,
                                  range_bearing_locations=True,
                                  range_bearing_lines=True,
-                                 plan=plan)
+                                 plan=plan,
+                                 line_carrot=carrot)
 
     # Create the simulation
     sim = NavVectorFollower(initial_state=state_initial,
@@ -219,7 +237,8 @@ def run_single_simple_vectorfield_example(follow_path: bool = False) -> None:
                          plots=plot_manifest,
                          vector_field=vector_field,
                          world=obstacle_world,
-                         sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.)
+                         sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.),
+                         carrot=carrot
                          )
 
     # Update the simulation step variables
@@ -230,9 +249,9 @@ def run_single_simple_vectorfield_example(follow_path: bool = False) -> None:
 
 if __name__ == "__main__":
     # Perform navigation without path planning (simple goal and avoid vector fields)
+    run_single_simple_vectorfield_example(follow_path=False)
     #run_unicycle_simple_vectorfield_example(follow_path=False)
-    #run_single_simple_vectorfield_example(follow_path=False)
 
     # Perform navigation with path planning using a carrot follower
+    #run_single_simple_vectorfield_example(follow_path=True)
     #run_unicycle_simple_vectorfield_example(follow_path=True)
-    run_single_simple_vectorfield_example(follow_path=True)

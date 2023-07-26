@@ -13,6 +13,7 @@ from py_sim.path_planning.graph_search import DirectedPathGraph as Tree
 from py_sim.path_planning.graph_search import GraphType, PathGraph
 from py_sim.path_planning.rrt_procedures import solution
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
+from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (
     EllipseParameters,
     LocationStateType,
@@ -46,7 +47,8 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
                          graph: Optional[PathGraph[GraphType]] = None,
                          graph_node_size: int = 10,
                          plan: Optional[tuple[list[float], list[float]]] = None,
-                         plan_color: pt.Color = (0., 1., 0., 1.)
+                         plan_color: pt.Color = (0., 1., 0., 1.),
+                         line_carrot: Optional[LineCarrot] = None
                          ) -> pt.PlotManifest[LocationStateType]:
     """Creates a plot manifest given the following inputs
 
@@ -178,6 +180,12 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
     # Plot the plan
     if plan is not None:
         plots.axes['Vehicle_axis'].plot(plan[0], plan[1], "-", color=plan_color, linewidth=3)
+
+    # Plot the carrot point
+    if line_carrot is not None:
+        plots.state_plots.append(pt.CarrotPositionPlot(ax=plots.axes['Vehicle_axis'],
+                                                       color=(0., 0., 1., 1.),
+                                                       carrot=line_carrot))
 
     return plots
 

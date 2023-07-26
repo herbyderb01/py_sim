@@ -26,6 +26,7 @@ from py_sim.sensors.occupancy_grid import (
     ind2sub,
     occupancy_positions,
 )
+from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (
     Data,
     LocationStateType,
@@ -921,3 +922,33 @@ def plot_visited(ax: Axes, planner: GridVisitedType) -> AxesImage:
     ax.set_yticks(np.arange(planner.grid.y_lim[0], planner.grid.y_lim[1], planner.grid.res))
     plt.tick_params(axis='both', labelsize=0, length = 0)
     return handle
+
+class CarrotPositionPlot():
+    """Plots the position of a Carrot as a circle
+
+    Attributes:
+        position_plot(Line2D): Reference to the position plot
+        carrot(LineCarrot): Reference to the carrot point calculator
+    """
+    def __init__(self, ax: Axes, color: Color, carrot: LineCarrot, label: str = "", location: TwoDArrayType = TwoDimArray()) -> None:
+        """Initailizes a position plot given the desired attributes
+
+        Args:
+            ax: The axis on which to create the plot
+            color: The color to plot (rgb-alpha, i.e., color and transparency)
+            carrot: The carrot of the vehicle
+            label: The label to assign to the position
+            location: The oiriginal location of the position
+        """
+        self.position_plot = initialize_position_plot(ax=ax, color=color, location=location, label=label)
+        self.carrot = carrot
+
+    def plot(self, state: TwoDArrayType) -> None:
+        """ Updates the plot given the new 2D position
+
+        Args:
+            state: State to be plotted
+        """
+        # Plot the point
+        update_position_plot(line=self.position_plot,
+                             location=self.carrot.get_carrot_point(point=state))

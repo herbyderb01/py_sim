@@ -5,6 +5,7 @@ from typing import Any, Optional, cast
 
 import numpy as np
 import numpy.typing as npt
+from py_sim.tools.sim_types import TwoDArrayType, TwoDimArray
 
 
 def line_segment_intersection(edge1: npt.NDArray[Any], edge2: npt.NDArray[Any]) -> Optional[npt.NDArray[Any]]:
@@ -163,7 +164,8 @@ def project_point_to_line(point: npt.NDArray[Any],
                           line: npt.NDArray[Any],
                           s_vals: list[float],
                           s_min: float = 0.,
-                          s_max: float = np.inf) -> tuple[npt.NDArray[Any], float, int]:
+                          s_max: float = np.inf,
+                          k_prev: int = 0) -> tuple[npt.NDArray[Any], float, int]:
     """Finds the projection of the given point onto a linesegment defined by the path bound by the minimum and maximum path distance.
 
     Args:
@@ -172,6 +174,7 @@ def project_point_to_line(point: npt.NDArray[Any],
         s_vals: length n list giving the distance along the line for each point
         s_min: minimum distance allowed along the path
         s_max: maximum distance allowed along the path
+        k_prev: the index from which to start within the line
 
     Returns:
         tuple[npt.NDArray[Any], float, int]: (proj, s_proj, k_prev)
@@ -199,29 +202,27 @@ def project_point_to_line(point: npt.NDArray[Any],
     # Initialize the outputs
     proj = line[:,0:1] # Projection point
     s_proj = 0. # Distance along line of the projection point
-    k_prev: int = 0
 
     # Loop through each of the line segments and find the closest point
-    edge_length = 0. # Stores the length of the most recent edge
     dist_min = np.inf
-    for (k, s_start) in zip(range(line.shape[1]), s_vals):
+    for k in range(k_prev, line.shape[1]-1):
         # Extract the line segment
         edge = line[:, k:k+2]
 
         # Check to see if the max distance has been exceeded
+        s_start = s_vals[k]
         if s_start >= s_max:
             break
 
         # Continue if the min distance isn't met by the current iteration
-        edge_length = float( np.linalg.norm(edge[:,0:1] - edge[:, 1:2]) )
-        if s_start + edge_length < s_min:
+        if s_vals[k+1] < s_min:
             continue
 
         # Calculate the projection
         (proj_k, s_proj_k) = project_point_to_edge(edge=edge,
                                                    point=point,
                                                    s_min=(s_min-s_start), # Redefine s range to be along segment
-                                                   s_max=(s_max-s_start))
+                                                   s_max=s_max-s_start)
         s_proj_k += s_start # Update the projection distance to be along the line instead of the segment
         dist_k = float( np.linalg.norm(proj_k-point) )
 
@@ -278,3 +279,52 @@ def carrot_point(line: npt.NDArray[Any],
     # Get the desired point along the line
     dist = s_des-s_vals[k_prev]
     return cast(npt.NDArray[Any],  a + dist*unit )
+
+class LineCarrot:
+    """Given a line, this class stores the functionality for getting the point along the line that is closest to the robot plus some "carrot"/leading offset.
+
+    Attributes:
+        _line(npt.NDArray[Any]): The line that is being followed
+        _s_vals: Stores the distance along the line for each point on the line
+        _s_dev_max(float): The maximum allowed deviation from one query to the next
+        _s_carrot(float): The distance in front of the projection point to return
+        _s_prev(float): Stores the previous distance along the line
+        _ind_prev(int): Stores the index of the parent to the previous calculated point
+    """
+
+    def __init__(self,
+                 line: npt.NDArray[Any],
+                 s_dev_max: float,
+                 s_carrot: float = 0.,
+                 s_prev: float = 0.) -> None:
+        self._line = line
+        self._s_vals = calculate_line_distances(line=self._line)
+        self._s_dev_max = s_dev_max
+        self._s_carrot = s_carrot
+        self._s_prev = s_prev
+        self._ind_prev = 0
+
+    def get_carrot_point(self, point: TwoDArrayType) -> TwoDimArray:
+        """Calculates a point projected onto _line at a distance of _s_carrot in front of the vehicle
+
+        Arg:
+            point: Point to be projected onto the line
+
+        Returns:
+            TwoDimArray: The carrot point (point _s_carrot in front of the projection point)
+        """
+        # Project the point onto the stored line
+        _, self._s_prev, self._ind_prev = \
+            project_point_to_line(point=point.position,
+                                  line=self._line,
+                                  s_vals=self._s_vals,
+                                  s_min=self._s_prev,
+                                  s_max=self._s_dev_max+self._s_prev,
+                                  k_prev=self._ind_prev)
+
+        # Get the point at a distance of carrot in front of the line
+        carrot = carrot_point(line=self._line,
+                              s_vals=self._s_vals,
+                              s_des=self._s_prev+self._s_carrot,
+                              k_prev=self._ind_prev)
+        return TwoDimArray(vec=carrot)
