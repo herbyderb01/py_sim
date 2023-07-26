@@ -6,6 +6,7 @@ from typing import Any, Optional, cast
 import numpy as np
 import numpy.typing as npt
 
+
 def line_segment_intersection(edge1: npt.NDArray[Any], edge2: npt.NDArray[Any]) -> Optional[npt.NDArray[Any]]:
     """ Determines the intersection point of an two line segments or None if the intersection does not exist.
 
@@ -135,6 +136,29 @@ def project_point_to_edge(edge: npt.NDArray[Any],
     # Nominal case: projection lies between a and b
     return (a + parallel_dist*u, parallel_dist)
 
+def calculate_line_distances(line: npt.NDArray[Any]) -> list[float]:
+    """Calculates the distance to each point on the line
+
+    Args:
+        line: 2xn matrix defining a line where each column is a point along the line
+
+    Returns:
+        list[float]: The distance along the line to each point
+    """
+    # Initialize the distances with the first distance being zero
+    s_val: list[float] = [0.]
+
+    # Loop through the line and calculate the distances
+    for k in range(0, line.shape[1]-1):
+        # Get the points on the next line segment
+        a = line[:, [k]]
+        b = line[:, [k+1]]
+
+        # Calculate the aggregate distance to point b
+        s_val.append(float(np.linalg.norm(b-a))+s_val[-1])
+
+    return s_val
+
 def project_point_to_line(point: npt.NDArray[Any],
                           line: npt.NDArray[Any],
                           s_vals: list[float],
@@ -211,3 +235,46 @@ def project_point_to_line(point: npt.NDArray[Any],
 
     # Return the best found projection
     return (proj, s_proj, k_prev)
+
+def carrot_point(line: npt.NDArray[Any],
+                 s_vals: list[float],
+                 s_des: float,
+                 k_prev: int = 0) -> npt.NDArray[Any]:
+    """Get a point on the line at the distance of s_des along the line. Returns the final point if the line is shorter than s_des
+
+    Args:
+        line: 2xn matrix defining a line where each column is a point along the line
+        s_vals: length n list giving the distance along the line for each point
+        s_des: The point at the desired location
+        k_prev: A guess of the point on the line for the distance just smaller than s_des
+
+    Returns:
+        npt.NDArray[Any]: 2x1 point along the line at s_des
+    """
+
+    # Special case: s_des before the first point
+    if s_des <= s_vals[0]:
+        return line[:,[0]]
+
+    # Special case: s_des after the end of the line
+    if s_des >= s_vals[-1]:
+        return line[:, [-1]]
+
+    # Find the previous point on the line
+    if s_vals[k_prev] > s_des:
+        k_prev = 0
+    while s_vals[k_prev] < s_des: # Increments until passed s_des
+        k_prev += 1
+    k_prev -= 1 # Decrement by 1 to get the previous
+
+    # Get the unit vector pointing along the segment
+    a = line[:, [k_prev]]   # Extract points from the line
+    b = line[:, [k_prev+1]]
+    delta = float( np.linalg.norm(b-a) ) # Create the unit vector
+    if delta < 1.e-8:
+        raise ValueError("Line points are on top of each other")
+    unit = (b-a) / delta
+
+    # Get the desired point along the line
+    dist = s_des-s_vals[k_prev]
+    return cast(npt.NDArray[Any],  a + dist*unit )
