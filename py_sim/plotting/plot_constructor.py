@@ -144,7 +144,7 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
     if vectorfield is not None:
         plots.data_plots.append(
             pt.VectorFieldPlot(ax=ax,
-                               color=color,
+                               color=(0., 0.39, 0.39, 1.),
                                y_limits=y_limits,
                                x_limits=x_limits,
                                resolution=vector_res,

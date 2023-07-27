@@ -212,8 +212,8 @@ def run_single_simple_vectorfield_example() -> None:
 
     # Update the simulation step variables
     sim.params.sim_plot_period = 0.1
-    sim.params.sim_step = 0.1
-    sim.params.sim_update_period = 0.1
+    sim.params.sim_step = 0.01
+    sim.params.sim_update_period = 0.01
     start_simple_sim(sim=sim)
 
 if __name__ == "__main__":

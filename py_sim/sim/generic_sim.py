@@ -160,8 +160,11 @@ class SingleAgentSim(Generic[StateType]):
             # Check size - double if insufficient
             if self.data.traj_index_latest+1 >= self.data.state_traj.shape[1]: # Larger than allocated
                 self.data.state_traj = np.append(self.data.state_traj, \
-                    np.zeros((self.data.current.state.n_states, self.data.state_traj.shape[1])), axis=1 )
+                    np.zeros(self.data.state_traj.shape), axis=1 )
                 self.data.time_traj = np.append(self.data.time_traj, np.zeros(self.data.time_traj.size))
+                self.data.control_traj = np.append(self.data.control_traj,
+                                                   np.zeros(self.data.control_traj.shape),
+                                                   axis=1)
 
             # Store data
             self.data.traj_index_latest += 1
@@ -169,9 +172,14 @@ class SingleAgentSim(Generic[StateType]):
                 sim_slice.state.state
             self.data.time_traj[self.data.traj_index_latest] = sim_slice.time
 
+            print("Time shape: ", self.data.time_traj.shape)
+
             if sim_slice.input_vec is not None:
                 self.data.control_traj[:,self.data.traj_index_latest:self.data.traj_index_latest+1] = \
                 sim_slice.input_vec
+                print("Input shape: ", self.data.control_traj.shape)
+            else:
+                print("input is None")
 
     async def continuous_plotting(self) -> None:
         """Plot the data at a certain rate"""
