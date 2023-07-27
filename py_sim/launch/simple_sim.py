@@ -11,7 +11,7 @@ from py_sim.dynamics.unicycle import arc_control
 from py_sim.dynamics.unicycle import dynamics as unicycle_dynamics
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.plotting.plotting import PlotManifest
-from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
+from py_sim.sim.generic_sim import SimParameters, SingleAgentSim, start_simple_sim
 from py_sim.sim.integration import euler_update
 from py_sim.tools.sim_types import (
     ArcParams,
@@ -36,12 +36,12 @@ class SimpleSim(Generic[LocationStateType, InputType, ControlParamType], SingleA
 
     """
     def __init__(self,
-                initial_state: LocationStateType,
                 dynamics: Dynamics[LocationStateType, InputType],
                 controller: Control[LocationStateType, InputType, ControlParamType],
                 control_params: ControlParamType,
                 n_inputs: int,
-                plots: PlotManifest[LocationStateType]
+                plots: PlotManifest[LocationStateType],
+                params: SimParameters[LocationStateType]
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
@@ -53,7 +53,7 @@ class SimpleSim(Generic[LocationStateType, InputType, ControlParamType], SingleA
                 n_input: The number of inputs for the dynamics function
         """
 
-        super().__init__(initial_state=initial_state, n_inputs=n_inputs, plots=plots)
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType] = dynamics
@@ -100,17 +100,18 @@ def run_unicycle_arc_example() -> None:
                                  time_series=True)
 
     # Create the simulation
-    sim = SimpleSim(initial_state=state_initial,
+    params = SimParameters(initial_state=state_initial)
+    params.sim_plot_period = 0.2
+    params.sim_step = 0.1
+    params.sim_update_period = 0.01
+    sim = SimpleSim(params=params,
                     dynamics=unicycle_dynamics,
                     controller=arc_control,
                     control_params=arc_params,
                     n_inputs=UnicycleControl.n_inputs,
                     plots=plot_manifest)
 
-    # Update the simulation step variables
-    sim.params.sim_plot_period = 0.2
-    sim.params.sim_step = 0.1
-    sim.params.sim_update_period = 0.01
+    # Run the simulation
     start_simple_sim(sim=sim)
 
 def run_integrator_example() -> None:
@@ -128,20 +129,21 @@ def run_integrator_example() -> None:
                                  time_series=True)
 
     # Create the simulation
-    sim = SimpleSim(initial_state=state_initial,
+    params = SimParameters(initial_state=state_initial)
+    params.sim_plot_period = 0.2
+    params.sim_step = 0.1
+    params.sim_update_period = 0.01
+    sim = SimpleSim(params=params,
                     dynamics=single_integrator.dynamics,
                     controller=single_integrator.const_control,
                     control_params=const_params,
                     n_inputs=single_integrator.PointInput.n_inputs,
                     plots=plot_manifest)
 
-    # Update the simulation step variables
-    sim.params.sim_plot_period = 0.2
-    sim.params.sim_step = 0.1
-    sim.params.sim_update_period = 0.01
+    # Run the simulation
     start_simple_sim(sim=sim)
 
 
 if __name__ == "__main__":
-    #run_unicycle_arc_example()
     run_integrator_example()
+    #run_unicycle_arc_example()

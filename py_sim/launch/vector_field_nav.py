@@ -12,7 +12,7 @@ from py_sim.path_planning.path_generation import create_path
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.range_bearing import RangeBearingSensor
-from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
+from py_sim.sim.generic_sim import SimParameters, SingleAgentSim, start_simple_sim
 from py_sim.sim.integration import euler_update
 from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (
@@ -26,7 +26,11 @@ from py_sim.tools.sim_types import (
     VectorControl,
 )
 from py_sim.vectorfield.vectorfields import G2GAvoid  # pylint: disable=unused-import
-from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles, generate_non_convex_obstacles
+from py_sim.worlds.polygon_world import (
+    PolygonWorld,
+    generate_non_convex_obstacles,
+    generate_world_obstacles,
+)
 
 
 class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType], SingleAgentSim[LocationStateType]):
@@ -42,7 +46,6 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType],
         carrot(Optional[LineCarrot]): Provides a carrot to be followed
     """
     def __init__(self,  # pylint: disable=too-many-arguments
-                initial_state: LocationStateType,
                 dynamics: Dynamics[LocationStateType, InputType],
                 controller: VectorControl[LocationStateType, InputType, ControlParamType],
                 control_params: ControlParamType,
@@ -52,6 +55,7 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType],
                 world: PolygonWorld,
                 sensor: RangeBearingSensor,
                 carrot: Optional[LineCarrot],
+                params: SimParameters[LocationStateType]
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
@@ -63,7 +67,7 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType],
             n_input: The number of inputs for the dynamics function
         """
 
-        super().__init__(initial_state=initial_state, n_inputs=n_inputs, plots=plots)
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType] = dynamics
@@ -166,22 +170,23 @@ def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
                                  line_carrot=carrot)
 
     # Create the simulation
-    sim = NavVectorFollower(initial_state=state_initial,
-                         dynamics=unicycle_dynamics,
-                         controller=velocityVectorFieldControl,
-                         control_params=vel_params,
-                         n_inputs=UnicycleControl.n_inputs,
-                         plots=plot_manifest,
-                         vector_field=vector_field,
-                         world=obstacle_world,
-                         sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.),
-                         carrot=carrot
+    params = SimParameters(initial_state=state_initial)
+    params.sim_plot_period = 0.1
+    params.sim_step = 0.1
+    params.sim_update_period = 0.1
+    sim = NavVectorFollower(params=params,
+                            dynamics=unicycle_dynamics,
+                            controller=velocityVectorFieldControl,
+                            control_params=vel_params,
+                            n_inputs=UnicycleControl.n_inputs,
+                            plots=plot_manifest,
+                            vector_field=vector_field,
+                            world=obstacle_world,
+                            sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.),
+                            carrot=carrot
                          )
 
-    # Update the simulation step variables
-    sim.params.sim_plot_period = 0.1
-    sim.params.sim_step = 0.1
-    sim.params.sim_update_period = 0.1
+    # Run the simulation
     start_simple_sim(sim=sim)
 
 def run_single_simple_vectorfield_example(follow_path: bool = False) -> None:
@@ -233,29 +238,31 @@ def run_single_simple_vectorfield_example(follow_path: bool = False) -> None:
                                  line_carrot=carrot)
 
     # Create the simulation
-    sim = NavVectorFollower(initial_state=state_initial,
-                         dynamics=single_integrator.dynamics,
-                         controller=single_integrator.vector_control,
-                         control_params=vel_params,
-                         n_inputs=single_integrator.PointInput.n_inputs,
-                         plots=plot_manifest,
-                         vector_field=vector_field,
-                         world=obstacle_world,
-                         sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.),
-                         carrot=carrot
+    params = SimParameters(initial_state=state_initial)
+    params.sim_plot_period = 0.1
+    params.sim_step = 0.1
+    params.sim_update_period = 0.1
+    sim = NavVectorFollower(params=params,
+                            dynamics=single_integrator.dynamics,
+                            controller=single_integrator.vector_control,
+                            control_params=vel_params,
+                            n_inputs=single_integrator.PointInput.n_inputs,
+                            plots=plot_manifest,
+                            vector_field=vector_field,
+                            world=obstacle_world,
+                            sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.),
+                            carrot=carrot
                          )
 
-    # Update the simulation step variables
-    sim.params.sim_plot_period = 0.1
-    sim.params.sim_step = 0.1
-    sim.params.sim_update_period = 0.1
+    # Run the simulation
     start_simple_sim(sim=sim)
 
 if __name__ == "__main__":
     # Perform navigation without path planning (simple goal and avoid vector fields)
-    #run_single_simple_vectorfield_example(follow_path=False)
+    run_single_simple_vectorfield_example(follow_path=False)
     #run_unicycle_simple_vectorfield_example(follow_path=False)
 
     # Perform navigation with path planning using a carrot follower
     #run_single_simple_vectorfield_example(follow_path=True)
-    run_unicycle_simple_vectorfield_example(follow_path=True)
+    #run_unicycle_simple_vectorfield_example(follow_path=True)
+    

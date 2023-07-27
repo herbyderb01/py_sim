@@ -2,12 +2,7 @@
 """
 
 import numpy as np
-from py_sim.tools.sim_types import (
-    TwoDArrayType,
-    TwoDimArray,
-    VectorField,
-)
-
+from py_sim.tools.sim_types import TwoDArrayType, TwoDimArray, VectorField
 
 
 class GoToGoalField:

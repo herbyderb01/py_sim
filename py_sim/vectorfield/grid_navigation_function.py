@@ -2,15 +2,11 @@
 """
 
 import numpy as np
-from py_sim.tools.sim_types import (
-    TwoDArrayType,
-    TwoDimArray,
-    VectorField,
-)
-
-from py_sim.worlds.polygon_world import PolygonWorld
-from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
 import py_sim.path_planning.forward_grid_search as search
+from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
+from py_sim.tools.sim_types import TwoDArrayType, TwoDimArray, VectorField
+from py_sim.worlds.polygon_world import PolygonWorld
+
 
 class GridNavigationFunction:
     """Defines a navigation function based upon a grid search

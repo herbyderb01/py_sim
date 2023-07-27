@@ -84,14 +84,14 @@ class SingleAgentSim(Generic[StateType]):
         data_plots(list[DataPlot[StateType]]): Plots that depend on the data
     """
     def __init__(self,
-                initial_state: StateType,
                 n_inputs: int,
-                plots: PlotManifest[StateType]
+                plots: PlotManifest[StateType],
+                params: SimParameters[StateType]
                 ) -> None:
         """Initialize the simulation
         """
         # Update the simulation parameters
-        self.params = SimParameters[StateType](initial_state=initial_state)
+        self.params = params
 
         # Create and store the data
         initial_slice: Slice[StateType] = Slice(state=self.params.initial_state, time=self.params.t0)
@@ -172,14 +172,9 @@ class SingleAgentSim(Generic[StateType]):
                 sim_slice.state.state
             self.data.time_traj[self.data.traj_index_latest] = sim_slice.time
 
-            print("Time shape: ", self.data.time_traj.shape)
-
             if sim_slice.input_vec is not None:
                 self.data.control_traj[:,self.data.traj_index_latest:self.data.traj_index_latest+1] = \
                 sim_slice.input_vec
-                print("Input shape: ", self.data.control_traj.shape)
-            else:
-                print("input is None")
 
     async def continuous_plotting(self) -> None:
         """Plot the data at a certain rate"""

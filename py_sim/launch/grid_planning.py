@@ -17,7 +17,7 @@ import py_sim.worlds.polygon_world as poly_world
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
-from py_sim.sim.generic_sim import SingleAgentSim
+from py_sim.sim.generic_sim import SimParameters, SingleAgentSim
 from py_sim.tools.sim_types import (
     TwoDimArray,
     UnicycleControl,
@@ -34,23 +34,23 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
         planner(ForwardGridSearch): The planner that is used for planning
     """
     def __init__(self,  # pylint: disable=too-many-arguments
-                initial_state: UnicycleStateType,
                 n_inputs: int,
                 plots: PlotManifest[UnicycleStateType],
                 world: poly_world.PolygonWorld,
-                planner: search.ForwardGridSearch
+                planner: search.ForwardGridSearch,
+                params: SimParameters[UnicycleStateType]
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
         Args:
-            initial_state: The starting state of the vehicle
             n_input: The number of inputs for the dynamics function
             plots: The plot manifest for creating the sim plots
             world: The polygon world used for planning
             planner: The path planner
+            params: The paramters used for simulation
         """
 
-        super().__init__(initial_state=initial_state, n_inputs=n_inputs, plots=plots)
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
 
         # Initialize sim-specific parameters
         self.world: poly_world.PolygonWorld = world
@@ -130,7 +130,8 @@ def test_grid_planner() -> None:
                                  )
 
     # Create the simulation
-    sim = GridPlanning( initial_state=state_initial,
+    params = SimParameters(initial_state=state_initial)
+    sim = GridPlanning( params=params,
                         n_inputs=UnicycleControl.n_inputs,
                         plots=plot_manifest,
                         world=obstacle_world,

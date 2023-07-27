@@ -8,7 +8,7 @@ import numpy as np
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
-from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
+from py_sim.sim.generic_sim import SimParameters, SingleAgentSim, start_simple_sim
 from py_sim.tools.sim_types import UnicycleControl, UnicycleState, UnicycleStateType
 from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
 
@@ -16,10 +16,10 @@ from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
 class GridVisualization(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]):
     """Framework for implementing a simulator that just tests out a feedback controller"""
     def __init__(self,  # pylint: disable=too-many-arguments
-                initial_state: UnicycleStateType,
                 n_inputs: int,
                 plots: PlotManifest[UnicycleStateType],
                 world: PolygonWorld,
+                params: SimParameters[UnicycleStateType]
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
@@ -29,9 +29,10 @@ class GridVisualization(Generic[UnicycleStateType], SingleAgentSim[UnicycleState
             controller: The control law to be used during simulation
             control_params: The parameters of the control law to be used in simulation
             n_input: The number of inputs for the dynamics function
+            params: The simulation parameters
         """
 
-        super().__init__(initial_state=initial_state, n_inputs=n_inputs, plots=plots)
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
 
         # Initialize sim-specific parameters
         self.world: PolygonWorld = world
@@ -74,15 +75,16 @@ def test_occupancy_grid() -> None:
                                  plot_occupancy_circles=False)
 
     # Create the simulation
-    sim = GridVisualization(initial_state=state_initial,
+    params = SimParameters(initial_state=state_initial)
+    params.sim_plot_period = 0.2
+    params.sim_step = 0.1
+    params.sim_update_period = 0.00001
+    sim = GridVisualization(params=params,
                             n_inputs=UnicycleControl.n_inputs,
                             plots=plot_manifest,
                             world=obstacle_world)
 
-    # Update the simulation step variables
-    sim.params.sim_plot_period = 0.1
-    sim.params.sim_step = 0.1
-    sim.params.sim_update_period = 0.00001
+    # Run the simulation
     start_simple_sim(sim=sim)
 
 if __name__ == "__main__":

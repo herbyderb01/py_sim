@@ -10,7 +10,7 @@ from py_sim.dynamics.unicycle import velocityVectorFieldControl
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.range_bearing import RangeBearingSensor
-from py_sim.sim.generic_sim import SingleAgentSim, start_simple_sim
+from py_sim.sim.generic_sim import SimParameters, SingleAgentSim, start_simple_sim
 from py_sim.sim.integration import euler_update
 from py_sim.tools.sim_types import (
     ControlParamType,
@@ -21,11 +21,15 @@ from py_sim.tools.sim_types import (
     UnicycleControl,
     UnicycleState,
     VectorControl,
-    VectorField
+    VectorField,
 )
-from py_sim.vectorfield.vectorfields import G2GAvoid  # pylint: disable=unused-import
-from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles, generate_non_convex_obstacles
 from py_sim.vectorfield.grid_navigation_function import GridNavigationFunction
+from py_sim.vectorfield.vectorfields import G2GAvoid  # pylint: disable=unused-import
+from py_sim.worlds.polygon_world import (
+    PolygonWorld,
+    generate_non_convex_obstacles,
+    generate_world_obstacles,
+)
 
 
 class NavFieldFollower(Generic[LocationStateType, InputType, ControlParamType], SingleAgentSim[LocationStateType]):
@@ -40,7 +44,6 @@ class NavFieldFollower(Generic[LocationStateType, InputType, ControlParamType], 
         sensor(RangeBearingSensor): The sensor used for detecting obstacles
     """
     def __init__(self,  # pylint: disable=too-many-arguments
-                initial_state: LocationStateType,
                 dynamics: Dynamics[LocationStateType, InputType],
                 controller: VectorControl[LocationStateType, InputType, ControlParamType],
                 control_params: ControlParamType,
@@ -49,6 +52,7 @@ class NavFieldFollower(Generic[LocationStateType, InputType, ControlParamType], 
                 vector_field: VectorField,
                 world: PolygonWorld,
                 sensor: RangeBearingSensor,
+                params: SimParameters[LocationStateType]
                 ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
@@ -58,9 +62,14 @@ class NavFieldFollower(Generic[LocationStateType, InputType, ControlParamType], 
             controller: The control law to be used during simulation
             control_params: The parameters of the control law to be used in simulation
             n_input: The number of inputs for the dynamics function
+            plots: The manifest of plots to be plotted
+            vector_field: The field to follow
+            world: The world through which the vehicle is navigating
+            sensor: The range bearing sensor model
+            params: Parameters controlling the simulation
         """
 
-        super().__init__(initial_state=initial_state, n_inputs=n_inputs, plots=plots)
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType] = dynamics
@@ -116,8 +125,8 @@ def run_unicycle_simple_vectorfield_example() -> None:
     n_lines = 10 # Number of sensor lines
 
     # Create the obstacle world
-    #obstacle_world = generate_world_obstacles()
-    obstacle_world = generate_non_convex_obstacles()
+    obstacle_world = generate_world_obstacles()
+    #obstacle_world = generate_non_convex_obstacles()
 
     # Create the navigation vector field
     nav_field = GridNavigationFunction(end=TwoDimArray(x=10., y=5.),
@@ -144,21 +153,22 @@ def run_unicycle_simple_vectorfield_example() -> None:
                                  )
 
     # Create the simulation
-    sim = NavFieldFollower(initial_state=state_initial,
-                         dynamics=unicycle_dynamics,
-                         controller=velocityVectorFieldControl,
-                         control_params=vel_params,
-                         n_inputs=UnicycleControl.n_inputs,
-                         plots=plot_manifest,
-                         vector_field=nav_field,
-                         world=obstacle_world,
-                         sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.),
+    params = SimParameters(initial_state=state_initial)
+    params.sim_plot_period = 0.1
+    params.sim_step = 0.1
+    params.sim_update_period = 0.1
+    sim = NavFieldFollower(params=params,
+                           dynamics=unicycle_dynamics,
+                           controller=velocityVectorFieldControl,
+                           control_params=vel_params,
+                           n_inputs=UnicycleControl.n_inputs,
+                           plots=plot_manifest,
+                           vector_field=nav_field,
+                           world=obstacle_world,
+                           sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.),
                          )
 
-    # Update the simulation step variables
-    sim.params.sim_plot_period = 0.1
-    sim.params.sim_step = 0.1
-    sim.params.sim_update_period = 0.1
+    # Run the simulation
     start_simple_sim(sim=sim)
 
 def run_single_simple_vectorfield_example() -> None:
@@ -199,21 +209,22 @@ def run_single_simple_vectorfield_example() -> None:
                                  )
 
     # Create the simulation
-    sim = NavFieldFollower(initial_state=state_initial,
-                         dynamics=single_integrator.dynamics,
-                         controller=single_integrator.vector_control,
-                         control_params=vel_params,
-                         n_inputs=single_integrator.PointInput.n_inputs,
-                         plots=plot_manifest,
-                         vector_field=nav_field,
-                         world=obstacle_world,
-                         sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.)
+    params = SimParameters(initial_state=state_initial)
+    params.sim_plot_period = 0.1
+    params.sim_step = 0.01
+    params.sim_update_period = 0.01
+    sim = NavFieldFollower(params=params,
+                           dynamics=single_integrator.dynamics,
+                           controller=single_integrator.vector_control,
+                           control_params=vel_params,
+                           n_inputs=single_integrator.PointInput.n_inputs,
+                           plots=plot_manifest,
+                           vector_field=nav_field,
+                           world=obstacle_world,
+                           sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.)
                          )
 
-    # Update the simulation step variables
-    sim.params.sim_plot_period = 0.1
-    sim.params.sim_step = 0.01
-    sim.params.sim_update_period = 0.01
+    # Run the simulation
     start_simple_sim(sim=sim)
 
 if __name__ == "__main__":
