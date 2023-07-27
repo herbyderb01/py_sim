@@ -152,7 +152,9 @@ def run_single_integrator_simple_vectorfield_example() -> None:
     vector_field = SummedField(fields=[vector_field_g2g, vector_field_avoid],
                                weights=[1., 1.],
                                v_max=vel_params.v_max)
-    #vector_field = vector_field_g2g
+    vector_field =vector_field_avoid
+    vector_field = vector_field_g2g
+
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
@@ -166,8 +168,8 @@ def run_single_integrator_simple_vectorfield_example() -> None:
 
     # Create the simulation
     params = SimParameters(initial_state=state_initial)
-    params.sim_plot_period = 0.2
-    params.sim_step = 0.1
+    params.sim_plot_period = 0.1
+    params.sim_step = 0.01
     params.sim_update_period = 0.01
     sim = VectorFollower(params=params,
                          dynamics=single_integrator.dynamics,
