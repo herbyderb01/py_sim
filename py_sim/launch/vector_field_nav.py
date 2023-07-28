@@ -265,4 +265,3 @@ if __name__ == "__main__":
     # Perform navigation with path planning using a carrot follower
     #run_single_simple_vectorfield_example(follow_path=True)
     #run_unicycle_simple_vectorfield_example(follow_path=True)
-    

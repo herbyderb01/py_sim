@@ -47,7 +47,7 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
                          graph: Optional[PathGraph[GraphType]] = None,
                          graph_node_size: int = 10,
                          plan: Optional[tuple[list[float], list[float]]] = None,
-                         plan_color: pt.Color = (0., 1., 0., 1.),
+                         plan_color: pt.Color = (1., 0., 1., 1.),
                          line_carrot: Optional[LineCarrot] = None
                          ) -> pt.PlotManifest[LocationStateType]:
     """Creates a plot manifest given the following inputs
