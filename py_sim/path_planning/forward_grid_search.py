@@ -420,7 +420,7 @@ class AstarGridSearch(ForwardGridSearch):
         return  cast(float, np.linalg.norm(ind_mat - self.end_ind_mat))
 
     def add_index_to_queue(self, ind_new: int, ind_parent: int, direction: GD) -> None:
-        """Adds index to queue based on the cost to come to that new index.
+        """Adds index to queue based on the cost-to-come to that new index plus the hueristic cost-to-go from that index to the goal
 
         Args:
             ind_new: Index of the new location
@@ -436,8 +436,8 @@ class AstarGridSearch(ForwardGridSearch):
         self.queue.push(cost=cost_heuristic, index=ind_new)
 
     def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None:
-        """resolves duplicate sighting of the index - checks to see if the lowest cost to come
-           to the node has a lower cost-to-come than the previous path found, if so then the
+        """resolves duplicate sighting of the index - checks to see if the lowest cost-to-come plus heuristic
+           a lower value than the previous path found, if so then the
            cost is updated
 
         Args:
