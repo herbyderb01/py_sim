@@ -152,8 +152,8 @@ def run_single_integrator_simple_vectorfield_example() -> None:
     vector_field = SummedField(fields=[vector_field_g2g, vector_field_avoid],
                                weights=[1., 1.],
                                v_max=vel_params.v_max)
-    vector_field =vector_field_avoid
-    vector_field = vector_field_g2g
+    # vector_field =vector_field_avoid
+    # vector_field = vector_field_g2g
 
 
     # Create the manifest for the plotting

@@ -4,6 +4,8 @@ pillow
 pylint
 black
 isort
+jupyterlab
+jupyter
 pandas
 pydocstyle
 mypy
