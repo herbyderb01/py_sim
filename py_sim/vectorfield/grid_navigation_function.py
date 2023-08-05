@@ -97,7 +97,7 @@ class GridNavigationFunction:
         dist_to_goal = np.linalg.norm(q_curr - q_goal)
         v_g = self.v_des * (1.-np.exp(-dist_to_goal**2/self.sig_sq))
 
-        # Scale the magnitude of the resulting vector
+        # Scale the magnitude of the resulting vector (g)
         dist = np.linalg.norm(g)
         if dist > 0.:
             g = (v_g/dist)*g
