@@ -90,7 +90,7 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
             state_plot = pt.UnicycleTimeSeriesPlot(color=color)
             plots.data_plots.append(state_plot) # type: ignore
             plots.figs.append(state_plot.fig)
-        if isinstance(initial_state, TwoDimArray): # Ignore statement below is mismattch between LocationStateType and UnicycleState, checked by this if statement
+        elif isinstance(initial_state, TwoDimArray): # Ignore statement below is mismattch between LocationStateType and UnicycleState, checked by this if statement
             integrator_plot = pt.SingleIntegratorTimeSeriesPlot(color=color)
             plots.data_plots.append(integrator_plot)
             plots.figs.append(integrator_plot.fig)

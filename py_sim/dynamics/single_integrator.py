@@ -32,7 +32,17 @@ class PointInput:
         self.vec.state = val
 
 
-def dynamics(state: TwoDArrayType, control: PointInput) -> TwoDimArray: # pylint: disable=unused-argument
+class SingleIntegratorParams:
+    """ Defines the attributes for the single integrator dynamics
+
+    Attributes:
+        v_max(NDArray[Any]): Maximum velocity of any individual component
+    """
+    def __init__(self, v_max: float = np.inf) -> None:
+        self.v_max: npt.NDArray[Any] = np.array([[v_max],[v_max]])
+
+
+def dynamics(state: TwoDArrayType, control: PointInput, params: SingleIntegratorParams) -> TwoDimArray: # pylint: disable=unused-argument
     """ Calculates single integrator dynamics.
 
     The returned time derivative corresponds to
@@ -42,10 +52,16 @@ def dynamics(state: TwoDArrayType, control: PointInput) -> TwoDimArray: # pylint
     Args:
         state: The current position of the vehicle
         control: The current input (velocities)
+        params: The parameters for the dynamics
 
     Returns:
         TwoDimArray: The resulting state time derivative (actually the input)
     """
+    # Saturate the input
+    vec: npt.NDArray[Any] = np.maximum(params.v_max, -params.v_max)
+    vec: npt.NDArray[Any] = np.minimum(vec, params.v_max)
+
+    # Give the command
     return control.vec
 
 ###########################  Basic controllers ##################################

@@ -14,7 +14,22 @@ from py_sim.tools.sim_types import (
 )
 
 
-def dynamics(state: UnicycleStateProtocol, control: UnicyleControlProtocol) -> UnicycleState:
+class UnicycleParams:
+    """The UnicycleParams class defines saturates for the inputs (i.e., max velocities)
+
+    Attributes:
+        v_max(float): The maximum allowed translational velocity
+        w_max(float): The maximum allowed rotational velocity
+    """
+    def __init__(self, v_max: float = np.inf, w_max: float = np.inf) -> None:
+        self.v_max = v_max
+        self.w_max = w_max
+
+no_limit = UnicycleParams()
+
+def dynamics(state: UnicycleStateProtocol,
+             control: UnicyleControlProtocol,
+             params: UnicycleParams = no_limit) -> UnicycleState:
     """ Calculates the dynamics of the unicycle.
 
     Note that even though a "UnicycleState" is returned, that actually corresponds to
@@ -30,10 +45,16 @@ def dynamics(state: UnicycleStateProtocol, control: UnicyleControlProtocol) -> U
     Returns:
         UnicycleState: The resulting state time derivative
     """
+    # Saturate the velocities
+    v = np.min([control.v, params.v_max]) # Saturate translational velocity
+    v = np.max([control.v, -params.v_max])
+    w = np.min([control.w, params.w_max]) # Saturate rotational velocity
+    w = np.max([control.w, -params.w_max])
+
     state_dot = UnicycleState() # Time derivative of the state
-    state_dot.x = control.v * np.cos(state.psi)
-    state_dot.y = control.v * np.sin(state.psi)
-    state_dot.psi = control.w
+    state_dot.x = v * np.cos(state.psi)
+    state_dot.y = v * np.sin(state.psi)
+    state_dot.psi = w
     return state_dot
 
 ###########################  Basic unicycle controllers ##################################

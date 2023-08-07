@@ -35,9 +35,10 @@ class Input(Protocol):
     input: npt.NDArray[Any]
     n_inputs: int
 
-StateType = TypeVar("StateType", bound=State)
-InputType = TypeVar("InputType", bound=Input)
-ControlParamType = TypeVar("ControlParamType")
+StateType = TypeVar("StateType", bound=State) # Use for denoting a vehicle state
+InputType = TypeVar("InputType", bound=Input) # Use for denoting a vehicle control
+DynamicsParamType = TypeVar("DynamicsParamType") # Use for denoting the vehicle parameters
+ControlParamType = TypeVar("ControlParamType") # Used for denoting controller parameters
 
 class Slice(Generic[StateType]):
     """ Contains a "slice" of data - the data produced / needed
@@ -175,14 +176,15 @@ class TwoDimArray:
         self.state.itemset(self.IND_X, val.item(self.IND_X))
         self.state.itemset(self.IND_Y, val.item(self.IND_Y))
 
-class Dynamics(Protocol[StateType, InputType]): # type: ignore
+class Dynamics(Protocol[StateType, InputType, DynamicsParamType]): # type: ignore
     """Class taking the form of a state dynamics function call"""
-    def __call__(self, state: StateType, control: InputType) -> StateType:
-        """Dynamic function call ( xdot = f(x,u) )
+    def __call__(self, state: StateType, control: InputType, params: DynamicsParamType) -> StateType:
+        """Dynamic function call ( xdot = f(x,u,p) )
 
         Args:
             state: The current state
             control: The current control input
+            params: Fixed dynamic parameters
 
         Returns:
             StateType: The time derivative of the state

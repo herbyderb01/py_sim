@@ -6,13 +6,11 @@ Provides and example of using a vector field control law with the vector field o
 import numpy as np
 import py_sim.vectorfield.vectorfields as vf
 from py_sim.dynamics import single_integrator
-from py_sim.launch.navigation_field import NavFieldFollower
-from py_sim.launch.simple_vector_fields import VectorFollower
-from py_sim.launch.vector_field_nav import NavVectorFollower
 from py_sim.path_planning.path_generation import create_path
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.sensors.range_bearing import RangeBearingSensor
 from py_sim.sim.generic_sim import SimParameters, start_simple_sim
+from py_sim.sim.sim_modes import NavFieldFollower, NavVectorFollower, VectorFollower
 from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import TwoDimArray
 from py_sim.vectorfield.grid_navigation_function import GridNavigationFunction
@@ -64,6 +62,7 @@ def simple_vectorfield() -> None:
     sim = VectorFollower(params=params,
                          dynamics=single_integrator.dynamics,
                          controller=single_integrator.vector_control,
+                         dynamic_params=single_integrator.SingleIntegratorParams(),
                          control_params=vel_params,
                          n_inputs=single_integrator.PointInput.n_inputs,
                          plots=plot_manifest,
@@ -129,6 +128,7 @@ def carrot_follow() -> None:
     sim = NavVectorFollower(params=params,
                             dynamics=single_integrator.dynamics,
                             controller=single_integrator.vector_control,
+                            dynamic_params=single_integrator.SingleIntegratorParams(),
                             control_params=vel_params,
                             n_inputs=single_integrator.PointInput.n_inputs,
                             plots=plot_manifest,
@@ -187,6 +187,7 @@ def navigation_function() -> None:
     sim = NavFieldFollower(params=params,
                            dynamics=single_integrator.dynamics,
                            controller=single_integrator.vector_control,
+                           dynamic_params=single_integrator.SingleIntegratorParams(),
                            control_params=vel_params,
                            n_inputs=single_integrator.PointInput.n_inputs,
                            plots=plot_manifest,
@@ -199,6 +200,6 @@ def navigation_function() -> None:
     start_simple_sim(sim=sim)
 
 if __name__ == "__main__":
-    #simple_vectorfield()
+    simple_vectorfield()
     #carrot_follow()
-    navigation_function()
+    #navigation_function()

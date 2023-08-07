@@ -1,123 +1,22 @@
 """vector_field_nav.py: Provides sample vector fields used for navigation
 """
 
-from typing import Generic, Optional
-
 import numpy as np
+import py_sim.dynamics.unicycle as uni
 from py_sim.dynamics import single_integrator
-from py_sim.dynamics.unicycle import UniVelVecParams
-from py_sim.dynamics.unicycle import dynamics as unicycle_dynamics
-from py_sim.dynamics.unicycle import velocityVectorFieldControl
 from py_sim.path_planning.path_generation import create_path
 from py_sim.plotting.plot_constructor import create_plot_manifest
-from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.range_bearing import RangeBearingSensor
-from py_sim.sim.generic_sim import SimParameters, SingleAgentSim, start_simple_sim
-from py_sim.sim.integration import euler_update
+from py_sim.sim.generic_sim import SimParameters, start_simple_sim
+from py_sim.sim.sim_modes import NavVectorFollower
 from py_sim.tools.projections import LineCarrot
-from py_sim.tools.sim_types import (
-    ControlParamType,
-    Dynamics,
-    InputType,
-    LocationStateType,
-    TwoDimArray,
-    UnicycleControl,
-    UnicycleState,
-    VectorControl,
-)
+from py_sim.tools.sim_types import TwoDimArray, UnicycleControl, UnicycleState
 from py_sim.vectorfield.vectorfields import G2GAvoid  # pylint: disable=unused-import
 from py_sim.worlds.polygon_world import (
-    PolygonWorld,
     generate_non_convex_obstacles,
     generate_world_obstacles,
 )
 
-
-class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType], SingleAgentSim[LocationStateType]):
-    """Framework for implementing a simulator that uses a vector field for feedback control through a polygon world with a distance measurement
-
-    Attributes:
-        dynamics(Dynamics[LocationStateType, InputType]): The dynamics function to be used for simulation
-        controller(Control[LocationStateType, InputType, ControlParamType]): The control law to be used during simulation
-        control_params(ControlParamType): The parameters of the control law to be used in simulation
-        vector_field(G2GAvoid): Vector field that the vehicle will use to avoid obstacles while traversing to the goal
-        world(PolygonWorld): World in which the vehicle is operating
-        sensor(RangeBearingSensor): The sensor used for detecting obstacles
-        carrot(Optional[LineCarrot]): Provides a carrot to be followed
-    """
-    def __init__(self,  # pylint: disable=too-many-arguments
-                dynamics: Dynamics[LocationStateType, InputType],
-                controller: VectorControl[LocationStateType, InputType, ControlParamType],
-                control_params: ControlParamType,
-                n_inputs: int,
-                plots: PlotManifest[LocationStateType],
-                vector_field: G2GAvoid,
-                world: PolygonWorld,
-                sensor: RangeBearingSensor,
-                carrot: Optional[LineCarrot],
-                params: SimParameters[LocationStateType]
-                ) -> None:
-        """Creates a SingleAgentSim and then sets up the plotting and storage
-
-        Args:
-            initial_state: The starting state of the vehicle
-            dynamics: The dynamics function to be used for simulation
-            controller: The control law to be used during simulation
-            control_params: The parameters of the control law to be used in simulation
-            n_input: The number of inputs for the dynamics function
-        """
-
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
-
-        # Initialize sim-specific parameters
-        self.dynamics: Dynamics[LocationStateType, InputType] = dynamics
-        self.controller: VectorControl[LocationStateType, InputType, ControlParamType] = controller
-        self.control_params: ControlParamType = control_params
-        self.vector_field: G2GAvoid = vector_field
-        self.world: PolygonWorld = world
-        self.sensor: RangeBearingSensor = sensor
-        self.carrot: Optional[LineCarrot] = carrot
-
-    def update(self) -> None:
-        """Calls all of the update functions.
-
-        Updates performed:
-            * Calculate the range and bearing measurements
-            * Update the goal location if carrot-following
-            * Calculate the resulting vector to be followed
-            * Calculate the control to be executed
-            * Update the state
-            * Update the time
-        """
-        # Calculate the range bearing for the current position
-        self.data.range_bearing_latest = self.sensor.calculate_range_bearing_measurement(\
-            pose=self.data.current.state,
-            world=self.world)
-
-        # Update the goal position
-        if self.carrot is not None:
-            self.vector_field.x_g = \
-                self.carrot.get_carrot_point(point=self.data.current.state)
-
-        # Calculate the desired vector
-        self.vector_field.update_obstacles(locations=self.data.range_bearing_latest.location)
-        vec: TwoDimArray = self.vector_field.calculate_vector(state=self.data.current.state, time=self.data.current.time)
-
-        # Calculate the control to follow the vector
-        control:InputType = self.controller(time=self.data.current.time,
-                                state=self.data.current.state,
-                                vec=vec,
-                                params=self.control_params)
-        self.data.current.input_vec = control.input
-
-        # Update the state using the latest control
-        self.data.next.state.state = euler_update(  dynamics=self.dynamics,
-                                                    control=control,
-                                                    initial=self.data.current.state,
-                                                    dt=self.params.sim_step)
-
-        # Update the time by sim_step
-        self.data.next.time = self.data.current.time + self.params.sim_step
 
 def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
     """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed. The optional ability to follow a path allows the vehicle to navigate around complex obstacles.
@@ -128,12 +27,12 @@ def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
     """
 
     # Initialize the state and control
-    vel_params = UniVelVecParams(vd_field_max=5., k_wd= 5.)
+    vel_params = uni.UniVelVecParams(vd_field_max=5., k_wd= 5.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
     # Create the vector field
     n_lines = 10 # Number of sensor lines
-    vector_field = G2GAvoid(x_g=TwoDimArray(x=10., y=5.),
+    vector_field = G2GAvoid(x_g=TwoDimArray(x=9., y=5.),
                             n_obs=n_lines,
                             v_max=vel_params.vd_field_max,
                             S=1.5,
@@ -174,9 +73,11 @@ def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
     params.sim_plot_period = 0.1
     params.sim_step = 0.1
     params.sim_update_period = 0.1
+    params.tf = 5.
     sim = NavVectorFollower(params=params,
-                            dynamics=unicycle_dynamics,
-                            controller=velocityVectorFieldControl,
+                            dynamics=uni.dynamics,
+                            controller=uni.velocityVectorFieldControl,
+                            dynamic_params=uni.UnicycleParams(),
                             control_params=vel_params,
                             n_inputs=UnicycleControl.n_inputs,
                             plots=plot_manifest,
@@ -202,7 +103,7 @@ def run_single_simple_vectorfield_example(follow_path: bool = False) -> None:
 
     # Create the vector field
     n_lines = 10 # Number of sensor lines
-    vector_field = G2GAvoid(x_g=TwoDimArray(x=10., y=5.),
+    vector_field = G2GAvoid(x_g=TwoDimArray(x=9., y=5.),
                             n_obs=n_lines,
                             v_max=vel_params.v_max,
                             S=1.5,
@@ -242,9 +143,11 @@ def run_single_simple_vectorfield_example(follow_path: bool = False) -> None:
     params.sim_plot_period = 0.1
     params.sim_step = 0.1
     params.sim_update_period = 0.1
+    params.tf = 5.
     sim = NavVectorFollower(params=params,
                             dynamics=single_integrator.dynamics,
                             controller=single_integrator.vector_control,
+                            dynamic_params=single_integrator.SingleIntegratorParams(),
                             control_params=vel_params,
                             n_inputs=single_integrator.PointInput.n_inputs,
                             plots=plot_manifest,

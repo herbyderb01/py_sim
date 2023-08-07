@@ -4,85 +4,19 @@
 
 """
 
-from typing import Generic
-
 from py_sim.dynamics import single_integrator
-from py_sim.dynamics.unicycle import arc_control
+from py_sim.dynamics.unicycle import UnicycleParams, arc_control
 from py_sim.dynamics.unicycle import dynamics as unicycle_dynamics
 from py_sim.plotting.plot_constructor import create_plot_manifest
-from py_sim.plotting.plotting import PlotManifest
-from py_sim.sim.generic_sim import SimParameters, SingleAgentSim, start_simple_sim
-from py_sim.sim.integration import euler_update
+from py_sim.sim.generic_sim import SimParameters, start_simple_sim
+from py_sim.sim.sim_modes import SimpleSim
 from py_sim.tools.sim_types import (
     ArcParams,
-    Control,
-    ControlParamType,
-    Dynamics,
-    InputType,
-    LocationStateType,
     TwoDimArray,
     UnicycleControl,
     UnicycleState,
 )
 
-
-class SimpleSim(Generic[LocationStateType, InputType, ControlParamType], SingleAgentSim[LocationStateType]):
-    """Framework for implementing a simulator that just tests out a feedback controller
-
-    Attributes:
-        dynamics(Dynamics[LocationStateType, InputType]): The dynamics function to be used for simulation
-        controller(Control[LocationStateType, InputType, ControlParamType]): The control law to be used during simulation
-        control_params(ControlParamType): The parameters of the control law to be used in simulation
-
-    """
-    def __init__(self,
-                dynamics: Dynamics[LocationStateType, InputType],
-                controller: Control[LocationStateType, InputType, ControlParamType],
-                control_params: ControlParamType,
-                n_inputs: int,
-                plots: PlotManifest[LocationStateType],
-                params: SimParameters[LocationStateType]
-                ) -> None:
-        """Creates a SingleAgentSim and then sets up the plotting and storage
-
-            Args:
-                initial_state: The starting state of the vehicle
-                dynamics: The dynamics function to be used for simulation
-                controller: The control law to be used during simulation
-                control_params: The parameters of the control law to be used in simulation
-                n_input: The number of inputs for the dynamics function
-        """
-
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
-
-        # Initialize sim-specific parameters
-        self.dynamics: Dynamics[LocationStateType, InputType] = dynamics
-        self.controller: Control[LocationStateType, InputType, ControlParamType] = controller
-        self.control_params: ControlParamType = control_params
-
-    def update(self) -> None:
-        """Calls all of the update functions
-
-        The following are updated:
-            * Calculate the control to be executed
-            * Update the state
-            * Update the time
-        """
-
-        # Calculate the control
-        control:InputType = self.controller(time=self.data.current.time,
-                                state=self.data.current.state,
-                                params=self.control_params)
-        self.data.current.input_vec = control.input
-
-        # Update the state using the latest control
-        self.data.next.state.state = euler_update(  dynamics=self.dynamics,
-                                                    control=control,
-                                                    initial=self.data.current.state,
-                                                    dt=self.params.sim_step)
-
-        # Update the time by sim_step
-        self.data.next.time = self.data.current.time + self.params.sim_step
 
 def run_unicycle_arc_example() -> None:
     """Runs an example of a vehicle executing an arc"""
@@ -107,6 +41,7 @@ def run_unicycle_arc_example() -> None:
     sim = SimpleSim(params=params,
                     dynamics=unicycle_dynamics,
                     controller=arc_control,
+                    dynamic_params= UnicycleParams(),
                     control_params=arc_params,
                     n_inputs=UnicycleControl.n_inputs,
                     plots=plot_manifest)
@@ -136,13 +71,13 @@ def run_integrator_example() -> None:
     sim = SimpleSim(params=params,
                     dynamics=single_integrator.dynamics,
                     controller=single_integrator.const_control,
+                    dynamic_params=single_integrator.SingleIntegratorParams(),
                     control_params=const_params,
                     n_inputs=single_integrator.PointInput.n_inputs,
                     plots=plot_manifest)
 
     # Run the simulation
     start_simple_sim(sim=sim)
-
 
 if __name__ == "__main__":
     run_integrator_example()
