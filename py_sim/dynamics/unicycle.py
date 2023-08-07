@@ -25,11 +25,9 @@ class UnicycleParams:
         self.v_max = v_max
         self.w_max = w_max
 
-no_limit = UnicycleParams()
-
 def dynamics(state: UnicycleStateProtocol,
              control: UnicyleControlProtocol,
-             params: UnicycleParams = no_limit) -> UnicycleState:
+             params: UnicycleParams) -> UnicycleState:
     """ Calculates the dynamics of the unicycle.
 
     Note that even though a "UnicycleState" is returned, that actually corresponds to
@@ -58,7 +56,10 @@ def dynamics(state: UnicycleStateProtocol,
     return state_dot
 
 ###########################  Basic unicycle controllers ##################################
-def velocity_control(time: float, state: UnicycleStateProtocol, vd: float, wd: float) -> UnicycleControl: # pylint: disable=unused-argument
+def velocity_control(time: float, # pylint: disable=unused-argument
+                     state: UnicycleStateProtocol, # pylint: disable=unused-argument
+                     vd: float,
+                     wd: float) -> UnicycleControl: # pylint: disable=unused-argument
     """Implements a velocity control for the unicycle, which is simply copying the desired inputs
 
     Args:
@@ -72,21 +73,25 @@ def velocity_control(time: float, state: UnicycleStateProtocol, vd: float, wd: f
     """
     return UnicycleControl(v=vd, w=wd)
 
-def arc_control(time: float, state: UnicycleStateProtocol, params: ArcParams) -> UnicycleControl:
+def arc_control(time: float, # pylint: disable=unused-argument
+                state: UnicycleStateProtocol,
+                dyn_params: UnicycleParams, # pylint: disable=unused-argument
+                cont_params: ArcParams) -> UnicycleControl:
     """ Implements the control for a circular arc
 
     Args:
         time: clock time
         state: vehicle state
-        params: control parameters
+        dyn_params: The parameters for the dynamics
+        cont_params: The paramters for the control law
 
     Returns:
         UnicycleControl: Commanded velocities
     """
-    return velocity_control(time=time, state=state, vd=params.v_d, wd=params.w_d)
+    return velocity_control(time=time, state=state, vd=cont_params.v_d, wd=cont_params.w_d)
 
 
-######################### Velocity Based Unicycle Controllers ################################
+######################### Velocity Based Vector Controllers ################################
 class UniVelVecParams():
     """Parameters used for following a vector field
 
@@ -149,24 +154,26 @@ def desired_vector_follow_velocities(state: UnicycleStateProtocol,
 
     return (vd, wd)
 
-def velocityVectorFieldControl(time: float,
+def velocity_vector_field_control(time: float,  # pylint: disable=unused-argument
                                state: UnicycleStateProtocol,
                                vec: TwoDimArray,
-                               params: UniVelVecParamsProto) -> UnicycleControl:
-    """velocityVectorFieldControl will calculate the desired control to follow a vector field with the following inputs:
+                               dyn_params: UnicycleParams, # pylint: disable=unused-argument
+                               cont_params: UniVelVecParamsProto) -> UnicycleControl:
+    """velocity_vector_field_control will calculate the desired control to follow a vector field with the following inputs:
 
     Args:
         time: The time for which the control is being calculated
         state: The state of the unicycle
         vec: The vector to be followed
-        params: Parameters defining the control
+        dyn_params: The parameters for the dynamics
+        cont_params: The paramters for the control law
 
     Returns:
         UnicycleControl: The commanded translational and rotational velocity
     """
 
     # Calculate the desired velocities
-    vd, wd = desired_vector_follow_velocities(state=state, vec=vec, params=params)
+    vd, wd = desired_vector_follow_velocities(state=state, vec=vec, params=cont_params)
 
     # Use velocity control to follow the vector field
     return velocity_control(time=time, state=state, vd=vd, wd=wd)

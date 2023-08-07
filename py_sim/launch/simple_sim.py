@@ -3,10 +3,9 @@
     Provides an example of using a control law within the simulation with position and state plotting occurring actively during the movement of the vehicle.
 
 """
-
+import py_sim.dynamics.unicycle as uni
+import py_sim.dynamics.differential_drive as diff
 from py_sim.dynamics import single_integrator
-from py_sim.dynamics.unicycle import UnicycleParams, arc_control
-from py_sim.dynamics.unicycle import dynamics as unicycle_dynamics
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.sim.generic_sim import SimParameters, start_simple_sim
 from py_sim.sim.sim_modes import SimpleSim
@@ -18,8 +17,12 @@ from py_sim.tools.sim_types import (
 )
 
 
-def run_unicycle_arc_example() -> None:
-    """Runs an example of a vehicle executing an arc"""
+def run_simple_arc_example() -> None:
+    """Runs an example of a vehicle executing an arc
+
+    Args:
+        model: The model used for the simple dynamics
+    """
     # Initialize the state and control
     arc_params = ArcParams(v_d=1., w_d= 1.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
@@ -39,9 +42,12 @@ def run_unicycle_arc_example() -> None:
     params.sim_step = 0.1
     params.sim_update_period = 0.01
     sim = SimpleSim(params=params,
-                    dynamics=unicycle_dynamics,
-                    controller=arc_control,
-                    dynamic_params= UnicycleParams(),
+                    # dynamics=uni.dynamics,
+                    # controller=uni.arc_control,
+                    # dynamic_params= uni.UnicycleParams(),
+                    dynamics=diff.dynamics,
+                    controller=diff.arc_control,
+                    dynamic_params=diff.DiffDriveParams(L = 0.25, R=0.025),
                     control_params=arc_params,
                     n_inputs=UnicycleControl.n_inputs,
                     plots=plot_manifest)
@@ -80,5 +86,5 @@ def run_integrator_example() -> None:
     start_simple_sim(sim=sim)
 
 if __name__ == "__main__":
-    run_integrator_example()
-    #run_unicycle_arc_example()
+    #run_integrator_example()
+    run_simple_arc_example()

@@ -190,30 +190,41 @@ class Dynamics(Protocol[StateType, InputType, DynamicsParamType]): # type: ignor
             StateType: The time derivative of the state
         """
 
-class Control(Protocol[StateType, InputType, ControlParamType]): # type: ignore
+class Control(Protocol[StateType, InputType, DynamicsParamType, ControlParamType]): # type: ignore
     """Class taking the form of the control function"""
-    def __call__(self, time: float, state: StateType, params: ControlParamType) -> InputType:
+    def __call__(self,
+                 time: float,
+                 state: StateType,
+                 dyn_params: DynamicsParamType,
+                 cont_params: ControlParamType) -> InputType:
         """Control function call (u = g(t, x, P))
 
         Args:
             time: The time for which the control is being calculated
             state: The state at the time the control is calculated
-            params: The paramters for the control law
+            dyn_params: The parameters for the dynamics
+            cont_params: The paramters for the control law
 
         Returns:
             InputType: The resulting control input
         """
 
-class VectorControl(Protocol[StateType, InputType, ControlParamType]): # type: ignore
+class VectorControl(Protocol[StateType, InputType, DynamicsParamType, ControlParamType]): # type: ignore
     """Class taking the form of the control function for a vector field"""
-    def __call__(self, time: float, state: StateType, vec: TwoDimArray, params: ControlParamType) -> InputType:
+    def __call__(self,
+                 time: float,
+                 state: StateType,
+                 vec: TwoDimArray,
+                 dyn_params: DynamicsParamType,
+                 cont_params: ControlParamType) -> InputType:
         """Control function call (u = g(t, x, vec, P)) where vec is the desired vector to follow
 
         Args:
             time: The time for which the control is being calculated
             state: The state at the time the control is calculated
             vec: The vector to be followed
-            params: The paramters for the control law
+            dyn_params: The parameters for the dynamics
+            cont_params: The paramters for the control law
 
         Returns:
             InputType: The resulting control input

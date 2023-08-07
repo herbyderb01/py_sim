@@ -34,7 +34,7 @@ class SimpleSim(Generic[LocationStateType, InputType, ControlParamType, Dynamics
     """
     def __init__(self,
                 dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType],
-                controller: Control[LocationStateType, InputType, ControlParamType],
+                controller: Control[LocationStateType, InputType, DynamicsParamType, ControlParamType],
                 dynamic_params: DynamicsParamType,
                 control_params: ControlParamType,
                 n_inputs: int,
@@ -56,7 +56,7 @@ class SimpleSim(Generic[LocationStateType, InputType, ControlParamType, Dynamics
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
-        self.controller: Control[LocationStateType, InputType, ControlParamType] = controller
+        self.controller: Control[LocationStateType, InputType, DynamicsParamType, ControlParamType] = controller
         self.dynamic_params: DynamicsParamType = dynamic_params
         self.control_params: ControlParamType = control_params
 
@@ -72,7 +72,8 @@ class SimpleSim(Generic[LocationStateType, InputType, ControlParamType, Dynamics
         # Calculate the control
         control:InputType = self.controller(time=self.data.current.time,
                                 state=self.data.current.state,
-                                params=self.control_params)
+                                dyn_params=self.dynamic_params,
+                                cont_params=self.control_params)
         self.data.current.input_vec = control.input
 
         # Update the state using the latest control
@@ -97,7 +98,7 @@ class VectorFollower(Generic[LocationStateType, InputType, ControlParamType, Dyn
     """
     def __init__(self,
                 dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType],
-                controller: VectorControl[LocationStateType, InputType, ControlParamType],
+                controller: VectorControl[LocationStateType, InputType, DynamicsParamType, ControlParamType],
                 dynamic_params: DynamicsParamType,
                 control_params: ControlParamType,
                 n_inputs: int,
@@ -120,7 +121,7 @@ class VectorFollower(Generic[LocationStateType, InputType, ControlParamType, Dyn
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
-        self.controller: VectorControl[LocationStateType, InputType, ControlParamType] = controller
+        self.controller: VectorControl[LocationStateType, InputType, DynamicsParamType, ControlParamType] = controller
         self.dynamic_params: DynamicsParamType = dynamic_params
         self.control_params: ControlParamType = control_params
         self.vector_field: VectorField = vector_field
@@ -141,7 +142,8 @@ class VectorFollower(Generic[LocationStateType, InputType, ControlParamType, Dyn
         control:InputType = self.controller(time=self.data.current.time,
                                 state=self.data.current.state,
                                 vec=vec,
-                                params=self.control_params)
+                                dyn_params=self.dynamic_params,
+                                cont_params=self.control_params)
         self.data.current.input_vec = control.input
 
         # Update the state using the latest control
@@ -169,7 +171,7 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType, 
     """
     def __init__(self,  # pylint: disable=too-many-arguments
                 dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType],
-                controller: VectorControl[LocationStateType, InputType, ControlParamType],
+                controller: VectorControl[LocationStateType, InputType, DynamicsParamType, ControlParamType],
                 dynamic_params: DynamicsParamType,
                 control_params: ControlParamType,
                 n_inputs: int,
@@ -195,7 +197,7 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType, 
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
-        self.controller: VectorControl[LocationStateType, InputType, ControlParamType] = controller
+        self.controller: VectorControl[LocationStateType, InputType, DynamicsParamType, ControlParamType] = controller
         self.dynamic_params: DynamicsParamType = dynamic_params
         self.control_params: ControlParamType = control_params
         self.vector_field: G2GAvoid = vector_field
@@ -232,7 +234,8 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType, 
         control:InputType = self.controller(time=self.data.current.time,
                                 state=self.data.current.state,
                                 vec=vec,
-                                params=self.control_params)
+                                dyn_params=self.dynamic_params,
+                                cont_params=self.control_params)
         self.data.current.input_vec = control.input
 
         # Update the state using the latest control
@@ -261,7 +264,7 @@ class NavFieldFollower(Generic[LocationStateType, InputType, ControlParamType, D
     """
     def __init__(self,  # pylint: disable=too-many-arguments
                 dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType],
-                controller: VectorControl[LocationStateType, InputType, ControlParamType],
+                controller: VectorControl[LocationStateType, InputType, DynamicsParamType, ControlParamType],
                 dynamic_params: DynamicsParamType,
                 control_params: ControlParamType,
                 n_inputs: int,
@@ -291,7 +294,7 @@ class NavFieldFollower(Generic[LocationStateType, InputType, ControlParamType, D
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
-        self.controller: VectorControl[LocationStateType, InputType, ControlParamType] = controller
+        self.controller: VectorControl[LocationStateType, InputType, DynamicsParamType, ControlParamType] = controller
         self.dynamic_params: DynamicsParamType = dynamic_params
         self.control_params: ControlParamType = control_params
         self.vector_field: VectorField = vector_field
@@ -320,7 +323,8 @@ class NavFieldFollower(Generic[LocationStateType, InputType, ControlParamType, D
         control:InputType = self.controller(time=self.data.current.time,
                                 state=self.data.current.state,
                                 vec=vec,
-                                params=self.control_params)
+                                dyn_params=self.dynamic_params,
+                                cont_params=self.control_params)
         self.data.current.input_vec = control.input
 
         # Update the state using the latest control

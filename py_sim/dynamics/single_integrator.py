@@ -75,17 +75,21 @@ class ConstantInputParams:
     def __init__(self, v_d: TwoDimArray) -> None:
         self.v_d = v_d
 
-def const_control(time: float, state: TwoDArrayType, params: ConstantInputParams) -> PointInput: # pylint: disable=unused-argument
+def const_control(time: float, # pylint: disable=unused-argument
+                  state: TwoDArrayType, # pylint: disable=unused-argument
+                  dyn_params: SingleIntegratorParams, # pylint: disable=unused-argument
+                  cont_params: ConstantInputParams) -> PointInput:
     """Implements a constant control for the single integrator dynamics
 
     Args:
         time: clock time (not used)
         state: vehicle state (not used)
-        params: Defines the desired velocity vector
+        dyn_params: The parameters for the dynamics
+        cont_params: The paramters for the control law
     """
-    return PointInput(vec=params.v_d)
+    return PointInput(vec=cont_params.v_d)
 
-#### Vector field controller #####
+######################### Velocity Based Vector Controllers ################################
 class VectorParams:
     """Parameters required for defining a constant velocity
 
@@ -98,20 +102,22 @@ class VectorParams:
 def vector_control(time: float, # pylint: disable=unused-argument
                    state: TwoDArrayType, # pylint: disable=unused-argument
                    vec: TwoDimArray,
-                   params: VectorParams) -> PointInput: # pylint: disable=unused-argument
+                   dyn_params: SingleIntegratorParams, # pylint: disable=unused-argument
+                   cont_params: VectorParams) -> PointInput: # pylint: disable=unused-argument
     """Implements a constant control for the single integrator dynamics
 
     Args:
         time: clock time (not used)
         state: vehicle state (not used)
         vec: The vector to be followed
-        params: defines the maximum allowable velocity
+        dyn_params: The parameters for the dynamics
+        cont_params: The paramters for the control law
     """
     # Throttle the vector to have the maximum velocity respected
     vec_cmd = vec.state
     mag = np.linalg.norm(vec_cmd)
-    if mag > params.v_max:
-        vec_cmd = vec_cmd * (params.v_max/mag)
+    if mag > cont_params.v_max:
+        vec_cmd = vec_cmd * (cont_params.v_max/mag)
 
     # Command the resulting velocity
     return PointInput(vec=TwoDimArray(vec=vec_cmd))

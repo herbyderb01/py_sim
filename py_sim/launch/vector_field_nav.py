@@ -76,7 +76,7 @@ def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
     params.tf = 5.
     sim = NavVectorFollower(params=params,
                             dynamics=uni.dynamics,
-                            controller=uni.velocityVectorFieldControl,
+                            controller=uni.velocity_vector_field_control,
                             dynamic_params=uni.UnicycleParams(),
                             control_params=vel_params,
                             n_inputs=UnicycleControl.n_inputs,
