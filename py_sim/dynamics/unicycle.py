@@ -138,19 +138,8 @@ def desired_vector_follow_velocities(state: UnicycleStateProtocol,
         wd is the desired rotational velocity
     """
 
-    # Calculate the desired velocity
-    vd = np.linalg.norm(vec.state)
-    vd = np.min([vd, params.vd_field_max]) # Threshold the desired velocity
-
-    # Calculate the desired orientation
-    psi_d = np.arctan2(vec.y, vec.x)
-
-    # Calculate the error in orientation
-    psi_e = state.psi-psi_d
-    psi_e = np.arctan2(np.sin(psi_e), np.cos(psi_e)) # Adjust to ensure between -pi and pi
-
-    # Calculate the desired rotational velocity
-    wd = -params.k_wd*psi_e
+    vd = 0.
+    wd = 0.
 
     return (vd, wd)
 

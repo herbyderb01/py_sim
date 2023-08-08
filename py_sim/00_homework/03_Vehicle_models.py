@@ -254,8 +254,8 @@ def carrot_follow_unicycle() -> None:
     start_simple_sim(sim=sim)
 
 if __name__ == "__main__":
-    #run_unicycle_arc_example()
+    run_unicycle_arc_example()
     #run_differential_drive_arc_example()
     #run_bicycle_arc_example()
     #simple_field_unicycle()
-    carrot_follow_unicycle()
+    #carrot_follow_unicycle()

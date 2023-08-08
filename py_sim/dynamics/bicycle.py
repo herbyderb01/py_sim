@@ -86,15 +86,11 @@ def dynamics(state: BicycleState,
     Returns:
         BicycleState: The resulting state time derivative
     """
-    # Calculate the velocities based on the inputs
-    v = control.v
-    w = (v/params.L)*(np.tan(control.phi))
 
-    # Calculate the dynamics
     state_dot = BicycleState() # Time derivative of the state
-    state_dot.x = v * np.cos(state.psi)
-    state_dot.y = v * np.sin(state.psi)
-    state_dot.psi = w
+    state_dot.x = 0.
+    state_dot.y = 0.
+    state_dot.psi = 0.
     return state_dot
 
 ###########################  Basic unicycle controllers ##################################
@@ -110,10 +106,7 @@ def velocity_control(time: float, state: BicycleState, dyn_params: BicycleParams
     Returns:
         BicycleControl: The commanded wheel rotational velocities
     """
-    # calculate the desired angle of the front wheel
-    phi_d = np.arctan2(dyn_params.L*wd, vd)
-
-    return BicycleControl(v=vd, phi=phi_d)
+    return BicycleControl(v=0., phi=0.)
 
 def arc_control(time: float,
                 state: BicycleState,
