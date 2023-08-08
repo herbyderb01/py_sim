@@ -60,7 +60,7 @@
 <li><p><a class="reference internal" href="#other-potential-tools"><span class="xref myst">Other potential tools</span></a></p>
 <ul>
 <li><p><a class="reference internal" href="#pydocstyle"><span class="xref myst">Pydocstyle</span></a></p></li>
-<li><p><a class="reference internal" href="#black"><span class="xref myst">Black</span></a></p></li>
+<li><p><a class="reference internal" href="pysim/py_sim.plotting.plotting.html#py_sim.plotting.plotting.black" title="py_sim.plotting.plotting.black"><span class="xref myst py py-attr">Black</span></a></p></li>
 </ul>
 </li>
 </ul>
@@ -68,6 +68,7 @@
 <li><p><a class="reference internal" href="#generating-code-documentation"><span class="xref myst">Generating Code Documentation</span></a></p>
 <ul>
 <li><p><a class="reference internal" href="#generate-the-initial-documentation"><span class="xref myst">Generate the Initial Documentation</span></a></p></li>
+<li><p><a class="reference internal" href="#updating-the-documentation"><span class="xref myst">Updating the documentation</span></a></p></li>
 </ul>
 </li>
 </ul>
@@ -209,6 +210,14 @@
 </pre></div>
 </div>
 </section>
+<section id="updating-the-documentation">
+<h2>Updating the documentation<a class="headerlink" href="#updating-the-documentation" title="Permalink to this heading">¶</a></h2>
+<p>Update the documentation by running the last two commands from the <code class="docutils literal notranslate"><span class="pre">docs</span></code> folder. i.e.,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>sphinx-apidoc<span class="w"> </span>-o<span class="w"> </span>source/pysim/<span class="w"> </span>../py_sim<span class="w"> </span>-f<span class="w"> </span>-e<span class="w"> </span>--implicit-namespaces
+<span class="w">    </span>sphinx-build<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span>source/<span class="w"> </span>build/html
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -261,6 +270,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#generating-code-documentation">Generating Code Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#generate-the-initial-documentation">Generate the Initial Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#updating-the-documentation">Updating the documentation</a></li>
 </ul>
 </li>
 </ul>

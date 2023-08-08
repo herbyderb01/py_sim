@@ -35,75 +35,16 @@
 <span id="py-sim-launch-simple-vector-fields-module"></span><h1>py_sim.launch.simple_vector_fields module<a class="headerlink" href="#module-py_sim.launch.simple_vector_fields" title="Permalink to this heading">¶</a></h1>
 <p>simple_vector_fields.py: Provides a series of examples of vector field following for basic fields</p>
 <p>Provides and example of using a vector field control law with the vector field overlaid onto the live plotting of the moving vehicle</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="py_sim.launch.simple_vector_fields.VectorFollower">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.launch.simple_vector_fields.</span></span><span class="sig-name descname"><span class="pre">VectorFollower</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UnicycleStateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dynamics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Dynamics" title="py_sim.tools.sim_types.Dynamics"><span class="pre">Dynamics</span></a><span class="p"><span class="pre">[</span></span><span class="pre">UnicycleStateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorControl" title="py_sim.tools.sim_types.VectorControl"><span class="pre">VectorControl</span></a><span class="p"><span class="pre">[</span></span><span class="pre">UnicycleStateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ControlParamType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ControlParamType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.PlotManifest" title="py_sim.plotting.plotting.PlotManifest"><span class="pre">PlotManifest</span></a><span class="p"><span class="pre">[</span></span><span class="pre">UnicycleStateType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorField" title="py_sim.tools.sim_types.VectorField"><span class="pre">VectorField</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.launch.simple_vector_fields.VectorFollower" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateType" title="py_sim.tools.sim_types.UnicycleStateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnicycleStateType</span></code></a>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.InputType" title="py_sim.tools.sim_types.InputType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code></a>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ControlParamType" title="py_sim.tools.sim_types.ControlParamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code></a>], <a class="reference internal" href="py_sim.sim.generic_sim.html#py_sim.sim.generic_sim.SingleAgentSim" title="py_sim.sim.generic_sim.SingleAgentSim"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleAgentSim</span></code></a>[<a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateType" title="py_sim.tools.sim_types.UnicycleStateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnicycleStateType</span></code></a>]</p>
-<p>Framework for implementing a simulator that uses a vector field for feedback</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.launch.simple_vector_fields.VectorFollower.dynamics">
-<span class="sig-name descname"><span class="pre">dynamics</span></span><a class="headerlink" href="#py_sim.launch.simple_vector_fields.VectorFollower.dynamics" title="Permalink to this definition">¶</a></dt>
-<dd><p>The dynamics function to be used for simulation</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Dynamics" title="py_sim.tools.sim_types.Dynamics">Dynamics</a>[UnicycleStateType, InputType]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.launch.simple_vector_fields.VectorFollower.controller">
-<span class="sig-name descname"><span class="pre">controller</span></span><a class="headerlink" href="#py_sim.launch.simple_vector_fields.VectorFollower.controller" title="Permalink to this definition">¶</a></dt>
-<dd><p>The control law to be used during simulation</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Control" title="py_sim.tools.sim_types.Control">Control</a>[UnicycleStateType, InputType, ControlParamType]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.launch.simple_vector_fields.VectorFollower.control_params">
-<span class="sig-name descname"><span class="pre">control_params</span></span><a class="headerlink" href="#py_sim.launch.simple_vector_fields.VectorFollower.control_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>The parameters of the control law to be used in simulation</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ControlParamType</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="py_sim.launch.simple_vector_fields.VectorFollower.vector_field">
-<span class="sig-name descname"><span class="pre">vector_field</span></span><a class="headerlink" href="#py_sim.launch.simple_vector_fields.VectorFollower.vector_field" title="Permalink to this definition">¶</a></dt>
-<dd><p>Vector field that the vehicle will follow</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorField" title="py_sim.tools.sim_types.VectorField">VectorField</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py_sim.launch.simple_vector_fields.VectorFollower.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.launch.simple_vector_fields.VectorFollower.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calls all of the updates in the sim.</p>
-<dl class="simple">
-<dt>The following are updated:</dt><dd><ul class="simple">
-<li><p>Calculates the desired vector</p></li>
-<li><p>Calculate the control to follow the vector</p></li>
-<li><p>Update the state</p></li>
-<li><p>Update the time</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
+<dl class="py function">
+<dt class="sig sig-object py" id="py_sim.launch.simple_vector_fields.run_single_integrator_simple_vectorfield_example">
+<span class="sig-prename descclassname"><span class="pre">py_sim.launch.simple_vector_fields.</span></span><span class="sig-name descname"><span class="pre">run_single_integrator_simple_vectorfield_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.launch.simple_vector_fields.run_single_integrator_simple_vectorfield_example" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs an example of a go-to-goal vector field combined with an obstacle avoidance
+field.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="py_sim.launch.simple_vector_fields.run_simple_vectorfield_example">
-<span class="sig-prename descclassname"><span class="pre">py_sim.launch.simple_vector_fields.</span></span><span class="sig-name descname"><span class="pre">run_simple_vectorfield_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.launch.simple_vector_fields.run_simple_vectorfield_example" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="py_sim.launch.simple_vector_fields.run_unicycle_simple_vectorfield_example">
+<span class="sig-prename descclassname"><span class="pre">py_sim.launch.simple_vector_fields.</span></span><span class="sig-name descname"><span class="pre">run_unicycle_simple_vectorfield_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.launch.simple_vector_fields.run_unicycle_simple_vectorfield_example" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs an example of a go-to-goal vector field combined with an obstacle avoidance
 field.</p>
 </dd></dl>

@@ -9,4 +9,5 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   py_sim.vectorfield.grid_navigation_function
    py_sim.vectorfield.vectorfields

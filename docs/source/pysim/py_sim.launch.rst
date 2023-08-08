@@ -10,6 +10,7 @@ Submodules
    py_sim.launch.graph_planning
    py_sim.launch.grid_planning
    py_sim.launch.grid_visualization
+   py_sim.launch.navigation_field
    py_sim.launch.rrt_planning
    py_sim.launch.simple_sim
    py_sim.launch.simple_vector_fields

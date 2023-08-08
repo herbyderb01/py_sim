@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   py_sim.00_homework
    py_sim.dynamics
    py_sim.launch
    py_sim.path_planning

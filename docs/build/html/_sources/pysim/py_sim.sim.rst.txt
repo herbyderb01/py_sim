@@ -9,6 +9,7 @@ Submodules
 
    py_sim.sim.generic_sim
    py_sim.sim.integration
+   py_sim.sim.sim_modes
 
 Module contents
 ---------------

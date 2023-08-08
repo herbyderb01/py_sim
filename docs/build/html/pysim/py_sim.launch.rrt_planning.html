@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="py_sim.launch.simple_sim module" href="py_sim.launch.simple_sim.html" />
-    <link rel="prev" title="py_sim.launch.grid_visualization module" href="py_sim.launch.grid_visualization.html" />
+    <link rel="prev" title="py_sim.launch.navigation_field module" href="py_sim.launch.navigation_field.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -44,28 +44,8 @@
 </dd>
 </dl>
 <dl class="py function">
-<dt class="sig sig-object py" id="py_sim.launch.rrt_planning.path_length">
-<span class="sig-prename descclassname"><span class="pre">py_sim.launch.rrt_planning.</span></span><span class="sig-name descname"><span class="pre">path_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#py_sim.launch.rrt_planning.path_length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the length of the path given the x and y coordinates</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x_vec</strong> – Vector of x values</p></li>
-<li><p><strong>y_vec</strong> – Vector of y values</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Total path length</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="py_sim.launch.rrt_planning.test_rrt_planner">
-<span class="sig-prename descclassname"><span class="pre">py_sim.launch.rrt_planning.</span></span><span class="sig-name descname"><span class="pre">test_rrt_planner</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.launch.rrt_planning.test_rrt_planner" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="py_sim.launch.rrt_planning.run_rrt_planner">
+<span class="sig-prename descclassname"><span class="pre">py_sim.launch.rrt_planning.</span></span><span class="sig-name descname"><span class="pre">run_rrt_planner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">planner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'rrt'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rrt_star'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'i-rrt'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'s-rrt'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_live</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.launch.rrt_planning.run_rrt_planner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plans a path through the world using an RRT planner.</p>
 <dl class="simple">
 <dt>The plan is created in the following steps:</dt><dd><ul class="simple">
@@ -74,6 +54,15 @@
 <li><p>Create the plotting</p></li>
 <li><p>Incrementally calculate the plan until plan calculated</p></li>
 <li><p>Calculate the plan length</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>planner</strong> – Identifies the planner to be used for planning</p></li>
+<li><p><strong>plot_live</strong> – Indicates whether or not the plotting should happen live. This significantly slows down the planning</p></li>
+<li><p><strong>num_iterations</strong> – The number of iterations to be used in planning (used in all the rrt-star variants)</p></li>
 </ul>
 </dd>
 </dl>
@@ -114,7 +103,7 @@
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="py_sim.html">py_sim package</a><ul>
   <li><a href="py_sim.launch.html">py_sim.launch package</a><ul>
-      <li>Previous: <a href="py_sim.launch.grid_visualization.html" title="previous chapter">py_sim.launch.grid_visualization module</a></li>
+      <li>Previous: <a href="py_sim.launch.navigation_field.html" title="previous chapter">py_sim.launch.navigation_field module</a></li>
       <li>Next: <a href="py_sim.launch.simple_sim.html" title="next chapter">py_sim.launch.simple_sim module</a></li>
   </ul></li>
   </ul></li>

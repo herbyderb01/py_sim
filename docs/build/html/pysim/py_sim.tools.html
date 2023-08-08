@@ -13,8 +13,8 @@
     <script src="../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="py_sim.tools.sim_types module" href="py_sim.tools.sim_types.html" />
-    <link rel="prev" title="py_sim.sim.integration module" href="py_sim.sim.integration.html" />
+    <link rel="next" title="py_sim.tools.path_utils module" href="py_sim.tools.path_utils.html" />
+    <link rel="prev" title="py_sim.sim.sim_modes module" href="py_sim.sim.sim_modes.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -37,12 +37,39 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="py_sim.tools.path_utils.html">py_sim.tools.path_utils module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.tools.path_utils.html#py_sim.tools.path_utils.path_length"><code class="docutils literal notranslate"><span class="pre">path_length()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="py_sim.tools.projections.html">py_sim.tools.projections module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.LineCarrot"><code class="docutils literal notranslate"><span class="pre">LineCarrot</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.LineCarrot._line"><code class="docutils literal notranslate"><span class="pre">LineCarrot._line</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.LineCarrot._s_vals"><code class="docutils literal notranslate"><span class="pre">LineCarrot._s_vals</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.LineCarrot._s_dev_max"><code class="docutils literal notranslate"><span class="pre">LineCarrot._s_dev_max</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.LineCarrot._s_carrot"><code class="docutils literal notranslate"><span class="pre">LineCarrot._s_carrot</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.LineCarrot._s_prev"><code class="docutils literal notranslate"><span class="pre">LineCarrot._s_prev</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.LineCarrot._ind_prev"><code class="docutils literal notranslate"><span class="pre">LineCarrot._ind_prev</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.LineCarrot.get_carrot_point"><code class="docutils literal notranslate"><span class="pre">LineCarrot.get_carrot_point()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.calculate_line_distances"><code class="docutils literal notranslate"><span class="pre">calculate_line_distances()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.carrot_point"><code class="docutils literal notranslate"><span class="pre">carrot_point()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.find_closest_intersection"><code class="docutils literal notranslate"><span class="pre">find_closest_intersection()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.line_segment_intersection"><code class="docutils literal notranslate"><span class="pre">line_segment_intersection()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.project_point_to_edge"><code class="docutils literal notranslate"><span class="pre">project_point_to_edge()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.project_point_to_line"><code class="docutils literal notranslate"><span class="pre">project_point_to_line()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="py_sim.tools.sim_types.html">py_sim.tools.sim_types module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateType"><code class="docutils literal notranslate"><span class="pre">StateType</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.InputType"><code class="docutils literal notranslate"><span class="pre">InputType</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ControlParamType"><code class="docutils literal notranslate"><span class="pre">ControlParamType</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateType"><code class="docutils literal notranslate"><span class="pre">UnicycleStateType</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ArcParams"><code class="docutils literal notranslate"><span class="pre">ArcParams</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ArcParams"><code class="docutils literal notranslate"><span class="pre">ArcParams</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ArcParams.v_d"><code class="docutils literal notranslate"><span class="pre">ArcParams.v_d</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ArcParams.w_d"><code class="docutils literal notranslate"><span class="pre">ArcParams.w_d</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Control"><code class="docutils literal notranslate"><span class="pre">Control</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data"><code class="docutils literal notranslate"><span class="pre">Data</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data.current"><code class="docutils literal notranslate"><span class="pre">Data.current</span></code></a></li>
@@ -107,15 +134,17 @@
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType.IND_X"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.IND_X</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType.IND_Y"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.IND_Y</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType.state"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.state</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType.position"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.position</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType.n_states"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.n_states</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType.x"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.x</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType.y"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.y</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id7"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.IND_X</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id8"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.IND_Y</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id9"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.n_states</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id10"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.state</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id11"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.x</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id12"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id10"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.position</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id11"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.state</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id12"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id13"><code class="docutils literal notranslate"><span class="pre">TwoDArrayType.y</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray"><code class="docutils literal notranslate"><span class="pre">TwoDimArray</span></code></a><ul>
@@ -125,11 +154,12 @@
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray.n_states"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.n_states</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray.x"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.x</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray.y"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.y</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id13"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.IND_X</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id14"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.IND_Y</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id15"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.n_states</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id16"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.x</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id17"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id14"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.IND_X</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id15"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.IND_Y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id16"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.n_states</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray.position"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.position</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id17"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id18"><code class="docutils literal notranslate"><span class="pre">TwoDimArray.y</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl"><code class="docutils literal notranslate"><span class="pre">UnicycleControl</span></code></a><ul>
@@ -139,11 +169,11 @@
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl.n_inputs"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.n_inputs</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl.v"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.v</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl.w"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.w</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id18"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.IND_V</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id19"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.IND_W</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id20"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.n_inputs</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id21"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.v</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id22"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.w</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id19"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.IND_V</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id20"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.IND_W</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id21"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.n_inputs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id22"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.v</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id23"><code class="docutils literal notranslate"><span class="pre">UnicycleControl.w</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleState"><code class="docutils literal notranslate"><span class="pre">UnicycleState</span></code></a><ul>
@@ -156,14 +186,35 @@
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleState.x"><code class="docutils literal notranslate"><span class="pre">UnicycleState.x</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleState.y"><code class="docutils literal notranslate"><span class="pre">UnicycleState.y</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleState.psi"><code class="docutils literal notranslate"><span class="pre">UnicycleState.psi</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id23"><code class="docutils literal notranslate"><span class="pre">UnicycleState.IND_PSI</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id24"><code class="docutils literal notranslate"><span class="pre">UnicycleState.IND_X</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id25"><code class="docutils literal notranslate"><span class="pre">UnicycleState.IND_Y</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id26"><code class="docutils literal notranslate"><span class="pre">UnicycleState.n_states</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id27"><code class="docutils literal notranslate"><span class="pre">UnicycleState.position</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id28"><code class="docutils literal notranslate"><span class="pre">UnicycleState.psi</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id29"><code class="docutils literal notranslate"><span class="pre">UnicycleState.x</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id30"><code class="docutils literal notranslate"><span class="pre">UnicycleState.y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id24"><code class="docutils literal notranslate"><span class="pre">UnicycleState.IND_PSI</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id25"><code class="docutils literal notranslate"><span class="pre">UnicycleState.IND_X</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id26"><code class="docutils literal notranslate"><span class="pre">UnicycleState.IND_Y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id27"><code class="docutils literal notranslate"><span class="pre">UnicycleState.n_states</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id28"><code class="docutils literal notranslate"><span class="pre">UnicycleState.position</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id29"><code class="docutils literal notranslate"><span class="pre">UnicycleState.psi</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id30"><code class="docutils literal notranslate"><span class="pre">UnicycleState.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id31"><code class="docutils literal notranslate"><span class="pre">UnicycleState.y</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol.IND_X"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.IND_X</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol.IND_Y"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.IND_Y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol.IND_PSI"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.IND_PSI</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol.state"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.state</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol.position"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.position</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol.n_states"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.n_states</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol.x"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol.y"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol.psi"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.psi</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id32"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.IND_PSI</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id33"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.IND_X</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id34"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.IND_Y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id35"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.n_states</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id36"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.position</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id37"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.psi</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id38"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.state</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id39"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id40"><code class="docutils literal notranslate"><span class="pre">UnicycleStateProtocol.y</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleControlProtocol"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol</span></code></a><ul>
@@ -173,33 +224,12 @@
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleControlProtocol.n_inputs"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.n_inputs</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleControlProtocol.v"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.v</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleControlProtocol.w"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.w</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id31"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.IND_V</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id32"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.IND_W</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id33"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.input</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id34"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.n_inputs</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id35"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.v</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id36"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.w</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol.IND_X"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.IND_X</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol.IND_Y"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.IND_Y</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol.IND_PSI"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.IND_PSI</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol.state"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.state</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol.position"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.position</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol.n_states"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.n_states</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol.x"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.x</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol.y"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.y</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol.psi"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.psi</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id37"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.IND_PSI</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id38"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.IND_X</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id39"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.IND_Y</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id40"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.n_states</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id41"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.position</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id42"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.psi</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id43"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.state</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id44"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.x</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id45"><code class="docutils literal notranslate"><span class="pre">UnicyleStateProtocol.y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id41"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.IND_V</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id42"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.IND_W</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id43"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.input</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id44"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.n_inputs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id45"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.v</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.tools.sim_types.html#id46"><code class="docutils literal notranslate"><span class="pre">UnicyleControlProtocol.w</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorControl"><code class="docutils literal notranslate"><span class="pre">VectorControl</span></code></a></li>
@@ -263,8 +293,8 @@
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="py_sim.html">py_sim package</a><ul>
-      <li>Previous: <a href="py_sim.sim.integration.html" title="previous chapter">py_sim.sim.integration module</a></li>
-      <li>Next: <a href="py_sim.tools.sim_types.html" title="next chapter">py_sim.tools.sim_types module</a></li>
+      <li>Previous: <a href="py_sim.sim.sim_modes.html" title="previous chapter">py_sim.sim.sim_modes module</a></li>
+      <li>Next: <a href="py_sim.tools.path_utils.html" title="next chapter">py_sim.tools.path_utils module</a></li>
   </ul></li>
   </ul></li>
 </ul>

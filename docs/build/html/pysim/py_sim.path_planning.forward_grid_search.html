@@ -67,7 +67,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.AstarGridSearch.add_index_to_queue">
 <span class="sig-name descname"><span class="pre">add_index_to_queue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind_new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.path_planning.forward_grid_search.GD" title="py_sim.path_planning.forward_grid_search.GD"><span class="pre">GD</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.AstarGridSearch.add_index_to_queue" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds index to queue based on the cost to come to that new index.</p>
+<dd><p>Adds index to queue based on the cost-to-come to that new index plus the hueristic cost-to-go from that index to the goal</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -100,7 +100,7 @@
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.AstarGridSearch.resolve_duplicate">
 <span class="sig-name descname"><span class="pre">resolve_duplicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind_duplicate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_poss_parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.path_planning.forward_grid_search.GD" title="py_sim.path_planning.forward_grid_search.GD"><span class="pre">GD</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.AstarGridSearch.resolve_duplicate" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
-<dt>resolves duplicate sighting of the index - checks to see if the lowest cost to come</dt><dd><p>to the node has a lower cost-to-come than the previous path found, if so then the
+<dt>resolves duplicate sighting of the index - checks to see if the lowest cost-to-come plus heuristic</dt><dd><p>a lower value than the previous path found, if so then the
 cost is updated</p>
 </dd>
 </dl>
@@ -292,6 +292,28 @@ duplicate</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.parent_mapping">
+<span class="sig-name descname"><span class="pre">parent_mapping</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.parent_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the mapping from an index to its parent</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.visited">
+<span class="sig-name descname"><span class="pre">visited</span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.visited" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary matrix indicating if a node has been visited</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>npt.NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.add_index_to_queue">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_index_to_queue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind_new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind_parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.path_planning.forward_grid_search.GD" title="py_sim.path_planning.forward_grid_search.GD"><span class="pre">GD</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.add_index_to_queue" title="Permalink to this definition">¶</a></dt>
@@ -328,6 +350,12 @@ duplicate</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.complete_search">
+<span class="sig-name descname"><span class="pre">complete_search</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.complete_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Searches the grid from the start to end, exhaustively searching until the entire grid has been covered</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.get_plan">
 <span class="sig-name descname"><span class="pre">get_plan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">end_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.get_plan" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of indices from the start index to end_index. Assumes that
@@ -338,6 +366,21 @@ planning has already been performed. Throws a ValueError if the end index cannot
 plan end index will be used</p>
 </dd>
 <dt>Returns:</dt><dd><p>list[int]: Indices of the plan from start to end</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.path_planning.forward_grid_search.ForwardGridSearch.get_plan_cartesian">
+<span class="sig-name descname"><span class="pre">get_plan_cartesian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">end_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.path_planning.forward_grid_search.ForwardGridSearch.get_plan_cartesian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the (x,y) cartesian coordinates of each point along the plan. Assumes that
+planning has already been performed. Throws a ValueError if the end index cannot be connected to the starting index</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>end_index: The index to which to plan. If None, then the plan end index will be used</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple[list[float], list[float]]: A list of x and y coordinates for each point along the plan</p>
 </dd>
 </dl>
 </div></blockquote>

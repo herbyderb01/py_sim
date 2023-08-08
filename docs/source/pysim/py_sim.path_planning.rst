@@ -9,8 +9,11 @@ Submodules
 
    py_sim.path_planning.forward_grid_search
    py_sim.path_planning.graph_search
+   py_sim.path_planning.informed_rrt
+   py_sim.path_planning.path_generation
    py_sim.path_planning.rrt_planner
-   py_sim.path_planning.rrt_procedures
+   py_sim.path_planning.sampling_procedures
+   py_sim.path_planning.smart_rrt
 
 Module contents
 ---------------

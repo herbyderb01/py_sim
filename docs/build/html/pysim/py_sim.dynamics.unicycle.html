@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="py_sim.launch package" href="py_sim.launch.html" />
-    <link rel="prev" title="py_sim.dynamics package" href="py_sim.dynamics.html" />
+    <link rel="prev" title="py_sim.dynamics.single_integrator module" href="py_sim.dynamics.single_integrator.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -102,16 +102,46 @@
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="py_sim.dynamics.unicycle.UnicycleParams">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.unicycle.</span></span><span class="sig-name descname"><span class="pre">UnicycleParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.dynamics.unicycle.UnicycleParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The UnicycleParams class defines saturates for the inputs (i.e., max velocities)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.dynamics.unicycle.UnicycleParams.v_max">
+<span class="sig-name descname"><span class="pre">v_max</span></span><a class="headerlink" href="#py_sim.dynamics.unicycle.UnicycleParams.v_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximum allowed translational velocity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.dynamics.unicycle.UnicycleParams.w_max">
+<span class="sig-name descname"><span class="pre">w_max</span></span><a class="headerlink" href="#py_sim.dynamics.unicycle.UnicycleParams.w_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximum allowed rotational velocity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.dynamics.unicycle.arc_control">
-<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.unicycle.</span></span><span class="sig-name descname"><span class="pre">arc_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol" title="py_sim.tools.sim_types.UnicyleStateProtocol"><span class="pre">UnicyleStateProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ArcParams" title="py_sim.tools.sim_types.ArcParams"><span class="pre">ArcParams</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl" title="py_sim.tools.sim_types.UnicycleControl"><span class="pre">UnicycleControl</span></a></span></span><a class="headerlink" href="#py_sim.dynamics.unicycle.arc_control" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.unicycle.</span></span><span class="sig-name descname"><span class="pre">arc_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol" title="py_sim.tools.sim_types.UnicycleStateProtocol"><span class="pre">UnicycleStateProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.unicycle.UnicycleParams" title="py_sim.dynamics.unicycle.UnicycleParams"><span class="pre">UnicycleParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cont_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ArcParams" title="py_sim.tools.sim_types.ArcParams"><span class="pre">ArcParams</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl" title="py_sim.tools.sim_types.UnicycleControl"><span class="pre">UnicycleControl</span></a></span></span><a class="headerlink" href="#py_sim.dynamics.unicycle.arc_control" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the control for a circular arc</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time</strong> – clock time</p></li>
 <li><p><strong>state</strong> – vehicle state</p></li>
-<li><p><strong>params</strong> – control parameters</p></li>
+<li><p><strong>dyn_params</strong> – The parameters for the dynamics</p></li>
+<li><p><strong>cont_params</strong> – The paramters for the control law</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -125,7 +155,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.dynamics.unicycle.desired_vector_follow_velocities">
-<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.unicycle.</span></span><span class="sig-name descname"><span class="pre">desired_vector_follow_velocities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol" title="py_sim.tools.sim_types.UnicyleStateProtocol"><span class="pre">UnicyleStateProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.unicycle.UniVelVecParamsProto" title="py_sim.dynamics.unicycle.UniVelVecParamsProto"><span class="pre">UniVelVecParamsProto</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.dynamics.unicycle.desired_vector_follow_velocities" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.unicycle.</span></span><span class="sig-name descname"><span class="pre">desired_vector_follow_velocities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol" title="py_sim.tools.sim_types.UnicycleStateProtocol"><span class="pre">UnicycleStateProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.unicycle.UniVelVecParamsProto" title="py_sim.dynamics.unicycle.UniVelVecParamsProto"><span class="pre">UniVelVecParamsProto</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.dynamics.unicycle.desired_vector_follow_velocities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates desired translational and rotational velocities to follow a vector field</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -148,7 +178,7 @@ wd is the desired rotational velocity</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.dynamics.unicycle.dynamics">
-<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.unicycle.</span></span><span class="sig-name descname"><span class="pre">dynamics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol" title="py_sim.tools.sim_types.UnicyleStateProtocol"><span class="pre">UnicyleStateProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleControlProtocol" title="py_sim.tools.sim_types.UnicyleControlProtocol"><span class="pre">UnicyleControlProtocol</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleState" title="py_sim.tools.sim_types.UnicycleState"><span class="pre">UnicycleState</span></a></span></span><a class="headerlink" href="#py_sim.dynamics.unicycle.dynamics" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.unicycle.</span></span><span class="sig-name descname"><span class="pre">dynamics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol" title="py_sim.tools.sim_types.UnicycleStateProtocol"><span class="pre">UnicycleStateProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleControlProtocol" title="py_sim.tools.sim_types.UnicyleControlProtocol"><span class="pre">UnicyleControlProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.unicycle.UnicycleParams" title="py_sim.dynamics.unicycle.UnicycleParams"><span class="pre">UnicycleParams</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleState" title="py_sim.tools.sim_types.UnicycleState"><span class="pre">UnicycleState</span></a></span></span><a class="headerlink" href="#py_sim.dynamics.unicycle.dynamics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the dynamics of the unicycle.</p>
 <p>Note that even though a “UnicycleState” is returned, that actually corresponds to
 the time derivative</p>
@@ -174,30 +204,8 @@ d/dt psi = w</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="py_sim.dynamics.unicycle.velocityVectorFieldControl">
-<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.unicycle.</span></span><span class="sig-name descname"><span class="pre">velocityVectorFieldControl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol" title="py_sim.tools.sim_types.UnicyleStateProtocol"><span class="pre">UnicyleStateProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.unicycle.UniVelVecParamsProto" title="py_sim.dynamics.unicycle.UniVelVecParamsProto"><span class="pre">UniVelVecParamsProto</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl" title="py_sim.tools.sim_types.UnicycleControl"><span class="pre">UnicycleControl</span></a></span></span><a class="headerlink" href="#py_sim.dynamics.unicycle.velocityVectorFieldControl" title="Permalink to this definition">¶</a></dt>
-<dd><p>velocityVectorFieldControl will calculate the desired control to follow a vector field with the following inputs:</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>time</strong> – The time for which the control is being calculated</p></li>
-<li><p><strong>state</strong> – The state of the unicycle</p></li>
-<li><p><strong>vec</strong> – The vector to be followed</p></li>
-<li><p><strong>params</strong> – Parameters defining the control</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The commanded translational and rotational velocity</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl" title="py_sim.tools.sim_types.UnicycleControl">UnicycleControl</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="py_sim.dynamics.unicycle.velocity_control">
-<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.unicycle.</span></span><span class="sig-name descname"><span class="pre">velocity_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicyleStateProtocol" title="py_sim.tools.sim_types.UnicyleStateProtocol"><span class="pre">UnicyleStateProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl" title="py_sim.tools.sim_types.UnicycleControl"><span class="pre">UnicycleControl</span></a></span></span><a class="headerlink" href="#py_sim.dynamics.unicycle.velocity_control" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.unicycle.</span></span><span class="sig-name descname"><span class="pre">velocity_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol" title="py_sim.tools.sim_types.UnicycleStateProtocol"><span class="pre">UnicycleStateProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl" title="py_sim.tools.sim_types.UnicycleControl"><span class="pre">UnicycleControl</span></a></span></span><a class="headerlink" href="#py_sim.dynamics.unicycle.velocity_control" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements a velocity control for the unicycle, which is simply copying the desired inputs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -210,6 +218,29 @@ d/dt psi = w</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Commanded velocities</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl" title="py_sim.tools.sim_types.UnicycleControl">UnicycleControl</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="py_sim.dynamics.unicycle.velocity_vector_field_control">
+<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.unicycle.</span></span><span class="sig-name descname"><span class="pre">velocity_vector_field_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleStateProtocol" title="py_sim.tools.sim_types.UnicycleStateProtocol"><span class="pre">UnicycleStateProtocol</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.unicycle.UnicycleParams" title="py_sim.dynamics.unicycle.UnicycleParams"><span class="pre">UnicycleParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cont_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.unicycle.UniVelVecParamsProto" title="py_sim.dynamics.unicycle.UniVelVecParamsProto"><span class="pre">UniVelVecParamsProto</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl" title="py_sim.tools.sim_types.UnicycleControl"><span class="pre">UnicycleControl</span></a></span></span><a class="headerlink" href="#py_sim.dynamics.unicycle.velocity_vector_field_control" title="Permalink to this definition">¶</a></dt>
+<dd><p>velocity_vector_field_control will calculate the desired control to follow a vector field with the following inputs:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> – The time for which the control is being calculated</p></li>
+<li><p><strong>state</strong> – The state of the unicycle</p></li>
+<li><p><strong>vec</strong> – The vector to be followed</p></li>
+<li><p><strong>dyn_params</strong> – The parameters for the dynamics</p></li>
+<li><p><strong>cont_params</strong> – The paramters for the control law</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The commanded translational and rotational velocity</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.UnicycleControl" title="py_sim.tools.sim_types.UnicycleControl">UnicycleControl</a></p>
@@ -252,7 +283,7 @@ d/dt psi = w</p>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="py_sim.html">py_sim package</a><ul>
   <li><a href="py_sim.dynamics.html">py_sim.dynamics package</a><ul>
-      <li>Previous: <a href="py_sim.dynamics.html" title="previous chapter">py_sim.dynamics package</a></li>
+      <li>Previous: <a href="py_sim.dynamics.single_integrator.html" title="previous chapter">py_sim.dynamics.single_integrator module</a></li>
       <li>Next: <a href="py_sim.launch.html" title="next chapter">py_sim.launch package</a></li>
   </ul></li>
   </ul></li>

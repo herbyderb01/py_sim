@@ -13,7 +13,7 @@
     <script src="../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="py_sim.tools package" href="py_sim.tools.html" />
+    <link rel="next" title="py_sim.sim.sim_modes module" href="py_sim.sim.sim_modes.html" />
     <link rel="prev" title="py_sim.sim.generic_sim module" href="py_sim.sim.generic_sim.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -36,7 +36,7 @@
 <p>integration.py defines functions for numerical integration</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.sim.integration.euler_update">
-<span class="sig-prename descclassname"><span class="pre">py_sim.sim.integration.</span></span><span class="sig-name descname"><span class="pre">euler_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Dynamics" title="py_sim.tools.sim_types.Dynamics"><span class="pre">Dynamics</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">InputType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.sim.integration.euler_update" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">py_sim.sim.integration.</span></span><span class="sig-name descname"><span class="pre">euler_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Dynamics" title="py_sim.tools.sim_types.Dynamics"><span class="pre">Dynamics</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DynamicsParamType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">InputType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DynamicsParamType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#py_sim.sim.integration.euler_update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs an eulers update to simulate forward one step on the dynamics</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -44,6 +44,7 @@
 <li><p><strong>dynamics</strong> – a function handle for calculating the time derivative of the state</p></li>
 <li><p><strong>initial</strong> – the starting state of the vehicle</p></li>
 <li><p><strong>control</strong> – the control input to be applied</p></li>
+<li><p><strong>params</strong> – the parameters of the model being controlled</p></li>
 <li><p><strong>dt</strong> – the time step of the update</p></li>
 </ul>
 </dd>
@@ -92,7 +93,7 @@
   <li><a href="py_sim.html">py_sim package</a><ul>
   <li><a href="py_sim.sim.html">py_sim.sim package</a><ul>
       <li>Previous: <a href="py_sim.sim.generic_sim.html" title="previous chapter">py_sim.sim.generic_sim module</a></li>
-      <li>Next: <a href="py_sim.tools.html" title="next chapter">py_sim.tools package</a></li>
+      <li>Next: <a href="py_sim.sim.sim_modes.html" title="next chapter">py_sim.sim.sim_modes module</a></li>
   </ul></li>
   </ul></li>
   </ul></li>

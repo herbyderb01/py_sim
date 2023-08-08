@@ -16,6 +16,7 @@
     - [Black](#black)
 - [Generating Code Documentation](#generating-code-documentation)
   - [Generate the Initial Documentation](#generate-the-initial-documentation)
+  - [Updating the documentation](#updating-the-documentation)
 
 # Overview
 ## Quick Run Guide
@@ -148,5 +149,12 @@ Autogenerate the documentation of the code. Run the following from within the `d
 
 Build the documentation. Run from within the `docs` folder.
 ```bash
+    sphinx-build -b html source/ build/html
+```
+
+## Updating the documentation
+Update the documentation by running the last two commands from the `docs` folder. i.e.,
+```bash
+    sphinx-apidoc -o source/pysim/ ../py_sim -f -e --implicit-namespaces
     sphinx-build -b html source/ build/html
 ```

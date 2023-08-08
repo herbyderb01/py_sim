@@ -13,7 +13,7 @@
     <script src="../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="py_sim.vectorfield.vectorfields module" href="py_sim.vectorfield.vectorfields.html" />
+    <link rel="next" title="py_sim.vectorfield.grid_navigation_function module" href="py_sim.vectorfield.grid_navigation_function.html" />
     <link rel="prev" title="py_sim.tools.simple_priority_queue module" href="py_sim.tools.simple_priority_queue.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -37,6 +37,13 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="py_sim.vectorfield.grid_navigation_function.html">py_sim.vectorfield.grid_navigation_function module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.vectorfield.grid_navigation_function.html#py_sim.vectorfield.grid_navigation_function.GridNavigationFunction"><code class="docutils literal notranslate"><span class="pre">GridNavigationFunction</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.grid_navigation_function.html#py_sim.vectorfield.grid_navigation_function.GridNavigationFunction.calculate_vector"><code class="docutils literal notranslate"><span class="pre">GridNavigationFunction.calculate_vector()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html">py_sim.vectorfield.vectorfields module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.AvoidObstacle"><code class="docutils literal notranslate"><span class="pre">AvoidObstacle</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.AvoidObstacle.x_o"><code class="docutils literal notranslate"><span class="pre">AvoidObstacle.x_o</span></code></a></li>
@@ -44,6 +51,19 @@
 <li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.AvoidObstacle.S"><code class="docutils literal notranslate"><span class="pre">AvoidObstacle.S</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.AvoidObstacle.R"><code class="docutils literal notranslate"><span class="pre">AvoidObstacle.R</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.AvoidObstacle.calculate_vector"><code class="docutils literal notranslate"><span class="pre">AvoidObstacle.calculate_vector()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.G2GAvoid"><code class="docutils literal notranslate"><span class="pre">G2GAvoid</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.G2GAvoid.n_obs"><code class="docutils literal notranslate"><span class="pre">G2GAvoid.n_obs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.G2GAvoid.x_g"><code class="docutils literal notranslate"><span class="pre">G2GAvoid.x_g</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.G2GAvoid.v_max"><code class="docutils literal notranslate"><span class="pre">G2GAvoid.v_max</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.G2GAvoid._go_to_goal"><code class="docutils literal notranslate"><span class="pre">G2GAvoid._go_to_goal</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.G2GAvoid._avoid"><code class="docutils literal notranslate"><span class="pre">G2GAvoid._avoid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.G2GAvoid._summed"><code class="docutils literal notranslate"><span class="pre">G2GAvoid._summed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.G2GAvoid.calculate_vector"><code class="docutils literal notranslate"><span class="pre">G2GAvoid.calculate_vector()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.G2GAvoid.update_obstacles"><code class="docutils literal notranslate"><span class="pre">G2GAvoid.update_obstacles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#id0"><code class="docutils literal notranslate"><span class="pre">G2GAvoid.v_max</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#id1"><code class="docutils literal notranslate"><span class="pre">G2GAvoid.x_g</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.GoToGoalField"><code class="docutils literal notranslate"><span class="pre">GoToGoalField</span></code></a><ul>
@@ -100,7 +120,7 @@
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="py_sim.html">py_sim package</a><ul>
       <li>Previous: <a href="py_sim.tools.simple_priority_queue.html" title="previous chapter">py_sim.tools.simple_priority_queue module</a></li>
-      <li>Next: <a href="py_sim.vectorfield.vectorfields.html" title="next chapter">py_sim.vectorfield.vectorfields module</a></li>
+      <li>Next: <a href="py_sim.vectorfield.grid_navigation_function.html" title="next chapter">py_sim.vectorfield.grid_navigation_function module</a></li>
   </ul></li>
   </ul></li>
 </ul>
