@@ -2,7 +2,9 @@
 """
 
 import numpy as np
-import py_sim.dynamics.unicycle as uni
+import py_sim.dynamics.bicycle as bike  # pylint: disable=unused-import
+import py_sim.dynamics.differential_drive as diff  # pylint: disable=unused-import
+import py_sim.dynamics.unicycle as uni  # pylint: disable=unused-import
 from py_sim.dynamics import single_integrator
 from py_sim.path_planning.path_generation import create_path
 from py_sim.plotting.plot_constructor import create_plot_manifest
@@ -18,7 +20,7 @@ from py_sim.worlds.polygon_world import (
 )
 
 
-def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
+def run_simple_vectorfield_example(follow_path: bool = False) -> None:
     """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed. The optional ability to follow a path allows the vehicle to navigate around complex obstacles.
 
     Args:
@@ -75,9 +77,15 @@ def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
     params.sim_update_period = 0.1
     params.tf = 5.
     sim = NavVectorFollower(params=params,
-                            dynamics=uni.dynamics,
+                            dynamics=uni.dynamics,                        # Unicycle
                             controller=uni.velocity_vector_field_control,
-                            dynamic_params=uni.UnicycleParams(),
+                            dynamic_params= uni.UnicycleParams(),
+                            # dynamics=diff.dynamics,                         # Differential drive
+                            # controller=diff.velocity_vector_field_control,
+                            # dynamic_params=diff.DiffDriveParams(L = 0.25, R=0.025),
+                            # dynamics=bike.dynamics,                       # Bicycle
+                            # controller=bike.velocity_vector_field_control,
+                            # dynamic_params=bike.BicycleParams(L = 1.),
                             control_params=vel_params,
                             n_inputs=UnicycleControl.n_inputs,
                             plots=plot_manifest,
@@ -90,7 +98,7 @@ def run_unicycle_simple_vectorfield_example(follow_path: bool = False) -> None:
     # Run the simulation
     start_simple_sim(sim=sim)
 
-def run_single_simple_vectorfield_example(follow_path: bool = False) -> None:
+def run_single_vectorfield_example(follow_path: bool = False) -> None:
     """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed using a single integrator
 
     Args:
@@ -162,9 +170,9 @@ def run_single_simple_vectorfield_example(follow_path: bool = False) -> None:
 
 if __name__ == "__main__":
     # Perform navigation without path planning (simple goal and avoid vector fields)
-    run_single_simple_vectorfield_example(follow_path=False)
-    #run_unicycle_simple_vectorfield_example(follow_path=False)
+    run_simple_vectorfield_example(follow_path=False)
+    #run_simple_vectorfield_example(follow_path=False)
 
     # Perform navigation with path planning using a carrot follower
-    #run_single_simple_vectorfield_example(follow_path=True)
-    #run_unicycle_simple_vectorfield_example(follow_path=True)
+    #run_single_vectorfield_example(follow_path=True)
+    #run_simple_vectorfield_example(follow_path=True)
