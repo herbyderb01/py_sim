@@ -35,20 +35,8 @@ class GoToGoalField:
         Returns:
             TwoDimArray: Vector pointing towards the goal
         """
-        # Calculate the vector pointing towards the goal
-        g = self.x_g.state - state.position
 
-        # Scale the magnitude of the resulting vector
-        dist = np.linalg.norm(g)
-        v_g = self.v_max * (1.-np.exp(-dist**2/self.sig_sq))
-
-        # Scale the vector
-        if dist > 0.:
-            g = (v_g/dist)*g
-            result = TwoDimArray(vec=g)
-        else:
-            result = TwoDimArray(x=0., y=0.)
-        return result
+        return TwoDimArray()
 
 class AvoidObstacle:
     """Defines an avoid obstacle vector field with a finite sphere of influence
@@ -84,24 +72,8 @@ class AvoidObstacle:
         Returns:
             TwoDimArray: Vector pointing towards the goal
         """
-        g = state.position - self.x_o.state
 
-        # Scale the magnitude of the resulting vector
-        dist = float(np.linalg.norm(g))
-        scale = 1.
-        if dist > self.S:
-            scale = 0
-        elif dist > self.R:
-            scale = (self.S - dist) / (self.S - self.R)
-        v_g = self.v_max * scale # Scaled desired velocity
-
-        # Output g
-        if dist > 0: # Avoid dividing by zero
-            g = v_g/dist * g # Dividing by dist is dividing by the norm
-        else: # Choose a random position if you are on top of the obstacle
-            g = np.random.random(2)
-
-        return TwoDimArray(vec=g)
+        return TwoDimArray()
 
 class SummedField:
     """Defines a vector field that is the summation of passed in fields
@@ -144,9 +116,7 @@ class SummedField:
             g.state = g.state + weight*field.calculate_vector(state=state, time=time).state
 
         # Saturate the field to have a maximum velocity of v_max
-        v_g = np.linalg.norm(g.state)
-        if v_g > self.v_max:
-            g.state = (self.v_max/v_g) * g.state
+        print("Fix me!!!")
 
         return g
 

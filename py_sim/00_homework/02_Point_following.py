@@ -29,13 +29,13 @@ def simple_vectorfield() -> None:
     state_initial = TwoDimArray(x = 0., y= 0.)
 
     # Create the vector field
-    vector_field_g2g = vf.GoToGoalField(x_g=TwoDimArray(x=-4., y=2.),
+    vector_field_g2g = vf.GoToGoalField(x_g=TwoDimArray(x=1., y=1.),
                                         v_max=vel_params.v_max,
                                         sig=1.)
-    # vector_field_avoid = vf.AvoidObstacle(x_o=TwoDimArray(x=0., y=1.),
-    #                                       v_max=vel_params.v_max,
-    #                                       S=2.,
-    #                                       R=1.)
+    vector_field_avoid = vf.AvoidObstacle(x_o=TwoDimArray(x=1., y=1.),
+                                          v_max=vel_params.v_max,
+                                          S=2.,
+                                          R=1.)
     # vector_field = vf.SummedField(fields=[vector_field_g2g, vector_field_avoid],
     #                               weights=[1., 1.],
     #                               v_max=vel_params.v_max)
