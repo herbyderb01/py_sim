@@ -40,7 +40,7 @@ def test_grid_planner() -> None:
     #planner = search.BreadFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
     #planner = search.DepthFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
     planner = search.DijkstraGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
-    # planner = search.AstarGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    #planner = search.AstarGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
     #planner = search.GreedyGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
 
 

@@ -429,11 +429,10 @@ class AstarGridSearch(ForwardGridSearch):
         """
         # Calculate the cost to come as the cost of the parent plus the edge cost
         c2c = segment_length[direction] + self.c2c.item(ind_parent)
-        cost_heuristic = c2c + self.cost_to_go_heuristic(ind_new)
 
         # Add the node to the list
         self.c2c.itemset(ind_new, c2c)
-        self.queue.push(cost=cost_heuristic, index=ind_new)
+        self.queue.push(cost=c2c, index=ind_new)
 
     def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None:
         """resolves duplicate sighting of the index - checks to see if the lowest cost-to-come plus heuristic
@@ -453,8 +452,8 @@ class AstarGridSearch(ForwardGridSearch):
         # Note that a small number is subtracted from the previous cost to avoid
         # updates due to small numerical precision
         if c2c_possible < self.c2c.item(ind_duplicate)-1e-5:
-            cost_heuristic = c2c_possible + self.cost_to_go_heuristic(ind_duplicate)
-            self.queue.update(cost=cost_heuristic, index=ind_duplicate)
+            print("Fix me!!!")
+            self.queue.update(cost=c2c_possible, index=ind_duplicate)
             self.c2c.itemset(ind_duplicate, c2c_possible)
             self.parent_mapping[ind_duplicate] = ind_poss_parent
 
@@ -484,12 +483,9 @@ class GreedyGridSearch(ForwardGridSearch):
         Returns:
             float: Euclidean grid distance from ind to the goal index
         """
-        # Get an array of the row/column indices
-        row, col = ind2sub(n_cols=self.grid.n_cols, ind=ind)
-        ind_mat = np.array([[row], [col]])
 
         # Return the distance
-        return  cast(float, np.linalg.norm(ind_mat - self.end_ind_mat))
+        return  0.
 
     def add_index_to_queue(self, ind_new: int, ind_parent: int, direction: GD) -> None:
         """Adds index to queue based on the cost to come to that new index.
@@ -504,7 +500,8 @@ class GreedyGridSearch(ForwardGridSearch):
         self.c2c.itemset(ind_new, c2c)
 
         # Add the node to the list using the cost-to-go heuristic
-        cost_heuristic = self.cost_to_go_heuristic(ind_new)
+        print("Fix me!!!")
+        cost_heuristic = c2c
         self.queue.push(cost=cost_heuristic, index=ind_new)
 
     def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None:
@@ -519,11 +516,10 @@ class GreedyGridSearch(ForwardGridSearch):
             direction: the direction of the duplicate from the parent
         """
         # Calculate the cost-to-come of the new possible edge
-        c2c_possible = segment_length[direction] + self.c2c.item(ind_poss_parent)
+        c2c_possible = 0.
 
         # Update the parentage and cost-to-come if a lower cost route has been found
         # Note that a small number is subtracted from the previous cost to avoid
         # updates due to small numerical precision
         if c2c_possible < self.c2c.item(ind_duplicate)-1e-5:
-            self.c2c.itemset(ind_duplicate, c2c_possible)
-            self.parent_mapping[ind_duplicate] = ind_poss_parent
+            pass
