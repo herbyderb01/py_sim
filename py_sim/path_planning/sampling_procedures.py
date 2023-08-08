@@ -1,4 +1,4 @@
-""" rrt_procedures defines the low level, general procedures for the rrt algorithm
+""" sampling_procedures defines the low level, general procedures for sample-based planning
 
 Attributes:
     Cost(dict[int, float]): Storage structure for storing the cost of a node in the graph it maps from node index to cost

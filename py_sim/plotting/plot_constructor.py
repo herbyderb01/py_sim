@@ -11,7 +11,7 @@ from matplotlib.patches import Ellipse
 from py_sim.path_planning.forward_grid_search import ForwardGridSearch
 from py_sim.path_planning.graph_search import DirectedPathGraph as Tree
 from py_sim.path_planning.graph_search import GraphType, PathGraph
-from py_sim.path_planning.rrt_procedures import solution
+from py_sim.path_planning.sampling_procedures import solution
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
 from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (

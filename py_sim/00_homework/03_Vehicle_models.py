@@ -22,7 +22,7 @@ from py_sim.vectorfield.vectorfields import (  # pylint: disable=unused-import
     GoToGoalField,
     SummedField,
 )
-from py_sim.worlds.polygon_world import ( # pylint: disable=unused-import
+from py_sim.worlds.polygon_world import (  # pylint: disable=unused-import
     generate_non_convex_obstacles,
     generate_world_obstacles,
 )

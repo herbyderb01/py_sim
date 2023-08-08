@@ -13,6 +13,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import py_sim.path_planning.rrt_planner as rrt
 import py_sim.worlds.polygon_world as poly_world
+from py_sim.path_planning.informed_rrt import (  # pylint: disable=unused-import
+    rrt_star_informed,
+)
+from py_sim.path_planning.smart_rrt import (  # pylint: disable=unused-import
+    rrt_star_smart,
+)
 from py_sim.plotting.plot_constructor import RRTPlotter, create_plot_manifest
 from py_sim.tools.sim_types import TwoDimArray, UnicycleState
 
@@ -84,26 +90,26 @@ def test_rrt_planner() -> None:
     #                                          num_iterations=10000,
     #                                          num_nearest=50,
     #                                          plotter=plotter)
-    # x_vec, y_vec, _, tree, __ = rrt.rrt_star_informed(x_root=x_start,
-    #                                                   X_t=Xt,
-    #                                                   X=X,
-    #                                                   dist=3.,
-    #                                                   bias_t=50,
-    #                                                   world=obstacle_world,
-    #                                                   num_iterations=10000,
-    #                                                   num_nearest=50,
-    #                                                   plotter=plotter)
-    x_vec, y_vec, _, tree, __ = rrt.rrt_star_smart(x_root=x_start,
-                                                   X_t=Xt,
-                                                   X=X,
-                                                   dist=3.,
-                                                   bias_t=50,
-                                                   world=obstacle_world,
-                                                   num_iterations=10000,
-                                                   num_nearest=50,
-                                                   beacon_radius=2.,
-                                                   bias_explore=10,
-                                                   plotter=plotter)
+    # x_vec, y_vec, _, tree, __ = rrt_star_informed(x_root=x_start,
+    #                                               X_t=Xt,
+    #                                               X=X,
+    #                                               dist=3.,
+    #                                               bias_t=50,
+    #                                               world=obstacle_world,
+    #                                               num_iterations=1000,
+    #                                               num_nearest=50,
+    #                                               plotter=plotter)
+    x_vec, y_vec, _, tree, __ = rrt_star_smart(x_root=x_start,
+                                               X_t=Xt,
+                                               X=X,
+                                               dist=3.,
+                                               bias_t=50,
+                                               world=obstacle_world,
+                                               num_iterations=1000,
+                                               num_nearest=50,
+                                               beacon_radius=2.,
+                                               bias_explore=10,
+                                               plotter=plotter)
 
     # Smooth the resulting plan
     x_vec_smooth, y_vec_smooth = rrt.path_smooth(x_vec=x_vec, y_vec=y_vec, world=obstacle_world)
