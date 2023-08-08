@@ -12,7 +12,7 @@ def debug_this_function() -> None:
 
     # Use matrix multiplication to get the results of the dot product between the two matrices
     # Run in debug mode and use different features of the debug tool
-    res = v1@v2
+    res = v1.transpose()@v2
     print("resulting multiplication: ", res)
 
 
