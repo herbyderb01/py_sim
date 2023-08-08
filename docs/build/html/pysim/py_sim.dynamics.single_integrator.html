@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>py_sim.dynamics.single_integrator module &#8212; Python Planning Sim 23.06-0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="py_sim.dynamics.unicycle module" href="py_sim.dynamics.unicycle.html" />
+    <link rel="prev" title="py_sim.dynamics.differential_drive module" href="py_sim.dynamics.differential_drive.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-py_sim.dynamics.single_integrator">
+<span id="py-sim-dynamics-single-integrator-module"></span><h1>py_sim.dynamics.single_integrator module<a class="headerlink" href="#module-py_sim.dynamics.single_integrator" title="Permalink to this heading">¶</a></h1>
+<p>single_integrator.py: Defines types, functions, and classes for controlling a point with single integrator dynamics (i.e., direct control of the velocity)</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.ConstantInputParams">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.single_integrator.</span></span><span class="sig-name descname"><span class="pre">ConstantInputParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.dynamics.single_integrator.ConstantInputParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters required for defining a constant velocity</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.ConstantInputParams.v_d">
+<span class="sig-name descname"><span class="pre">v_d</span></span><a class="headerlink" href="#py_sim.dynamics.single_integrator.ConstantInputParams.v_d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Desired constant input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.PointInput">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.single_integrator.</span></span><span class="sig-name descname"><span class="pre">PointInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.dynamics.single_integrator.PointInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Defines the inputs for a single integrator system</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.PointInput.input">
+<span class="sig-name descname"><span class="pre">input</span></span><a class="headerlink" href="#py_sim.dynamics.single_integrator.PointInput.input" title="Permalink to this definition">¶</a></dt>
+<dd><p>A vector of inputs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.PointInput.n_inputs">
+<span class="sig-name descname"><span class="pre">n_inputs</span></span><a class="headerlink" href="#py_sim.dynamics.single_integrator.PointInput.n_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of inputs (i.e., rows in input)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.PointInput.vec">
+<span class="sig-name descname"><span class="pre">vec</span></span><a class="headerlink" href="#py_sim.dynamics.single_integrator.PointInput.vec" title="Permalink to this definition">¶</a></dt>
+<dd><p>The vector storing the input (input reads from vec)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the control input</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">n_inputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.SingleIntegratorParams">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.single_integrator.</span></span><span class="sig-name descname"><span class="pre">SingleIntegratorParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.dynamics.single_integrator.SingleIntegratorParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Defines the attributes for the single integrator dynamics</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.SingleIntegratorParams.v_max">
+<span class="sig-name descname"><span class="pre">v_max</span></span><a class="headerlink" href="#py_sim.dynamics.single_integrator.SingleIntegratorParams.v_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum velocity of any individual component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.VectorParams">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.single_integrator.</span></span><span class="sig-name descname"><span class="pre">VectorParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.dynamics.single_integrator.VectorParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters required for defining a constant velocity</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.VectorParams.v_max">
+<span class="sig-name descname"><span class="pre">v_max</span></span><a class="headerlink" href="#py_sim.dynamics.single_integrator.VectorParams.v_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum velocity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.const_control">
+<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.single_integrator.</span></span><span class="sig-name descname"><span class="pre">const_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.single_integrator.SingleIntegratorParams" title="py_sim.dynamics.single_integrator.SingleIntegratorParams"><span class="pre">SingleIntegratorParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cont_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.single_integrator.ConstantInputParams" title="py_sim.dynamics.single_integrator.ConstantInputParams"><span class="pre">ConstantInputParams</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py_sim.dynamics.single_integrator.PointInput" title="py_sim.dynamics.single_integrator.PointInput"><span class="pre">PointInput</span></a></span></span><a class="headerlink" href="#py_sim.dynamics.single_integrator.const_control" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements a constant control for the single integrator dynamics</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> – clock time (not used)</p></li>
+<li><p><strong>state</strong> – vehicle state (not used)</p></li>
+<li><p><strong>dyn_params</strong> – The parameters for the dynamics</p></li>
+<li><p><strong>cont_params</strong> – The paramters for the control law</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.dynamics">
+<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.single_integrator.</span></span><span class="sig-name descname"><span class="pre">dynamics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.single_integrator.PointInput" title="py_sim.dynamics.single_integrator.PointInput"><span class="pre">PointInput</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.single_integrator.SingleIntegratorParams" title="py_sim.dynamics.single_integrator.SingleIntegratorParams"><span class="pre">SingleIntegratorParams</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.dynamics.single_integrator.dynamics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates single integrator dynamics.</p>
+<dl class="simple">
+<dt>The returned time derivative corresponds to</dt><dd><p>d/dt x
+d/dt y</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state</strong> – The current position of the vehicle</p></li>
+<li><p><strong>control</strong> – The current input (velocities)</p></li>
+<li><p><strong>params</strong> – The parameters for the dynamics</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting state time derivative (actually the input)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray">TwoDimArray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="py_sim.dynamics.single_integrator.vector_control">
+<span class="sig-prename descclassname"><span class="pre">py_sim.dynamics.single_integrator.</span></span><span class="sig-name descname"><span class="pre">vector_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.single_integrator.SingleIntegratorParams" title="py_sim.dynamics.single_integrator.SingleIntegratorParams"><span class="pre">SingleIntegratorParams</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cont_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py_sim.dynamics.single_integrator.VectorParams" title="py_sim.dynamics.single_integrator.VectorParams"><span class="pre">VectorParams</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py_sim.dynamics.single_integrator.PointInput" title="py_sim.dynamics.single_integrator.PointInput"><span class="pre">PointInput</span></a></span></span><a class="headerlink" href="#py_sim.dynamics.single_integrator.vector_control" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements a constant control for the single integrator dynamics</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> – clock time (not used)</p></li>
+<li><p><strong>state</strong> – vehicle state (not used)</p></li>
+<li><p><strong>vec</strong> – The vector to be followed</p></li>
+<li><p><strong>dyn_params</strong> – The parameters for the dynamics</p></li>
+<li><p><strong>cont_params</strong> – The paramters for the control law</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Python Planning Sim</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="py_sim.html">py_sim package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#installing">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#code-compliance">Code Compliance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#generating-code-documentation">Generating Code Documentation</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="py_sim.html">py_sim package</a><ul>
+  <li><a href="py_sim.dynamics.html">py_sim.dynamics package</a><ul>
+      <li>Previous: <a href="py_sim.dynamics.differential_drive.html" title="previous chapter">py_sim.dynamics.differential_drive module</a></li>
+      <li>Next: <a href="py_sim.dynamics.unicycle.html" title="next chapter">py_sim.dynamics.unicycle module</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Greg Droge.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/pysim/py_sim.dynamics.single_integrator.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

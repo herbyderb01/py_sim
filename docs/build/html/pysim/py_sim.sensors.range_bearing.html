@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>py_sim.sensors.range_bearing module &#8212; Python Planning Sim 23.06-0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="py_sim.sim package" href="py_sim.sim.html" />
+    <link rel="prev" title="py_sim.sensors.occupancy_grid module" href="py_sim.sensors.occupancy_grid.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-py_sim.sensors.range_bearing">
+<span id="py-sim-sensors-range-bearing-module"></span><h1>py_sim.sensors.range_bearing module<a class="headerlink" href="#module-py_sim.sensors.range_bearing" title="Permalink to this heading">¶</a></h1>
+<p>range_bearing.py Provides functions for calculating the range bearing sensor readings to emulate lidar</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="py_sim.sensors.range_bearing.RangeBearingSensor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.sensors.range_bearing.</span></span><span class="sig-name descname"><span class="pre">RangeBearingSensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.sensors.range_bearing.RangeBearingSensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="simple">
+<dt>Class that stores the variables needed for calculating a range bearing measurement and interpreting those</dt><dd><p>readings with respect to the vehicle</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.range_bearing.RangeBearingSensor.n_lines">
+<span class="sig-name descname"><span class="pre">n_lines</span></span><a class="headerlink" href="#py_sim.sensors.range_bearing.RangeBearingSensor.n_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of lines in the sensor class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.range_bearing.RangeBearingSensor.max_dist">
+<span class="sig-name descname"><span class="pre">max_dist</span></span><a class="headerlink" href="#py_sim.sensors.range_bearing.RangeBearingSensor.max_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum distance that each sensor can see</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.range_bearing.RangeBearingSensor.ind_left">
+<span class="sig-name descname"><span class="pre">ind_left</span></span><a class="headerlink" href="#py_sim.sensors.range_bearing.RangeBearingSensor.ind_left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores indices for sensors on the left of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.range_bearing.RangeBearingSensor.ind_right">
+<span class="sig-name descname"><span class="pre">ind_right</span></span><a class="headerlink" href="#py_sim.sensors.range_bearing.RangeBearingSensor.ind_right" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores indices for sensors on the right of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.range_bearing.RangeBearingSensor.ind_front">
+<span class="sig-name descname"><span class="pre">ind_front</span></span><a class="headerlink" href="#py_sim.sensors.range_bearing.RangeBearingSensor.ind_front" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores indices for sensors on the front of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.range_bearing.RangeBearingSensor.ind_rear">
+<span class="sig-name descname"><span class="pre">ind_rear</span></span><a class="headerlink" href="#py_sim.sensors.range_bearing.RangeBearingSensor.ind_rear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores indices for sensors on the rear of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.range_bearing.RangeBearingSensor.orien">
+<span class="sig-name descname"><span class="pre">orien</span></span><a class="headerlink" href="#py_sim.sensors.range_bearing.RangeBearingSensor.orien" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of orientations for each of the sensors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.sensors.range_bearing.RangeBearingSensor.calculate_range_bearing_measurement">
+<span class="sig-name descname"><span class="pre">calculate_range_bearing_measurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LocationStateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.worlds.polygon_world.html#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld"><span class="pre">PolygonWorld</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.RangeBearingMeasurements" title="py_sim.tools.sim_types.RangeBearingMeasurements"><span class="pre">RangeBearingMeasurements</span></a></span></span><a class="headerlink" href="#py_sim.sensors.range_bearing.RangeBearingSensor.calculate_range_bearing_measurement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the range / bearing measurements given the current pose of the vehicle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose</strong> – Position. If also has orientation (UnicycleStateProtocol) then orientation used to calculate the bearing</p></li>
+<li><p><strong>world</strong> – Polygon world in which the vehicle is operating</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Measurements given the vehicle pose and polygon world</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.RangeBearingMeasurements" title="py_sim.tools.sim_types.RangeBearingMeasurements">RangeBearingMeasurements</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Python Planning Sim</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="py_sim.html">py_sim package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#installing">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#code-compliance">Code Compliance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#generating-code-documentation">Generating Code Documentation</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="py_sim.html">py_sim package</a><ul>
+  <li><a href="py_sim.sensors.html">py_sim.sensors package</a><ul>
+      <li>Previous: <a href="py_sim.sensors.occupancy_grid.html" title="previous chapter">py_sim.sensors.occupancy_grid module</a></li>
+      <li>Next: <a href="py_sim.sim.html" title="next chapter">py_sim.sim package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Greg Droge.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/pysim/py_sim.sensors.range_bearing.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

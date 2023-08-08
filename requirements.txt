@@ -1,0 +1,17 @@
+numpy
+scipy
+pillow
+pylint
+black
+isort
+jupyterlab
+jupyter
+pandas
+pydocstyle
+mypy
+matplotlib
+networkx
+control
+rtree
+sphinx
+myst-parser

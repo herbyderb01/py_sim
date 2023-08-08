@@ -1,0 +1,4 @@
+*.pyc
+venv/
+py_sim.egg-info/
+.vscode/
