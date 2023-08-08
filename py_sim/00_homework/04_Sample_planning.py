@@ -1,4 +1,4 @@
-"""rrt_planning.py: Provides a framework for visualization of rrt planning through an obstacle world.
+"""04_Sample_planning: Provides a framework for visualization of rrt planning through an obstacle world.
 
 Available planners include:
     * RRT - rapidly exploring random tree
@@ -12,8 +12,12 @@ from typing import Literal, Optional
 import matplotlib.pyplot as plt
 import py_sim.path_planning.rrt_planner as rrt
 import py_sim.worlds.polygon_world as poly_world
-from py_sim.path_planning.informed_rrt import rrt_star_informed
-from py_sim.path_planning.smart_rrt import rrt_star_smart
+from py_sim.path_planning.informed_rrt import (  # pylint: disable=unused-import
+    rrt_star_informed,
+)
+from py_sim.path_planning.smart_rrt import (  # pylint: disable=unused-import
+    rrt_star_smart,
+)
 from py_sim.plotting.plot_constructor import RRTPlotter, create_plot_manifest
 from py_sim.tools.path_utils import path_length
 from py_sim.tools.sim_types import TwoDimArray, UnicycleState
@@ -123,7 +127,7 @@ def run_rrt_planner(planner: Literal["rrt", "rrt_star", "i-rrt", "s-rrt"],
     plt.show(block=True)
 
 if __name__ == "__main__":
-    #run_rrt_planner(planner="rrt", plot_live=False, num_iterations=1000)
+    run_rrt_planner(planner="rrt", plot_live=False, num_iterations=1000)
     #run_rrt_planner(planner="rrt_star", plot_live=False, num_iterations=1000)
     #run_rrt_planner(planner="i-rrt", plot_live=False, num_iterations=1000)
-    run_rrt_planner(planner="s-rrt", plot_live=False, num_iterations=1000)
+    #run_rrt_planner(planner="s-rrt", plot_live=False, num_iterations=1000)
