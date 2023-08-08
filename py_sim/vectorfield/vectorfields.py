@@ -161,19 +161,39 @@ class G2GAvoid:
         _avoid(list[AvoidObstacle]): The avoid obstacle fields
         _summed(Summedfield): The combined field
     """
-    def __init__(self, x_g: TwoDimArray, n_obs: int, v_max: float, S: float, R: float, sig: float = 1.) -> None:
+    def __init__(self,
+                 x_g: TwoDimArray,
+                 n_obs: int,
+                 v_max: float,
+                 S: float,
+                 R: float,
+                 sig: float = 1.,
+                 weight_g2g: float = 1.,
+                 weight_avoid: float = 1.) -> None:
+        """Initialize the vector field that balances go-to-goal and avoidance
+
+        Args:
+            x_g: Goal location
+            n_obs: Number of obstacles to avoid
+            v_max: Maximum allowable velocity
+            S: Sphere of influence of the obstacle avoidance
+            R: Radius of max influence for the obstacle avoidance
+            sig: The convergence factor for the go-to-goal
+            weight_g2g: The weight on the go-to-goal field
+            weight_avoid: The weight on the avoidance field
+        """
         # Store inputs
         self.n_obs = n_obs
 
         # Create the go-to-goal vector field
         self._go_to_goal = GoToGoalField(x_g=x_g, v_max=v_max, sig=sig)
-        weights: list[float] = [1.]
+        weights: list[float] = [weight_g2g]
 
         # Create the obstacle avoid vector fields
         self._avoid: list[AvoidObstacle] = []
         for _ in range(n_obs):
             self._avoid.append(AvoidObstacle(x_o=TwoDimArray(), v_max=v_max, S=S, R=R))
-            weights.append(1.)
+            weights.append(weight_avoid)
 
         # Create the summed vector field
         fields: list[VectorField] = self._avoid + [self._go_to_goal]
