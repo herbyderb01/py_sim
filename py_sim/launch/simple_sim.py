@@ -3,8 +3,9 @@
     Provides an example of using a control law within the simulation with position and state plotting occurring actively during the movement of the vehicle.
 
 """
-import py_sim.dynamics.unicycle as uni
-import py_sim.dynamics.differential_drive as diff
+import py_sim.dynamics.bicycle as bike # pylint: disable=unused-import
+import py_sim.dynamics.differential_drive as diff # pylint: disable=unused-import
+import py_sim.dynamics.unicycle as uni # pylint: disable=unused-import
 from py_sim.dynamics import single_integrator
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.sim.generic_sim import SimParameters, start_simple_sim
@@ -45,9 +46,12 @@ def run_simple_arc_example() -> None:
                     # dynamics=uni.dynamics,
                     # controller=uni.arc_control,
                     # dynamic_params= uni.UnicycleParams(),
-                    dynamics=diff.dynamics,
-                    controller=diff.arc_control,
-                    dynamic_params=diff.DiffDriveParams(L = 0.25, R=0.025),
+                    # dynamics=diff.dynamics,
+                    # controller=diff.arc_control,
+                    # dynamic_params=diff.DiffDriveParams(L = 0.25, R=0.025),
+                    dynamics=bike.dynamics,
+                    controller=bike.arc_control,
+                    dynamic_params=bike.BicycleParams(L = 1.),
                     control_params=arc_params,
                     n_inputs=UnicycleControl.n_inputs,
                     plots=plot_manifest)

@@ -8,28 +8,9 @@ import py_sim.dynamics.unicycle as uni
 from py_sim.tools.sim_types import ArcParams, TwoDimArray, UnicycleState
 
 DiffDriveState = UnicycleState
-# class DiffDriveState(UnicycleState):
-#     """Provides a representation of the vehicle whose state consists of
-#        an (x,y) position and an orientation (psi) -
-
-#        Note that this is the same as UniycleState, but is defined soas
-#        to easily distinguish the two models solely from the definition of the state.
-
-#     Attributes:
-#         IND_X(int): The index of the x-position
-#         IND_Y(int): The index of the y-position
-#         IND_PSI(int): The index of the orientation
-#         state(NDArray[Any]): The state vector of the vehicle
-#         position(NDArray[Any]): The position vector of the vehicle
-#         n_states(int): The number of states in the state vector
-#         x(float): The x-position
-#         y(float): The y-position
-#         psi(float): The orientation
-#     """
 
 class DiffDriveParams:
-    """Provides the parameters for a unicycle with the addition of parameters for
-    a differential drive model
+    """Provides the parameters for a differential drive model
 
     Attributes:
         L(float): The length between the wheels
@@ -40,7 +21,7 @@ class DiffDriveParams:
         self.R = R
 
 class DiffDriveControl:
-    """Stores the inputs required for the differential drive dynamics (translational and rotation velocity)
+    """Stores the inputs required for the differential drive dynamics (wheel rotational velocities)
 
     Attributes:
         IND_R(int): The index of the rotational velocity of the right wheel
