@@ -170,9 +170,9 @@ def run_single_vectorfield_example(follow_path: bool = False) -> None:
 
 if __name__ == "__main__":
     # Perform navigation without path planning (simple goal and avoid vector fields)
-    run_simple_vectorfield_example(follow_path=False)
+    #run_simple_vectorfield_example(follow_path=False)
     #run_simple_vectorfield_example(follow_path=False)
 
     # Perform navigation with path planning using a carrot follower
     #run_single_vectorfield_example(follow_path=True)
-    #run_simple_vectorfield_example(follow_path=True)
+    run_simple_vectorfield_example(follow_path=True)
