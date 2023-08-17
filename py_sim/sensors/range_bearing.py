@@ -101,3 +101,39 @@ class RangeBearingSensor:
                 measurement.location.append(TwoDimArray(vec=intersection[1]))
 
         return measurement
+
+    def create_measurement_from_range(self, pose: LocationStateType, ranges: list[float]) -> RangeBearingMeasurements:
+        """Calculate the measurement given the position and ranges
+        """
+        # Initialize the output
+        measurement = RangeBearingMeasurements()
+        if isinstance(pose, UnicycleStateProtocol):
+            measurement.bearing = (self.orien + pose.psi).tolist()
+        else:
+            measurement.bearing = self.orien.tolist()
+
+        # Initialize ranges to the infinite distance measurement
+        q = pose.position
+        for bearing in measurement.bearing:
+            # Calculate the position of the max distance sensor reading
+            loc = q + self.max_dist* np.array([[np.cos(bearing)],
+                                               [np.sin(bearing)]])
+
+            measurement.range.append(np.inf)
+            measurement.location.append(TwoDimArray(vec=loc))
+
+        # Ensure that the ranges match the bearing, if not then an infinite value will be used for each range
+        if len(ranges) != self.n_lines:
+            print("Warning: incorrect range number, solely storing inf")
+            return measurement
+
+        # Loop through and calculate the non-infinite sensor measurments
+        for k, range in enumerate(ranges):
+            if range < np.inf:
+                bearing = measurement.bearing[k]
+                loc = q + range* np.array([[np.cos(bearing)],
+                                           [np.sin(bearing)]])
+                measurement.range[k] = range
+                measurement.location[k] = TwoDimArray(vec=loc)
+
+        return measurement
