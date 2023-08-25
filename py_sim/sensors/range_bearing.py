@@ -128,12 +128,12 @@ class RangeBearingSensor:
             return measurement
 
         # Loop through and calculate the non-infinite sensor measurments
-        for k, range in enumerate(ranges):
-            if range < np.inf:
+        for k, range_k in enumerate(ranges):
+            if range_k < np.inf:
                 bearing = measurement.bearing[k]
-                loc = q + range* np.array([[np.cos(bearing)],
+                loc = q + range_k* np.array([[np.cos(bearing)],
                                            [np.sin(bearing)]])
-                measurement.range[k] = range
+                measurement.range[k] = range_k
                 measurement.location[k] = TwoDimArray(vec=loc)
 
         return measurement
