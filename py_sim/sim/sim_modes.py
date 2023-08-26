@@ -1,6 +1,7 @@
 """ Defines a number of simulation modes that can be used
 """
 
+import copy
 from typing import Generic, Optional
 
 from py_sim.plotting.plotting import PlotManifest
@@ -208,7 +209,7 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType, 
     def update(self) -> None:
         """Calls all of the update functions.
 
-        Updates performed:
+        The following updates are performed:
             * Calculate the range and bearing measurements
             * Update the goal location if carrot-following
             * Calculate the resulting vector to be followed
@@ -216,18 +217,41 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType, 
             * Update the state
             * Update the time
         """
+        self.update_sensing()
+        self.update_dynamics()
+
+    def update_sensing(self) -> None:
+        """Updates the range and bearing measurements
+        """
+        # Copy of the current state
+        with self.lock:
+            pose = copy.deepcopy(self.data.current.state)
+
         # Calculate the range bearing for the current position
         self.data.range_bearing_latest = self.sensor.calculate_range_bearing_measurement(\
-            pose=self.data.current.state,
+            pose=pose,
             world=self.world)
 
+    def update_dynamics(self) -> None:
+        """Updates the control and dynamics
+
+        The following updates are performed:
+            * Update the goal location if carrot-following
+            * Calculate the resulting vector to be followed
+            * Calculate the control to be executed
+            * Update the state
+            * Update the time
+        """
         # Update the goal position
         if self.carrot is not None:
             self.vector_field.x_g = \
                 self.carrot.get_carrot_point(point=self.data.current.state)
 
         # Calculate the desired vector
-        self.vector_field.update_obstacles(locations=self.data.range_bearing_latest.location)
+        try:
+            self.vector_field.update_obstacles(locations=self.data.range_bearing_latest.location)
+        except ValueError:
+            print("Warning: the input locations have the wrong number of locations. Obstacles not updated")
         vec: TwoDimArray = self.vector_field.calculate_vector(state=self.data.current.state, time=self.data.current.time)
 
         # Calculate the control to follow the vector

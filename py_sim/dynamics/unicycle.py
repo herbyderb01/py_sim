@@ -166,3 +166,54 @@ def velocity_vector_field_control(time: float,  # pylint: disable=unused-argumen
 
     # Use velocity control to follow the vector field
     return velocity_control(time=time, state=state, vd=vd, wd=wd)
+
+######################### Nonlinear Vector Field Control #############################
+class UniNonlinearVecParams():
+    """Parameters used for following a vector field
+
+    Attributes:
+        k_v(float): Gain on translational velocity
+        k_w(float): Gain on rotational velocity
+    """
+    def __init__(self,
+                k_v: float = 1.,
+                k_w: float = 1.
+                ) -> None:
+        """Create the parameters
+
+        Args:
+            k_v: Gain on translational velocity
+            k_w: Gain on rotational velocity
+        """
+        self.k_v = k_v
+        self.k_w = k_w
+
+def nonlinear_vector_field_control(time: float,  # pylint: disable=unused-argument
+                                   state: UnicycleStateProtocol,
+                                   vec: TwoDimArray,
+                                   dyn_params: UnicycleParams, # pylint: disable=unused-argument
+                                   cont_params: UniNonlinearVecParams) -> UnicycleControl:
+    """velocity_vector_field_control will calculate the desired control to follow a vector field with the following inputs:
+
+    Args:
+        time: The time for which the control is being calculated
+        state: The state of the unicycle
+        vec: The vector to be followed
+        dyn_params: The parameters for the dynamics
+        cont_params: The paramters for the control law
+
+    Returns:
+        UnicycleControl: The commanded translational and rotational velocity
+    """
+    # Get the orientation vector and orthogonal transformation matrix
+    h = np.array([[np.cos(state.psi)],
+                  [np.sin(state.psi)]])
+    J = np.array([[0., -1.],
+                  [1., 0.]])
+
+    # Calculate the commanded velocities
+    vd = float(cont_params.k_v*vec.state.transpose()@h)
+    wd = float(cont_params.k_w*vec.state.transpose()@J@h)
+
+    # Use velocity control to follow the vector field
+    return velocity_control(time=time, state=state, vd=vd, wd=wd)

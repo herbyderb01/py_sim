@@ -22,7 +22,8 @@ class RangeBearingSensor:
         ind_right(list[int]): Stores indices for sensors on the right of the vehicle
         ind_front(list[int]): Stores indices for sensors on the front of the vehicle
         ind_rear(list[int]): Stores indices for sensors on the rear of the vehicle
-        orien(NDArray[Any]): Array of orientations for each of the sensors
+        orien(NDArray[Any]): Array of orientations for each of the sensors on the body
+        delta: The angle difference between two lines of measurement
     """
     def __init__(self, n_lines: int, max_dist: float) -> None:
         """Initializes the readings for the sensors and the interpretation of the readings with respect to the vehicle
@@ -40,8 +41,8 @@ class RangeBearingSensor:
         self.ind_rear: list[int] = [] # Stores indices for sensors on the rear of the vehicle
 
         # Calculate the sensor orientations
-        delta = np.pi/n_lines   # Calculate an offset so that no line is straight forward
-        self.orien = np.linspace(start=delta, stop=2.*np.pi+delta, num=n_lines, endpoint=False)
+        self.delta = 2*np.pi/n_lines   # Calculate an offset so that no line is straight forward
+        self.orien = np.linspace(start=self.delta/2., stop=2.*np.pi+self.delta/2., num=n_lines, endpoint=False)
 
         # Adjust the sensors and store orientation indices
         for (ind,angle) in enumerate(self.orien):
@@ -98,5 +99,41 @@ class RangeBearingSensor:
             else:
                 measurement.range.append(intersection[0])
                 measurement.location.append(TwoDimArray(vec=intersection[1]))
+
+        return measurement
+
+    def create_measurement_from_range(self, pose: LocationStateType, ranges: list[float]) -> RangeBearingMeasurements:
+        """Calculate the measurement given the position and ranges
+        """
+        # Initialize the output
+        measurement = RangeBearingMeasurements()
+        if isinstance(pose, UnicycleStateProtocol):
+            measurement.bearing = (self.orien + pose.psi).tolist()
+        else:
+            measurement.bearing = self.orien.tolist()
+
+        # Initialize ranges to the infinite distance measurement
+        q = pose.position
+        for bearing in measurement.bearing:
+            # Calculate the position of the max distance sensor reading
+            loc = q + self.max_dist* np.array([[np.cos(bearing)],
+                                               [np.sin(bearing)]])
+
+            measurement.range.append(np.inf)
+            measurement.location.append(TwoDimArray(vec=loc))
+
+        # Ensure that the ranges match the bearing, if not then an infinite value will be used for each range
+        if len(ranges) != self.n_lines:
+            print("Warning: incorrect range number, solely storing inf")
+            return measurement
+
+        # Loop through and calculate the non-infinite sensor measurments
+        for k, range_k in enumerate(ranges):
+            if range_k < np.inf:
+                bearing = measurement.bearing[k]
+                loc = q + range_k* np.array([[np.cos(bearing)],
+                                           [np.sin(bearing)]])
+                measurement.range[k] = range_k
+                measurement.location[k] = TwoDimArray(vec=loc)
 
         return measurement
