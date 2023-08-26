@@ -313,5 +313,18 @@ class LineCarrot:
         Returns:
             TwoDimArray: The carrot point (point _s_carrot in front of the projection point)
         """
+        # Project the point onto the stored line
+        _, self._s_prev, self._ind_prev = \
+            project_point_to_line(point=point.position,
+                                  line=self._line,
+                                  s_vals=self._s_vals,
+                                  s_min=self._s_prev,
+                                  s_max=self._s_dev_max+self._s_prev,
+                                  k_prev=self._ind_prev)
 
-        return TwoDimArray()
+        # Get the point at a distance of carrot in front of the line
+        carrot = carrot_point(line=self._line,
+                              s_vals=self._s_vals,
+                              s_des=self._s_prev+self._s_carrot,
+                              k_prev=self._ind_prev)
+        return TwoDimArray(vec=carrot)
