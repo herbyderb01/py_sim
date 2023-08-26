@@ -76,17 +76,31 @@ def run_simple_vectorfield_example(follow_path: bool = False) -> None:
     params.sim_step = 0.1
     params.sim_update_period = 0.1
     params.tf = 5.
+    # sim = NavVectorFollower(params=params,
+    #                         dynamics=uni.dynamics,                        # Unicycle
+    #                         controller=uni.velocity_vector_field_control,
+    #                         dynamic_params= uni.UnicycleParams(),
+    #                         # dynamics=diff.dynamics,                         # Differential drive
+    #                         # controller=diff.velocity_vector_field_control,
+    #                         # dynamic_params=diff.DiffDriveParams(L = 0.25, R=0.025),
+    #                         # dynamics=bike.dynamics,                       # Bicycle
+    #                         # controller=bike.velocity_vector_field_control,
+    #                         # dynamic_params=bike.BicycleParams(L = 1.),
+    #                         control_params=vel_params,
+    #                         n_inputs=UnicycleControl.n_inputs,
+    #                         plots=plot_manifest,
+    #                         vector_field=vector_field,
+    #                         world=obstacle_world,
+    #                         sensor=RangeBearingSensor(n_lines=n_lines, max_dist=4.),
+    #                         carrot=carrot
+    #                      )
+
+    # Create the simulation using the nonlinear controller
     sim = NavVectorFollower(params=params,
                             dynamics=uni.dynamics,                        # Unicycle
-                            controller=uni.velocity_vector_field_control,
+                            controller=uni.nonlinear_vector_field_control,
                             dynamic_params= uni.UnicycleParams(),
-                            # dynamics=diff.dynamics,                         # Differential drive
-                            # controller=diff.velocity_vector_field_control,
-                            # dynamic_params=diff.DiffDriveParams(L = 0.25, R=0.025),
-                            # dynamics=bike.dynamics,                       # Bicycle
-                            # controller=bike.velocity_vector_field_control,
-                            # dynamic_params=bike.BicycleParams(L = 1.),
-                            control_params=vel_params,
+                            control_params=uni.UniNonlinearVecParams(k_v=1., k_w=1.),
                             n_inputs=UnicycleControl.n_inputs,
                             plots=plot_manifest,
                             vector_field=vector_field,
@@ -170,9 +184,9 @@ def run_single_vectorfield_example(follow_path: bool = False) -> None:
 
 if __name__ == "__main__":
     # Perform navigation without path planning (simple goal and avoid vector fields)
-    run_simple_vectorfield_example(follow_path=False)
+    #run_simple_vectorfield_example(follow_path=False)
     #run_simple_vectorfield_example(follow_path=False)
 
     # Perform navigation with path planning using a carrot follower
     #run_single_vectorfield_example(follow_path=True)
-    #run_simple_vectorfield_example(follow_path=True)
+    run_simple_vectorfield_example(follow_path=True)
