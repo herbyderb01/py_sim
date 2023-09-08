@@ -55,6 +55,38 @@ def dynamics(state: UnicycleStateProtocol,
     state_dot.psi = w
     return state_dot
 
+def solution(init: UnicycleStateProtocol,
+             control: UnicyleControlProtocol,
+             delta_t: float) -> UnicycleState:
+    """ Calculates the resulting solution of the unicycle given an initial state and a control that is held constant over a time interval.
+
+    Args:
+        init: Initial state of the vehicle
+        control: Control input that is assumed constant over the time interval
+        delta_t: The time interval in question
+
+    Returns:
+        UnicycleState: The state of the unicycle at the end of the delta_t horizon
+    """
+    # Initialize output
+    final = UnicycleState()
+
+    # Calculate control for straight-line motion
+    if control.w == 0:
+        final.x = np.cos(init.psi)*control.v*delta_t + init.x
+        final.y = np.sin(init.psi)*control.v*delta_t + init.y
+        final.psi = init.psi
+
+    # Calculate control for turning motion
+    else:
+        r = control.v/control.w # Radius of curvature
+        final.psi = control.w*delta_t + init.psi
+        final.x = r*(np.sin(final.psi) - np.sin(init.psi)) + init.x
+        final.y = r*(np.cos(init.psi)-np.cos(final.psi)) + init.y
+
+    return final
+
+
 ###########################  Basic unicycle controllers ##################################
 def velocity_control(time: float, # pylint: disable=unused-argument
                      state: UnicycleStateProtocol, # pylint: disable=unused-argument
