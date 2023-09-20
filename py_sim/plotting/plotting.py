@@ -344,7 +344,6 @@ class UnicycleTimeSeriesPlot():
             ax.relim()
             ax.autoscale_view(True, True, True)
 
-
 class SingleIntegratorTimeSeriesPlot():
     """Plots the unicycle state vs time with each state in its own subplot
 
@@ -405,8 +404,6 @@ class SingleIntegratorTimeSeriesPlot():
             ax.relim()
             ax.autoscale_view(True, True, True)
 
-
-
 class DataTimeSeries(Generic[StateType]):
     """Plots the time series of a given state withing the data object
 
@@ -458,6 +455,7 @@ def update_2d_line_plot(line: Line2D, x_vec: npt.NDArray[Any], y_vec: npt.NDArra
         y_vec: The data for the y coordinate
     """
     line.set_data(x_vec, y_vec)
+
 
 ###################### Vector Field Plot #######################
 VectorFieldType = TypeVar("VectorFieldType", bound=VectorField)
