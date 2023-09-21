@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import py_sim.dynamics.single_integrator as si
 from py_sim.tools.sim_types import TwoDArrayType, TwoDimArray
 from py_sim.sim.integration import euler_update
+from scipy.interpolate import splev, splprep, splint
 
 class TrajFollowParams:
     """Parameters required for defining a trajectory following controller
@@ -56,21 +57,21 @@ class TrajPoint:
     @property
     def q_d_dot(self) -> npt.NDArray[Any]:
         """Returns the desired velocity vector"""
-        if self._q_d.shape[1] < 1:
+        if self._q_d.shape[1] < 2:
             return np.zeros(shape=(2,1))
         return self._q_d[:,[1]]
 
     @property
     def q_d_ddot(self) -> npt.NDArray[Any]:
         """Returns the desired acceleration vector"""
-        if self._q_d.shape[1] < 2:
+        if self._q_d.shape[1] < 3:
             return np.zeros(shape=(2,1))
         return self._q_d[:,[2]]
 
     @property
     def q_d_dddot(self) -> npt.NDArray[Any]:
         """Returns the desired acceleration vector"""
-        if self._q_d.shape[1] < 3:
+        if self._q_d.shape[1] < 4:
             return np.zeros(shape=(2,1))
         return self._q_d[:,[3]]
 
@@ -83,7 +84,7 @@ class TrajPoint:
         Returns:
             NDArray: The corresponding derivative of the state
         """
-        if self._q_d.shape[1] < der:
+        if self._q_d.shape[1] < der+1:
             return np.zeros(shape=(2,1))
         return self._q_d[:, [der]]
 
@@ -108,6 +109,69 @@ class SinusoidalTraj:
             [np.sin(time), np.cos(time), -np.sin(time)]
         ])
         return TrajPoint(q_d=q_d)
+
+class SplineTraj:
+    """Creates a trajectory from the spline points"""
+    def __init__(self,
+                 spline_path: npt.NDArray[Any],
+                 vel_des: float):
+        #transfer x and y points of spline path to generate a splines path
+        x_points = spline_path[0,:].tolist()
+        y_points = spline_path[1,:].tolist()
+
+        # Create the parametric spline
+        #self.tck, _ = splprep([x_points, y_points], s=0.1, k=3, nest=30)
+        self.tck, _ = splprep([x_points, y_points], s=0, nest=-1)
+
+        # Integrate the distance
+        dist = 0
+        x1, y1 = splev(0, self.tck, der=0)
+        s = 0
+        while s < 1:
+            # Calculate new point
+            s += 0.01
+            x2, y2 = splev(s, self.tck, der=0)
+
+            # Calcualte the distance
+            q1 = np.array([[x1], [y1]])
+            q2 = np.array([[x2], [y2]])
+            dist += np.linalg.norm(q1-q2)
+
+            # Update for next iteration
+            x1 = x2
+            y1 = y2
+
+        # Determine the time to get to the final point
+        spl_len, _ = splint(a=0, b=1, tck=self.tck) # Length of the spline
+        #t_end = spl_len/vel_des
+        t_end = dist/vel_des
+        self.scale = 1./t_end
+
+        print("Dist calc = ", dist, ", int = ", spl_len)
+
+    def get_traj_point(self,
+                       time: float,
+                       der: int #pylint: disable=unused-argument
+                       ) -> TrajPoint:
+        """Return a trajectory point
+
+        Args:
+            time: Time value for the trajectory
+            der: Maximum number of derivatives needed
+
+        Returns:
+            TrajPoint: The desired position and its time derivatives
+        """
+        s_val = time*self.scale
+
+        q_d = np.zeros(shape=(2,der+1))
+        for k in range(der+1):
+            x,y = splev(s_val, self.tck, der=k)
+            q_d[0,k] = x*self.scale**k
+            q_d[1,k] = y*self.scale**k
+
+        return TrajPoint(q_d=q_d)
+
 
 def traj_track_control(time: float, #pylint: disable=unused-argument
                        state: TwoDArrayType,
@@ -143,8 +207,16 @@ def test_trajectory_tracking() -> None:
     x_mat[:,[0]] = x.state
     si_params = si.SingleIntegratorParams()
 
-    # Create the trajectory to follow
-    traj = SinusoidalTraj()
+    # Create teh trajectory to follow
+    #traj = SinusoidalTraj()
+    spline_path = np.array([
+        [1., 10., 10., 20.],
+        [0., 0.,  10., 10.]
+    ])
+    traj = SplineTraj(spline_path=spline_path,
+                      vel_des=3.)
+
+    # Initialize trajectory values
     cont_params = TrajFollowParams(K=1.*np.identity(n=2))
     x_des_mat = np.zeros(shape=(2,len_t))
 
@@ -211,10 +283,6 @@ def test_trajectory_tracking() -> None:
     for (label, time, y_val, ax, style, x_label, lw) in zip(labels, times, y_vals, axes, styles, x_labels, line_widths):
         ax.plot(time, y_val, style, label=label, linewidth=lw)
         ax.set_ylabel(x_label)
-
-
-
-
 
     plt.show()
 
