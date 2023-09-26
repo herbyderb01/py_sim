@@ -7,7 +7,59 @@ import matplotlib.pyplot as plt
 import py_sim.dynamics.single_integrator as si
 from py_sim.tools.sim_types import TwoDArrayType, TwoDimArray
 from py_sim.sim.integration import euler_update
-from scipy.interpolate import splev, splprep, splint
+from scipy.interpolate import splev, splprep, splint, interp1d
+from py_sim.tools.projections import calculate_line_distances
+
+def interpolate_line(line: npt.NDArray[Any], s_vals: list[float], s_des: float) -> tuple[npt.NDArray[Any], npt.NDArray[Any], npt.NDArray[Any]]:
+    """Interpolates a line to find the position along the line of the desired spatial index
+
+    Args:
+        line: 2xn matrix where each column is a point in the line
+        s_vals: n element list defining the spatial distance to each point along the line
+        s_des: The desired spatial element to return
+
+    Returns:
+        tuple[npt.NDArray[Any], npt.NDArray[Any], npt.NDArray[Any]]: q, a, b
+            q: The point along the line for s_des
+            a: The line segment point before q
+            b: The line segment point after q
+    """
+    # Check inputs
+    if line.shape[0] != 2 or line.shape[1] < 2 or line.shape[1] != len(s_vals):
+        raise ValueError("Invalid inputs")
+
+    ### Special cases: s_des before or after the line
+    # Case 1: s_des comes before any point on the line - move along first line segment
+    if s_des <= s_vals[0]:
+        q = line[:,[0]]
+        a = line[:,[0]]
+        b = line[:,[1]]
+        return (q, a, b)
+
+    # Case 2: s_des comes after any point on the line - move along last line segment
+    if s_des >= s_vals[-1]:
+        q = line[:, [-1]]
+        a = line[:,[-2]]
+        b = line[:,[-1]]
+        return (q, a, b)
+
+    ### Perform a linear search to find the indices of s_val that surround s_des
+    ind_next = 0
+    for (ind, s) in enumerate(s_vals):
+        if s > s_des:
+            ind_next = ind
+            break
+
+    # Calcuate the scaling of the point of interest
+    s_prev = s_vals[ind_next - 1]
+    s_next = s_vals[ind_next]
+    scale = (s_des-s_prev) / (s_next - s_prev)
+
+    ### Calculate the point of interest
+    a = line[:, [ind_next-1]]
+    b = line[:, [ind_next]]
+    q = (1-scale)*a + scale*b
+    return (q, a, b)
 
 class TrajFollowParams:
     """Parameters required for defining a trajectory following controller
@@ -115,18 +167,30 @@ class SplineTraj:
     def __init__(self,
                  spline_path: npt.NDArray[Any],
                  vel_des: float):
-        #transfer x and y points of spline path to generate a splines path
-        x_points = spline_path[0,:].tolist()
-        y_points = spline_path[1,:].tolist()
+
+        # Create a finer spline path
+        s_vals = calculate_line_distances(line=spline_path)
+        x_points: list[float] = []
+        y_points: list[float] = []
+        s = 0
+        while s <= s_vals[-1]:
+            q, _, _ = interpolate_line(line=spline_path, s_vals=s_vals, s_des=s)
+            x_points.append(q.item(0))
+            y_points.append(q.item(1))
+            s += 0.1
+
+        # #transfer x and y points of spline path to generate a splines path
+        # x_points = spline_path[0,:].tolist()
+        # y_points = spline_path[1,:].tolist()
 
         # Create the parametric spline
         #self.tck, _ = splprep([x_points, y_points], s=0.1, k=3, nest=30)
         self.tck, _ = splprep([x_points, y_points], s=0, nest=-1)
 
         # Integrate the distance
-        dist = 0
+        dist = 0.
         x1, y1 = splev(0, self.tck, der=0)
-        s = 0
+        s = 0.
         while s < 1:
             # Calculate new point
             s += 0.01
@@ -135,7 +199,7 @@ class SplineTraj:
             # Calcualte the distance
             q1 = np.array([[x1], [y1]])
             q2 = np.array([[x2], [y2]])
-            dist += np.linalg.norm(q1-q2)
+            dist += float(np.linalg.norm(q1-q2))
 
             # Update for next iteration
             x1 = x2
@@ -172,6 +236,49 @@ class SplineTraj:
 
         return TrajPoint(q_d=q_d)
 
+class SegmentTraj:
+    """Creates a trajectory from a piecewise continuous line
+
+    Attributes:
+        line(NDArray): 2xn, n > 1, matrix where each column is a point along the line
+        s_vals(list[float]): list of n elements where each element is the distance along
+                             the line to the point in self.line
+        vel_des(float): The velocity (m/s) for the vehicle to travel
+    """
+
+    def __init__(self, line: npt.NDArray[Any], vel_des: float) -> None:
+        if line.shape[0] != 2 or line.shape[1] < 2:
+            raise ValueError("Line must be 2xn with n>1")
+        self.line = line
+        self.s_vals = calculate_line_distances(line=line)
+        self.vel_des = vel_des
+
+
+    def get_traj_point(self,
+                       time: float,
+                       der: int #pylint: disable=unused-argument
+                       ) -> TrajPoint:
+        """Return a trajectory point
+
+        Args:
+            time: Time value for the trajectory
+            der: Maximum number of derivatives needed
+
+        Returns:
+            TrajPoint: The desired position and its time derivatives
+        """
+        # Get the desired spatial index and location
+        s_des = self.vel_des * time
+        (q, a, b) = interpolate_line(line=self.line, s_vals=self.s_vals, s_des=s_des)
+
+        # Calculate the desired velocity
+        u = (b-a) / np.linalg.norm(b-a)
+        v = self.vel_des * u
+
+        # Calculate the desired trajectory point
+        q_d = np.concatenate((q, v), axis=1)
+        return TrajPoint(q_d=q_d)
+
 
 def traj_track_control(time: float, #pylint: disable=unused-argument
                        state: TwoDArrayType,
@@ -203,21 +310,27 @@ def test_trajectory_tracking() -> None:
     u_mat = np.zeros(shape=(si.PointInput.n_inputs, len_t-1))
 
     # Create the initial state
-    x = TwoDimArray(x=-1., y=1.)
+    x = TwoDimArray(x=-1., y=-1.)
     x_mat[:,[0]] = x.state
     si_params = si.SingleIntegratorParams()
 
-    # Create teh trajectory to follow
-    #traj = SinusoidalTraj()
-    spline_path = np.array([
-        [1., 10., 10., 20.],
-        [0., 0.,  10., 10.]
+    # Create the line to follow
+    line = np.array([
+        [1., 7., 13., 17.],
+        [1., 3., 1.,  4.]
     ])
-    traj = SplineTraj(spline_path=spline_path,
-                      vel_des=3.)
+    vel_des = 1.5 # Desired velocity
+
+    # Create the trajectory to follow
+    # traj = SinusoidalTraj()
+    # traj = SplineTraj(spline_path=line,
+    #                   vel_des=vel_des)
+    traj = SegmentTraj(line=line,
+                       vel_des=vel_des)
+
 
     # Initialize trajectory values
-    cont_params = TrajFollowParams(K=1.*np.identity(n=2))
+    cont_params = TrajFollowParams(K=1*np.identity(n=2))
     x_des_mat = np.zeros(shape=(2,len_t))
 
     # Loop through and simulate the vehicle
@@ -255,10 +368,15 @@ def test_trajectory_tracking() -> None:
     x_des_mat[:, [-1]] = traj_point.q_d
 
     ### Plot the results
+    _, ax = plt.subplots()
+
+    # Plot the desired line to be followed
+    if not isinstance(traj, SinusoidalTraj):
+        ax.plot(line[0,:], line[1,:], '-g', linewidth=4, label="Line")
+
     # Plot the trajectory
-    fig, ax = plt.subplots()
-    ax.plot(x_des_mat[0,:], x_des_mat[1,:], "-r", label="desired", linewidth=3)
-    ax.plot(x_mat[0,:], x_mat[1,:], "-b", label="state")
+    ax.plot(x_des_mat[0,:], x_des_mat[1,:], "-r", label="Desired", linewidth=3)
+    ax.plot(x_mat[0,:], x_mat[1,:], "-b", label="Actual")
     ax.legend()
     ax.set_title("Trajectory")
 
@@ -266,6 +384,7 @@ def test_trajectory_tracking() -> None:
     _, ax_state = plt.subplots(nrows=4, ncols=1)
     ax_state[0].set_title("State Plots")
     ax_state[-1].set_xlabel("Time (sec)")
+
 
     # Plot the error plots
     _, ax_err = plt.subplots(nrows=2, ncols=1)
@@ -284,6 +403,7 @@ def test_trajectory_tracking() -> None:
         ax.plot(time, y_val, style, label=label, linewidth=lw)
         ax.set_ylabel(x_label)
 
+    plt.show(block=False)
     plt.show()
 
 if __name__ == "__main__":
