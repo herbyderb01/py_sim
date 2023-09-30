@@ -190,7 +190,7 @@ class SplineTraj:
 
         # Create the parametric spline
         #self.tck, _ = splprep([x_points, y_points], s=0.1, k=3, nest=30)
-        self.tck, _ = splprep([x_points, y_points], s=0, nest=-1)
+        self.tck, _ = splprep([x_points, y_points], s=1., nest=-1)
 
         # Integrate the distance
         dist = 0.
@@ -607,8 +607,8 @@ def test_trajectory_tracking_uni_dfc() -> None:
     _, ax = plt.subplots()
 
     # Plot the desired line to be followed
-    # if not isinstance(traj, SinusoidalTraj):
-    #     ax.plot(line[0,:], line[1,:], '-g', linewidth=4, label="Line")
+    if not isinstance(traj, SinusoidalTraj):
+        ax.plot(line[0,:], line[1,:], '-g', linewidth=4, label="Line")
 
     # Plot the trajectory
     ax.plot(x_des_mat[0,:], x_des_mat[1,:], "-r", label="Desired", linewidth=3)
