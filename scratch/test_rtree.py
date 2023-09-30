@@ -1,8 +1,10 @@
-from rtree import index
-import numpy as np
-import matplotlib.pyplot as plt
 import time
+
+import matplotlib.pyplot as plt
+import numpy as np
+from rtree import index
 from scipy.spatial import KDTree
+
 
 def nearest_ind_naive(points, list_ex, point) -> int:
     dist = np.inf
