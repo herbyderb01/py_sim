@@ -170,7 +170,8 @@ class SplineTraj:
     """Creates a trajectory from the spline points"""
     def __init__(self,
                  spline_path: npt.NDArray[Any],
-                 vel_des: float):
+                 vel_des: float,
+                 ds = 0.1):
 
         # Create a finer spline path
         s_vals = calculate_line_distances(line=spline_path)
@@ -181,7 +182,7 @@ class SplineTraj:
             q, _, _ = interpolate_line(line=spline_path, s_vals=s_vals, s_des=s)
             x_points.append(q.item(0))
             y_points.append(q.item(1))
-            s += 0.1
+            s += ds
 
         # #transfer x and y points of spline path to generate a splines path
         # x_points = spline_path[0,:].tolist()
@@ -640,7 +641,7 @@ def test_trajectory_tracking_uni_dfc() -> None:
 
     for plot in plots:
         plot.ax.plot(plot.time, plot.y, plot.style, label=plot.label, linewidth=plot.line_width)
-        ax.set_ylabel(plot.x_label)
+        plot.ax.set_ylabel(plot.x_label)
 
     plt.show(block=False)
     plt.show()
