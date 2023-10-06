@@ -1,6 +1,6 @@
 """Creates a simple test / visualization for trajectory tracking"""
 
-from typing import Any
+from typing import Any, Protocol
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -143,6 +143,21 @@ class TrajPoint:
         if self._q_d.shape[1] < der+1:
             return np.zeros(shape=(2,1))
         return self._q_d[:, [der]]
+
+class Trajectory(Protocol):
+    """Protocol for defining a trajectory"""
+    def get_traj_point(self,
+                       time: float,
+                       der: int) -> TrajPoint:
+        """Return a trajectory point
+
+        Args:
+            time: Time value for the trajectory
+            der: Maximum number of derivatives needed
+
+        Returns:
+            TrajPoint: The desired position and its time derivatives
+        """
 
 class SinusoidalTraj:
     """Defines a basic sinusoidal trajectory"""
@@ -289,7 +304,7 @@ class TrajFollowParamsSI:
     """Parameters required for defining a trajectory following controller
 
     Attributes:
-        _K(NDArray): 2x2 matrix of for the feedback gain
+        K(NDArray): 2x2 matrix of for the feedback gain
     """
     def __init__(self, K: npt.NDArray[Any]) -> None:
         """ Input K must be a 2x2 matrix
@@ -299,12 +314,8 @@ class TrajFollowParamsSI:
         """
         if K.shape[0] != 2 or K.shape[1] != 2:
             raise ValueError("Feedback control matrix must be 2x2")
-        self._K = K
+        self.K = K
 
-    @property
-    def K(self) -> npt.NDArray[Any]:
-        """Returns the control matrix"""
-        return self._K
 
 def traj_track_control_si(time: float, #pylint: disable=unused-argument
                           state: TwoDArrayType,
@@ -434,7 +445,7 @@ def test_trajectory_tracking_si() -> None:
     plt.show()
 
 
-#############  Unicycle Trajectory Functions #################
+#############  Dynamic Function Control for Tracking #################
 class DfcUniControl:
     """Control for the DFC
 
@@ -445,7 +456,6 @@ class DfcUniControl:
     def __init__(self, a: float, w: float) -> None:
         self.a = a
         self.w = w
-
 
 class TrajFollowParamsDFC:
     """Parameters required for defining a trajectory following controller using the Dynamic Feedback Control (DFC) approach
@@ -560,14 +570,14 @@ def test_trajectory_tracking_uni_dfc() -> None:
 
     # Create the trajectory to follow
     # traj = SinusoidalTraj()
-    traj = SplineTraj(spline_path=line,
-                      vel_des=vel_des)
-    # traj = SegmentTraj(line=line,
-    #                    vel_des=vel_des)
+    # traj = SplineTraj(spline_path=line,
+    #                   vel_des=vel_des)
+    traj = SegmentTraj(line=line,
+                       vel_des=vel_des)
 
 
-    # Initialize trajectory values
-    cont_params = TrajFollowParamsDFC(k_d=10.0, k_p=10., v_0=vel_des)
+    # Initialize trajectory values (dry k_d = 10, k_p = 10)
+    cont_params = TrajFollowParamsDFC(k_d=10, k_p=10., v_0=vel_des)
     x_des_mat = np.zeros(shape=(2,len_t))
 
     # Loop through and simulate the vehicle
@@ -624,20 +634,22 @@ def test_trajectory_tracking_uni_dfc() -> None:
 
 
     # Plot the error plots
-    _, ax_err = plt.subplots(nrows=2, ncols=1)
+    _, ax_err = plt.subplots(nrows=3, ncols=1)
     ax_err[0].set_title("Error Plots")
     ax_err[-1].set_xlabel("Time (sec)")
 
     # Create the state plots
     plots : list[PlotElement] = []
-    plots.append(PlotElement(label="u_1", time=t_vec[0:-1], y=u_mat[0,:],ax=ax_state[2], style='-b', x_label='u_1',line_width=1))
-    plots.append(PlotElement(label="u_2", time=t_vec[0:-1],y=u_mat[1,:],ax=ax_state[3],style='-b',x_label='u_2',line_width=1))
+    plots.append(PlotElement(label="u_1", time=t_vec[0:-1], y=u_mat[0,:],ax=ax_state[3], style='-b', x_label='u_1',line_width=1))
+    plots.append(PlotElement(label="u_2", time=t_vec[0:-1],y=u_mat[1,:],ax=ax_state[4],style='-b',x_label='u_2',line_width=1))
     plots.append(PlotElement(label="x_d1",time=t_vec,y=x_des_mat[0,:],ax=ax_state[0],style='-r',x_label='x_1',line_width=3))
     plots.append(PlotElement(label="x_d2",time=t_vec,y=x_des_mat[1,:],ax=ax_state[1],style='-r',x_label='x_2',line_width=3))
     plots.append(PlotElement(label="x_1",time=t_vec,y=x_mat[0,:],ax=ax_state[0],style='-b',x_label='x_1',line_width=1))
     plots.append(PlotElement(label="x_2",time=t_vec,y=x_mat[1,:],ax=ax_state[1],style='-b',x_label='x_2',line_width=1))
-    plots.append(PlotElement(label="e_1",time=t_vec,y=x_mat[0,:]-x_des_mat[0,:],ax=ax_err[0],style='-r',x_label='e_1',line_width=1))
-    plots.append(PlotElement(label="e_2",time=t_vec,y=x_mat[1,:]-x_des_mat[1,:],ax=ax_err[1],style='-r',x_label='e_2',line_width=1))
+    plots.append(PlotElement(label="psi",time=t_vec,y=x_mat[2,:],ax=ax_state[2],style='-b',x_label='psi',line_width=1))
+    plots.append(PlotElement(label="e_1",time=t_vec,y=x_mat[0,:]-x_des_mat[0,:],ax=ax_err[0],style='-b',x_label='e_1',line_width=1))
+    plots.append(PlotElement(label="e_2",time=t_vec,y=x_mat[1,:]-x_des_mat[1,:],ax=ax_err[1],style='-b',x_label='e_2',line_width=1))
+    plots.append(PlotElement(label="||e||",time=t_vec,y=np.linalg.norm(x_mat[0:2,:]-x_des_mat, axis=0),ax=ax_err[2],style='-b',x_label='||e||',line_width=1))
 
     for plot in plots:
         plot.ax.plot(plot.time, plot.y, plot.style, label=plot.label, linewidth=plot.line_width)
@@ -646,6 +658,258 @@ def test_trajectory_tracking_uni_dfc() -> None:
     plt.show(block=False)
     plt.show()
 
+
+#############  Input/output control for Tracking #################
+class ZeroErrorTraj:
+    """Defines the trajectory parameters to obtain zero-error tracking using I/O techniques
+
+    Attributes:
+        traj: The underlying trajectory to be tracked
+        eps: The distance in front of the vehicle that is being controlled
+    """
+    def __init__(self, traj: Trajectory, eps: float) -> None:
+        self.traj = traj
+        self.eps = eps
+
+    def get_traj_point(self,
+                       time: float,
+                       der: int #pylint: disable=unused-argument
+                       ) -> TrajPoint:
+        """Return a trajectory point that, when followed using a input/output control, will result in zero error
+
+        Args:
+            time: Time value for the trajectory
+            der: Maximum number of derivatives needed
+
+        Returns:
+            TrajPoint: The desired position and its time derivatives
+        """
+        # Get the trajectory point for the underlying trajectory
+        traj_pnt = self.traj.get_traj_point(time=time, der=2)
+
+        # Extact the required derivative, _dot is first derivative, _ddot is second derivative
+        x_dot = traj_pnt.q_d_dot.item(0)
+        y_dot = traj_pnt.q_d_dot.item(1)
+        x_ddot = traj_pnt.q_d_ddot.item(0)
+        y_ddot = traj_pnt.q_d_ddot.item(1)
+
+        # Use the trajectory point to define the unicycle characteristics of the path
+        psi_d = np.arctan2(y_dot, x_dot)
+        v_d = np.linalg.norm(traj_pnt.q_d_dot)
+        w_d = 1./(v_d**2)*(x_dot*y_ddot - y_dot*x_ddot)
+
+        # Calculate the epsilon point derivatives
+        c = np.cos(psi_d)
+        s = np.sin(psi_d)
+        q_d_mat = np.zeros(shape=(2,2))
+        q_d_mat[:,[0]] = traj_pnt.q_d + self.eps*np.array([[c],[s]]) # Desired point
+        q_d_mat[:,[1]] = np.array([[c, -self.eps*s],    # First derivative
+                                   [s, self.eps*c]]) @ np.array([[v_d], [w_d]])
+
+        # Return the trajectory
+        return TrajPoint(q_d=q_d_mat)
+
+
+class TrajFollowParamsIO:
+    """Parameters required for defining a trajectory following controller using input/output techniques
+
+    Attributes:
+        k_p(float): Proportional gain on the error from the epsilon point
+        eps(float): Distance in front of vehicle of point being controlled
+    """
+    def __init__(self, k_p: float, eps: float) -> None:
+        self.k_p = k_p
+        self.eps = eps
+
+def calculate_epsilon_point(eps: float, state: uni.UnicycleStateProtocol) -> npt.NDArray[Any]:
+    """ Calculates a point at a distance of eps in front of the vehicle
+
+    Args:
+        eps: Distance in front of vehicle of point returned
+        state: The current state of the vehicle
+
+    Returns:
+        The 2D position of the vehicle in front of the vehicle
+    """
+    y_eps = state.position + eps*np.array([[np.cos(state.psi)],
+                                           [np.sin(state.psi)]])
+    return y_eps
+
+def traj_track_control_io(time: float, #pylint: disable=unused-argument
+                          state: uni.UnicycleStateProtocol,
+                          traj_point: TrajPoint,
+                          cont_params: TrajFollowParamsIO) -> uni.UnicycleControl:
+    """Implements a trajectory tracking controller using the input/output for a unicycle robot
+
+    Args:
+        time: Time value of interest
+        state: State at the given time
+        traj_point: The desired trajectory point and its derivatives at the given time
+        cont_params: The control parameters
+
+    Returns:
+        The control to move along the trajectory point
+    """
+    # Calculate the desired derivative of epsilon point
+    y_eps = calculate_epsilon_point(eps=cont_params.eps, state=state)
+    u_eps = traj_point.q_d_dot - cont_params.k_p*(y_eps - traj_point.q_d)
+
+    # Convert the epsilon point motion into the translational and rotational velocities
+    c = np.cos(state.psi)
+    s = np.sin(state.psi)
+    eps_inv = 1./cont_params.eps
+    R_eps_inv = np.array([[c,          s],
+                          [-eps_inv*s, eps_inv*c]])
+    u_uni = R_eps_inv@u_eps
+
+    # Return the unicycle control
+    return uni.UnicycleControl(v=u_uni.item(0), w=u_uni.item(1))
+
+def test_trajectory_tracking_uni_io() -> None:
+    """Tests the Dynamic Feedback Control (DFC) for trajectory tracking developed in
+        "Feedback control of a nonholonomic car-like robot" Chapter 3.3 subsection "Full state linearization via dynamic feedback"
+
+        The approach has been adapted from a smooth bicycle model to a simple unicycle model
+    """
+
+    # Initialize the storage for the time, state, and inputs
+    dt = 0.01
+    t_vec = np.arange(start=0., stop=10., step=dt)
+    len_t: int = t_vec.shape[0]
+    x_mat = np.zeros(shape=(uni.UnicycleState.n_states, len_t))
+    eps_mat = np.zeros(shape=(2,len_t))
+    u_mat = np.zeros(shape=(si.PointInput.n_inputs, len_t-1))
+
+    # Create the initial state
+    x = uni.UnicycleState(x=-1., y=-1., psi=0.)
+    x_mat[:,[0]] = x.state
+    uni_params = uni.UnicycleParams(w_max=20.)
+
+    # Create the line to follow
+    line = np.array([
+        [1., 7., 13., 17.],
+        [1., 3., 1.,  4.]
+    ])
+    # line = np.array([
+    #     [1., 70., 130., 17000.],
+    #     [1., 30., 100.,  4000.]
+    # ])
+    vel_des = 1.5 # Desired velocity
+
+    # Create the trajectory to follow
+    # traj_in = SinusoidalTraj()
+    # traj_in = SplineTraj(spline_path=line,
+    #                      vel_des=vel_des)
+    traj_in = SegmentTraj(line=line,
+                          vel_des=vel_des)
+
+    # Reshape the trajectory
+    cont_params = TrajFollowParamsIO(k_p=1., eps=1.)
+    # traj = traj_in # Option for no reshaping
+    traj = ZeroErrorTraj(traj=traj_in, eps=cont_params.eps)
+
+
+    # Initialize trajectory values
+    eps_mat[:, [0]] = calculate_epsilon_point(eps=cont_params.eps, state=x)
+    x_des_mat = np.zeros(shape=(2,len_t))
+
+    # Loop through and simulate the vehicle
+    for k in range(len_t-1):
+        # Extract state
+        x_k = uni.UnicycleState(vec=x_mat[:,[k]])
+        t_k = t_vec.item(k)
+
+        # Calculate the desired trajectory point
+        traj_point = traj.get_traj_point(time=t_k, der=1)
+
+        # Store the trajectory data
+        traj_act = traj_in.get_traj_point(time=t_k, der=1)
+        x_des_mat[:, [k]] = traj_act.q_d
+
+        # Calculate the input
+        u_k = traj_track_control_io(time=t_k,
+                                    state=x_k,
+                                    traj_point=traj_point,
+                                    cont_params=cont_params)
+        u_mat[u_k.IND_V,k] = u_k.v
+        u_mat[u_k.IND_W,k] = u_k.w
+
+        # Update the state
+        x_kp1 = euler_update(dynamics=uni.dynamics,
+                             initial=x_k,
+                             control=u_k,
+                             params=uni_params,
+                             dt=dt)
+        x_mat[:,[k+1]] = x_kp1
+        eps_mat[:, [k+1]] = calculate_epsilon_point(eps=cont_params.eps,
+                                                    state=uni.UnicycleState(vec=x_kp1))
+
+    # Store the final desired trajectory point
+    traj_act = traj_in.get_traj_point(time=t_vec[-1], der=1)
+    x_des_mat[:, [-1]] = traj_act.q_d
+
+    ### Plot the results
+    _, ax = plt.subplots()
+
+    # Plot the desired line to be followed
+    if not isinstance(traj, SinusoidalTraj):
+        ax.plot(line[0,:], line[1,:], '-g', linewidth=4, label="Line")
+
+    # Plot the trajectory
+    ax.plot(x_des_mat[0,:], x_des_mat[1,:], "-r", label="Desired", linewidth=3)
+    ax.plot(eps_mat[0,:], eps_mat[1,:], "-k", label="Eps Point", linewidth=1.5)
+    ax.plot(x_mat[0,:], x_mat[1,:], "-b", label="Actual")
+    ax.legend()
+    ax.set_title("Trajectory")
+    ax.set_aspect('equal', 'box')
+
+    # Plot the state elements
+    _, ax_state = plt.subplots(nrows=5, ncols=1)
+    ax_state[0].set_title("State Plots")
+    ax_state[-1].set_xlabel("Time (sec)")
+
+
+    # Plot the error lines
+    _, ax_err = plt.subplots(nrows=3, ncols=1)
+    ax_err[0].set_title("Error Plots")
+    ax_err[-1].set_xlabel("Time (sec)")
+
+
+    # Create the state plots
+    plots : list[PlotElement] = []
+    plots.append(PlotElement(label="u_1", time=t_vec[0:-1], y=u_mat[0,:],ax=ax_state[3], style='-b', x_label='u_1',line_width=1))
+    plots.append(PlotElement(label="u_2", time=t_vec[0:-1],y=u_mat[1,:],ax=ax_state[4],style='-b',x_label='u_2',line_width=1))
+    plots.append(PlotElement(label="x_d1",time=t_vec,y=x_des_mat[0,:],ax=ax_state[0],style='-r',x_label='x_1',line_width=3))
+    plots.append(PlotElement(label="x_d2",time=t_vec,y=x_des_mat[1,:],ax=ax_state[1],style='-r',x_label='x_2',line_width=3))
+    plots.append(PlotElement(label="x_1",time=t_vec,y=x_mat[0,:],ax=ax_state[0],style='-b',x_label='x_1',line_width=1))
+    plots.append(PlotElement(label="x_2",time=t_vec,y=x_mat[1,:],ax=ax_state[1],style='-b',x_label='x_2',line_width=1))
+    plots.append(PlotElement(label="psi",time=t_vec,y=x_mat[2,:],ax=ax_state[2],style='-b',x_label='psi',line_width=1))
+    plots.append(PlotElement(label="zero",time=[t_vec[0], t_vec[-1]],y=[0., 0.],ax=ax_err[0],style='--g',x_label='e_1',line_width=2))
+    plots.append(PlotElement(label="zero",time=[t_vec[0], t_vec[-1]],y=[0., 0.],ax=ax_err[1],style='--g',x_label='e_1',line_width=2))
+    plots.append(PlotElement(label="e_1",time=t_vec,y=x_mat[0,:]-x_des_mat[0,:],ax=ax_err[0],style='-b',x_label='e_1',line_width=1))
+    plots.append(PlotElement(label="e_2",time=t_vec,y=x_mat[1,:]-x_des_mat[1,:],ax=ax_err[1],style='-b',x_label='e_2',line_width=1))
+    plots.append(PlotElement(label="zero",time=[t_vec[0], t_vec[-1]],y=[0., 0.],ax=ax_err[2],style='--g',x_label='||e||',line_width=2))
+    eps = cont_params.eps
+    plots.append(PlotElement(label="epsilon",time=[t_vec[0], t_vec[-1]],y=[eps, eps],ax=ax_err[2],style='--r',x_label='||e||',line_width=2))
+    plots.append(PlotElement(label="||e||",time=t_vec,y=np.linalg.norm(x_mat[0:2,:]-x_des_mat, axis=0),ax=ax_err[2],style='-b',x_label='||e||',line_width=1))
+    plots.append(PlotElement(label="e_eps_1",time=t_vec,y=eps_mat[0,:]-x_des_mat[0,:],ax=ax_err[0],style='-k',x_label='e_1',line_width=1))
+    plots.append(PlotElement(label="e_eps_2",time=t_vec,y=eps_mat[1,:]-x_des_mat[1,:],ax=ax_err[1],style='-k',x_label='e_2',line_width=1))
+    plots.append(PlotElement(label="||e_eps||",time=t_vec,y=np.linalg.norm(eps_mat-x_des_mat, axis=0),ax=ax_err[2],style='-k',x_label='||e||',line_width=1))
+
+
+    for plot in plots:
+        plot.ax.plot(plot.time, plot.y, plot.style, label=plot.label, linewidth=plot.line_width)
+        plot.ax.set_ylabel(plot.x_label)
+
+    # Create labels on error plots
+    ax_err[0].legend()
+    ax_err[1].legend()
+    ax_err[2].legend()
+
+    plt.show(block=False)
+    plt.show()
+
 if __name__ == "__main__":
     #test_trajectory_tracking_si()
-    test_trajectory_tracking_uni_dfc()
+    #test_trajectory_tracking_uni_dfc()
+    test_trajectory_tracking_uni_io()
