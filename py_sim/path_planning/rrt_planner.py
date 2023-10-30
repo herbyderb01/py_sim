@@ -17,7 +17,7 @@ from py_sim.tools.sim_types import StateSpace, TwoDimArray
 
 ############### RRT Proceedures #############
 def extend(x_rand: TwoDimArray, tree: Tree, dist: float, cost: Cost, world: World) -> tuple[TwoDimArray, int, float]:
-    """ Given a sample, x_rand, and Tree, the Extend procedure finds the closes vertex to x_rand
+    """ Given a sample, x_rand, and Tree, the Extend procedure finds the closest vertex to x_rand
         that is already in the tree and checks if a valid extension can be made from the tree
         towards x_rand
 
