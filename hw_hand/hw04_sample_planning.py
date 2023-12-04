@@ -2,6 +2,18 @@ import numpy as np
 import numpy.typing as npt
 from typing import Any
 
+def carrot_projection() -> None:
+    """Computes the carrot projection problem in 1.2 of homework 4"""
+    v3 = np.array([[19],[7]])
+    v2 = np.array([[13],[3]])
+
+    diff = v3-v2
+    u = diff / (np.linalg.norm(diff))
+    u_hand = 1./np.sqrt(13)*np.array([[3],[2]])
+
+    print("diff = \n", diff)
+    print("u=\n", u)
+    print("u_hand=\n", u_hand)
 
 def calculate_fillet(x1: npt.NDArray[Any], x2: npt.NDArray[Any], x3: npt.NDArray[Any], r: float) -> None:
     """Calculates the fillet values
@@ -61,3 +73,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+    #carrot_projection()
