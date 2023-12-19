@@ -86,5 +86,5 @@ def fillet() -> None:
 
 if __name__ == "__main__":
 
-    #carrot_projection()
-    fillet()
+    carrot_projection()
+    #fillet()
