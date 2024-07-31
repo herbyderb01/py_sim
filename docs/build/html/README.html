@@ -87,15 +87,19 @@
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">simple_sim.py</span></code>: Provides an example of using a control law within the simulation with position and state plotting occurring actively during the movement of the vehicle.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">simple_vector_fields.py</span></code>: Provides and example of using a vector field control law with the vector field overlaid onto the live plotting of the moving vehicle.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">navigation_field.py</span></code>: Provides a framework for reactive planning using vector fields without any additional higher-level planning.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">vector_field_nav.py</span></code>: Provides an example with an obstacle world and range sensors in combination with a vehicle moving about the environment.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">graph_planning.py</span></code>: Provides an example of path planning using a graph search with a topology graph, visibility graph, and Voronoi graph</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">grid_planning.py</span></code>: Provides a framework for visualization of planning using an occupancy grid. Basic graph search techniques are implemented, including breadth-first, depth-first, Dijkstra, A*, and greedy searches.</p></li>
 </ul>
 </section>
 <section id="planning-examples">
 <h3>Planning examples<a class="headerlink" href="#planning-examples" title="Permalink to this heading">¶</a></h3>
 <p>The planning examples show static deliberative planning capabilities (i.e., planning a path through an environment from the start position to the end position)</p>
-<p>C:\Users\greg\Documents\python-robot-sim\documentation\figures</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grid_visualization</span></code>: Shows an occupancy grid overlay on top of the world. It is useful for showing the effect of different grid resolutions. While not actually a planning example, it provides an example of the world decomposition.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">graph_planning.py</span></code>: Provides an example of path planning using a graph search with a topology graph, visibility graph, and Voronoi graph</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid_planning.py</span></code>: Provides a framework for visualization of planning using an occupancy grid. Basic graph search techniques are implemented, including breadth-first, depth-first, Dijkstra, A*, and greedy searches.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rrt_planning.py</span></code>: Provides a framework for visualizing RRT planning schemes.</p></li>
+</ul>
 </section>
 </section>
 </section>

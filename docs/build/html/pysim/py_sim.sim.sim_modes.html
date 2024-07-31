@@ -232,7 +232,7 @@
 <span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.sim_modes.NavVectorFollower.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calls all of the update functions.</p>
 <dl class="simple">
-<dt>Updates performed:</dt><dd><ul class="simple">
+<dt>The following updates are performed:</dt><dd><ul class="simple">
 <li><p>Calculate the range and bearing measurements</p></li>
 <li><p>Update the goal location if carrot-following</p></li>
 <li><p>Calculate the resulting vector to be followed</p></li>
@@ -242,6 +242,28 @@
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.NavVectorFollower.update_dynamics">
+<span class="sig-name descname"><span class="pre">update_dynamics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.sim_modes.NavVectorFollower.update_dynamics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the control and dynamics</p>
+<dl class="simple">
+<dt>The following updates are performed:</dt><dd><ul class="simple">
+<li><p>Update the goal location if carrot-following</p></li>
+<li><p>Calculate the resulting vector to be followed</p></li>
+<li><p>Calculate the control to be executed</p></li>
+<li><p>Update the state</p></li>
+<li><p>Update the time</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.NavVectorFollower.update_sensing">
+<span class="sig-name descname"><span class="pre">update_sensing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.sim_modes.NavVectorFollower.update_sensing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the range and bearing measurements</p>
 </dd></dl>
 
 </dd></dl>
