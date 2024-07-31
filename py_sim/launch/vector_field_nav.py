@@ -9,7 +9,7 @@ from py_sim.dynamics import single_integrator
 from py_sim.path_planning.path_generation import create_path
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.sensors.range_bearing import RangeBearingSensor
-from py_sim.sim.generic_sim import SimParameters, start_simple_sim
+from py_sim.sim.generic_sim import SimParameters, start_sim
 from py_sim.sim.sim_modes import NavVectorFollower
 from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import TwoDimArray, UnicycleControl, UnicycleState
@@ -110,7 +110,7 @@ def run_simple_vectorfield_example(follow_path: bool = False) -> None:
                          )
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 def run_single_vectorfield_example(follow_path: bool = False) -> None:
     """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed using a single integrator
@@ -180,7 +180,7 @@ def run_single_vectorfield_example(follow_path: bool = False) -> None:
                          )
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 if __name__ == "__main__":
     # Perform navigation without path planning (simple goal and avoid vector fields)

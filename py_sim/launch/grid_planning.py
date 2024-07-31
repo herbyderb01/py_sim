@@ -17,7 +17,8 @@ import py_sim.worlds.polygon_world as poly_world
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
-from py_sim.sim.generic_sim import SimParameters, SingleAgentSim
+from py_sim.sim.generic_sim import SimParameters
+from py_sim.sim.sim_modes import SingleAgentSim
 from py_sim.tools.sim_types import (
     TwoDimArray,
     UnicycleControl,
@@ -86,6 +87,8 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
         return succ
 
     def post_process(self) -> None:
+        """Final update on the plot after the simulation has ended
+        """
         print("Finished planner")
         self.update_plot() # Plot the latest data
 

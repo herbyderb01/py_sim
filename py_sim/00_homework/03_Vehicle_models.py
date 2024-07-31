@@ -7,7 +7,7 @@ import py_sim.dynamics.unicycle as uni
 from py_sim.path_planning.path_generation import create_path
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.sensors.range_bearing import RangeBearingSensor
-from py_sim.sim.generic_sim import SimParameters, start_simple_sim
+from py_sim.sim.generic_sim import SimParameters, start_sim
 from py_sim.sim.sim_modes import NavVectorFollower, SimpleSim, VectorFollower
 from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (
@@ -62,7 +62,7 @@ def run_unicycle_arc_example() -> None:
                     plots=plot_manifest)
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 def run_differential_drive_arc_example() -> None:
     """Runs an example of a vehicle executing an arc
@@ -98,7 +98,7 @@ def run_differential_drive_arc_example() -> None:
                     plots=plot_manifest)
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 def run_bicycle_arc_example() -> None:
     """Runs an example of a vehicle executing an arc
@@ -134,7 +134,7 @@ def run_bicycle_arc_example() -> None:
                     plots=plot_manifest)
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 def simple_field_unicycle() -> None:
     """Runs an example of a go-to-goal vector field combined with an obstacle avoidance
@@ -179,7 +179,7 @@ def simple_field_unicycle() -> None:
                          vector_field=vector_field)
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 def carrot_follow_unicycle() -> None:
     """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed. The optional ability to follow a path allows the vehicle to navigate around complex obstacles.
@@ -251,7 +251,7 @@ def carrot_follow_unicycle() -> None:
                          )
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 if __name__ == "__main__":
     #run_unicycle_arc_example()
