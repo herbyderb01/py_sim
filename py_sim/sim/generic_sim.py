@@ -8,6 +8,7 @@ from signal import SIGINT, signal
 from threading import Event, Lock
 from typing import Generic, Protocol
 
+import matplotlib.pyplot as plt
 from py_sim.tools.sim_types import Data, Slice, StateType
 
 
@@ -58,10 +59,10 @@ class Sim(Protocol[StateType]):
     def post_process(self) -> None:
         """Process the results"""
 
-    async def continuous_plotting(self) -> None:
-        """Create a plot callback function
+    def update_plot(self) -> None:
+        """Plot the current values and state. Should be done with the lock on to avoid
+           updating current while plotting the data
         """
-
     def store_data_slice(self, sim_slice: Slice[StateType]) -> None:
         """Stores data after update"""
 
@@ -86,6 +87,22 @@ async def run_simulation(sim: Sim[StateType]) -> None:
     print("Post-processing")
     sim.post_process()
 
+async def continuous_plotting(sim: Sim[StateType]) -> None:
+    """Plot the data at a certain rate"""
+    # Create the initial plot
+    plt.show(block=False)
+
+    # Continuously update the plots
+    while not sim.stop.is_set():
+        sim.update_plot()
+        await asyncio.sleep(sim.params.sim_plot_period)
+
+    # Stop the simulator
+    sim.stop.set()
+    await asyncio.sleep(1.) # Allows for post processing to be started prior to blocking the thread
+    print("Waiting for all plots to be closed")
+    plt.show()
+
 def start_sim(sim: Sim[StateType]) -> None:
     """Starts the simulation and the plotting of a simple sequential simulator
 
@@ -95,7 +112,7 @@ def start_sim(sim: Sim[StateType]) -> None:
 
     async def run_sim(sim: Sim[StateType]) -> None:
         """Begins the async thread for running the simple sim"""
-        await asyncio.gather(run_simulation(sim=sim), sim.continuous_plotting())
+        await asyncio.gather(run_simulation(sim=sim), continuous_plotting(sim=sim))
 
     def handler(_, __): # type: ignore
         """Simple signal handler"""

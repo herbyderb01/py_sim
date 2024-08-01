@@ -1,12 +1,10 @@
 """ Defines a number of simulation modes that can be used
 """
 
-import asyncio
 import copy
 from threading import Event, Lock
 from typing import Generic, Optional
 
-import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes._axes import Axes
 from matplotlib.figure import Figure
@@ -138,22 +136,6 @@ class SingleAgentSim(Generic[StateType]):
             if sim_slice.input_vec is not None:
                 self.data.control_traj[:,self.data.traj_index_latest:self.data.traj_index_latest+1] = \
                 sim_slice.input_vec
-
-    async def continuous_plotting(self) -> None:
-        """Plot the data at a certain rate"""
-        # Create the initial plot
-        plt.show(block=False)
-
-        # Continuously update the plots
-        while not self.stop.is_set():
-            self.update_plot()
-            await asyncio.sleep(self.params.sim_plot_period)
-
-        # Stop the simulator
-        self.stop.set()
-        await asyncio.sleep(1.) # Allows for post processing to be started prior to blocking the thread
-        print("Waiting for all plots to be closed")
-        plt.show()
 
     def post_process(self) -> None:
         """Process the results"""
