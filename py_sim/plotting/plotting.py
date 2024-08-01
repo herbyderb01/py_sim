@@ -73,8 +73,9 @@ class PlotManifest(Generic[StateType]):
         figs(list[Figure]): Figures created for plotting
         axes(dict[str, Axes]): Mapping of axis name to the axis
         state_plots(list[StatePlot[StateType]]): List of all the state plots
+            (plots that only depend on the state)
         data_plots(list[DataPlot[StateType]]): List of all the data plots
-
+            (plots that depend on many data elements)
     """
     figs: list[Figure] = []
     axes: dict[str, Axes] = {}

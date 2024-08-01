@@ -518,7 +518,8 @@ planning has already been performed. Throws a ValueError if the end index cannot
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PlotManifest.state_plots">
 <span class="sig-name descname"><span class="pre">state_plots</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlotManifest.state_plots" title="Permalink to this definition">¶</a></dt>
-<dd><p>List of all the state plots</p>
+<dd><p>List of all the state plots
+(plots that only depend on the state)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list[<a class="reference internal" href="#py_sim.plotting.plotting.StatePlot" title="py_sim.plotting.plotting.StatePlot">StatePlot</a>[StateType]]</p>
@@ -529,7 +530,8 @@ planning has already been performed. Throws a ValueError if the end index cannot
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.plotting.plotting.PlotManifest.data_plots">
 <span class="sig-name descname"><span class="pre">data_plots</span></span><a class="headerlink" href="#py_sim.plotting.plotting.PlotManifest.data_plots" title="Permalink to this definition">¶</a></dt>
-<dd><p>List of all the data plots</p>
+<dd><p>List of all the data plots
+(plots that depend on many data elements)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list[<a class="reference internal" href="#py_sim.plotting.plotting.DataPlot" title="py_sim.plotting.plotting.DataPlot">DataPlot</a>[StateType]]</p>

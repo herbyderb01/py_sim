@@ -60,9 +60,10 @@ class Sim(Protocol[StateType]):
         """Process the results"""
 
     def update_plot(self) -> None:
-        """Plot the current values and state. Should be done with the lock on to avoid
-           updating current while plotting the data
+        """Plot the current values and state. Should be done with
+        lock to avoid simultaneous access of state.
         """
+
     def store_data_slice(self, sim_slice: Slice[StateType]) -> None:
         """Stores data after update"""
 
