@@ -29,7 +29,7 @@ from py_sim.worlds.polygon_world import (  # pylint: disable=unused-import
 
 
 def run_unicycle_arc_example() -> None:
-    """Runs an example of a vehicle executing an arc
+    """Runs an example of a unicycle vehicle executing an arc
 
     Args:
         model: The model used for the simple dynamics
@@ -65,7 +65,7 @@ def run_unicycle_arc_example() -> None:
     start_sim(sim=sim)
 
 def run_differential_drive_arc_example() -> None:
-    """Runs an example of a vehicle executing an arc
+    """Runs an example of a differential vehicle executing an arc
 
     Args:
         model: The model used for the simple dynamics
@@ -101,7 +101,7 @@ def run_differential_drive_arc_example() -> None:
     start_sim(sim=sim)
 
 def run_bicycle_arc_example() -> None:
-    """Runs an example of a vehicle executing an arc
+    """Runs an example of a bicycle vehicle executing an arc
 
     Args:
         model: The model used for the simple dynamics
@@ -138,7 +138,7 @@ def run_bicycle_arc_example() -> None:
 
 def simple_field_unicycle() -> None:
     """Runs an example of a go-to-goal vector field combined with an obstacle avoidance
-    field.
+    field with a unicycle dynamic model.
     """
     # Initialize the state and control
     vel_params = uni.UniVelVecParams(vd_field_max=5., k_wd= 2.)
@@ -254,8 +254,8 @@ def carrot_follow_unicycle() -> None:
     start_sim(sim=sim)
 
 if __name__ == "__main__":
-    #run_unicycle_arc_example()
+    run_unicycle_arc_example()
     #run_differential_drive_arc_example()
     #run_bicycle_arc_example()
     #simple_field_unicycle()
-    carrot_follow_unicycle()
+    #carrot_follow_unicycle()

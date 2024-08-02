@@ -1,4 +1,4 @@
-"""simple_vector_fields.py: Provides a series of examples of vector field following for basic fields
+"""02_Point_following: Provides a series of examples of vector field following for basic fields
 
 Provides and example of using a vector field control law with the vector field overlaid onto the live plotting of the moving vehicle
 """
@@ -72,7 +72,7 @@ def simple_vectorfield() -> None:
     start_sim(sim=sim)
 
 def carrot_follow() -> None:
-    """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed using a single integrator
+    """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed using a single integrator. A carrot can be created to allow the vehicle to follow a path to the goal.
 
     Args:
         follow_path: True => a path will be created and followed, False => the vector field will alone be used
@@ -142,7 +142,7 @@ def carrot_follow() -> None:
     start_sim(sim=sim)
 
 def navigation_function() -> None:
-    """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed using a single integrator
+    """Runs an example of a navigation field for a vehicle to follow to a goal location
     """
     # Initialize the state and control
     vel_params = single_integrator.VectorParams(v_max=5.)
