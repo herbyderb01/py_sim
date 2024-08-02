@@ -16,7 +16,7 @@ from typing import Any, Generic, Optional, Protocol, TypeVar, cast
 import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
-from matplotlib.axes._axes import Axes
+from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.image import AxesImage
 from matplotlib.lines import Line2D
@@ -286,7 +286,7 @@ class UnicycleTimeSeriesPlot():
     """Plots the unicycle state vs time with each state in its own subplot
 
     fig(Figure): Figure on which the trajectories are plot
-    axs(npt.NDArray(Axes)): The subplot axes on which everything is plot
+    axs(np.ndarray[Axes]): The subplot axes on which everything is plot
     handle_x(Line2D): reference to the line on which the x state is plot
     handle_y(Line2D): reference to the line on which the y state is plot
     handle_psi(Line2D): reference to the line on which the psi state is plot
@@ -297,7 +297,7 @@ class UnicycleTimeSeriesPlot():
                  color: Color,
                  style: str = "-",
                  fig: Optional[Figure] = None,
-                 axs: Optional[ list[Axes] ] = None,
+                 axs: Optional[ npt.NDArray ] = None,
                  label: str = "") -> None:
         """Plot a unicycle time series plot
 
@@ -373,6 +373,7 @@ class SingleIntegratorTimeSeriesPlot():
         """
 
         # Create a new figure
+        self.axs: list[Axes]
         if fig is None or axs is None:
             self.fig, self.axs = plt.subplots(4,1)
         else:
@@ -683,7 +684,7 @@ def plot_occupancy_grid_cells(ax: Axes,
             cell_color = color_occupied
 
         # Create the cell plot
-        polygons.append(ax.fill(x, y, color=cell_color))
+        polygons.extend(ax.fill(x, y, color=cell_color))
 
     # Return the result
     return polygons

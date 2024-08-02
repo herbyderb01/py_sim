@@ -94,6 +94,8 @@ def run_rrt_planner(planner: Literal["rrt", "rrt_star", "i-rrt", "s-rrt"],
                                                    beacon_radius=2.,
                                                    bias_explore=10,
                                                    plotter=plotter)
+    else:
+        raise ValueError("Invalid planner")
 
     # Smooth the resulting plan
     x_vec_smooth, y_vec_smooth = rrt.path_smooth(x_vec=x_vec, y_vec=y_vec, world=obstacle_world)

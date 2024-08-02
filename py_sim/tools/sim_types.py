@@ -173,8 +173,8 @@ class TwoDimArray:
     @position.setter
     def position(self, val: npt.NDArray[Any]) -> None:
         """Sets the position"""
-        self.state.itemset(self.IND_X, val.item(self.IND_X))
-        self.state.itemset(self.IND_Y, val.item(self.IND_Y))
+        self.state[self.IND_X, 0] = val.item(self.IND_X)
+        self.state[self.IND_Y, 0] = val.item(self.IND_Y)
 
 class Dynamics(Protocol[StateType, InputType, DynamicsParamType]): # type: ignore
     """Class taking the form of a state dynamics function call"""

@@ -69,7 +69,7 @@ class SingleAgentSim(Generic[StateType]):
 
         # Create the figure and axis for plotting
         self.figs: list[Figure] = plots.figs
-        self.axes: dict[Axes, Figure] = plots.axes
+        self.axes: dict[str, Axes] = plots.axes
         self.state_plots: list[StatePlot[StateType]] = plots.state_plots
         self.data_plots: list[DataPlot[StateType]] = plots.data_plots
 

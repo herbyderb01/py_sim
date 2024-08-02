@@ -4,7 +4,7 @@
     by James Swedeen, Greg Droge, and Randall Christensen
 """
 
-from typing import Optional, cast
+from typing import Optional, cast, Union
 
 import numpy as np
 import py_sim.path_planning.sampling_procedures as proc
@@ -325,6 +325,7 @@ def rrt_star(x_root: TwoDimArray,
             extend_star(x_rand=x_rand, tree=tree, dist=dist, cost=cost, world=world, n_nearest=num_nearest)
 
         # Insert the point into the tree
+        ind_rewire: Union[list[int], None] = None
         if cost_new < np.inf:
             # Insert the new node
             node_index = proc.insert_node(new_node=x_new, parent_ind=ind_p, tree=tree, cost=cost)
