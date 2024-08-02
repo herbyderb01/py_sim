@@ -23,8 +23,8 @@ def run_unicycle_simple_vectorfield_example() -> None:
     vel_params = uni.UniVelVecParams(vd_field_max=5., k_wd= 5.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
-    # Create the vector field
-    n_lines = 10 # Number of sensor lines
+    # Set the number of sensor lines
+    n_lines = 10
 
     # Create the obstacle world
     obstacle_world = generate_world_obstacles()
@@ -81,8 +81,8 @@ def run_single_simple_vectorfield_example() -> None:
     vel_params = single_integrator.VectorParams(v_max=5.)
     state_initial = TwoDimArray(x = 0., y= 0.)
 
-    # Create the sensors
-    n_lines = 10 # Number of sensor lines
+    # Set the number of sensor lines
+    n_lines = 10
 
     # Create the obstacle world
     #obstacle_world = generate_world_obstacles()
@@ -133,5 +133,5 @@ def run_single_simple_vectorfield_example() -> None:
 
 if __name__ == "__main__":
     # Perform navigation without path planning (simple goal and avoid vector fields)
-    run_single_simple_vectorfield_example()
-    #run_unicycle_simple_vectorfield_example()
+    #run_single_simple_vectorfield_example()
+    run_unicycle_simple_vectorfield_example()
