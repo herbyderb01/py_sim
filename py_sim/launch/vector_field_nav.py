@@ -19,6 +19,7 @@ from py_sim.worlds.polygon_world import (
     generate_world_obstacles,
 )
 
+
 def run_single_vectorfield_example(follow_path: bool = False) -> None:
     """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed using a single integrator
 

@@ -4,7 +4,7 @@
     by James Swedeen, Greg Droge, and Randall Christensen
 """
 
-from typing import Optional, cast, Union
+from typing import Optional, Union, cast
 
 import numpy as np
 import py_sim.path_planning.sampling_procedures as proc

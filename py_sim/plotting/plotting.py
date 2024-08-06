@@ -297,7 +297,7 @@ class UnicycleTimeSeriesPlot():
                  color: Color,
                  style: str = "-",
                  fig: Optional[Figure] = None,
-                 axs: Optional[ npt.NDArray ] = None,
+                 axs: Optional[ list[Axes] ] = None,
                  label: str = "") -> None:
         """Plot a unicycle time series plot
 
@@ -310,8 +310,9 @@ class UnicycleTimeSeriesPlot():
         """
 
         # Create a new figure
+        self.axs: list[Axes]
         if fig is None or axs is None:
-            self.fig, self.axs = plt.subplots(5,1)
+            self.fig, self.axs = plt.subplots(5,1) # type: ignore
         else:
             self.fig = fig
             self.axs = axs
@@ -375,7 +376,7 @@ class SingleIntegratorTimeSeriesPlot():
         # Create a new figure
         self.axs: list[Axes]
         if fig is None or axs is None:
-            self.fig, self.axs = plt.subplots(4,1)
+            self.fig, self.axs = plt.subplots(4,1) # type: ignore
         else:
             self.fig = fig
             self.axs = axs
