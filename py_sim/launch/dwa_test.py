@@ -3,14 +3,16 @@
 
 import time
 from typing import Generic
-
+import numpy as np
 import matplotlib.pyplot as plt
 import py_sim.path_planning.forward_grid_search as search
 import py_sim.worlds.polygon_world as poly_world
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
-from py_sim.sim.generic_sim import SimParameters, SingleAgentSim
+from py_sim.sim.generic_sim import SimParameters, start_sim
+from py_sim.sim.sim_modes import DwaFollower
+from matplotlib.axes import Axes
 from py_sim.tools.sim_types import (
     TwoDimArray,
     UnicycleControl,
@@ -19,6 +21,10 @@ from py_sim.tools.sim_types import (
 )
 import py_sim.path_planning.dwa as dwa
 from py_sim.dynamics.unicycle import solution as unicycle_solution
+from py_sim.tools.sim_types import DwaParams
+import py_sim.dynamics.unicycle as uni
+from py_sim.path_planning.path_generation import create_path
+from py_sim.tools.projections import LineCarrot
 
 def get_arc(init: UnicycleStateType,
             vel: UnicycleControl,
@@ -60,18 +66,37 @@ def plot_arcs():
 
     # Initialize the dwa search parameters
     ds = 0.1
-    params = dwa.DwaParams(v_des=2.,
-                           w_max=1.,
-                           w_res=0.1,
-                           ds=ds,
-                           sf=2.,
-                           s_eps=0.1)
+    params = DwaParams(v_des=2.,
+                       w_max=5.,
+                       w_res=0.1,
+                       ds=ds,
+                       sf=2.,
+                       s_eps=0.1)
     obstacle_world = poly_world.generate_world_obstacles()
     # obstacle_world = poly_world.generate_non_convex_obstacles()
 
     # Create an initial state and a goal state
-    x0 = UnicycleState(x=1., y=1., psi=0.)
-    xg = TwoDimArray(x=2, y=2.)
+    x0 = UnicycleState(x=3., y=2., psi=np.pi/4.)
+    xg = TwoDimArray(x=5, y=5.)
+
+    # Create a plot from the plot manifest
+    plt_dist = 5.
+    manifest = create_plot_manifest(initial_state=x0,
+                                    world=obstacle_world,
+                                    y_limits=(x0.y-plt_dist, x0.y+plt_dist),
+                                    x_limits=(x0.x-plt_dist, x0.x+plt_dist),
+                                    position_triangle=True)
+    for plot in manifest.state_plots:
+        plot.plot(state=x0)
+    for fig in manifest.figs:
+        fig.canvas.draw()
+        fig.canvas.flush_events()
+    plt.show(block=False)
+
+    # Plot the goal location
+    v_plot: Axes = manifest.axes['Vehicle_axis']
+    v_plot.plot(xg.x, xg.y, 'go', linewidth=8)
+
 
     # Calcuate the desired velocities
     vel_des = dwa.compute_desired_velocities(state=x0,
@@ -94,3 +119,86 @@ def plot_arcs():
         # Get the resulting arcs
         x_des, y_des = get_arc(init=x0, vel=cont_w, ds=ds, tf=params.tf )
         x_act, y_act = get_arc(init=x0, vel=scaled_vels, ds=ds, tf=params.tf)
+
+        # Plot the arcs
+        v_plot.plot(x_des, y_des, 'b', linewidth=2)
+        v_plot.plot(x_act, y_act, 'k', linewidth=2)
+
+    # Plot the goal velocities
+    x_g, y_g = get_arc(init=x0, vel=vel_des, ds=ds, tf=params.tf)
+    v_plot.plot(x_g, y_g, 'g', linewidth=3)
+
+    plt.show(block=True)
+
+def run_unicycle_dwa_example() -> None:
+    """Runs an example of a DWA controller used with a unicycle
+    """
+
+    # Initialize the state and control
+    state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
+
+    # Initialize the dwa search parameters
+    ds = 0.05
+    dwa_params = DwaParams(v_des=2.,
+                           w_max=5.,
+                           w_res=0.1,
+                           ds=ds,
+                           sf=2.,
+                           s_eps=0.1)
+
+    # Create the obstacle world
+    obstacle_world = poly_world.generate_world_obstacles()
+    # obstacle_world = poly_world.generate_non_convex_obstacles()
+
+    # Create the plan to follow
+    x_g = TwoDimArray(x=22., y=4.)
+    plan = create_path(start=TwoDimArray(x=state_initial.x, y=state_initial.y),
+                       end=x_g,
+                       obstacle_world=obstacle_world, plan_type="visibility")
+
+    line = np.array([plan[0], plan[1]])
+    carrot = LineCarrot(line=line, s_dev_max=5., s_carrot=2.)
+
+    # Create the manifest for the plotting
+    plot_manifest = create_plot_manifest(initial_state=state_initial,
+                                 y_limits=(-5, 10),
+                                 x_limits=(-5, 25),
+                                 position_dot=False,
+                                 position_triangle=True,
+                                 state_trajectory=True,
+                                 time_series=True,
+                                 vector_res=0.5,
+                                 world=obstacle_world,
+                                 plan=plan,
+                                 line_carrot=carrot
+                                 )
+
+    # Create the simulation
+    params = SimParameters(initial_state=state_initial)
+    params.sim_plot_period = 0.1
+    params.sim_step = 0.1
+    params.sim_update_period = 0.1
+    sim = DwaFollower(params=params,
+                      dynamics= uni.dynamics,
+                      controller=uni.arc_control,
+                      dynamic_params= uni.UnicycleParams(),
+                      dwa_params=dwa_params,
+                      n_inputs=UnicycleControl.n_inputs,
+                      plots=plot_manifest,
+                      world=obstacle_world,
+                      carrot=carrot
+                      )
+
+    # Run the simulation
+    start_sim(sim=sim)
+
+def main() -> None:
+    """Runs the dynamic window approach test"""
+    # Simple script to visualize the arcs produced by the DWA search
+    # plot_arcs()
+
+    # Run the unicycle DWA example
+    run_unicycle_dwa_example()
+
+if __name__ == "__main__":
+    main()

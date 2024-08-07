@@ -124,6 +124,10 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
     if world is not None:
         pt.plot_polygon_world(ax=ax, world=world)
 
+    # Plot the plan
+    if plan is not None:
+        plots.axes['Vehicle_axis'].plot(plan[0], plan[1], "-", color=plan_color, linewidth=3)
+
     # Create the desired state plots
     if position_triangle:
         if isinstance(initial_state, UnicycleStateProtocol): # Ignore statement below is mismattch between LocationStateType and UnicycleStateProtocol, checked by this if statement
@@ -133,7 +137,6 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
             print("Plotting position dot as cannot plot triangle for type ", type(initial_state))
     if position_dot:
         plots.state_plots.append(pt.PositionPlot(ax=ax, label="Vehicle", color=color) )
-
 
     # Create the state trajectory plot
     if state_trajectory:
@@ -176,10 +179,6 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
     # Graph plot
     if graph is not None:
         nx.drawing.nx_pylab.draw(G=graph.graph, pos=graph.node_location, ax=ax, node_size=graph_node_size )
-
-    # Plot the plan
-    if plan is not None:
-        plots.axes['Vehicle_axis'].plot(plan[0], plan[1], "-", color=plan_color, linewidth=3)
 
     # Plot the carrot point
     if line_carrot is not None:

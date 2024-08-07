@@ -7,6 +7,8 @@ from py_sim.worlds.polygon_world import PolygonWorld as World
 from py_sim.tools.sim_types import TwoDArrayType, UnicycleStateProtocol, UnicycleControl
 from typing import Protocol, Any
 from py_sim.dynamics.unicycle import solution as unicycle_solution
+from py_sim.tools.sim_types import Control, LocationStateType, InputType, DynamicsParamType, ArcParams, DwaParams
+from typing import Generic
 
 class World(Protocol):
     """Defines a world in which a point can be queried for obstacle collision
@@ -20,58 +22,6 @@ class World(Protocol):
         Returns:
             bool: True if the point is in an obstacle
         """
-
-class DwaParams():
-    """Parameters used for following a carrot point using the dynamic window approach
-
-    Attributes:
-        v_des(float): The desired translational velocity
-        w_vals(list(float)): The desired rotational velocities to search
-        t_vals(list(float)): The time instances to evaluate on each arc
-        dt(float): The resolution in time for each sample
-        tf(float): The final time to evaluate
-        t_eps(float): A small value in time to subtract from a collision point
-        _w_vals(list(float)): The desired rotational velocities to search (internal)
-        _w_max(float): The maximum angular velocity to search
-        _w_res(float): The resolution of the arc search. Arc searched
-                      from -w_max:w_res:w_max
-    """
-    def __init__(self, v_des: float, w_max: float, w_res: float, ds: float, sf: float, s_eps: float) -> None:
-        """ Initializes the parameters of the DWA search
-
-        Args:
-            v_des: The desired translational velocity
-            w_max: The maximum angular velocity to search
-            w_res(float): The resolution of the arc search. Arc searched
-                      from -w_max:w_res:w_max
-            ds: The resolution in space for each sample (meters)
-            sf: The horizon length in meters
-            s_eps: A small value in meters to subtract from a point of collision
-        """
-        # Check the inputs
-        if v_des <= 0. or w_max <= 0. or w_res <= 0.:
-            raise ValueError("DWA parameters must all be positive")
-
-        # Store the inputs
-        self.v_des = v_des
-        self.tf = sf/v_des
-        self.dt = ds/v_des
-        self.t_eps = s_eps/v_des
-        self.t_vals: list[float] = np.arange(start=0., stop=self.tf, step=self.dt).tolist()
-        self.t_vals.append(self.tf)
-        self._w_max = w_max
-        self._w_res = w_res
-
-        # Create the range of rotational velocity values over which to search
-        self._w_vals: list[float] = []
-        for w in np.arange(start=-w_max, stop=w_max, step=w_res).tolist():
-            self._w_vals.append(w)
-        self._w_vals.append(w_max) # arange is not inclusive on the stop
-
-    @property
-    def w_vals(self) -> list[float]:
-        """Returns the rotational velocity list"""
-        return self._w_vals
 
 def evaluate_arc_collision(state: UnicycleStateProtocol,
                            params: DwaParams,
@@ -117,7 +67,7 @@ def compute_desired_velocities(state: UnicycleStateProtocol,
                                params: DwaParams,
                                goal: TwoDArrayType,
                                world: World) -> UnicycleControl:
-    """Computes the desired velocities for the vehicle.
+    """Computes the desired velocities for the vehicle. This is effectively a single run of the DWA algorithm.
 
     Note that this is a simplification from typical DWA. In traditional DWA, a dynamic window around
     the current velocities is assumed. This function tries out all velocities within a window.

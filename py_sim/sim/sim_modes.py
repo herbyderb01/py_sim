@@ -14,9 +14,11 @@ from py_sim.sim.generic_sim import SimParameters
 from py_sim.sim.integration import euler_update
 from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (
+    ArcParams,
     Control,
     ControlParamType,
     Data,
+    DwaParams,
     Dynamics,
     DynamicsParamType,
     InputType,
@@ -29,6 +31,7 @@ from py_sim.tools.sim_types import (
 )
 from py_sim.vectorfield.vectorfields import G2GAvoid
 from py_sim.worlds.polygon_world import PolygonWorld
+import py_sim.path_planning.dwa as dwa
 
 
 class SingleAgentSim(Generic[StateType]):
@@ -474,6 +477,88 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType, 
                                                     initial=self.data.current.state,
                                                     params=self.dynamic_params,
                                                     dt=self.params.sim_step)
+
+        # Update the time by sim_step
+        self.data.next.time = self.data.current.time + self.params.sim_step
+
+class DwaFollower(Generic[LocationStateType, InputType, DynamicsParamType], SingleAgentSim[LocationStateType]):
+    """Framework for implementing a simulator that uses a vector field for feedback control through a polygon world with a distance measurement
+
+    Attributes:
+        dynamics(Dynamics[LocationStateType, InputType, DynamicsParamType]): The dynamics function to be used for simulation
+        controller(VectorControl[LocationStateType, InputType, DynamicsParamType, ControlParamType]): The control law to be used during simulation
+        dynamic_params(DynamicsParamType): Fixed parameters for the dynamics
+        control_params(ArcParams): The parameters of the control law to be used in simulation
+        vector_field(G2GAvoid): Vector field that the vehicle will use to avoid obstacles while traversing to the goal
+        world(PolygonWorld): World in which the vehicle is operating
+        sensor(RangeBearingSensor): The sensor used for detecting obstacles
+        carrot(Optional[LineCarrot]): Provides a carrot to be followed
+    """
+    def __init__(self,  # pylint: disable=too-many-arguments
+                 dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType],
+                 controller: Control[LocationStateType, InputType, DynamicsParamType, ArcParams],
+                 dynamic_params: DynamicsParamType,
+                 dwa_params: DwaParams,
+                 n_inputs: int,
+                 plots: PlotManifest[LocationStateType],
+                 world: PolygonWorld,
+                 carrot: Optional[LineCarrot],
+                 params: SimParameters[LocationStateType]
+                 ) -> None:
+        """Creates a SingleAgentSim and then sets up the plotting and storage
+
+        Args:
+            initial_state: The starting state of the vehicle
+            dynamics: The dynamics function to be used for simulation
+            controller: The control law to be used during simulation
+            dynamic_params: Fixed parameters for the dynamics
+            control_params: The parameters of the control law to be used in simulation
+            n_input: The number of inputs for the dynamics function
+        """
+
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
+
+        # Initialize sim-specific parameters
+        self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
+        self.controller: Control[LocationStateType, InputType, DynamicsParamType, ArcParams] = controller
+        self.dynamic_params: DynamicsParamType = dynamic_params
+        self.dwa_params: DwaParams = dwa_params
+        self.world: PolygonWorld = world
+        self.carrot: LineCarrot = carrot
+
+    def update(self) -> None:
+        """Calls all of the update functions.
+
+        The following updates are performed:
+            * Update the goal location if carrot-following
+            * Calculate the DWA arc parameters
+            * Calculate the control to be executed
+            * Update the state
+            * Update the time
+        """
+        # Update the goal position
+        x_g = self.carrot.get_carrot_point(point=self.data.current.state)
+
+        # Calculate the DWA arc parameters
+        vel_des = dwa.compute_desired_velocities(state=self.data.current.state,
+                                                 params=self.dwa_params,
+                                                 goal=x_g,
+                                                 world=self.world)
+
+        # Calculate the control to follow the vector
+        arc_params = ArcParams(v_d=vel_des.v, w_d = vel_des.w)
+        control:InputType = self.controller(time=self.data.current.time,
+                                            state=self.data.current.state,
+                                            dyn_params=self.dynamic_params,
+                                            cont_params=arc_params)
+        self.data.current.input_vec = control.input
+
+        # Update the state using the latest control
+        self.data.next.state.state = euler_update(dynamics=self.dynamics,
+                                                  control=control,
+                                                  initial=self.data.current.state,
+                                                  params=self.dynamic_params,
+                                                  dt=self.params.sim_step)
 
         # Update the time by sim_step
         self.data.next.time = self.data.current.time + self.params.sim_step
