@@ -16,7 +16,7 @@ from typing import Any, Generic, Optional, Protocol, TypeVar, cast
 import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
-from matplotlib.axes._axes import Axes
+from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.image import AxesImage
 from matplotlib.lines import Line2D
@@ -73,8 +73,9 @@ class PlotManifest(Generic[StateType]):
         figs(list[Figure]): Figures created for plotting
         axes(dict[str, Axes]): Mapping of axis name to the axis
         state_plots(list[StatePlot[StateType]]): List of all the state plots
+            (plots that only depend on the state)
         data_plots(list[DataPlot[StateType]]): List of all the data plots
-
+            (plots that depend on many data elements)
     """
     figs: list[Figure] = []
     axes: dict[str, Axes] = {}
@@ -285,7 +286,7 @@ class UnicycleTimeSeriesPlot():
     """Plots the unicycle state vs time with each state in its own subplot
 
     fig(Figure): Figure on which the trajectories are plot
-    axs(npt.NDArray(Axes)): The subplot axes on which everything is plot
+    axs(np.ndarray[Axes]): The subplot axes on which everything is plot
     handle_x(Line2D): reference to the line on which the x state is plot
     handle_y(Line2D): reference to the line on which the y state is plot
     handle_psi(Line2D): reference to the line on which the psi state is plot
@@ -309,8 +310,9 @@ class UnicycleTimeSeriesPlot():
         """
 
         # Create a new figure
+        self.axs: list[Axes]
         if fig is None or axs is None:
-            self.fig, self.axs = plt.subplots(5,1)
+            self.fig, self.axs = plt.subplots(5,1) # type: ignore
         else:
             self.fig = fig
             self.axs = axs
@@ -344,7 +346,6 @@ class UnicycleTimeSeriesPlot():
             ax.relim()
             ax.autoscale_view(True, True, True)
 
-
 class SingleIntegratorTimeSeriesPlot():
     """Plots the unicycle state vs time with each state in its own subplot
 
@@ -373,8 +374,9 @@ class SingleIntegratorTimeSeriesPlot():
         """
 
         # Create a new figure
+        self.axs: list[Axes]
         if fig is None or axs is None:
-            self.fig, self.axs = plt.subplots(4,1)
+            self.fig, self.axs = plt.subplots(4,1) # type: ignore
         else:
             self.fig = fig
             self.axs = axs
@@ -404,8 +406,6 @@ class SingleIntegratorTimeSeriesPlot():
         for ax in self.axs:
             ax.relim()
             ax.autoscale_view(True, True, True)
-
-
 
 class DataTimeSeries(Generic[StateType]):
     """Plots the time series of a given state withing the data object
@@ -458,6 +458,7 @@ def update_2d_line_plot(line: Line2D, x_vec: npt.NDArray[Any], y_vec: npt.NDArra
         y_vec: The data for the y coordinate
     """
     line.set_data(x_vec, y_vec)
+
 
 ###################### Vector Field Plot #######################
 VectorFieldType = TypeVar("VectorFieldType", bound=VectorField)
@@ -684,7 +685,7 @@ def plot_occupancy_grid_cells(ax: Axes,
             cell_color = color_occupied
 
         # Create the cell plot
-        polygons.append(ax.fill(x, y, color=cell_color))
+        polygons.extend(ax.fill(x, y, color=cell_color))
 
     # Return the result
     return polygons

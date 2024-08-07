@@ -8,7 +8,8 @@ import numpy as np
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
-from py_sim.sim.generic_sim import SimParameters, SingleAgentSim, start_simple_sim
+from py_sim.sim.generic_sim import SimParameters, start_sim
+from py_sim.sim.sim_modes import SingleAgentSim
 from py_sim.tools.sim_types import UnicycleControl, UnicycleState, UnicycleStateType
 from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
 
@@ -85,7 +86,7 @@ def test_occupancy_grid() -> None:
                             world=obstacle_world)
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 if __name__ == "__main__":
     test_occupancy_grid()

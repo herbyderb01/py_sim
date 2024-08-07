@@ -8,7 +8,7 @@ import py_sim.dynamics.differential_drive as diff  # pylint: disable=unused-impo
 import py_sim.dynamics.unicycle as uni  # pylint: disable=unused-import
 from py_sim.dynamics import single_integrator
 from py_sim.plotting.plot_constructor import create_plot_manifest
-from py_sim.sim.generic_sim import SimParameters, start_simple_sim
+from py_sim.sim.generic_sim import SimParameters, start_sim
 from py_sim.sim.sim_modes import SimpleSim
 from py_sim.tools.sim_types import (
     ArcParams,
@@ -57,7 +57,7 @@ def run_simple_arc_example() -> None:
                     plots=plot_manifest)
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 def run_integrator_example() -> None:
     """Runs an example of a single integrator executing a straight line"""
@@ -87,7 +87,7 @@ def run_integrator_example() -> None:
                     plots=plot_manifest)
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 if __name__ == "__main__":
     #run_integrator_example()

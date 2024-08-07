@@ -37,7 +37,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.sim.sim_modes.NavFieldFollower">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.sim.sim_modes.</span></span><span class="sig-name descname"><span class="pre">NavFieldFollower</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Dynamics" title="py_sim.tools.sim_types.Dynamics"><span class="pre">Dynamics</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DynamicsParamType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorControl" title="py_sim.tools.sim_types.VectorControl"><span class="pre">VectorControl</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DynamicsParamType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ControlParamType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dynamic_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DynamicsParamType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ControlParamType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.PlotManifest" title="py_sim.plotting.plotting.PlotManifest"><span class="pre">PlotManifest</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorField" title="py_sim.tools.sim_types.VectorField"><span class="pre">VectorField</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.worlds.polygon_world.html#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld"><span class="pre">PolygonWorld</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.range_bearing.html#py_sim.sensors.range_bearing.RangeBearingSensor" title="py_sim.sensors.range_bearing.RangeBearingSensor"><span class="pre">RangeBearingSensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sim.generic_sim.html#py_sim.sim.generic_sim.SimParameters" title="py_sim.sim.generic_sim.SimParameters"><span class="pre">SimParameters</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.sim.sim_modes.NavFieldFollower" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.InputType" title="py_sim.tools.sim_types.InputType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code></a>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ControlParamType" title="py_sim.tools.sim_types.ControlParamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicsParamType</span></code>], <a class="reference internal" href="py_sim.sim.generic_sim.html#py_sim.sim.generic_sim.SingleAgentSim" title="py_sim.sim.generic_sim.SingleAgentSim"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleAgentSim</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.InputType" title="py_sim.tools.sim_types.InputType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code></a>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ControlParamType" title="py_sim.tools.sim_types.ControlParamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicsParamType</span></code>], <a class="reference internal" href="#py_sim.sim.sim_modes.SingleAgentSim" title="py_sim.sim.sim_modes.SingleAgentSim"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleAgentSim</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
 <p>Framework for implementing a simulator that uses a vector field for feedback control through a polygon world with a distance measurement</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.sim.sim_modes.NavFieldFollower.dynamics">
@@ -56,7 +56,7 @@
 <dd><p>The control law to be used during simulation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Control" title="py_sim.tools.sim_types.Control">Control</a>[LocationStateType, InputType, ControlParamType]</p>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorControl" title="py_sim.tools.sim_types.VectorControl">VectorControl</a>[LocationStateType, InputType, DynamicsParamType, ControlParamType]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -137,7 +137,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.sim.sim_modes.NavVectorFollower">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.sim.sim_modes.</span></span><span class="sig-name descname"><span class="pre">NavVectorFollower</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Dynamics" title="py_sim.tools.sim_types.Dynamics"><span class="pre">Dynamics</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DynamicsParamType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorControl" title="py_sim.tools.sim_types.VectorControl"><span class="pre">VectorControl</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DynamicsParamType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ControlParamType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dynamic_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DynamicsParamType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ControlParamType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.PlotManifest" title="py_sim.plotting.plotting.PlotManifest"><span class="pre">PlotManifest</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.vectorfield.vectorfields.html#py_sim.vectorfield.vectorfields.G2GAvoid" title="py_sim.vectorfield.vectorfields.G2GAvoid"><span class="pre">G2GAvoid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.worlds.polygon_world.html#py_sim.worlds.polygon_world.PolygonWorld" title="py_sim.worlds.polygon_world.PolygonWorld"><span class="pre">PolygonWorld</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sensors.range_bearing.html#py_sim.sensors.range_bearing.RangeBearingSensor" title="py_sim.sensors.range_bearing.RangeBearingSensor"><span class="pre">RangeBearingSensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">carrot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.projections.html#py_sim.tools.projections.LineCarrot" title="py_sim.tools.projections.LineCarrot"><span class="pre">LineCarrot</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sim.generic_sim.html#py_sim.sim.generic_sim.SimParameters" title="py_sim.sim.generic_sim.SimParameters"><span class="pre">SimParameters</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.sim.sim_modes.NavVectorFollower" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.InputType" title="py_sim.tools.sim_types.InputType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code></a>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ControlParamType" title="py_sim.tools.sim_types.ControlParamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicsParamType</span></code>], <a class="reference internal" href="py_sim.sim.generic_sim.html#py_sim.sim.generic_sim.SingleAgentSim" title="py_sim.sim.generic_sim.SingleAgentSim"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleAgentSim</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.InputType" title="py_sim.tools.sim_types.InputType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code></a>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ControlParamType" title="py_sim.tools.sim_types.ControlParamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicsParamType</span></code>], <a class="reference internal" href="#py_sim.sim.sim_modes.SingleAgentSim" title="py_sim.sim.sim_modes.SingleAgentSim"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleAgentSim</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
 <p>Framework for implementing a simulator that uses a vector field for feedback control through a polygon world with a distance measurement</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.sim.sim_modes.NavVectorFollower.dynamics">
@@ -156,7 +156,7 @@
 <dd><p>The control law to be used during simulation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Control" title="py_sim.tools.sim_types.Control">Control</a>[LocationStateType, InputType, ControlParamType]</p>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorControl" title="py_sim.tools.sim_types.VectorControl">VectorControl</a>[LocationStateType, InputType, DynamicsParamType, ControlParamType]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -232,7 +232,7 @@
 <span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.sim_modes.NavVectorFollower.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calls all of the update functions.</p>
 <dl class="simple">
-<dt>Updates performed:</dt><dd><ul class="simple">
+<dt>The following updates are performed:</dt><dd><ul class="simple">
 <li><p>Calculate the range and bearing measurements</p></li>
 <li><p>Update the goal location if carrot-following</p></li>
 <li><p>Calculate the resulting vector to be followed</p></li>
@@ -244,12 +244,34 @@
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.NavVectorFollower.update_dynamics">
+<span class="sig-name descname"><span class="pre">update_dynamics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.sim_modes.NavVectorFollower.update_dynamics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the control and dynamics</p>
+<dl class="simple">
+<dt>The following updates are performed:</dt><dd><ul class="simple">
+<li><p>Update the goal location if carrot-following</p></li>
+<li><p>Calculate the resulting vector to be followed</p></li>
+<li><p>Calculate the control to be executed</p></li>
+<li><p>Update the state</p></li>
+<li><p>Update the time</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.NavVectorFollower.update_sensing">
+<span class="sig-name descname"><span class="pre">update_sensing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.sim_modes.NavVectorFollower.update_sensing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the range and bearing measurements</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.sim.sim_modes.SimpleSim">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.sim.sim_modes.</span></span><span class="sig-name descname"><span class="pre">SimpleSim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Dynamics" title="py_sim.tools.sim_types.Dynamics"><span class="pre">Dynamics</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DynamicsParamType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Control" title="py_sim.tools.sim_types.Control"><span class="pre">Control</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DynamicsParamType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ControlParamType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dynamic_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DynamicsParamType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ControlParamType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.PlotManifest" title="py_sim.plotting.plotting.PlotManifest"><span class="pre">PlotManifest</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sim.generic_sim.html#py_sim.sim.generic_sim.SimParameters" title="py_sim.sim.generic_sim.SimParameters"><span class="pre">SimParameters</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.sim.sim_modes.SimpleSim" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.InputType" title="py_sim.tools.sim_types.InputType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code></a>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ControlParamType" title="py_sim.tools.sim_types.ControlParamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicsParamType</span></code>], <a class="reference internal" href="py_sim.sim.generic_sim.html#py_sim.sim.generic_sim.SingleAgentSim" title="py_sim.sim.generic_sim.SingleAgentSim"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleAgentSim</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.InputType" title="py_sim.tools.sim_types.InputType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code></a>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ControlParamType" title="py_sim.tools.sim_types.ControlParamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicsParamType</span></code>], <a class="reference internal" href="#py_sim.sim.sim_modes.SingleAgentSim" title="py_sim.sim.sim_modes.SingleAgentSim"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleAgentSim</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
 <p>Framework for implementing a simulator that just tests out a feedback controller</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.sim.sim_modes.SimpleSim.dynamics">
@@ -268,7 +290,7 @@
 <dd><p>The control law to be used during simulation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Control" title="py_sim.tools.sim_types.Control">Control</a>[LocationStateType, InputType, ControlParamType]</p>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Control" title="py_sim.tools.sim_types.Control">Control</a>[LocationStateType, InputType, DynamicsParamType, ControlParamType]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -312,9 +334,145 @@
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.sim.sim_modes.</span></span><span class="sig-name descname"><span class="pre">SingleAgentSim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.PlotManifest" title="py_sim.plotting.plotting.PlotManifest"><span class="pre">PlotManifest</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sim.generic_sim.html#py_sim.sim.generic_sim.SimParameters" title="py_sim.sim.generic_sim.SimParameters"><span class="pre">SimParameters</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.StateType" title="py_sim.tools.sim_types.StateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StateType</span></code></a>]</p>
+<p>Implements the main functions for a single agent simulation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.params">
+<span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>parameters for running the simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.sim.generic_sim.html#py_sim.sim.generic_sim.SimParameters" title="py_sim.sim.generic_sim.SimParameters">SimParameters</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the current and next slice of information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Data" title="py_sim.tools.sim_types.Data">Data</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.lock">
+<span class="sig-name descname"><span class="pre">lock</span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lock used for writing to the data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Lock</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Event used to indicate that the simulator should be stopped</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Event</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.figs">
+<span class="sig-name descname"><span class="pre">figs</span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.figs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the figures that are used for plotting</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Figure]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.axes">
+<span class="sig-name descname"><span class="pre">axes</span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.axes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the axes used for plotting and their corresponding figures</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[Axes, Figure]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.state_plots">
+<span class="sig-name descname"><span class="pre">state_plots</span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.state_plots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots depending solely on state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.StatePlot" title="py_sim.plotting.plotting.StatePlot">StatePlot</a>[StateType]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.data_plots">
+<span class="sig-name descname"><span class="pre">data_plots</span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.data_plots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots that depend on the data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.DataPlot" title="py_sim.plotting.plotting.DataPlot">DataPlot</a>[StateType]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.initialize_data_storage">
+<span class="sig-name descname"><span class="pre">initialize_data_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.initialize_data_storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes all of the storage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_inputs</strong> – The number of inputs for the control trajectory</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.post_process">
+<span class="sig-name descname"><span class="pre">post_process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.post_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process the results</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.store_data_slice">
+<span class="sig-name descname"><span class="pre">store_data_slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim_slice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Slice" title="py_sim.tools.sim_types.Slice"><span class="pre">Slice</span></a><span class="p"><span class="pre">[</span></span><span class="pre">StateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.store_data_slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the state trajectory data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sim_slice</strong> – The information to be stored</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs all the required updates</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.sim.sim_modes.SingleAgentSim.update_plot">
+<span class="sig-name descname"><span class="pre">update_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.sim.sim_modes.SingleAgentSim.update_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the current values and state. Should be done with the lock on to avoid
+updating current while plotting the data</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="py_sim.sim.sim_modes.VectorFollower">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.sim.sim_modes.</span></span><span class="sig-name descname"><span class="pre">VectorFollower</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Dynamics" title="py_sim.tools.sim_types.Dynamics"><span class="pre">Dynamics</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DynamicsParamType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorControl" title="py_sim.tools.sim_types.VectorControl"><span class="pre">VectorControl</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">InputType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DynamicsParamType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ControlParamType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dynamic_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DynamicsParamType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ControlParamType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.plotting.plotting.html#py_sim.plotting.plotting.PlotManifest" title="py_sim.plotting.plotting.PlotManifest"><span class="pre">PlotManifest</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorField" title="py_sim.tools.sim_types.VectorField"><span class="pre">VectorField</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.sim.generic_sim.html#py_sim.sim.generic_sim.SimParameters" title="py_sim.sim.generic_sim.SimParameters"><span class="pre">SimParameters</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LocationStateType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.sim.sim_modes.VectorFollower" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.InputType" title="py_sim.tools.sim_types.InputType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code></a>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ControlParamType" title="py_sim.tools.sim_types.ControlParamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicsParamType</span></code>], <a class="reference internal" href="py_sim.sim.generic_sim.html#py_sim.sim.generic_sim.SingleAgentSim" title="py_sim.sim.generic_sim.SingleAgentSim"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleAgentSim</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.InputType" title="py_sim.tools.sim_types.InputType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputType</span></code></a>, <a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.ControlParamType" title="py_sim.tools.sim_types.ControlParamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ControlParamType</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicsParamType</span></code>], <a class="reference internal" href="#py_sim.sim.sim_modes.SingleAgentSim" title="py_sim.sim.sim_modes.SingleAgentSim"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleAgentSim</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">LocationStateType</span></code>]</p>
 <p>Framework for implementing a simulator that uses a vector field for feedback</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.sim.sim_modes.VectorFollower.dynamics">
@@ -333,7 +491,7 @@
 <dd><p>The control law to be used during simulation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.Control" title="py_sim.tools.sim_types.Control">Control</a>[LocationStateType, InputType, ControlParamType]</p>
+<dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorControl" title="py_sim.tools.sim_types.VectorControl">VectorControl</a>[LocationStateType, InputType, DynamicsParamType ControlParamType]</p>
 </dd>
 </dl>
 </dd></dl>

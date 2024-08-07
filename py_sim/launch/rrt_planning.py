@@ -64,36 +64,38 @@ def run_rrt_planner(planner: Literal["rrt", "rrt_star", "i-rrt", "s-rrt"],
                                             plotter=plotter)
     elif planner == "rrt_star":
         x_vec, y_vec, _, tree, __ = rrt.rrt_star(x_root=x_start,
-                                                X_t=Xt,
-                                                X=X,
-                                                dist=3.,
-                                                bias_t=50,
-                                                world=obstacle_world,
-                                                num_iterations=num_iterations,
-                                                num_nearest=50,
-                                                plotter=plotter)
+                                                 X_t=Xt,
+                                                 X=X,
+                                                 dist=3.,
+                                                 bias_t=50,
+                                                 world=obstacle_world,
+                                                 num_iterations=num_iterations,
+                                                 num_nearest=50,
+                                                 plotter=plotter)
     elif planner == "i-rrt":
         x_vec, y_vec, _, tree, __ = rrt_star_informed(x_root=x_start,
-                                                    X_t=Xt,
-                                                    X=X,
-                                                    dist=3.,
-                                                    bias_t=50,
-                                                    world=obstacle_world,
-                                                    num_iterations=num_iterations,
-                                                    num_nearest=50,
-                                                    plotter=plotter)
+                                                      X_t=Xt,
+                                                      X=X,
+                                                      dist=3.,
+                                                      bias_t=50,
+                                                      world=obstacle_world,
+                                                      num_iterations=num_iterations,
+                                                      num_nearest=50,
+                                                      plotter=plotter)
     elif planner == "s-rrt":
         x_vec, y_vec, _, tree, __ = rrt_star_smart(x_root=x_start,
-                                                X_t=Xt,
-                                                X=X,
-                                                dist=3.,
-                                                bias_t=50,
-                                                world=obstacle_world,
-                                                num_iterations=num_iterations,
-                                                num_nearest=50,
-                                                beacon_radius=2.,
-                                                bias_explore=10,
-                                                plotter=plotter)
+                                                   X_t=Xt,
+                                                   X=X,
+                                                   dist=3.,
+                                                   bias_t=50,
+                                                   world=obstacle_world,
+                                                   num_iterations=num_iterations,
+                                                   num_nearest=50,
+                                                   beacon_radius=2.,
+                                                   bias_explore=10,
+                                                   plotter=plotter)
+    else:
+        raise ValueError("Invalid planner")
 
     # Smooth the resulting plan
     x_vec_smooth, y_vec_smooth = rrt.path_smooth(x_vec=x_vec, y_vec=y_vec, world=obstacle_world)
@@ -126,4 +128,4 @@ if __name__ == "__main__":
     #run_rrt_planner(planner="rrt", plot_live=False, num_iterations=1000)
     #run_rrt_planner(planner="rrt_star", plot_live=False, num_iterations=1000)
     #run_rrt_planner(planner="i-rrt", plot_live=False, num_iterations=1000)
-    run_rrt_planner(planner="s-rrt", plot_live=False, num_iterations=1000)
+    run_rrt_planner(planner="s-rrt", plot_live=True, num_iterations=1000)

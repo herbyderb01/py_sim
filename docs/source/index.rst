@@ -27,6 +27,10 @@ Planning Package Reference
 
    pysim/py_sim
 
+Detailed Simulation Overview
+-----------------------------
+:download:`Simulation Overview <Robot_Sim_Overview.pdf>`
+
 Readme
 ------
 .. toctree::

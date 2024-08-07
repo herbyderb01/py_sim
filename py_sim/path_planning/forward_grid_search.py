@@ -239,7 +239,7 @@ class ForwardGridSearch(ABC):
             # Process a node that has not yet been visited
             else:
                 # Mark as visited
-                self.visited.itemset(ind_neighbor, True)
+                np.put(self.visited, ind_neighbor, True)
 
                 # Insert the node into the queue
                 self.add_index_to_queue(ind_new=ind_neighbor, ind_parent=ind,  direction= direction)
@@ -347,7 +347,7 @@ class DijkstraGridSearch(ForwardGridSearch):
 
         # Create a storage container for cost-to-come
         self.c2c = np.full(grid.grid.shape, np.inf, dtype=float)
-        self.c2c.itemset(ind_start,0.)
+        np.put(self.c2c, ind_start, 0.)
 
     def add_index_to_queue(self, ind_new: int, ind_parent: int, direction: GD) -> None:
         """Adds index to queue based on the cost to come to that new index.
@@ -361,7 +361,7 @@ class DijkstraGridSearch(ForwardGridSearch):
         cost = segment_length[direction] + self.c2c.item(ind_parent)
 
         # Add the node to the list
-        self.c2c.itemset(ind_new, cost)
+        np.put(self.c2c, ind_new, cost)
         self.queue.push(cost=cost, index=ind_new)
 
     def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None:
@@ -383,7 +383,7 @@ class DijkstraGridSearch(ForwardGridSearch):
         # updates due to small numerical precision
         if cost_possible < self.c2c.item(ind_duplicate)-1e-5:
             self.queue.update(cost=cost_possible, index=ind_duplicate)
-            self.c2c.itemset(ind_duplicate, cost_possible)
+            np.put(self.c2c, ind_duplicate, cost_possible)
             self.parent_mapping[ind_duplicate] = ind_poss_parent
 
 class AstarGridSearch(ForwardGridSearch):
@@ -397,7 +397,7 @@ class AstarGridSearch(ForwardGridSearch):
 
         # Create a storage container for cost-to-come
         self.c2c = np.full(grid.grid.shape, np.inf, dtype=float)
-        self.c2c.itemset(ind_start,0.)
+        np.put(self.c2c, ind_start, 0.)
 
         # Convert the end index to matrix indexing
         row_goal, col_goal = ind2sub(n_cols=grid.n_cols, ind=ind_end)
@@ -432,7 +432,7 @@ class AstarGridSearch(ForwardGridSearch):
         cost_heuristic = c2c + self.cost_to_go_heuristic(ind_new)
 
         # Add the node to the list
-        self.c2c.itemset(ind_new, c2c)
+        np.put(self.c2c, ind_new, c2c)
         self.queue.push(cost=cost_heuristic, index=ind_new)
 
     def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None:
@@ -455,7 +455,7 @@ class AstarGridSearch(ForwardGridSearch):
         if c2c_possible < self.c2c.item(ind_duplicate)-1e-5:
             cost_heuristic = c2c_possible + self.cost_to_go_heuristic(ind_duplicate)
             self.queue.update(cost=cost_heuristic, index=ind_duplicate)
-            self.c2c.itemset(ind_duplicate, c2c_possible)
+            np.put(self.c2c, ind_duplicate, c2c_possible)
             self.parent_mapping[ind_duplicate] = ind_poss_parent
 
 class GreedyGridSearch(ForwardGridSearch):
@@ -469,7 +469,7 @@ class GreedyGridSearch(ForwardGridSearch):
 
         # Create a storage container for cost-to-come
         self.c2c = np.full(grid.grid.shape, np.inf, dtype=float)
-        self.c2c.itemset(ind_start,0.)
+        np.put(self.c2c, ind_start, 0.)
 
         # Convert the end index to matrix indexing
         row_goal, col_goal = ind2sub(n_cols=grid.n_cols, ind=ind_end)
@@ -501,7 +501,7 @@ class GreedyGridSearch(ForwardGridSearch):
         """
         # Calculate the cost to come as the cost of the parent plus the edge cost
         c2c = segment_length[direction] + self.c2c.item(ind_parent)
-        self.c2c.itemset(ind_new, c2c)
+        np.put(self.c2c, ind_new, c2c)
 
         # Add the node to the list using the cost-to-go heuristic
         cost_heuristic = self.cost_to_go_heuristic(ind_new)
@@ -525,5 +525,5 @@ class GreedyGridSearch(ForwardGridSearch):
         # Note that a small number is subtracted from the previous cost to avoid
         # updates due to small numerical precision
         if c2c_possible < self.c2c.item(ind_duplicate)-1e-5:
-            self.c2c.itemset(ind_duplicate, c2c_possible)
+            np.put(self.c2c, ind_duplicate, c2c_possible)
             self.parent_mapping[ind_duplicate] = ind_poss_parent

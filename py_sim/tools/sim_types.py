@@ -173,8 +173,8 @@ class TwoDimArray:
     @position.setter
     def position(self, val: npt.NDArray[Any]) -> None:
         """Sets the position"""
-        self.state.itemset(self.IND_X, val.item(self.IND_X))
-        self.state.itemset(self.IND_Y, val.item(self.IND_Y))
+        self.state[self.IND_X, 0] = val.item(self.IND_X)
+        self.state[self.IND_Y, 0] = val.item(self.IND_Y)
 
 class Dynamics(Protocol[StateType, InputType, DynamicsParamType]): # type: ignore
     """Class taking the form of a state dynamics function call"""
@@ -305,8 +305,15 @@ class UnicycleState:
     IND_PSI: int = 2  # The index of the orientation
     n_states: int = 3 # The number of states in the state vector
 
-    def __init__(self, x: float = 0., y: float = 0., psi: float = 0.) -> None:
-        self.state: npt.NDArray[Any] = np.array([[x], [y], [psi]])  # The state of the vehicle
+    def __init__(self, x: float = 0., y: float = 0., psi: float = 0., vec: Optional[npt.NDArray[Any]] = None) -> None:
+
+        self.state: npt.NDArray[Any]
+        if vec is None:
+            self.state = np.array([[x], [y], [psi]])  # The state of the vehicle
+        else:
+            self.state = np.array(
+                [[vec.item(self.IND_X)], [vec.item(self.IND_Y)], [vec.item(self.IND_PSI)]]
+            )
 
     @property
     def x(self) -> float:

@@ -111,12 +111,18 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.sensors.range_bearing.RangeBearingSensor.orien">
 <span class="sig-name descname"><span class="pre">orien</span></span><a class="headerlink" href="#py_sim.sensors.range_bearing.RangeBearingSensor.orien" title="Permalink to this definition">¶</a></dt>
-<dd><p>Array of orientations for each of the sensors</p>
+<dd><p>Array of orientations for each of the sensors on the body</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>NDArray[Any]</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="py_sim.sensors.range_bearing.RangeBearingSensor.delta">
+<span class="sig-name descname"><span class="pre">delta</span></span><a class="headerlink" href="#py_sim.sensors.range_bearing.RangeBearingSensor.delta" title="Permalink to this definition">¶</a></dt>
+<dd><p>The angle difference between two lines of measurement</p>
 </dd></dl>
 
 <dl class="py method">
@@ -137,6 +143,12 @@
 <dd class="field-odd"><p><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.RangeBearingMeasurements" title="py_sim.tools.sim_types.RangeBearingMeasurements">RangeBearingMeasurements</a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py_sim.sensors.range_bearing.RangeBearingSensor.create_measurement_from_range">
+<span class="sig-name descname"><span class="pre">create_measurement_from_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LocationStateType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ranges</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.RangeBearingMeasurements" title="py_sim.tools.sim_types.RangeBearingMeasurements"><span class="pre">RangeBearingMeasurements</span></a></span></span><a class="headerlink" href="#py_sim.sensors.range_bearing.RangeBearingSensor.create_measurement_from_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the measurement given the position and ranges</p>
 </dd></dl>
 
 </dd></dl>
