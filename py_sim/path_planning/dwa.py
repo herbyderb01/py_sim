@@ -121,3 +121,55 @@ def compute_desired_velocities(state: UnicycleStateProtocol,
             control = scaled_vels
 
     return control
+
+def compute_desired_velocities_classic(
+        state: UnicycleStateProtocol,
+        params: DwaParams,
+        goal: TwoDArrayType,
+        world: World
+) -> UnicycleControl:
+    """ Computes the desired velocities using the classic DWA algorithm where a grid of
+    velocities is evaluated for the best control.
+
+    Args:
+        state: The current state of the system
+        params: Parameters used to calculate the control
+        goal: The goal position of the control
+        world: The world in which the vehicle is operating, used to query for obstacle avoidance
+    Returns:
+        UnicycleControl: The control values that will result in the state closest to the goal
+    """
+    # Initialize search values to occur at the current state
+    dist_max = np.linalg.norm(goal.position - state.position)
+    vel_max = dist_max/params.tf
+    vel_des = np.minimum(params.v_des, vel_max)
+    cost_min = np.inf  # Lowest cost seen thus far
+    control = UnicycleControl(v=0., w=0.)
+
+    # Loop through and find the control values that will result in the lowest cost
+    v_vals = np.arange(start=-vel_des, stop=vel_des+params.v_res, step=params.v_res)
+    for v in v_vals:
+        for w in params.w_vals:
+            # Calculate the time of collision
+            cont_vw = UnicycleControl(v=v, w=w)
+            t_coll = evaluate_arc_collision(state=state,
+                                            params=params,
+                                            control=cont_vw,
+                                            world=world)
+            if t_coll < params.tf:
+                continue
+
+            # Compare the resulting position with the previously best found
+            state_new = unicycle_solution(init=state, control=cont_vw, delta_t=params.tf)
+            dist_scaled = np.linalg.norm(state_new.position-goal.position) / dist_max
+
+            # Calculate cost component due to velocity
+            cost_vel = params.k_v * np.exp(-dist_max**2/params.sigma**2)*(params.v_des - v)**2
+
+            # Choose the minimum cost
+            cost = dist_scaled + cost_vel
+            if cost < cost_min:
+                cost_min = cost
+                control = cont_vw
+
+    return control

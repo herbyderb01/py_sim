@@ -34,7 +34,9 @@ def plot_arcs() -> None:
                        sf=2.,
                        s_eps=0.1,
                        k_v=2.,
-                       sigma=2.)
+                       sigma=2.,
+                       classic=False,
+                       v_res=0.25)
     obstacle_world = poly_world.generate_world_obstacles()
     # obstacle_world = poly_world.generate_non_convex_obstacles()
 
@@ -109,7 +111,9 @@ def run_unicycle_dwa_example() -> None:
                            sf=2.,
                            s_eps=0.1,
                            k_v=2.,
-                           sigma=2.)
+                           sigma=2.,
+                           classic=False,
+                           v_res=0.25)
 
     # Create the obstacle world
     #obstacle_world = poly_world.generate_world_obstacles()

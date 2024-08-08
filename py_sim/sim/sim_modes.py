@@ -548,11 +548,20 @@ class DwaFollower(Generic[UnicycleStateType, InputType, DynamicsParamType], Sing
         x_g = self.carrot.get_carrot_point(point=self.data.current.state)
 
         # Calculate the DWA arc parameters
-        self.dwa_arc = dwa.compute_desired_velocities(
-            state=self.data.current.state,
-            params=self.dwa_params,
-            goal=x_g,
-            world=self.world)
+        if self.dwa_params.classic:
+            self.dwa_arc = dwa.compute_desired_velocities_classic(
+                state=self.data.current.state,
+                params=self.dwa_params,
+                goal=x_g,
+                world=self.world)
+        else:
+            self.dwa_arc = dwa.compute_desired_velocities(
+                state=self.data.current.state,
+                params=self.dwa_params,
+                goal=x_g,
+                world=self.world)
+
+
 
         # Calculate the control to follow the vector
         arc_params = ArcParams(v_d=self.dwa_arc.v, w_d = self.dwa_arc.w)
