@@ -40,67 +40,6 @@ InputType = TypeVar("InputType", bound=Input) # Use for denoting a vehicle contr
 DynamicsParamType = TypeVar("DynamicsParamType") # Use for denoting the vehicle parameters
 ControlParamType = TypeVar("ControlParamType") # Used for denoting controller parameters
 
-class Slice(Generic[StateType]):
-    """ Contains a "slice" of data - the data produced / needed
-        at a single time
-
-    Attributes:
-        time(float): Simulation time corresponding to the state
-        state(StateType): State of the vehicle
-        input_vec(Optional[npt.NDArray[Any]]): Input applied at the stated time, None => not yet calculated
-    """
-    def __init__(self, state: StateType, time: float = 0.) -> None:
-        self.time = time # Simulation time corresponding to the state
-        self.state: StateType = state # State
-        self.input_vec: Optional[npt.NDArray[Any]] = None # Input applied at the stated time, None => not yet calculated
-
-class Data(Generic[StateType]):
-    """Stores the changing simulation information
-
-    Attributes:
-        current(Slice): Stores the current slice of data to be read
-        next(Slice): Stores the next data to be created
-        state_traj(NDArray[Any]): Each column corresponds to a trajectory data
-        time_traj(NDArray[Any]): vector Each element is the time for the state in question
-        traj_index_latest(int): Index into the state and time trajectory of the latest data
-        control_traj(NDArray[Any]): Each column corresponds to a control input vector
-        range_bearing_latest(RangeBearingMeasurements): Stores the latest data received for range-bearing measurements
-    """
-    def __init__(self, current: Slice[StateType]) -> None:
-        self.current = current # Stores the current slice of data to be read
-        self.next = copy.deepcopy(current) # Stores the next data to be created
-        self.state_traj: npt.NDArray[Any] # Each column corresponds to a trajectory data
-        self.time_traj: npt.NDArray[Any] # vector Each element is the time for the state in question
-        self.traj_index_latest: int = -1 # Index into the state and time trajectory of the latest data
-        self.control_traj: npt.NDArray[Any] # Each column corresponds to a control input vector
-        self.range_bearing_latest = RangeBearingMeasurements() # Stores the latest data received for range-bearing measurements
-
-    def get_state_vec(self,index: int) -> npt.NDArray[Any]:
-        """Returns a vector of the valid values for a given state
-
-        Args:
-            index: The index of the state being requested
-
-        Returns:
-            NDArray[Any]: The array of state values from initial time to current time
-        """
-        return self.state_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on second argument
-
-    def get_time_vec(self) -> npt.NDArray[Any]:
-        """Returns the vector of valid time values from the initial time to the current time"""
-        return self.time_traj[0:self.traj_index_latest+1]
-
-    def get_control_vec(self, index: int) -> npt.NDArray[Any]:
-        """Returns the control referenced by index over all valid time values
-
-        Args:
-            index: The index of the desired control input within the control vector
-
-        Returns:
-            NDArray[Any]: The requested control over time
-        """
-        return self.control_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on the second argument
-
 class TwoDArrayType(Protocol):
     """Defines a Two dimensional array with an x and y component
 
@@ -551,6 +490,7 @@ class DwaParams():
         w_vals(list(float)): The desired rotational velocities to search
         t_vals(list(float)): The time instances to evaluate on each arc
         dt(float): The resolution in time for each sample
+        ds(float): The spatial resolution for each sample (meters)
         tf(float): The final time to evaluate
         t_eps(float): A small value in time to subtract from a collision point
         _w_vals(list(float)): The desired rotational velocities to search (internal)
@@ -577,6 +517,7 @@ class DwaParams():
         # Store the inputs
         self.v_des = v_des
         self.tf = sf/v_des
+        self.ds = ds
         self.dt = ds/v_des
         self.t_eps = s_eps/v_des
         self.t_vals: list[float] = np.arange(start=0., stop=self.tf, step=self.dt).tolist()
@@ -594,3 +535,84 @@ class DwaParams():
     def w_vals(self) -> list[float]:
         """Returns the rotational velocity list"""
         return self._w_vals
+
+class Slice(Generic[StateType]):
+    """ Contains a "slice" of data - the data produced / needed
+        at a single time
+
+    Attributes:
+        time(float): Simulation time corresponding to the state
+        state(StateType): State of the vehicle
+        input_vec(Optional[npt.NDArray[Any]]): Input applied at the stated time, None => not yet calculated
+    """
+    def __init__(self, state: StateType, time: float = 0.) -> None:
+        self.time = time # Simulation time corresponding to the state
+        self.state: StateType = state # State
+        self.input_vec: Optional[npt.NDArray[Any]] = None # Input applied at the stated time, None => not yet calculated
+
+class Data(Generic[StateType]):
+    """Stores the changing simulation information
+
+    Attributes:
+        current(Slice): Stores the current slice of data to be read
+        next(Slice): Stores the next data to be created
+        state_traj(NDArray[Any]): Each column corresponds to a trajectory data
+        time_traj(NDArray[Any]): vector Each element is the time for the state in question
+        traj_index_latest(int): Index into the state and time trajectory of the latest data
+        control_traj(NDArray[Any]): Each column corresponds to a control input vector
+        range_bearing_latest(RangeBearingMeasurements): Stores the latest data received for range-bearing measurements
+    """
+    def __init__(self, current: Slice[StateType]) -> None:
+        self.current = current # Stores the current slice of data to be read
+        self.next = copy.deepcopy(current) # Stores the next data to be created
+        self.state_traj: npt.NDArray[Any] # Each column corresponds to a trajectory data
+        self.time_traj: npt.NDArray[Any] # vector Each element is the time for the state in question
+        self.traj_index_latest: int = -1 # Index into the state and time trajectory of the latest data
+        self.control_traj: npt.NDArray[Any] # Each column corresponds to a control input vector
+        self.range_bearing_latest = RangeBearingMeasurements() # Stores the latest data received for range-bearing measurements
+
+    def get_state_vec(self,index: int) -> npt.NDArray[Any]:
+        """Returns a vector of the valid values for a given state
+
+        Args:
+            index: The index of the state being requested
+
+        Returns:
+            NDArray[Any]: The array of state values from initial time to current time
+        """
+        return self.state_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on second argument
+
+    def get_time_vec(self) -> npt.NDArray[Any]:
+        """Returns the vector of valid time values from the initial time to the current time"""
+        return self.time_traj[0:self.traj_index_latest+1]
+
+    def get_control_vec(self, index: int) -> npt.NDArray[Any]:
+        """Returns the control referenced by index over all valid time values
+
+        Args:
+            index: The index of the desired control input within the control vector
+
+        Returns:
+            NDArray[Any]: The requested control over time
+        """
+        return self.control_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on the second argument
+
+class DataDwa(Generic[UnicycleStateType], Data[UnicycleStateType]):
+    """Stores the changing simulation information for the DWA algorithm
+
+    Attributes:
+        current(Slice): Stores the current slice of data to be read
+        next(Slice): Stores the next data to be created
+        state_traj(NDArray[Any]): Each column corresponds to a trajectory data
+        time_traj(NDArray[Any]): vector Each element is the time for the state in question
+        traj_index_latest(int): Index into the state and time trajectory of the latest data
+        control_traj(NDArray[Any]): Each column corresponds to a control input vector
+        range_bearing_latest(RangeBearingMeasurements): Stores the latest data received for range-bearing measurements
+
+        dwa_params(DwaParams): The parameters for the DWA algorithm
+        dwa_arc(UnicycleControl): The parameters for the arc generated by the DWA algorithm
+    """
+    def __init__(self, current: Slice[UnicycleStateType], dwa_params: DwaParams) -> None:
+        super().__init__(current)
+        self.dwa_params = dwa_params # The parameters for the DWA algorithm
+        self.dwa_arc = UnicycleControl()

@@ -15,6 +15,7 @@ from py_sim.path_planning.sampling_procedures import solution
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
 from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (
+    DwaParams,
     EllipseParameters,
     LocationStateType,
     StateSpace,
@@ -48,7 +49,8 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
                          graph_node_size: int = 10,
                          plan: Optional[tuple[list[float], list[float]]] = None,
                          plan_color: pt.Color = (1., 0., 1., 1.),
-                         line_carrot: Optional[LineCarrot] = None
+                         line_carrot: Optional[LineCarrot] = None,
+                         dwa_params: Optional[DwaParams] = None,
                          ) -> pt.PlotManifest[LocationStateType]:
     """Creates a plot manifest given the following inputs
 
@@ -127,6 +129,10 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
     # Plot the plan
     if plan is not None:
         plots.axes['Vehicle_axis'].plot(plan[0], plan[1], "-", color=plan_color, linewidth=3)
+
+    # Plot the dwa control arc
+    if dwa_params is not None:
+        plots.data_plots.append(pt.ControlArcPlot(ax=plots.axes['Vehicle_axis']))
 
     # Create the desired state plots
     if position_triangle:

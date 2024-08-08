@@ -10,7 +10,13 @@ from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
 from py_sim.sim.generic_sim import SimParameters, start_sim
 from py_sim.sim.sim_modes import SingleAgentSim
-from py_sim.tools.sim_types import UnicycleControl, UnicycleState, UnicycleStateType
+from py_sim.tools.sim_types import (
+    Data,
+    Slice,
+    UnicycleControl,
+    UnicycleState,
+    UnicycleStateType,
+)
 from py_sim.worlds.polygon_world import PolygonWorld, generate_world_obstacles
 
 
@@ -33,7 +39,12 @@ class GridVisualization(Generic[UnicycleStateType], SingleAgentSim[UnicycleState
             params: The simulation parameters
         """
 
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
+        # Create the data storage
+        initial_slice: Slice[UnicycleStateType] = Slice(state=params.initial_state, time=params.t0)
+        data: Data[UnicycleStateType] = Data(current=initial_slice)
+
+        # Initialize the parent SingleAgentSim class
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params, data=data)
 
         # Initialize sim-specific parameters
         self.world: PolygonWorld = world

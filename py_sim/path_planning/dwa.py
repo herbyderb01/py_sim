@@ -1,14 +1,18 @@
 """ dwa.py provides functions and classes for implementing a dynamic window controller
 """
 
+from typing import Any, Protocol
+
 import numpy as np
 import numpy.typing as npt
-from py_sim.worlds.polygon_world import PolygonWorld as World
-from py_sim.tools.sim_types import TwoDArrayType, UnicycleStateProtocol, UnicycleControl
-from typing import Protocol, Any
 from py_sim.dynamics.unicycle import solution as unicycle_solution
-from py_sim.tools.sim_types import Control, LocationStateType, InputType, DynamicsParamType, ArcParams, DwaParams
-from typing import Generic
+from py_sim.tools.sim_types import (
+    DwaParams,
+    TwoDArrayType,
+    UnicycleControl,
+    UnicycleStateProtocol,
+)
+
 
 class World(Protocol):
     """Defines a world in which a point can be queried for obstacle collision

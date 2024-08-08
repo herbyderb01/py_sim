@@ -8,6 +8,7 @@ from typing import Generic, Optional
 import numpy as np
 from matplotlib.axes._axes import Axes
 from matplotlib.figure import Figure
+from py_sim.path_planning import dwa
 from py_sim.plotting.plotting import DataPlot, PlotManifest, StatePlot
 from py_sim.sensors.range_bearing import RangeBearingSensor
 from py_sim.sim.generic_sim import SimParameters
@@ -18,6 +19,7 @@ from py_sim.tools.sim_types import (
     Control,
     ControlParamType,
     Data,
+    DataDwa,
     DwaParams,
     Dynamics,
     DynamicsParamType,
@@ -26,12 +28,12 @@ from py_sim.tools.sim_types import (
     Slice,
     StateType,
     TwoDimArray,
+    UnicycleStateType,
     VectorControl,
     VectorField,
 )
 from py_sim.vectorfield.vectorfields import G2GAvoid
 from py_sim.worlds.polygon_world import PolygonWorld
-import py_sim.path_planning.dwa as dwa
 
 
 class SingleAgentSim(Generic[StateType]):
@@ -50,7 +52,8 @@ class SingleAgentSim(Generic[StateType]):
     def __init__(self,
                 n_inputs: int,
                 plots: PlotManifest[StateType],
-                params: SimParameters[StateType]
+                params: SimParameters[StateType],
+                data: Data[StateType]
                 ) -> None:
         """Initialize the simulation
         """
@@ -58,8 +61,7 @@ class SingleAgentSim(Generic[StateType]):
         self.params = params
 
         # Create and store the data
-        initial_slice: Slice[StateType] = Slice(state=self.params.initial_state, time=self.params.t0)
-        self.data: Data[StateType] = Data(current=initial_slice)
+        self.data = data
 
         # Create a lock to store the data
         self.lock = Lock()
@@ -175,7 +177,12 @@ class SimpleSim(Generic[LocationStateType, InputType, ControlParamType, Dynamics
                 n_input: The number of inputs for the dynamics function
         """
 
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
+        # Create the data storage
+        initial_slice: Slice[LocationStateType] = Slice(state=params.initial_state, time=params.t0)
+        data: Data[LocationStateType] = Data(current=initial_slice)
+
+        # Initialize the parent SingleAgentSim class
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params, data=data)
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
@@ -240,7 +247,12 @@ class VectorFollower(Generic[LocationStateType, InputType, ControlParamType, Dyn
             n_input: The number of inputs for the dynamics function
         """
 
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
+        # Create the data storage
+        initial_slice: Slice[LocationStateType] = Slice(state=params.initial_state, time=params.t0)
+        data: Data[LocationStateType] = Data(current=initial_slice)
+
+        # Initialize the parent SingleAgentSim class
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params, data=data)
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
@@ -319,7 +331,12 @@ class NavFieldFollower(Generic[LocationStateType, InputType, ControlParamType, D
             params: Parameters controlling the simulation
         """
 
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
+        # Create the data storage
+        initial_slice: Slice[LocationStateType] = Slice(state=params.initial_state, time=params.t0)
+        data: Data[LocationStateType] = Data(current=initial_slice)
+
+        # Initialize the parent SingleAgentSim class
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params, data=data)
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
@@ -403,7 +420,12 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType, 
             n_input: The number of inputs for the dynamics function
         """
 
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
+        # Create the data storage
+        initial_slice: Slice[LocationStateType] = Slice(state=params.initial_state, time=params.t0)
+        data: Data[LocationStateType] = Data(current=initial_slice)
+
+        # Initialize the parent SingleAgentSim class
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params, data=data)
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
@@ -481,29 +503,29 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType, 
         # Update the time by sim_step
         self.data.next.time = self.data.current.time + self.params.sim_step
 
-class DwaFollower(Generic[LocationStateType, InputType, DynamicsParamType], SingleAgentSim[LocationStateType]):
+class DwaFollower(Generic[UnicycleStateType, InputType, DynamicsParamType], SingleAgentSim[UnicycleStateType]):
     """Framework for implementing a simulator that uses a vector field for feedback control through a polygon world with a distance measurement
 
     Attributes:
         dynamics(Dynamics[LocationStateType, InputType, DynamicsParamType]): The dynamics function to be used for simulation
-        controller(VectorControl[LocationStateType, InputType, DynamicsParamType, ControlParamType]): The control law to be used during simulation
+        controller(Control[UnicycleStateType, InputType, DynamicsParamType, ControlParamType]): The control law to be used during simulation
         dynamic_params(DynamicsParamType): Fixed parameters for the dynamics
         control_params(ArcParams): The parameters of the control law to be used in simulation
         vector_field(G2GAvoid): Vector field that the vehicle will use to avoid obstacles while traversing to the goal
         world(PolygonWorld): World in which the vehicle is operating
         sensor(RangeBearingSensor): The sensor used for detecting obstacles
-        carrot(Optional[LineCarrot]): Provides a carrot to be followed
+        carrot(LineCarrot): Provides a carrot to be followed
     """
     def __init__(self,  # pylint: disable=too-many-arguments
-                 dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType],
-                 controller: Control[LocationStateType, InputType, DynamicsParamType, ArcParams],
+                 dynamics: Dynamics[UnicycleStateType, InputType, DynamicsParamType],
+                 controller: Control[UnicycleStateType, InputType, DynamicsParamType, ArcParams],
                  dynamic_params: DynamicsParamType,
                  dwa_params: DwaParams,
                  n_inputs: int,
-                 plots: PlotManifest[LocationStateType],
+                 plots: PlotManifest[UnicycleStateType],
                  world: PolygonWorld,
-                 carrot: Optional[LineCarrot],
-                 params: SimParameters[LocationStateType]
+                 carrot: LineCarrot,
+                 params: SimParameters[UnicycleStateType]
                  ) -> None:
         """Creates a SingleAgentSim and then sets up the plotting and storage
 
@@ -516,13 +538,18 @@ class DwaFollower(Generic[LocationStateType, InputType, DynamicsParamType], Sing
             n_input: The number of inputs for the dynamics function
         """
 
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
+        # Create the data storage
+        initial_slice: Slice[UnicycleStateType] = Slice(state=params.initial_state, time=params.t0)
+        data: DataDwa[UnicycleStateType] = DataDwa(current=initial_slice, dwa_params=dwa_params)
+
+        # Initialize the parent SingleAgentSim class
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params, data=data)
+        self.data: DataDwa[UnicycleStateType] = data
 
         # Initialize sim-specific parameters
-        self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
-        self.controller: Control[LocationStateType, InputType, DynamicsParamType, ArcParams] = controller
+        self.dynamics: Dynamics[UnicycleStateType, InputType, DynamicsParamType] = dynamics
+        self.controller: Control[UnicycleStateType, InputType, DynamicsParamType, ArcParams] = controller
         self.dynamic_params: DynamicsParamType = dynamic_params
-        self.dwa_params: DwaParams = dwa_params
         self.world: PolygonWorld = world
         self.carrot: LineCarrot = carrot
 
@@ -540,13 +567,14 @@ class DwaFollower(Generic[LocationStateType, InputType, DynamicsParamType], Sing
         x_g = self.carrot.get_carrot_point(point=self.data.current.state)
 
         # Calculate the DWA arc parameters
-        vel_des = dwa.compute_desired_velocities(state=self.data.current.state,
-                                                 params=self.dwa_params,
-                                                 goal=x_g,
-                                                 world=self.world)
+        self.data.dwa_arc = dwa.compute_desired_velocities(
+            state=self.data.current.state,
+            params=self.data.dwa_params,
+            goal=x_g,
+            world=self.world)
 
         # Calculate the control to follow the vector
-        arc_params = ArcParams(v_d=vel_des.v, w_d = vel_des.w)
+        arc_params = ArcParams(v_d=self.data.dwa_arc.v, w_d = self.data.dwa_arc.w)
         control:InputType = self.controller(time=self.data.current.time,
                                             state=self.data.current.state,
                                             dyn_params=self.dynamic_params,

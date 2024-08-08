@@ -86,6 +86,42 @@ def solution(init: UnicycleStateProtocol,
 
     return final
 
+def solution_trajectory(init: UnicycleStateProtocol,
+                        control: UnicyleControlProtocol,
+                        ds: float,
+                        tf: float) -> tuple[list[float], list[float]]:
+    """Calculates the trajectory of the unicycle given an initial state and a control that is held constant over a time interval.
+
+    Args:
+        init: Initial state of the vehicle
+        control: Control input that is assumed constant over the time interval
+        ds: The resolution in meters of the desired state spacing
+        tf: The final time value of execution
+    """
+    # Initialize the outputs
+    x_vec: list[float] = [init.x]
+    y_vec: list[float] = [init.y]
+
+    # Return the initial state if the velocity is zero
+    if control.v == 0:
+        return (x_vec, y_vec)
+
+    # Calculate the resolution of the time evaluations
+    dt = ds/control.v
+
+    # Evaluate the time
+    t = dt
+    while t <= tf:
+        # Calculate and store the position
+        soln = solution(init=init, control=control, delta_t=t)
+        x_vec.append(soln.x)
+        y_vec.append(soln.y)
+
+        # Update the time
+        t += dt
+
+    return (x_vec, y_vec)
+
 
 ###########################  Basic unicycle controllers ##################################
 def velocity_control(time: float, # pylint: disable=unused-argument

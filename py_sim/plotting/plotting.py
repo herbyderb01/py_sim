@@ -21,6 +21,7 @@ from matplotlib.figure import Figure
 from matplotlib.image import AxesImage
 from matplotlib.lines import Line2D
 from matplotlib.patches import Polygon
+from py_sim.dynamics.unicycle import solution_trajectory as uni_soln_traj
 from py_sim.sensors.occupancy_grid import (
     BinaryOccupancyGrid,
     ind2sub,
@@ -29,6 +30,7 @@ from py_sim.sensors.occupancy_grid import (
 from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (
     Data,
+    DataDwa,
     LocationStateType,
     StateType,
     TwoDArrayType,
@@ -36,6 +38,7 @@ from py_sim.tools.sim_types import (
     UnicycleControl,
     UnicycleState,
     UnicycleStateProtocol,
+    UnicycleStateType,
     VectorField,
 )
 from py_sim.tools.simple_priority_queue import SimplePriorityQueue
@@ -835,7 +838,7 @@ class PlanPlotter(Generic[LocationStateType]):
 
     Attributes:
         planner(PlanType): reference to the planner used for planning
-        ind_end(int): The ending index
+        ind_end(int): The index of the goal position
         handle_path(Line2D): Reference to the path being plotted
 
     """
@@ -848,7 +851,7 @@ class PlanPlotter(Generic[LocationStateType]):
         Args:
             planner: reference to the planner used for planning
             ind_start: The starting index
-            ind_end: The ending index
+            ind_end: The ending index of the plan
             color: color for the plot
         """
         super().__init__()
@@ -953,3 +956,42 @@ class CarrotPositionPlot():
         # Plot the point
         update_position_plot(line=self.position_plot,
                              location=self.carrot.get_carrot_point(point=state))
+
+class ControlArcPlot(Generic[UnicycleStateType]):
+    """Plots a the arc resulting from a constant unicycle control input
+
+    Attributes:
+        ax(Axes): The axis on which to create the plot
+        handle(Line2D): The reference to the arc plot
+    """
+    def __init__(self,
+                 ax: Axes,
+                 color: Color = green,
+                 label: str = "") -> None:
+        """Initializes the arc plotter
+
+        Args:
+            ax: The axis on which to create the plot
+            delta_t: The time length of the arc
+            color: The color to plot (rgb-alpha, i.e., color and transparency)
+            label: The label to assign to the plot
+        """
+        super().__init__()
+        self.ax = ax
+        (self.handle,) = ax.plot([0.], [0.], color=color, label=label)
+
+    def plot(self, data: DataDwa[UnicycleStateType]) -> None:
+        """Plots the arc given the current state
+
+        Args:
+            data: The data object containing the current state and dwa arc values
+        """
+
+        # Generate state trajectory using unicycle_solution
+        (x_vec, y_vec) = uni_soln_traj(init=data.current.state,
+                                       control = data.dwa_arc,
+                                       ds=data.dwa_params.ds,
+                                       tf=data.dwa_params.tf)
+
+        # Plot the state trajectory
+        self.handle.set_data(x_vec, y_vec)

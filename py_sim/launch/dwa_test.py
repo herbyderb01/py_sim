@@ -1,67 +1,27 @@
 """dwa_test.py: Provides a test for the dynamic window approach
 """
 
-import time
-from typing import Generic
-import numpy as np
 import matplotlib.pyplot as plt
-import py_sim.path_planning.forward_grid_search as search
+import numpy as np
+import py_sim.dynamics.unicycle as uni
 import py_sim.worlds.polygon_world as poly_world
+from matplotlib.axes import Axes
+from py_sim.dynamics.unicycle import solution_trajectory as unicycle_solution_trajectory
+from py_sim.path_planning import dwa
+from py_sim.path_planning.path_generation import create_path
 from py_sim.plotting.plot_constructor import create_plot_manifest
-from py_sim.plotting.plotting import PlotManifest
-from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
 from py_sim.sim.generic_sim import SimParameters, start_sim
 from py_sim.sim.sim_modes import DwaFollower
-from matplotlib.axes import Axes
+from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (
+    DwaParams,
     TwoDimArray,
     UnicycleControl,
     UnicycleState,
     UnicycleStateType,
 )
-import py_sim.path_planning.dwa as dwa
-from py_sim.dynamics.unicycle import solution as unicycle_solution
-from py_sim.tools.sim_types import DwaParams
-import py_sim.dynamics.unicycle as uni
-from py_sim.path_planning.path_generation import create_path
-from py_sim.tools.projections import LineCarrot
 
-def get_arc(init: UnicycleStateType,
-            vel: UnicycleControl,
-            ds: float,
-            tf: float) -> tuple[list[float], list[float]]:
-    """Returns the (x,y) vector of a defined arc
-
-    Args:
-        init: initial state
-        vel: the velocities being executed
-        ds: The resolution in meters of the desired state spacing
-        tf: The final time value of execution
-
-    Returns:
-        tuple[list[float], list[float]]: the x_vec and y_vec of the arc
-    """
-    # Initialize the outputs
-    x_vec: list[float] = [init.x]
-    y_vec: list[float] = [init.y]
-
-    # Calculate the resolution of the time evaluations
-    dt = ds/vel.v
-
-    # Evaluate the time
-    t = dt
-    while t <= tf:
-        # Calculate and store the position
-        soln = unicycle_solution(init=init, control=vel, delta_t=t)
-        x_vec.append(soln.x)
-        y_vec.append(soln.y)
-
-        # Update the time
-        t += dt
-
-    return (x_vec, y_vec)
-
-def plot_arcs():
+def plot_arcs() -> None:
     """Plots example arcs produced by a dwa search"""
 
     # Initialize the dwa search parameters
@@ -117,15 +77,15 @@ def plot_arcs():
         scaled_vels = dwa.scale_velocities(control=cont_w, t_coll=t_coll, tf=params.tf)
 
         # Get the resulting arcs
-        x_des, y_des = get_arc(init=x0, vel=cont_w, ds=ds, tf=params.tf )
-        x_act, y_act = get_arc(init=x0, vel=scaled_vels, ds=ds, tf=params.tf)
+        x_des, y_des = unicycle_solution_trajectory(init=x0, control=cont_w, ds=ds, tf=params.tf )
+        x_act, y_act = unicycle_solution_trajectory(init=x0, control=scaled_vels, ds=ds, tf=params.tf)
 
         # Plot the arcs
         v_plot.plot(x_des, y_des, 'b', linewidth=2)
         v_plot.plot(x_act, y_act, 'k', linewidth=2)
 
     # Plot the goal velocities
-    x_g, y_g = get_arc(init=x0, vel=vel_des, ds=ds, tf=params.tf)
+    x_g, y_g = unicycle_solution_trajectory(init=x0, control=vel_des, ds=ds, tf=params.tf)
     v_plot.plot(x_g, y_g, 'g', linewidth=3)
 
     plt.show(block=True)
@@ -155,7 +115,8 @@ def run_unicycle_dwa_example() -> None:
     plan = create_path(start=TwoDimArray(x=state_initial.x, y=state_initial.y),
                        end=x_g,
                        obstacle_world=obstacle_world, plan_type="visibility")
-
+    if plan is None:
+        raise ValueError("No plan was found")
     line = np.array([plan[0], plan[1]])
     carrot = LineCarrot(line=line, s_dev_max=5., s_carrot=2.)
 
@@ -170,7 +131,8 @@ def run_unicycle_dwa_example() -> None:
                                  vector_res=0.5,
                                  world=obstacle_world,
                                  plan=plan,
-                                 line_carrot=carrot
+                                 line_carrot=carrot,
+                                 dwa_params=dwa_params
                                  )
 
     # Create the simulation
