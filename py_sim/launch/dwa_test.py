@@ -18,8 +18,8 @@ from py_sim.tools.sim_types import (
     TwoDimArray,
     UnicycleControl,
     UnicycleState,
-    UnicycleStateType,
 )
+
 
 def plot_arcs() -> None:
     """Plots example arcs produced by a dwa search"""
@@ -54,7 +54,7 @@ def plot_arcs() -> None:
     plt.show(block=False)
 
     # Plot the goal location
-    v_plot: Axes = manifest.axes['Vehicle_axis']
+    v_plot: Axes = manifest.vehicle_axes
     v_plot.plot(xg.x, xg.y, 'go', linewidth=8)
 
 
@@ -131,8 +131,7 @@ def run_unicycle_dwa_example() -> None:
                                  vector_res=0.5,
                                  world=obstacle_world,
                                  plan=plan,
-                                 line_carrot=carrot,
-                                 dwa_params=dwa_params
+                                 line_carrot=carrot
                                  )
 
     # Create the simulation

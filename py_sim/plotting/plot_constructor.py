@@ -15,7 +15,6 @@ from py_sim.path_planning.sampling_procedures import solution
 from py_sim.sensors.occupancy_grid import BinaryOccupancyGrid
 from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (
-    DwaParams,
     EllipseParameters,
     LocationStateType,
     StateSpace,
@@ -49,8 +48,7 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
                          graph_node_size: int = 10,
                          plan: Optional[tuple[list[float], list[float]]] = None,
                          plan_color: pt.Color = (1., 0., 1., 1.),
-                         line_carrot: Optional[LineCarrot] = None,
-                         dwa_params: Optional[DwaParams] = None,
+                         line_carrot: Optional[LineCarrot] = None
                          ) -> pt.PlotManifest[LocationStateType]:
     """Creates a plot manifest given the following inputs
 
@@ -102,7 +100,7 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
     # Initialize the plotting of the vehicle visualization
     fig, ax = plt.subplots()
     plots.figs.append(fig)
-    plots.axes['Vehicle_axis'] = ax
+    plots.vehicle_axes = ax
     ax.set_title("Vehicle plot")
     ax.set_ylim(ymin=y_limits[0], ymax=y_limits[1])
     ax.set_xlim(xmin=x_limits[0], xmax=x_limits[1])
@@ -128,11 +126,11 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
 
     # Plot the plan
     if plan is not None:
-        plots.axes['Vehicle_axis'].plot(plan[0], plan[1], "-", color=plan_color, linewidth=3)
+        plots.vehicle_axes.plot(plan[0], plan[1], "-", color=plan_color, linewidth=3)
 
-    # Plot the dwa control arc
-    if dwa_params is not None:
-        plots.data_plots.append(pt.ControlArcPlot(ax=plots.axes['Vehicle_axis']))
+    # # Plot the dwa control arc
+    # if dwa_params is not None:
+    #     plots.data_plots.append(pt.ControlArcPlot(ax=plots.vehicle_axes))
 
     # Create the desired state plots
     if position_triangle:
@@ -188,7 +186,7 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
 
     # Plot the carrot point
     if line_carrot is not None:
-        plots.state_plots.append(pt.CarrotPositionPlot(ax=plots.axes['Vehicle_axis'],
+        plots.state_plots.append(pt.CarrotPositionPlot(ax=plots.vehicle_axes,
                                                        color=(0., 0., 1., 1.),
                                                        carrot=line_carrot))
 

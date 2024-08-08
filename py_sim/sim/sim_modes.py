@@ -6,10 +6,9 @@ from threading import Event, Lock
 from typing import Generic, Optional
 
 import numpy as np
-from matplotlib.axes._axes import Axes
-from matplotlib.figure import Figure
+import py_sim.plotting.plotting as sim_plt
 from py_sim.path_planning import dwa
-from py_sim.plotting.plotting import DataPlot, PlotManifest, StatePlot
+from py_sim.plotting.plotting import PlotManifest
 from py_sim.sensors.range_bearing import RangeBearingSensor
 from py_sim.sim.generic_sim import SimParameters
 from py_sim.sim.integration import euler_update
@@ -19,7 +18,6 @@ from py_sim.tools.sim_types import (
     Control,
     ControlParamType,
     Data,
-    DataDwa,
     DwaParams,
     Dynamics,
     DynamicsParamType,
@@ -28,6 +26,7 @@ from py_sim.tools.sim_types import (
     Slice,
     StateType,
     TwoDimArray,
+    UnicycleControl,
     UnicycleStateType,
     VectorControl,
     VectorField,
@@ -44,24 +43,22 @@ class SingleAgentSim(Generic[StateType]):
         data(Data): Stores the current and next slice of information
         lock(Lock): Lock used for writing to the data
         stop(Event): Event used to indicate that the simulator should be stopped
-        figs(list[Figure]): Stores the figures that are used for plotting
-        axes(dict[Axes, Figure]): Stores the axes used for plotting and their corresponding figures
-        state_plots(list[StatePlot[StateType]]): Plots depending solely on state
-        data_plots(list[DataPlot[StateType]]): Plots that depend on the data
+        plots(PlotManifest): The manifest of plots to be plotted
     """
     def __init__(self,
                 n_inputs: int,
                 plots: PlotManifest[StateType],
-                params: SimParameters[StateType],
-                data: Data[StateType]
+                params: SimParameters[StateType]
                 ) -> None:
         """Initialize the simulation
         """
-        # Update the simulation parameters
+        # Store Inputs
         self.params = params
+        self.plots = plots
 
         # Create and store the data
-        self.data = data
+        initial_slice: Slice[StateType] = Slice(state=self.params.initial_state, time=self.params.t0)
+        self.data: Data[StateType] = Data(current=initial_slice)
 
         # Create a lock to store the data
         self.lock = Lock()
@@ -71,12 +68,6 @@ class SingleAgentSim(Generic[StateType]):
 
         # Initialize data storage
         self.initialize_data_storage(n_inputs=n_inputs)
-
-        # Create the figure and axis for plotting
-        self.figs: list[Figure] = plots.figs
-        self.axes: dict[str, Axes] = plots.axes
-        self.state_plots: list[StatePlot[StateType]] = plots.state_plots
-        self.data_plots: list[DataPlot[StateType]] = plots.data_plots
 
     def update(self) -> None:
         """Performs all the required updates"""
@@ -91,15 +82,15 @@ class SingleAgentSim(Generic[StateType]):
             plot_state = copy.deepcopy(self.data.current)
 
         # Update all of the state plotting elements
-        for plotter in self.state_plots:
+        for plotter in self.plots.state_plots:
             plotter.plot(state=plot_state.state)
 
         # Update all of the data plotting elements
-        for plotter in self.data_plots:
+        for plotter in self.plots.data_plots:
             plotter.plot(data=self.data)
 
         # Flush all of the figures
-        for fig in self.figs:
+        for fig in self.plots.figs:
             fig.canvas.draw()
             fig.canvas.flush_events()
 
@@ -177,12 +168,8 @@ class SimpleSim(Generic[LocationStateType, InputType, ControlParamType, Dynamics
                 n_input: The number of inputs for the dynamics function
         """
 
-        # Create the data storage
-        initial_slice: Slice[LocationStateType] = Slice(state=params.initial_state, time=params.t0)
-        data: Data[LocationStateType] = Data(current=initial_slice)
-
         # Initialize the parent SingleAgentSim class
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params, data=data)
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
@@ -247,12 +234,8 @@ class VectorFollower(Generic[LocationStateType, InputType, ControlParamType, Dyn
             n_input: The number of inputs for the dynamics function
         """
 
-        # Create the data storage
-        initial_slice: Slice[LocationStateType] = Slice(state=params.initial_state, time=params.t0)
-        data: Data[LocationStateType] = Data(current=initial_slice)
-
         # Initialize the parent SingleAgentSim class
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params, data=data)
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
@@ -331,12 +314,8 @@ class NavFieldFollower(Generic[LocationStateType, InputType, ControlParamType, D
             params: Parameters controlling the simulation
         """
 
-        # Create the data storage
-        initial_slice: Slice[LocationStateType] = Slice(state=params.initial_state, time=params.t0)
-        data: Data[LocationStateType] = Data(current=initial_slice)
-
         # Initialize the parent SingleAgentSim class
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params, data=data)
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
@@ -420,12 +399,8 @@ class NavVectorFollower(Generic[LocationStateType, InputType, ControlParamType, 
             n_input: The number of inputs for the dynamics function
         """
 
-        # Create the data storage
-        initial_slice: Slice[LocationStateType] = Slice(state=params.initial_state, time=params.t0)
-        data: Data[LocationStateType] = Data(current=initial_slice)
-
         # Initialize the parent SingleAgentSim class
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params, data=data)
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[LocationStateType, InputType, DynamicsParamType] = dynamics
@@ -515,6 +490,10 @@ class DwaFollower(Generic[UnicycleStateType, InputType, DynamicsParamType], Sing
         world(PolygonWorld): World in which the vehicle is operating
         sensor(RangeBearingSensor): The sensor used for detecting obstacles
         carrot(LineCarrot): Provides a carrot to be followed
+        dwa_params(DwaParams): Parameters for the DWA algorithm
+        dwa_arc(UnicycleControl): The arc parameters for the DWA algorithm
+
+        arc_plot(sim_plt.ControlArcPlot): The plot for the chosen arc of the DWA algorithm
     """
     def __init__(self,  # pylint: disable=too-many-arguments
                  dynamics: Dynamics[UnicycleStateType, InputType, DynamicsParamType],
@@ -538,13 +517,8 @@ class DwaFollower(Generic[UnicycleStateType, InputType, DynamicsParamType], Sing
             n_input: The number of inputs for the dynamics function
         """
 
-        # Create the data storage
-        initial_slice: Slice[UnicycleStateType] = Slice(state=params.initial_state, time=params.t0)
-        data: DataDwa[UnicycleStateType] = DataDwa(current=initial_slice, dwa_params=dwa_params)
-
         # Initialize the parent SingleAgentSim class
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params, data=data)
-        self.data: DataDwa[UnicycleStateType] = data
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
 
         # Initialize sim-specific parameters
         self.dynamics: Dynamics[UnicycleStateType, InputType, DynamicsParamType] = dynamics
@@ -552,6 +526,13 @@ class DwaFollower(Generic[UnicycleStateType, InputType, DynamicsParamType], Sing
         self.dynamic_params: DynamicsParamType = dynamic_params
         self.world: PolygonWorld = world
         self.carrot: LineCarrot = carrot
+
+        # Store the DWA values
+        self.dwa_params: DwaParams = dwa_params
+        self.dwa_arc: UnicycleControl = UnicycleControl(v=0., w=0.)
+
+        # Initialize the dwa specific plots
+        self.arc_plot: sim_plt.ControlArcPlot[UnicycleStateType] = sim_plt.ControlArcPlot(ax=self.plots.vehicle_axes)
 
     def update(self) -> None:
         """Calls all of the update functions.
@@ -567,14 +548,14 @@ class DwaFollower(Generic[UnicycleStateType, InputType, DynamicsParamType], Sing
         x_g = self.carrot.get_carrot_point(point=self.data.current.state)
 
         # Calculate the DWA arc parameters
-        self.data.dwa_arc = dwa.compute_desired_velocities(
+        self.dwa_arc = dwa.compute_desired_velocities(
             state=self.data.current.state,
-            params=self.data.dwa_params,
+            params=self.dwa_params,
             goal=x_g,
             world=self.world)
 
         # Calculate the control to follow the vector
-        arc_params = ArcParams(v_d=self.data.dwa_arc.v, w_d = self.data.dwa_arc.w)
+        arc_params = ArcParams(v_d=self.dwa_arc.v, w_d = self.dwa_arc.w)
         control:InputType = self.controller(time=self.data.current.time,
                                             state=self.data.current.state,
                                             dyn_params=self.dynamic_params,
@@ -590,3 +571,15 @@ class DwaFollower(Generic[UnicycleStateType, InputType, DynamicsParamType], Sing
 
         # Update the time by sim_step
         self.data.next.time = self.data.current.time + self.params.sim_step
+
+    def update_plot(self) -> None:
+        """Plot the default plots as well as the dwa plots
+        """
+        # Plot the dwa plots
+        self.arc_plot.plot(state=self.data.current.state,
+                           control=self.dwa_arc,
+                           ds=self.dwa_params.ds,
+                           tf=self.dwa_params.tf)
+
+        # Plot the environment and plan
+        super().update_plot()

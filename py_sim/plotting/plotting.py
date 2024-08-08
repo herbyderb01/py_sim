@@ -30,7 +30,6 @@ from py_sim.sensors.occupancy_grid import (
 from py_sim.tools.projections import LineCarrot
 from py_sim.tools.sim_types import (
     Data,
-    DataDwa,
     LocationStateType,
     StateType,
     TwoDArrayType,
@@ -74,14 +73,14 @@ class PlotManifest(Generic[StateType]):
 
     Attributes:
         figs(list[Figure]): Figures created for plotting
-        axes(dict[str, Axes]): Mapping of axis name to the axis
+        vehicle_axes(Axes): Stores the axes for the vehicle plot
         state_plots(list[StatePlot[StateType]]): List of all the state plots
             (plots that only depend on the state)
         data_plots(list[DataPlot[StateType]]): List of all the data plots
             (plots that depend on many data elements)
     """
     figs: list[Figure] = []
-    axes: dict[str, Axes] = {}
+    vehicle_axes: Axes
     state_plots: list[StatePlot[StateType]] = []
     data_plots: list[DataPlot[StateType]] = []
 
@@ -980,18 +979,25 @@ class ControlArcPlot(Generic[UnicycleStateType]):
         self.ax = ax
         (self.handle,) = ax.plot([0.], [0.], color=color, label=label)
 
-    def plot(self, data: DataDwa[UnicycleStateType]) -> None:
+    def plot(self,
+             state: UnicycleStateType,
+             control: UnicycleControl,
+             ds: float,
+             tf: float ) -> None:
         """Plots the arc given the current state
 
         Args:
-            data: The data object containing the current state and dwa arc values
+            state: The current state of the vehicle
+            control: The control input defining the arc
+            ds: The step size of the arc (meters)
+            tf: The time length of the arc (seconds)
         """
 
         # Generate state trajectory using unicycle_solution
-        (x_vec, y_vec) = uni_soln_traj(init=data.current.state,
-                                       control = data.dwa_arc,
-                                       ds=data.dwa_params.ds,
-                                       tf=data.dwa_params.tf)
+        (x_vec, y_vec) = uni_soln_traj(init=state,
+                                       control = control,
+                                       ds=ds,
+                                       tf=tf)
 
         # Plot the state trajectory
         self.handle.set_data(x_vec, y_vec)

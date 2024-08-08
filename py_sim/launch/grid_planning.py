@@ -20,8 +20,6 @@ from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
 from py_sim.sim.generic_sim import SimParameters
 from py_sim.sim.sim_modes import SingleAgentSim
 from py_sim.tools.sim_types import (
-    Data,
-    Slice,
     TwoDimArray,
     UnicycleControl,
     UnicycleState,
@@ -53,12 +51,8 @@ class GridPlanning(Generic[UnicycleStateType], SingleAgentSim[UnicycleStateType]
             params: The paramters used for simulation
         """
 
-        # Create the data storage
-        initial_slice: Slice[UnicycleStateType] = Slice(state=params.initial_state, time=params.t0)
-        data: Data[UnicycleStateType] = Data(current=initial_slice)
-
         # Initialize the parent SingleAgentSim class
-        super().__init__(n_inputs=n_inputs, plots=plots, params=params, data=data)
+        super().__init__(n_inputs=n_inputs, plots=plots, params=params)
 
         # Initialize sim-specific parameters
         self.world: poly_world.PolygonWorld = world
