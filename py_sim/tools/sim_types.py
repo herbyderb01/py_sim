@@ -492,13 +492,15 @@ class DwaParams():
         dt(float): The resolution in time for each sample
         ds(float): The spatial resolution for each sample (meters)
         tf(float): The final time to evaluate
+        k_v(float): The cost scaling for velocity
+        sigma(float): Width parameter for the distance-based velocity scaling
         t_eps(float): A small value in time to subtract from a collision point
         _w_vals(list(float)): The desired rotational velocities to search (internal)
         _w_max(float): The maximum angular velocity to search
         _w_res(float): The resolution of the arc search. Arc searched
                       from -w_max:w_res:w_max
     """
-    def __init__(self, v_des: float, w_max: float, w_res: float, ds: float, sf: float, s_eps: float) -> None:
+    def __init__(self, v_des: float, w_max: float, w_res: float, ds: float, sf: float, s_eps: float, k_v: float, sigma: float) -> None:
         """ Initializes the parameters of the DWA search
 
         Args:
@@ -509,6 +511,8 @@ class DwaParams():
             ds: The resolution in space for each sample (meters)
             sf: The horizon length in meters
             s_eps: A small value in meters to subtract from a point of collision
+            k_v: The cost scaling for velocity
+            sigma: Width parameter for the distance-based velocity scaling
         """
         # Check the inputs
         if v_des <= 0. or w_max <= 0. or w_res <= 0.:
@@ -522,6 +526,8 @@ class DwaParams():
         self.t_eps = s_eps/v_des
         self.t_vals: list[float] = np.arange(start=0., stop=self.tf, step=self.dt).tolist()
         self.t_vals.append(self.tf)
+        self.k_v = k_v
+        self.sigma = sigma
         self._w_max = w_max
         self._w_res = w_res
 

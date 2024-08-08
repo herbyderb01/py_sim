@@ -107,7 +107,7 @@ def solution_trajectory(init: UnicycleStateProtocol,
         return (x_vec, y_vec)
 
     # Calculate the resolution of the time evaluations
-    dt = ds/control.v
+    dt = np.abs(ds/control.v)
 
     # Evaluate the time
     t = dt

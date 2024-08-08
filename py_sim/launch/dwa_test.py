@@ -31,7 +31,9 @@ def plot_arcs() -> None:
                        w_res=0.1,
                        ds=ds,
                        sf=2.,
-                       s_eps=0.1)
+                       s_eps=0.1,
+                       k_v=2.,
+                       sigma=2.)
     obstacle_world = poly_world.generate_world_obstacles()
     # obstacle_world = poly_world.generate_non_convex_obstacles()
 
@@ -104,14 +106,17 @@ def run_unicycle_dwa_example() -> None:
                            w_res=0.1,
                            ds=ds,
                            sf=2.,
-                           s_eps=0.1)
+                           s_eps=0.1,
+                           k_v=2.,
+                           sigma=2.)
 
     # Create the obstacle world
     obstacle_world = poly_world.generate_world_obstacles()
     # obstacle_world = poly_world.generate_non_convex_obstacles()
 
     # Create the plan to follow
-    x_g = TwoDimArray(x=22., y=4.)
+    #x_g = TwoDimArray(x=7., y=4.)
+    x_g = TwoDimArray(x=4.9, y=6.5)
     plan = create_path(start=TwoDimArray(x=state_initial.x, y=state_initial.y),
                        end=x_g,
                        obstacle_world=obstacle_world, plan_type="visibility")

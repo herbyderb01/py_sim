@@ -86,14 +86,19 @@ def compute_desired_velocities(state: UnicycleStateProtocol,
         goal: The goal position of the control
         world: The world in which the vehicle is operating, used to query for obstacle avoidance
     """
+    # Calculate the desired velocity to reach the goal at the end of the horizon
+    dist_max = np.linalg.norm(goal.position - state.position)
+    vel_max = dist_max/params.tf
+    vel_des = np.minimum(params.v_des, vel_max)
+
     # Initialize search values to occur at the current state
-    dist = np.linalg.norm(state.position - goal.position)
+    cost_min = np.inf  # Lowest cost seen thus far
     control = UnicycleControl(v=0., w=0.)
 
     # Loop through and find the control values that will result in the state closest to the end state
     for w in params.w_vals:
         # Calculate the time of collision
-        cont_w = UnicycleControl(v=params.v_des, w=w)
+        cont_w = UnicycleControl(v=vel_des, w=w)
         t_coll = evaluate_arc_collision(state=state,
                                         params=params,
                                         control=cont_w,
@@ -104,9 +109,15 @@ def compute_desired_velocities(state: UnicycleStateProtocol,
 
         # Compare the resulting position with the previously best found
         state_scaled = unicycle_solution(init=state, control=scaled_vels, delta_t=params.tf)
-        dist_scaled = np.linalg.norm(state_scaled.position-goal.position)
-        if dist_scaled < dist:
-            dist = dist_scaled
+        dist_scaled = np.linalg.norm(state_scaled.position-goal.position)/dist_max
+
+        # Calculate cost component due to velocity
+        cost_vel = params.k_v * np.exp(-dist_max**2/params.sigma**2)*(params.v_des - scaled_vels.v)**2
+
+        # Choose the minimum cost
+        cost = dist_scaled + cost_vel
+        if cost < cost_min:
+            cost_min = cost
             control = scaled_vels
 
     return control
