@@ -502,7 +502,7 @@ class DwaFollower(Generic[UnicycleStateType, InputType, DynamicsParamType], Sing
                  dwa_params: DwaParams,
                  n_inputs: int,
                  plots: PlotManifest[UnicycleStateType],
-                 world: PolygonWorld,
+                 world: dwa.World,
                  carrot: LineCarrot,
                  params: SimParameters[UnicycleStateType]
                  ) -> None:
@@ -524,7 +524,7 @@ class DwaFollower(Generic[UnicycleStateType, InputType, DynamicsParamType], Sing
         self.dynamics: Dynamics[UnicycleStateType, InputType, DynamicsParamType] = dynamics
         self.controller: Control[UnicycleStateType, InputType, DynamicsParamType, ArcParams] = controller
         self.dynamic_params: DynamicsParamType = dynamic_params
-        self.world: PolygonWorld = world
+        self.world: dwa.World = world
         self.carrot: LineCarrot = carrot
 
         # Store the DWA values

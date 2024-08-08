@@ -4,6 +4,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import py_sim.dynamics.unicycle as uni
+import py_sim.sensors.occupancy_grid as og
 import py_sim.worlds.polygon_world as poly_world
 from matplotlib.axes import Axes
 from py_sim.dynamics.unicycle import solution_trajectory as unicycle_solution_trajectory
@@ -111,12 +112,20 @@ def run_unicycle_dwa_example() -> None:
                            sigma=2.)
 
     # Create the obstacle world
-    obstacle_world = poly_world.generate_world_obstacles()
-    # obstacle_world = poly_world.generate_non_convex_obstacles()
+    #obstacle_world = poly_world.generate_world_obstacles()
+    obstacle_world = poly_world.generate_non_convex_obstacles()
+
+    # Create an inflated grid from the world
+    grid = og.generate_occupancy_from_polygon_world(
+        world=obstacle_world,
+        res=0.25,
+        x_lim=(-5, 25),
+        y_lim=(-5, 10))
+    inf_grid = og.inflate_obstacles(grid=grid, inflation=0.25)
 
     # Create the plan to follow
     #x_g = TwoDimArray(x=7., y=4.)
-    x_g = TwoDimArray(x=4.9, y=6.5)
+    x_g = TwoDimArray(x=13., y=5.)
     plan = create_path(start=TwoDimArray(x=state_initial.x, y=state_initial.y),
                        end=x_g,
                        obstacle_world=obstacle_world, plan_type="visibility")
@@ -126,18 +135,21 @@ def run_unicycle_dwa_example() -> None:
     carrot = LineCarrot(line=line, s_dev_max=5., s_carrot=2.)
 
     # Create the manifest for the plotting
-    plot_manifest = create_plot_manifest(initial_state=state_initial,
-                                 y_limits=(-5, 10),
-                                 x_limits=(-5, 25),
-                                 position_dot=False,
-                                 position_triangle=True,
-                                 state_trajectory=True,
-                                 time_series=True,
-                                 vector_res=0.5,
-                                 world=obstacle_world,
-                                 plan=plan,
-                                 line_carrot=carrot
-                                 )
+    plot_manifest = create_plot_manifest(
+        initial_state=state_initial,
+        y_limits=(-5, 10),
+        x_limits=(-5, 25),
+        position_dot=False,
+        position_triangle=True,
+        state_trajectory=True,
+        time_series=True,
+        vector_res=0.5,
+        world=obstacle_world,
+        plan=plan,
+        line_carrot=carrot,
+        grid=inf_grid,
+        plot_occupancy_grid=True
+        )
 
     # Create the simulation
     params = SimParameters(initial_state=state_initial)
@@ -151,7 +163,9 @@ def run_unicycle_dwa_example() -> None:
                       dwa_params=dwa_params,
                       n_inputs=UnicycleControl.n_inputs,
                       plots=plot_manifest,
-                      world=obstacle_world,
+                      #world=obstacle_world,
+                      #world=grid,
+                      world=inf_grid,
                       carrot=carrot
                       )
 

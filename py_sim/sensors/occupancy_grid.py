@@ -70,6 +70,21 @@ class BinaryOccupancyGrid:
             return cast(bool, self.grid[row, col] == self.OCCUPIED)
         return True # Default to occupied
 
+    def inside_obstacle(self, point: npt.NDArray[Any]) -> bool:
+        """ inside_obstacle returns true if the point is inside an obstacle
+
+        Args:
+            point: 2x1 point to be evaluated
+
+        Returns:
+            bool: True if the point is in an obstacle
+        """
+        # Convert the point to a TwoDimArray
+        q = TwoDimArray(x=point.item(0), y=point.item(1))
+
+        # Check to see if the point is occupied
+        return self.is_occupied(q)
+
     def set_occupied(self, q: TwoDimArray) -> None:
         """ set_occupied sets the grid location corresponding to the 2x1
             position q as occupied. Does nothing if q is out of bounds
@@ -133,7 +148,7 @@ class BinaryOccupancyGrid:
         # Determine if the position is valid in the map
         valid = bool(row == row_unsat and col == col_unsat)
 
-        return (row, col, valid)
+        return (int(row), int(col), valid)
 
     def position_to_index(self, q: TwoDimArray) -> tuple[int, bool]:
         """ position_to_index converts a position into a scalar index into the matrix
@@ -346,3 +361,33 @@ def occupancy_positions(grid: BinaryOccupancyGrid, cells: Optional[npt.NDArray[A
 
     # Return results
     return (x_occupied, y_occupied, x_free, y_free)
+
+def inflate_obstacles(grid: BinaryOccupancyGrid, inflation: float) -> BinaryOccupancyGrid:
+    """Inflates the obstacles in the occupancy grid
+
+    Args:
+        grid: The occupancy grid to be inflated
+        inflation: The amount of inflation to be applied
+
+    Returns:
+        BinaryOccupancyGrid: The inflated occupancy grid
+    """
+    # Create a new grid
+    inflated_grid = BinaryOccupancyGrid(res=grid.res, x_lim=grid.x_lim, y_lim=grid.y_lim)
+
+    # Determine the number of cells to inflate
+    n_cells = int(np.ceil(inflation/grid.res))
+
+    # Loop through the grid and determine occupancy
+    for row in range(grid.n_rows): # pylint: disable=too-many-nested-blocks
+        for col in range(grid.n_cols):
+            # Check to see if the position is inside an obstacle
+            if grid.grid[row, col] == grid.OCCUPIED:
+                # Set all cells as occupied within a given radius
+                for i in range(-n_cells, n_cells+1):
+                    for j in range(-n_cells, n_cells+1):
+                        # Check to see if the cell is within the grid
+                        if row+i >= 0 and row+i < grid.n_rows and col+j >= 0 and col+j < grid.n_cols:
+                            inflated_grid.grid[row+i, col+j] = inflated_grid.OCCUPIED
+
+    return inflated_grid
