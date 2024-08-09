@@ -41,8 +41,18 @@ def plot_arcs() -> None:
     # obstacle_world = poly_world.generate_non_convex_obstacles()
 
     # Create an initial state and a goal state
-    x0 = UnicycleState(x=3., y=2., psi=np.pi/4.)
-    xg = TwoDimArray(x=5, y=5.)
+    #x0 = UnicycleState(x=3., y=2., psi=np.pi/4.)
+    x0 = UnicycleState(x=5.5005, y=0.33756, psi=-0.411)
+    #xg = TwoDimArray(x=5, y=5.)
+    xg = TwoDimArray(x=6.44, y=2.326)
+
+    # Create an inflated grid from the world
+    grid = og.generate_occupancy_from_polygon_world(
+        world=obstacle_world,
+        res=0.25,
+        x_lim=(-5, 25),
+        y_lim=(-5, 10))
+    inf_grid = og.inflate_obstacles(grid=grid, inflation=0.25)
 
     # Create a plot from the plot manifest
     plt_dist = 5.
@@ -50,7 +60,10 @@ def plot_arcs() -> None:
                                     world=obstacle_world,
                                     y_limits=(x0.y-plt_dist, x0.y+plt_dist),
                                     x_limits=(x0.x-plt_dist, x0.x+plt_dist),
-                                    position_triangle=True)
+                                    grid=inf_grid,
+                                    position_triangle=True,
+                                    plot_occupancy_grid=True
+                                    )
     for plot in manifest.state_plots:
         plot.plot(state=x0)
     for fig in manifest.figs:
@@ -67,7 +80,8 @@ def plot_arcs() -> None:
     vel_des = dwa.compute_desired_velocities(state=x0,
                                              params=params,
                                              goal=xg,
-                                             world=obstacle_world)
+                                             #world=obstacle_world)
+                                             world=inf_grid)
 
     # Loop through and calculate all of the resulting arcs
     for w in params.w_vals:
@@ -76,7 +90,8 @@ def plot_arcs() -> None:
         t_coll = dwa.evaluate_arc_collision(state=x0,
                                             params=params,
                                             control=cont_w,
-                                            world=obstacle_world)
+                                            #world=obstacle_world
+                                            world=inf_grid)
 
         # Scale the velocities
         scaled_vels = dwa.scale_velocities(control=cont_w, t_coll=t_coll, tf=params.tf)
@@ -116,8 +131,8 @@ def run_unicycle_dwa_example() -> None:
                            v_res=0.25)
 
     # Create the obstacle world
-    #obstacle_world = poly_world.generate_world_obstacles()
-    obstacle_world = poly_world.generate_non_convex_obstacles()
+    obstacle_world = poly_world.generate_world_obstacles()
+    #obstacle_world = poly_world.generate_non_convex_obstacles()
 
     # Create an inflated grid from the world
     grid = og.generate_occupancy_from_polygon_world(
@@ -128,8 +143,8 @@ def run_unicycle_dwa_example() -> None:
     inf_grid = og.inflate_obstacles(grid=grid, inflation=0.25)
 
     # Create the plan to follow
-    #x_g = TwoDimArray(x=7., y=4.)
-    x_g = TwoDimArray(x=13., y=5.)
+    x_g = TwoDimArray(x=7., y=4.)
+    #x_g = TwoDimArray(x=13., y=5.)
     plan = create_path(start=TwoDimArray(x=state_initial.x, y=state_initial.y),
                        end=x_g,
                        obstacle_world=obstacle_world, plan_type="visibility")
@@ -179,7 +194,7 @@ def run_unicycle_dwa_example() -> None:
 def main() -> None:
     """Runs the dynamic window approach test"""
     # Simple script to visualize the arcs produced by the DWA search
-    # plot_arcs()
+    #plot_arcs()
 
     # Run the unicycle DWA example
     run_unicycle_dwa_example()
