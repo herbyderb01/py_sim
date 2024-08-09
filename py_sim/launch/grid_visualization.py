@@ -5,9 +5,9 @@ import copy
 from typing import Generic
 
 import numpy as np
+import py_sim.sensors.occupancy_grid as og
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.plotting.plotting import PlotManifest
-from py_sim.sensors.occupancy_grid import generate_occupancy_from_polygon_world
 from py_sim.sim.generic_sim import SimParameters, start_sim
 from py_sim.sim.sim_modes import SingleAgentSim
 from py_sim.tools.sim_types import UnicycleControl, UnicycleState, UnicycleStateType
@@ -61,17 +61,19 @@ def test_occupancy_grid() -> None:
 
     # Create the obstacle world and occupancy grid
     obstacle_world = generate_world_obstacles()
-    grid = generate_occupancy_from_polygon_world(world=obstacle_world,
-                                                 res=0.25,
-                                                 x_lim=(-5,25),
-                                                 y_lim=(-5, 10))
+    grid = og.generate_occupancy_from_polygon_world(world=obstacle_world,
+                                                    res=0.25,
+                                                    x_lim=(-5,25),
+                                                    y_lim=(-5, 10))
+    grid_inf = og.inflate_obstacles(grid=grid, inflation=0.5)
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
                                  y_limits=(-5, 10),
                                  x_limits=(-5, 25),
                                  world=obstacle_world,
-                                 grid=grid,
+                                 #grid=grid,
+                                 grid=grid_inf,
                                  plot_occupancy_grid=True,
                                  plot_occupancy_cells=False,
                                  plot_occupancy_circles=False)
