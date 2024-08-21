@@ -64,7 +64,8 @@ def scale_velocities(control: UnicycleControl, t_coll: float, tf: float) -> Unic
     Returns:
         UnicycleControl: The control values that will result in no collision before the final time
     """
-    scale = t_coll/tf # Scaling for collision
+    print("Fix scale!!!")
+    scale = 1.0
     return UnicycleControl(v=control.v*scale, w=control.w*scale)
 
 def compute_desired_velocities(state: UnicycleStateProtocol,
@@ -98,21 +99,19 @@ def compute_desired_velocities(state: UnicycleStateProtocol,
     # Loop through and find the control values that will result in the state closest to the end state
     for w in params.w_vals:
         # Calculate the time of collision
-        cont_w = UnicycleControl(v=vel_des, w=w)
-        t_coll = evaluate_arc_collision(state=state,
-                                        params=params,
-                                        control=cont_w,
-                                        world=world)
+        print("Fix me!!!")
 
         # Scale the velocities
-        scaled_vels = scale_velocities(control=cont_w, t_coll=t_coll, tf=params.tf)
+        print("Fix me!!!")
+        scaled_vels = UnicycleControl(v=0., w=0.)
 
-        # Compare the resulting position with the previously best found
+        # Calculate the scaled state and distance to the goal
         state_scaled = unicycle_solution(init=state, control=scaled_vels, delta_t=params.tf)
         dist_scaled = np.linalg.norm(state_scaled.position-goal.position)/dist_max
 
         # Calculate cost component due to velocity
-        cost_vel = params.k_v * np.exp(-dist_max**2/params.sigma**2)*(params.v_des - scaled_vels.v)**2
+        print("Fix me!!!")
+        cost_vel = np.inf
 
         # Choose the minimum cost
         cost = dist_scaled + cost_vel

@@ -73,16 +73,17 @@ def solution(init: UnicycleStateProtocol,
 
     # Calculate control for straight-line motion
     if control.w == 0:
-        final.x = np.cos(init.psi)*control.v*delta_t + init.x
-        final.y = np.sin(init.psi)*control.v*delta_t + init.y
-        final.psi = init.psi
+        print("Fix me!!!!")
+        final.x = 0.
+        final.y = 0.
+        final.psi = 0.
 
     # Calculate control for turning motion
     else:
-        r = control.v/control.w # Radius of curvature
-        final.psi = control.w*delta_t + init.psi
-        final.x = r*(np.sin(final.psi) - np.sin(init.psi)) + init.x
-        final.y = r*(np.cos(init.psi)-np.cos(final.psi)) + init.y
+        print("Fix me!!!!")
+        final.x = 0.
+        final.y = 0.
+        final.psi = 0.
 
     return final
 
