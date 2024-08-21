@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>py_sim.sensors package &#8212; Python Planning Sim 23.06-0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <script src="../_static/documentation_options.js?v=989e2565"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="py_sim.sensors.occupancy_grid module" href="py_sim.sensors.occupancy_grid.html" />
@@ -18,8 +18,9 @@
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -32,9 +33,9 @@
           <div class="body" role="main">
             
   <section id="py-sim-sensors-package">
-<h1>py_sim.sensors package<a class="headerlink" href="#py-sim-sensors-package" title="Permalink to this heading">¶</a></h1>
+<h1>py_sim.sensors package<a class="headerlink" href="#py-sim-sensors-package" title="Link to this heading">¶</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html">py_sim.sensors.occupancy_grid module</a><ul>
@@ -56,6 +57,7 @@
 <li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.get_cell_box"><code class="docutils literal notranslate"><span class="pre">BinaryOccupancyGrid.get_cell_box()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.index_to_position"><code class="docutils literal notranslate"><span class="pre">BinaryOccupancyGrid.index_to_position()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.indices_to_position"><code class="docutils literal notranslate"><span class="pre">BinaryOccupancyGrid.indices_to_position()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.inside_obstacle"><code class="docutils literal notranslate"><span class="pre">BinaryOccupancyGrid.inside_obstacle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.is_occupied"><code class="docutils literal notranslate"><span class="pre">BinaryOccupancyGrid.is_occupied()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.position_to_index"><code class="docutils literal notranslate"><span class="pre">BinaryOccupancyGrid.position_to_index()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.BinaryOccupancyGrid.position_to_mat_coord"><code class="docutils literal notranslate"><span class="pre">BinaryOccupancyGrid.position_to_mat_coord()</span></code></a></li>
@@ -65,6 +67,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.generate_occupancy_from_polygon_world"><code class="docutils literal notranslate"><span class="pre">generate_occupancy_from_polygon_world()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.ind2sub"><code class="docutils literal notranslate"><span class="pre">ind2sub()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.inflate_obstacles"><code class="docutils literal notranslate"><span class="pre">inflate_obstacles()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.occupancy_positions"><code class="docutils literal notranslate"><span class="pre">occupancy_positions()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="py_sim.sensors.occupancy_grid.html#py_sim.sensors.occupancy_grid.sub2ind"><code class="docutils literal notranslate"><span class="pre">sub2ind()</span></code></a></li>
 </ul>
@@ -78,7 +81,9 @@
 <li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.range_bearing.html#py_sim.sensors.range_bearing.RangeBearingSensor.ind_front"><code class="docutils literal notranslate"><span class="pre">RangeBearingSensor.ind_front</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.range_bearing.html#py_sim.sensors.range_bearing.RangeBearingSensor.ind_rear"><code class="docutils literal notranslate"><span class="pre">RangeBearingSensor.ind_rear</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.range_bearing.html#py_sim.sensors.range_bearing.RangeBearingSensor.orien"><code class="docutils literal notranslate"><span class="pre">RangeBearingSensor.orien</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.range_bearing.html#py_sim.sensors.range_bearing.RangeBearingSensor.delta"><code class="docutils literal notranslate"><span class="pre">RangeBearingSensor.delta</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.range_bearing.html#py_sim.sensors.range_bearing.RangeBearingSensor.calculate_range_bearing_measurement"><code class="docutils literal notranslate"><span class="pre">RangeBearingSensor.calculate_range_bearing_measurement()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_sim.sensors.range_bearing.html#py_sim.sensors.range_bearing.RangeBearingSensor.create_measurement_from_range"><code class="docutils literal notranslate"><span class="pre">RangeBearingSensor.create_measurement_from_range()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -87,7 +92,7 @@
 </div>
 </section>
 <section id="module-py_sim.sensors">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-py_sim.sensors" title="Permalink to this heading">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-py_sim.sensors" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 
@@ -96,7 +101,7 @@
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
 <h1 class="logo"><a href="../index.html">Python Planning Sim</a></h1>
 
@@ -129,7 +134,7 @@
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -137,7 +142,7 @@
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
 
 
@@ -152,11 +157,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2023, Greg Droge.
+      &#169;2023, Greg Droge.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.4.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
       |
       <a href="../_sources/pysim/py_sim.sensors.rst.txt"

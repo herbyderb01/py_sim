@@ -35,8 +35,9 @@ class GoToGoalField:
         Returns:
             TwoDimArray: Vector pointing towards the goal
         """
-
-        return TwoDimArray()
+        print("Add scaling function!!!")
+        g = self.x_g.position - state.position
+        return TwoDimArray(vec=g)
 
 class AvoidObstacle:
     """Defines an avoid obstacle vector field with a finite sphere of influence
@@ -72,7 +73,7 @@ class AvoidObstacle:
         Returns:
             TwoDimArray: Vector pointing towards the goal
         """
-
+        print("Fix me!!!")
         return TwoDimArray()
 
 class SummedField:
@@ -162,7 +163,7 @@ class G2GAvoid:
         # Create the obstacle avoid vector fields
         self._avoid: list[AvoidObstacle] = []
         for _ in range(n_obs):
-            self._avoid.append(AvoidObstacle(x_o=TwoDimArray(), v_max=v_max, S=S, R=R))
+            self._avoid.append(AvoidObstacle(x_o=TwoDimArray(x=1.e10, y=1.e10), v_max=v_max, S=S, R=R))
             weights.append(weight_avoid)
 
         # Create the summed vector field

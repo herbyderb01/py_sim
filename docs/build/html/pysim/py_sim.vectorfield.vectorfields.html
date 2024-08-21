@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>py_sim.vectorfield.vectorfields module &#8212; Python Planning Sim 23.06-0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <script src="../_static/documentation_options.js?v=989e2565"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="py_sim.worlds namespace" href="py_sim.worlds.html" />
@@ -18,8 +18,9 @@
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -32,16 +33,16 @@
           <div class="body" role="main">
             
   <section id="module-py_sim.vectorfield.vectorfields">
-<span id="py-sim-vectorfield-vectorfields-module"></span><h1>py_sim.vectorfield.vectorfields module<a class="headerlink" href="#module-py_sim.vectorfield.vectorfields" title="Permalink to this heading">¶</a></h1>
+<span id="py-sim-vectorfield-vectorfields-module"></span><h1>py_sim.vectorfield.vectorfields module<a class="headerlink" href="#module-py_sim.vectorfield.vectorfields" title="Link to this heading">¶</a></h1>
 <p>vectorfields.py defines various vector fields and associated parameters</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.AvoidObstacle">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.vectorfield.vectorfields.</span></span><span class="sig-name descname"><span class="pre">AvoidObstacle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_o</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.AvoidObstacle" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.vectorfield.vectorfields.</span></span><span class="sig-name descname"><span class="pre">AvoidObstacle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_o</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.AvoidObstacle" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Defines an avoid obstacle vector field with a finite sphere of influence</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.AvoidObstacle.x_o">
-<span class="sig-name descname"><span class="pre">x_o</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.AvoidObstacle.x_o" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">x_o</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.AvoidObstacle.x_o" title="Link to this definition">¶</a></dt>
 <dd><p>Position of the obstacle to avoid</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -52,7 +53,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.AvoidObstacle.v_max">
-<span class="sig-name descname"><span class="pre">v_max</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.AvoidObstacle.v_max" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">v_max</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.AvoidObstacle.v_max" title="Link to this definition">¶</a></dt>
 <dd><p>Maximum velocity of the vector field</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -63,7 +64,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.AvoidObstacle.S">
-<span class="sig-name descname"><span class="pre">S</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.AvoidObstacle.S" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">S</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.AvoidObstacle.S" title="Link to this definition">¶</a></dt>
 <dd><p>Sphere of influence</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -74,7 +75,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.AvoidObstacle.R">
-<span class="sig-name descname"><span class="pre">R</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.AvoidObstacle.R" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">R</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.AvoidObstacle.R" title="Link to this definition">¶</a></dt>
 <dd><p>Radius of max effect</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -85,7 +86,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.AvoidObstacle.calculate_vector">
-<span class="sig-name descname"><span class="pre">calculate_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.AvoidObstacle.calculate_vector" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">calculate_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.AvoidObstacle.calculate_vector" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates a vector from the state to the goal, the vector is scaled to respect max velocity</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -107,12 +108,12 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.G2GAvoid">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.vectorfield.vectorfields.</span></span><span class="sig-name descname"><span class="pre">G2GAvoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_g2g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_avoid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.vectorfield.vectorfields.</span></span><span class="sig-name descname"><span class="pre">G2GAvoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_g2g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_avoid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Defines a vector field that sums go-to-goal and obstacle fields with update functions for each</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.G2GAvoid.n_obs">
-<span class="sig-name descname"><span class="pre">n_obs</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid.n_obs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">n_obs</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid.n_obs" title="Link to this definition">¶</a></dt>
 <dd><p>The number of obstacles</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -123,7 +124,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.G2GAvoid.x_g">
-<span class="sig-name descname"><span class="pre">x_g</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid.x_g" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">x_g</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid.x_g" title="Link to this definition">¶</a></dt>
 <dd><p>The goal position</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -134,7 +135,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.G2GAvoid.v_max">
-<span class="sig-name descname"><span class="pre">v_max</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid.v_max" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">v_max</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid.v_max" title="Link to this definition">¶</a></dt>
 <dd><p>Maximum translational velocity</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -145,7 +146,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.G2GAvoid._go_to_goal">
-<span class="sig-name descname"><span class="pre">_go_to_goal</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid._go_to_goal" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_go_to_goal</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid._go_to_goal" title="Link to this definition">¶</a></dt>
 <dd><p>The go to goal vector field</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -156,7 +157,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.G2GAvoid._avoid">
-<span class="sig-name descname"><span class="pre">_avoid</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid._avoid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_avoid</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid._avoid" title="Link to this definition">¶</a></dt>
 <dd><p>The avoid obstacle fields</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -167,7 +168,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.G2GAvoid._summed">
-<span class="sig-name descname"><span class="pre">_summed</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid._summed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_summed</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid._summed" title="Link to this definition">¶</a></dt>
 <dd><p>The combined field</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -178,7 +179,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.G2GAvoid.calculate_vector">
-<span class="sig-name descname"><span class="pre">calculate_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid.calculate_vector" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">calculate_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid.calculate_vector" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates a vector from the state to the goal, the vector is scaled to respect max velocity</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -198,7 +199,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.G2GAvoid.update_obstacles">
-<span class="sig-name descname"><span class="pre">update_obstacles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">locations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">py_sim.tools.sim_types.TwoDimArray</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid.update_obstacles" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">update_obstacles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">locations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.G2GAvoid.update_obstacles" title="Link to this definition">¶</a></dt>
 <dd><p>Updates the positions of the obstacles</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -209,13 +210,13 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="id0">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">v_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">v_max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
 <dd><p>The maximum velocity getter</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="id1">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x_g</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></em><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x_g</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></em><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
 <dd><p>Goal position getter</p>
 </dd></dl>
 
@@ -223,12 +224,12 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.GoToGoalField">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.vectorfield.vectorfields.</span></span><span class="sig-name descname"><span class="pre">GoToGoalField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.GoToGoalField" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.vectorfield.vectorfields.</span></span><span class="sig-name descname"><span class="pre">GoToGoalField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.GoToGoalField" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Defines a go-to-goal vector field</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.GoToGoalField.x_g">
-<span class="sig-name descname"><span class="pre">x_g</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.GoToGoalField.x_g" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">x_g</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.GoToGoalField.x_g" title="Link to this definition">¶</a></dt>
 <dd><p>2D goal position that vector field attempts to reach</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -239,7 +240,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.GoToGoalField.v_max">
-<span class="sig-name descname"><span class="pre">v_max</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.GoToGoalField.v_max" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">v_max</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.GoToGoalField.v_max" title="Link to this definition">¶</a></dt>
 <dd><p>Maximum translational velocity</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -250,7 +251,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.GoToGoalField.sig_sq">
-<span class="sig-name descname"><span class="pre">sig_sq</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.GoToGoalField.sig_sq" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">sig_sq</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.GoToGoalField.sig_sq" title="Link to this definition">¶</a></dt>
 <dd><p>Convergence factor for going to zero velocity, squared</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -261,7 +262,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.GoToGoalField.calculate_vector">
-<span class="sig-name descname"><span class="pre">calculate_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.GoToGoalField.calculate_vector" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">calculate_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.GoToGoalField.calculate_vector" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates a vector from the state to the goal, the vector is scaled to respect max velocity</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -283,12 +284,12 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.SummedField">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.vectorfield.vectorfields.</span></span><span class="sig-name descname"><span class="pre">SummedField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorField" title="py_sim.tools.sim_types.VectorField"><span class="pre">py_sim.tools.sim_types.VectorField</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.SummedField" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_sim.vectorfield.vectorfields.</span></span><span class="sig-name descname"><span class="pre">SummedField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.VectorField" title="py_sim.tools.sim_types.VectorField"><span class="pre">VectorField</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.SummedField" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Defines a vector field that is the summation of passed in fields</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.SummedField.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.SummedField.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.SummedField.fields" title="Link to this definition">¶</a></dt>
 <dd><p>List of individual vector fields to be summed together</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -299,7 +300,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.SummedField.weights">
-<span class="sig-name descname"><span class="pre">weights</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.SummedField.weights" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">weights</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.SummedField.weights" title="Link to this definition">¶</a></dt>
 <dd><p>Weight associated with each vector field</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -310,7 +311,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.SummedField.v_max">
-<span class="sig-name descname"><span class="pre">v_max</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.SummedField.v_max" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">v_max</span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.SummedField.v_max" title="Link to this definition">¶</a></dt>
 <dd><p>maximum allowable velocity</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -321,7 +322,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="py_sim.vectorfield.vectorfields.SummedField.calculate_vector">
-<span class="sig-name descname"><span class="pre">calculate_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.SummedField.calculate_vector" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">calculate_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDArrayType" title="py_sim.tools.sim_types.TwoDArrayType"><span class="pre">TwoDArrayType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="py_sim.tools.sim_types.html#py_sim.tools.sim_types.TwoDimArray" title="py_sim.tools.sim_types.TwoDimArray"><span class="pre">TwoDimArray</span></a></span></span><a class="headerlink" href="#py_sim.vectorfield.vectorfields.SummedField.calculate_vector" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates a summed vector and thresholds it to v_max</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -348,7 +349,7 @@
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
 <h1 class="logo"><a href="../index.html">Python Planning Sim</a></h1>
 
@@ -383,7 +384,7 @@
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -391,7 +392,7 @@
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
 
 
@@ -406,11 +407,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2023, Greg Droge.
+      &#169;2023, Greg Droge.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.4.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
       |
       <a href="../_sources/pysim/py_sim.vectorfield.vectorfields.rst.txt"

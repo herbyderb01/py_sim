@@ -313,5 +313,11 @@ class LineCarrot:
         Returns:
             TwoDimArray: The carrot point (point _s_carrot in front of the projection point)
         """
+        # Project the point onto the stored line
+        print("Fix me!!!")
 
-        return TwoDimArray()
+        # Get the point at a distance of carrot in front of the line
+        print("Fix carrot!!!")
+        carrot = np.array([[0.],[0.]])
+
+        return TwoDimArray(vec=carrot)
