@@ -35,6 +35,7 @@ class GoToGoalField:
         Returns:
             TwoDimArray: Vector pointing towards the goal
         """
+        print("Add scaling function!!!")
         g = self.x_g.position - state.position
         return TwoDimArray(vec=g)
 
@@ -72,7 +73,7 @@ class AvoidObstacle:
         Returns:
             TwoDimArray: Vector pointing towards the goal
         """
-
+        print("Fix me!!!")
         return TwoDimArray()
 
 class SummedField:
