@@ -35,8 +35,8 @@ class GoToGoalField:
         Returns:
             TwoDimArray: Vector pointing towards the goal
         """
-
-        return TwoDimArray()
+        g = self.x_g.position - state.position
+        return TwoDimArray(vec=g)
 
 class AvoidObstacle:
     """Defines an avoid obstacle vector field with a finite sphere of influence
