@@ -1,8 +1,11 @@
 """test_graph.py tests functions and attributes of import networkx as nx
 """
-import networkx as nx
-from matplotlib import pyplot as plt, animation
 import random
+
+import networkx as nx
+from matplotlib import animation
+from matplotlib import pyplot as plt
+
 
 def get_directed_plan() -> None:
     """Test traversing through a tree

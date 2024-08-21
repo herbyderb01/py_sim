@@ -1,6 +1,7 @@
-from heapq import heappush, heappop, heapify
-from collections import deque
 import random
+from collections import deque
+from heapq import heapify, heappop, heappush
+
 
 def print_queue(q):
     for (cost, val) in q:

@@ -100,7 +100,7 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
     # Initialize the plotting of the vehicle visualization
     fig, ax = plt.subplots()
     plots.figs.append(fig)
-    plots.axes['Vehicle_axis'] = ax
+    plots.vehicle_axes = ax
     ax.set_title("Vehicle plot")
     ax.set_ylim(ymin=y_limits[0], ymax=y_limits[1])
     ax.set_xlim(xmin=x_limits[0], xmax=x_limits[1])
@@ -124,6 +124,14 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
     if world is not None:
         pt.plot_polygon_world(ax=ax, world=world)
 
+    # Plot the plan
+    if plan is not None:
+        plots.vehicle_axes.plot(plan[0], plan[1], "-", color=plan_color, linewidth=3)
+
+    # # Plot the dwa control arc
+    # if dwa_params is not None:
+    #     plots.data_plots.append(pt.ControlArcPlot(ax=plots.vehicle_axes))
+
     # Create the desired state plots
     if position_triangle:
         if isinstance(initial_state, UnicycleStateProtocol): # Ignore statement below is mismattch between LocationStateType and UnicycleStateProtocol, checked by this if statement
@@ -133,7 +141,6 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
             print("Plotting position dot as cannot plot triangle for type ", type(initial_state))
     if position_dot:
         plots.state_plots.append(pt.PositionPlot(ax=ax, label="Vehicle", color=color) )
-
 
     # Create the state trajectory plot
     if state_trajectory:
@@ -177,13 +184,9 @@ def create_plot_manifest(initial_state: LocationStateType, # pylint: disable=too
     if graph is not None:
         nx.drawing.nx_pylab.draw(G=graph.graph, pos=graph.node_location, ax=ax, node_size=graph_node_size )
 
-    # Plot the plan
-    if plan is not None:
-        plots.axes['Vehicle_axis'].plot(plan[0], plan[1], "-", color=plan_color, linewidth=3)
-
     # Plot the carrot point
     if line_carrot is not None:
-        plots.state_plots.append(pt.CarrotPositionPlot(ax=plots.axes['Vehicle_axis'],
+        plots.state_plots.append(pt.CarrotPositionPlot(ax=plots.vehicle_axes,
                                                        color=(0., 0., 1., 1.),
                                                        carrot=line_carrot))
 

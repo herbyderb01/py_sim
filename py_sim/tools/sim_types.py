@@ -40,67 +40,6 @@ InputType = TypeVar("InputType", bound=Input) # Use for denoting a vehicle contr
 DynamicsParamType = TypeVar("DynamicsParamType") # Use for denoting the vehicle parameters
 ControlParamType = TypeVar("ControlParamType") # Used for denoting controller parameters
 
-class Slice(Generic[StateType]):
-    """ Contains a "slice" of data - the data produced / needed
-        at a single time
-
-    Attributes:
-        time(float): Simulation time corresponding to the state
-        state(StateType): State of the vehicle
-        input_vec(Optional[npt.NDArray[Any]]): Input applied at the stated time, None => not yet calculated
-    """
-    def __init__(self, state: StateType, time: float = 0.) -> None:
-        self.time = time # Simulation time corresponding to the state
-        self.state: StateType = state # State
-        self.input_vec: Optional[npt.NDArray[Any]] = None # Input applied at the stated time, None => not yet calculated
-
-class Data(Generic[StateType]):
-    """Stores the changing simulation information
-
-    Attributes:
-        current(Slice): Stores the current slice of data to be read
-        next(Slice): Stores the next data to be created
-        state_traj(NDArray[Any]): Each column corresponds to a trajectory data
-        time_traj(NDArray[Any]): vector Each element is the time for the state in question
-        traj_index_latest(int): Index into the state and time trajectory of the latest data
-        control_traj(NDArray[Any]): Each column corresponds to a control input vector
-        range_bearing_latest(RangeBearingMeasurements): Stores the latest data received for range-bearing measurements
-    """
-    def __init__(self, current: Slice[StateType]) -> None:
-        self.current = current # Stores the current slice of data to be read
-        self.next = copy.deepcopy(current) # Stores the next data to be created
-        self.state_traj: npt.NDArray[Any] # Each column corresponds to a trajectory data
-        self.time_traj: npt.NDArray[Any] # vector Each element is the time for the state in question
-        self.traj_index_latest: int = -1 # Index into the state and time trajectory of the latest data
-        self.control_traj: npt.NDArray[Any] # Each column corresponds to a control input vector
-        self.range_bearing_latest = RangeBearingMeasurements() # Stores the latest data received for range-bearing measurements
-
-    def get_state_vec(self,index: int) -> npt.NDArray[Any]:
-        """Returns a vector of the valid values for a given state
-
-        Args:
-            index: The index of the state being requested
-
-        Returns:
-            NDArray[Any]: The array of state values from initial time to current time
-        """
-        return self.state_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on second argument
-
-    def get_time_vec(self) -> npt.NDArray[Any]:
-        """Returns the vector of valid time values from the initial time to the current time"""
-        return self.time_traj[0:self.traj_index_latest+1]
-
-    def get_control_vec(self, index: int) -> npt.NDArray[Any]:
-        """Returns the control referenced by index over all valid time values
-
-        Args:
-            index: The index of the desired control input within the control vector
-
-        Returns:
-            NDArray[Any]: The requested control over time
-        """
-        return self.control_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on the second argument
-
 class TwoDArrayType(Protocol):
     """Defines a Two dimensional array with an x and y component
 
@@ -173,8 +112,8 @@ class TwoDimArray:
     @position.setter
     def position(self, val: npt.NDArray[Any]) -> None:
         """Sets the position"""
-        self.state.itemset(self.IND_X, val.item(self.IND_X))
-        self.state.itemset(self.IND_Y, val.item(self.IND_Y))
+        self.state[self.IND_X, 0] = val.item(self.IND_X)
+        self.state[self.IND_Y, 0] = val.item(self.IND_Y)
 
 class Dynamics(Protocol[StateType, InputType, DynamicsParamType]): # type: ignore
     """Class taking the form of a state dynamics function call"""
@@ -305,8 +244,15 @@ class UnicycleState:
     IND_PSI: int = 2  # The index of the orientation
     n_states: int = 3 # The number of states in the state vector
 
-    def __init__(self, x: float = 0., y: float = 0., psi: float = 0.) -> None:
-        self.state: npt.NDArray[Any] = np.array([[x], [y], [psi]])  # The state of the vehicle
+    def __init__(self, x: float = 0., y: float = 0., psi: float = 0., vec: Optional[npt.NDArray[Any]] = None) -> None:
+
+        self.state: npt.NDArray[Any]
+        if vec is None:
+            self.state = np.array([[x], [y], [psi]])  # The state of the vehicle
+        else:
+            self.state = np.array(
+                [[vec.item(self.IND_X)], [vec.item(self.IND_Y)], [vec.item(self.IND_PSI)]]
+            )
 
     @property
     def x(self) -> float:
@@ -535,3 +481,130 @@ class EllipseParameters:
     def s_a(self) -> float:
         """Returns the sine of alpha"""
         return self._s_a
+
+class DwaParams():
+    """Parameters used for following a carrot point using the dynamic window approach
+
+    Attributes:
+        v_des(float): The desired translational velocity
+        w_vals(list(float)): The desired rotational velocities to search
+        t_vals(list(float)): The time instances to evaluate on each arc
+        dt(float): The resolution in time for each sample
+        ds(float): The spatial resolution for each sample (meters)
+        tf(float): The final time to evaluate
+        k_v(float): The cost scaling for velocity
+        sigma(float): Width parameter for the distance-based velocity scaling
+        v_res(float): The resolution in velocity for each sample when run the classic DWA
+        classic(bool): True if the classic DWA is being run
+        t_eps(float): A small value in time to subtract from a collision point
+        _w_vals(list(float)): The desired rotational velocities to search (internal)
+        _w_max(float): The maximum angular velocity to search
+        _w_res(float): The resolution of the arc search. Arc searched
+                      from -w_max:w_res:w_max
+    """
+    def __init__(self, v_des: float, w_max: float, w_res: float, ds: float, sf: float, s_eps: float, k_v: float, sigma: float, v_res: float, classic: bool) -> None:
+        """ Initializes the parameters of the DWA search
+
+        Args:
+            v_des: The desired translational velocity
+            w_max: The maximum angular velocity to search
+            w_res(float): The resolution of the arc search. Arc searched
+                      from -w_max:w_res:w_max
+            ds: The resolution in space for each sample (meters)
+            sf: The horizon length in meters
+            s_eps: A small value in meters to subtract from a point of collision
+            k_v: The cost scaling for velocity
+            sigma: Width parameter for the distance-based velocity scaling
+            v_res: The resolution in velocity for each sample when run the classic DWA
+            classic: True if the classic DWA is being run
+        """
+        # Check the inputs
+        if v_des <= 0. or w_max <= 0. or w_res <= 0.:
+            raise ValueError("DWA parameters must all be positive")
+
+        # Store the inputs
+        self.v_des = v_des
+        self.tf = sf/v_des
+        self.ds = ds
+        self.dt = ds/v_des
+        self.t_eps = s_eps/v_des
+        self.t_vals: list[float] = np.arange(start=0., stop=self.tf, step=self.dt).tolist()
+        self.t_vals.append(self.tf)
+        self.k_v = k_v
+        self.sigma = sigma
+        self.v_res = v_res
+        self.classic = classic
+        self._w_max = w_max
+        self._w_res = w_res
+
+        # Create the range of rotational velocity values over which to search
+        self._w_vals: list[float] = []
+        for w in np.arange(start=-w_max, stop=w_max, step=w_res).tolist():
+            self._w_vals.append(w)
+        self._w_vals.append(w_max) # arange is not inclusive on the stop
+
+    @property
+    def w_vals(self) -> list[float]:
+        """Returns the rotational velocity list"""
+        return self._w_vals
+
+class Slice(Generic[StateType]):
+    """ Contains a "slice" of data - the data produced / needed
+        at a single time
+
+    Attributes:
+        time(float): Simulation time corresponding to the state
+        state(StateType): State of the vehicle
+        input_vec(Optional[npt.NDArray[Any]]): Input applied at the stated time, None => not yet calculated
+    """
+    def __init__(self, state: StateType, time: float = 0.) -> None:
+        self.time = time # Simulation time corresponding to the state
+        self.state: StateType = state # State
+        self.input_vec: Optional[npt.NDArray[Any]] = None # Input applied at the stated time, None => not yet calculated
+
+class Data(Generic[StateType]):
+    """Stores the changing simulation information
+
+    Attributes:
+        current(Slice): Stores the current slice of data to be read
+        next(Slice): Stores the next data to be created
+        state_traj(NDArray[Any]): Each column corresponds to a trajectory data
+        time_traj(NDArray[Any]): vector Each element is the time for the state in question
+        traj_index_latest(int): Index into the state and time trajectory of the latest data
+        control_traj(NDArray[Any]): Each column corresponds to a control input vector
+        range_bearing_latest(RangeBearingMeasurements): Stores the latest data received for range-bearing measurements
+    """
+    def __init__(self, current: Slice[StateType]) -> None:
+        self.current = current # Stores the current slice of data to be read
+        self.next = copy.deepcopy(current) # Stores the next data to be created
+        self.state_traj: npt.NDArray[Any] # Each column corresponds to a trajectory data
+        self.time_traj: npt.NDArray[Any] # vector Each element is the time for the state in question
+        self.traj_index_latest: int = -1 # Index into the state and time trajectory of the latest data
+        self.control_traj: npt.NDArray[Any] # Each column corresponds to a control input vector
+        self.range_bearing_latest = RangeBearingMeasurements() # Stores the latest data received for range-bearing measurements
+
+    def get_state_vec(self,index: int) -> npt.NDArray[Any]:
+        """Returns a vector of the valid values for a given state
+
+        Args:
+            index: The index of the state being requested
+
+        Returns:
+            NDArray[Any]: The array of state values from initial time to current time
+        """
+        return self.state_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on second argument
+
+    def get_time_vec(self) -> npt.NDArray[Any]:
+        """Returns the vector of valid time values from the initial time to the current time"""
+        return self.time_traj[0:self.traj_index_latest+1]
+
+    def get_control_vec(self, index: int) -> npt.NDArray[Any]:
+        """Returns the control referenced by index over all valid time values
+
+        Args:
+            index: The index of the desired control input within the control vector
+
+        Returns:
+            NDArray[Any]: The requested control over time
+        """
+        return self.control_traj[index, 0:self.traj_index_latest+1] # +1 as python is non-inclusive on the second argument
