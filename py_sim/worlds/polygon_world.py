@@ -369,7 +369,6 @@ def create_visibility_graph(world: PolygonWorld) -> UndirectedPathGraph:
 
     return graph
 
-
 def create_voronoi_graph(world: PolygonWorld,
                          x_limits: tuple[float, float],
                          y_limits: tuple[float, float],

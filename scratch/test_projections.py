@@ -1,11 +1,17 @@
 """test_projections.py tests out various functions in the tools/projections.py module"""
 
-from py_sim.tools.projections import project_point_to_edge, project_point_to_line, carrot_point, calculate_line_distances
+import time
+from typing import Any
+
+import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
-from typing import Any
-import matplotlib.pyplot as plt
-import time
+from py_sim.tools.projections import (
+    calculate_line_distances,
+    carrot_point,
+    project_point_to_edge,
+    project_point_to_line,
+)
 
 
 def plot_projection_error(edge: npt.NDArray[Any],

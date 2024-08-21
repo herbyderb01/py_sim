@@ -5,7 +5,7 @@ import py_sim.dynamics.unicycle as uni
 from py_sim.dynamics import single_integrator
 from py_sim.plotting.plot_constructor import create_plot_manifest
 from py_sim.sensors.range_bearing import RangeBearingSensor
-from py_sim.sim.generic_sim import SimParameters, start_simple_sim
+from py_sim.sim.generic_sim import SimParameters, start_sim
 from py_sim.sim.sim_modes import NavFieldFollower
 from py_sim.tools.sim_types import TwoDimArray, UnicycleControl, UnicycleState
 from py_sim.vectorfield.grid_navigation_function import GridNavigationFunction
@@ -23,8 +23,8 @@ def run_unicycle_simple_vectorfield_example() -> None:
     vel_params = uni.UniVelVecParams(vd_field_max=5., k_wd= 5.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
-    # Create the vector field
-    n_lines = 10 # Number of sensor lines
+    # Set the number of sensor lines
+    n_lines = 10
 
     # Create the obstacle world
     obstacle_world = generate_world_obstacles()
@@ -72,7 +72,7 @@ def run_unicycle_simple_vectorfield_example() -> None:
                          )
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 def run_single_simple_vectorfield_example() -> None:
     """Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed using a single integrator
@@ -81,8 +81,8 @@ def run_single_simple_vectorfield_example() -> None:
     vel_params = single_integrator.VectorParams(v_max=5.)
     state_initial = TwoDimArray(x = 0., y= 0.)
 
-    # Create the sensors
-    n_lines = 10 # Number of sensor lines
+    # Set the number of sensor lines
+    n_lines = 10
 
     # Create the obstacle world
     #obstacle_world = generate_world_obstacles()
@@ -129,9 +129,9 @@ def run_single_simple_vectorfield_example() -> None:
                          )
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 if __name__ == "__main__":
     # Perform navigation without path planning (simple goal and avoid vector fields)
-    run_single_simple_vectorfield_example()
-    #run_unicycle_simple_vectorfield_example()
+    #run_single_simple_vectorfield_example()
+    run_unicycle_simple_vectorfield_example()

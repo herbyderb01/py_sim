@@ -27,7 +27,6 @@ class GridNavigationFunction:
             obstacle_world: The world in which the planning is performed
             plan_type: identifies the planner to be used
                 Grid-based planners: breadth, depth, dijkstra, astar, greedy
-                Graph-based planners (both use dijkstra planning): visibility, voronoi
             v_des: Desired velocity for travel
             sig: the convergence factor for approaching zero velocity at the goal location
             x_lim: The limits on planning for the x-axis

@@ -55,6 +55,75 @@ def dynamics(state: UnicycleStateProtocol,
     state_dot.psi = w
     return state_dot
 
+def solution(init: UnicycleStateProtocol,
+             control: UnicyleControlProtocol,
+             delta_t: float) -> UnicycleState:
+    """ Calculates the resulting solution of the unicycle given an initial state and a control that is held constant over a time interval.
+
+    Args:
+        init: Initial state of the vehicle
+        control: Control input that is assumed constant over the time interval
+        delta_t: The time interval in question
+
+    Returns:
+        UnicycleState: The state of the unicycle at the end of the delta_t horizon
+    """
+    # Initialize output
+    final = UnicycleState()
+
+    # Calculate control for straight-line motion
+    if control.w == 0:
+        print("Fix me!!!!")
+        final.x = 0.
+        final.y = 0.
+        final.psi = 0.
+
+    # Calculate control for turning motion
+    else:
+        print("Fix me!!!!")
+        final.x = 0.
+        final.y = 0.
+        final.psi = 0.
+
+    return final
+
+def solution_trajectory(init: UnicycleStateProtocol,
+                        control: UnicyleControlProtocol,
+                        ds: float,
+                        tf: float) -> tuple[list[float], list[float]]:
+    """Calculates the trajectory of the unicycle given an initial state and a control that is held constant over a time interval.
+
+    Args:
+        init: Initial state of the vehicle
+        control: Control input that is assumed constant over the time interval
+        ds: The resolution in meters of the desired state spacing
+        tf: The final time value of execution
+    """
+    # Initialize the outputs
+    x_vec: list[float] = [init.x]
+    y_vec: list[float] = [init.y]
+
+    # Return the initial state if the velocity is zero
+    if control.v == 0:
+        return (x_vec, y_vec)
+
+    # Calculate the resolution of the time evaluations
+    dt = np.abs(ds/control.v)
+
+    # Evaluate the time
+    t = dt
+    while t <= tf:
+        # Calculate and store the position
+        soln = solution(init=init, control=control, delta_t=t)
+        x_vec.append(soln.x)
+        y_vec.append(soln.y)
+
+        # Update the time
+        t += dt
+
+    return (x_vec, y_vec)
+
+
 ###########################  Basic unicycle controllers ##################################
 def velocity_control(time: float, # pylint: disable=unused-argument
                      state: UnicycleStateProtocol, # pylint: disable=unused-argument
