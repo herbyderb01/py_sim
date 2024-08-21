@@ -6,7 +6,7 @@ Provides and example of using a vector field control law with the vector field o
 from py_sim.dynamics import single_integrator
 from py_sim.dynamics import unicycle as uni
 from py_sim.plotting.plot_constructor import create_plot_manifest
-from py_sim.sim.generic_sim import SimParameters, start_simple_sim
+from py_sim.sim.generic_sim import SimParameters, start_sim
 from py_sim.sim.sim_modes import VectorFollower
 from py_sim.tools.sim_types import TwoDimArray, UnicycleControl, UnicycleState
 from py_sim.vectorfield.vectorfields import (  # pylint: disable=unused-import
@@ -59,7 +59,7 @@ def run_unicycle_simple_vectorfield_example() -> None:
                          vector_field=vector_field)
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 def run_single_integrator_simple_vectorfield_example() -> None:
     """Runs an example of a go-to-goal vector field combined with an obstacle avoidance
@@ -105,7 +105,7 @@ def run_single_integrator_simple_vectorfield_example() -> None:
                          vector_field=vector_field)
 
     # Run the simulation
-    start_simple_sim(sim=sim)
+    start_sim(sim=sim)
 
 if __name__ == "__main__":
     run_single_integrator_simple_vectorfield_example()

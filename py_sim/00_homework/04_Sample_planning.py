@@ -112,8 +112,8 @@ def run_rrt_planner(planner: Literal["rrt", "rrt_star", "i-rrt", "s-rrt"],
                                  )
 
     # Visualize the plan
-    plot_manifest.axes['Vehicle_axis'].plot(x_vec, y_vec, "-", color=(1., 0., 0., 1.), linewidth=3)
-    plot_manifest.axes['Vehicle_axis'].plot(x_vec_smooth, y_vec_smooth, "-", color=(0., 1., 0., 1.), linewidth=2)
+    plot_manifest.vehicle_axes.plot(x_vec, y_vec, "-", color=(1., 0., 0., 1.), linewidth=3)
+    plot_manifest.vehicle_axes.plot(x_vec_smooth, y_vec_smooth, "-", color=(0., 1., 0., 1.), linewidth=2)
     for fig in plot_manifest.figs:
         fig.canvas.draw()
         fig.canvas.flush_events()
@@ -127,7 +127,7 @@ def run_rrt_planner(planner: Literal["rrt", "rrt_star", "i-rrt", "s-rrt"],
     plt.show(block=True)
 
 if __name__ == "__main__":
-    #run_rrt_planner(planner="rrt", plot_live=False, num_iterations=1000)
-    run_rrt_planner(planner="rrt_star", plot_live=False, num_iterations=1000)
+    run_rrt_planner(planner="rrt", plot_live=False, num_iterations=1000)
+    #run_rrt_planner(planner="rrt_star", plot_live=False, num_iterations=1000)
     #run_rrt_planner(planner="i-rrt", plot_live=False, num_iterations=1000)
     #run_rrt_planner(planner="s-rrt", plot_live=False, num_iterations=1000)

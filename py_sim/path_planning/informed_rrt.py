@@ -3,7 +3,7 @@
     by James Swedeen, Greg Droge, and Randall Christensen
 """
 
-from typing import Optional
+from typing import Optional, Union
 
 import numpy as np
 import py_sim.path_planning.sampling_procedures as proc
@@ -223,6 +223,7 @@ def rrt_star_informed(x_root: TwoDimArray,
         ind_near = [0]
 
         # Insert the point into the tree
+        ind_rewire: Union[list[int], None] = None
         if cost_new < np.inf:
             # Insert the new node # Just a single function call
             print("Fix me!!!")

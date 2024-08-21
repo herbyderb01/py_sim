@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>py_sim.00_homework.03_Vehicle_models module &#8212; Python Planning Sim 23.06-0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <script src="../_static/documentation_options.js?v=989e2565"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="py_sim.00_homework.04_Sample_planning module" href="py_sim.00_homework.04_Sample_planning.html" />
@@ -18,8 +18,9 @@
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -32,24 +33,24 @@
           <div class="body" role="main">
             
   <section id="module-py_sim.00_homework.03_Vehicle_models">
-<span id="py-sim-00-homework-03-vehicle-models-module"></span><h1>py_sim.00_homework.03_Vehicle_models module<a class="headerlink" href="#module-py_sim.00_homework.03_Vehicle_models" title="Permalink to this heading">¶</a></h1>
+<span id="py-sim-00-homework-03-vehicle-models-module"></span><h1>py_sim.00_homework.03_Vehicle_models module<a class="headerlink" href="#module-py_sim.00_homework.03_Vehicle_models" title="Link to this heading">¶</a></h1>
 <p>03_Vehicle_models.py contains functions required for running homework #3</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.00_homework.03_Vehicle_models.carrot_follow_unicycle">
-<span class="sig-prename descclassname"><span class="pre">py_sim.00_homework.03_Vehicle_models.</span></span><span class="sig-name descname"><span class="pre">carrot_follow_unicycle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.00_homework.03_Vehicle_models.carrot_follow_unicycle" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">py_sim.00_homework.03_Vehicle_models.</span></span><span class="sig-name descname"><span class="pre">carrot_follow_unicycle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.00_homework.03_Vehicle_models.carrot_follow_unicycle" title="Link to this definition">¶</a></dt>
 <dd><p>Runs an example of a go-to-goal vector field combined with obstacle avoidance to show off the sensor measurements being performed. The optional ability to follow a path allows the vehicle to navigate around complex obstacles.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>follow_path</strong> – True =&gt; a path will be created and followed, False =&gt; the vector field will alone be used
-for navigating to the goal</p>
-</dd>
-</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="py_sim.00_homework.03_Vehicle_models.dwa_scaled_plotting">
+<span class="sig-prename descclassname"><span class="pre">py_sim.00_homework.03_Vehicle_models.</span></span><span class="sig-name descname"><span class="pre">dwa_scaled_plotting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.00_homework.03_Vehicle_models.dwa_scaled_plotting" title="Link to this definition">¶</a></dt>
+<dd><p>Runs a loop for plotting the scaled velocities for the dynamic window approach.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.00_homework.03_Vehicle_models.run_bicycle_arc_example">
-<span class="sig-prename descclassname"><span class="pre">py_sim.00_homework.03_Vehicle_models.</span></span><span class="sig-name descname"><span class="pre">run_bicycle_arc_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.00_homework.03_Vehicle_models.run_bicycle_arc_example" title="Permalink to this definition">¶</a></dt>
-<dd><p>Runs an example of a vehicle executing an arc</p>
+<span class="sig-prename descclassname"><span class="pre">py_sim.00_homework.03_Vehicle_models.</span></span><span class="sig-name descname"><span class="pre">run_bicycle_arc_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.00_homework.03_Vehicle_models.run_bicycle_arc_example" title="Link to this definition">¶</a></dt>
+<dd><p>Runs an example of a bicycle vehicle executing an arc</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model</strong> – The model used for the simple dynamics</p>
@@ -59,8 +60,8 @@ for navigating to the goal</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.00_homework.03_Vehicle_models.run_differential_drive_arc_example">
-<span class="sig-prename descclassname"><span class="pre">py_sim.00_homework.03_Vehicle_models.</span></span><span class="sig-name descname"><span class="pre">run_differential_drive_arc_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.00_homework.03_Vehicle_models.run_differential_drive_arc_example" title="Permalink to this definition">¶</a></dt>
-<dd><p>Runs an example of a vehicle executing an arc</p>
+<span class="sig-prename descclassname"><span class="pre">py_sim.00_homework.03_Vehicle_models.</span></span><span class="sig-name descname"><span class="pre">run_differential_drive_arc_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.00_homework.03_Vehicle_models.run_differential_drive_arc_example" title="Link to this definition">¶</a></dt>
+<dd><p>Runs an example of a differential vehicle executing an arc</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model</strong> – The model used for the simple dynamics</p>
@@ -69,9 +70,15 @@ for navigating to the goal</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="py_sim.00_homework.03_Vehicle_models.run_dwa_unicycle">
+<span class="sig-prename descclassname"><span class="pre">py_sim.00_homework.03_Vehicle_models.</span></span><span class="sig-name descname"><span class="pre">run_dwa_unicycle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.00_homework.03_Vehicle_models.run_dwa_unicycle" title="Link to this definition">¶</a></dt>
+<dd><p>Runs an example of the dynamic window approach with a unicycle dynamic model.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="py_sim.00_homework.03_Vehicle_models.run_unicycle_arc_example">
-<span class="sig-prename descclassname"><span class="pre">py_sim.00_homework.03_Vehicle_models.</span></span><span class="sig-name descname"><span class="pre">run_unicycle_arc_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.00_homework.03_Vehicle_models.run_unicycle_arc_example" title="Permalink to this definition">¶</a></dt>
-<dd><p>Runs an example of a vehicle executing an arc</p>
+<span class="sig-prename descclassname"><span class="pre">py_sim.00_homework.03_Vehicle_models.</span></span><span class="sig-name descname"><span class="pre">run_unicycle_arc_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.00_homework.03_Vehicle_models.run_unicycle_arc_example" title="Link to this definition">¶</a></dt>
+<dd><p>Runs an example of a unicycle vehicle executing an arc</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model</strong> – The model used for the simple dynamics</p>
@@ -81,9 +88,9 @@ for navigating to the goal</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="py_sim.00_homework.03_Vehicle_models.simple_field_unicycle">
-<span class="sig-prename descclassname"><span class="pre">py_sim.00_homework.03_Vehicle_models.</span></span><span class="sig-name descname"><span class="pre">simple_field_unicycle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.00_homework.03_Vehicle_models.simple_field_unicycle" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">py_sim.00_homework.03_Vehicle_models.</span></span><span class="sig-name descname"><span class="pre">simple_field_unicycle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#py_sim.00_homework.03_Vehicle_models.simple_field_unicycle" title="Link to this definition">¶</a></dt>
 <dd><p>Runs an example of a go-to-goal vector field combined with an obstacle avoidance
-field.</p>
+field with a unicycle dynamic model.</p>
 </dd></dl>
 
 </section>
@@ -93,7 +100,7 @@ field.</p>
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
 <h1 class="logo"><a href="../index.html">Python Planning Sim</a></h1>
 
@@ -128,7 +135,7 @@ field.</p>
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -136,7 +143,7 @@ field.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
 
 
@@ -151,11 +158,11 @@ field.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2023, Greg Droge.
+      &#169;2023, Greg Droge.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.4.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
       |
       <a href="../_sources/pysim/py_sim.00_homework.03_Vehicle_models.rst.txt"
