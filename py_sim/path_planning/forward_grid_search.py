@@ -428,12 +428,14 @@ class AstarGridSearch(ForwardGridSearch):
             direction: The direction from the ind_parent cell to the ind_new cell
         """
         # Calculate the cost to come as the cost of the parent plus the edge cost
+        print("Fix me!!!")
         c2c = segment_length[direction] + self.c2c.item(ind_parent)
-        cost_heuristic = c2c + self.cost_to_go_heuristic(ind_new)
+        cost_heuristic = 0.
 
         # Add the node to the list
+        print("Fix me!!!")
         np.put(self.c2c, ind_new, c2c)
-        self.queue.push(cost=cost_heuristic, index=ind_new)
+        self.queue.push(cost=0., index=ind_new)
 
     def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None:
         """resolves duplicate sighting of the index - checks to see if the lowest cost-to-come plus heuristic
@@ -508,7 +510,7 @@ class GreedyGridSearch(ForwardGridSearch):
         # Add the node to the list using the cost-to-go heuristic
         print("Fix me!!!")
         cost_heuristic = 0.
-        self.queue.push(cost=cost_heuristic, index=ind_new)
+        self.queue.push(cost=0., index=ind_new)
 
     def resolve_duplicate(self, ind_duplicate: int, ind_poss_parent: int,  direction: GD) -> None:
         """resolves duplicate sighting of the index - checks to see if the lowest cost to come
