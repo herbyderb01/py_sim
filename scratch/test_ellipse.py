@@ -1,12 +1,13 @@
 """test_ellipse.py tests the generation of an ellipse as well as the sampling of points within that ellipse
 """
 
-from py_sim.tools.sim_types import TwoDimArray
-import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from matplotlib.patches import Ellipse
+import matplotlib.pyplot as plt
+import numpy as np
 import py_sim.path_planning.rrt_planner as rrt
+from matplotlib.patches import Ellipse
+from py_sim.tools.sim_types import TwoDimArray
+
 
 def in_ellipse(point: TwoDimArray, center: TwoDimArray, a: float, b: float, alpha: float) -> bool:
     p = TwoDimArray(vec=point.state-center.state) # translated point so that the center is the adjusted origin

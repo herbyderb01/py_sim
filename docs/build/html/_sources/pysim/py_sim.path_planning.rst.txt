@@ -7,6 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   py_sim.path_planning.dwa
    py_sim.path_planning.forward_grid_search
    py_sim.path_planning.graph_search
    py_sim.path_planning.informed_rrt

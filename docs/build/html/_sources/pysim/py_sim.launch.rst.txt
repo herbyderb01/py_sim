@@ -7,6 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   py_sim.launch.dwa_test
    py_sim.launch.graph_planning
    py_sim.launch.grid_planning
    py_sim.launch.grid_visualization

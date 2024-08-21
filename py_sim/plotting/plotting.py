@@ -16,11 +16,12 @@ from typing import Any, Generic, Optional, Protocol, TypeVar, cast
 import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
-from matplotlib.axes._axes import Axes
+from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.image import AxesImage
 from matplotlib.lines import Line2D
 from matplotlib.patches import Polygon
+from py_sim.dynamics.unicycle import solution_trajectory as uni_soln_traj
 from py_sim.sensors.occupancy_grid import (
     BinaryOccupancyGrid,
     ind2sub,
@@ -36,6 +37,7 @@ from py_sim.tools.sim_types import (
     UnicycleControl,
     UnicycleState,
     UnicycleStateProtocol,
+    UnicycleStateType,
     VectorField,
 )
 from py_sim.tools.simple_priority_queue import SimplePriorityQueue
@@ -71,13 +73,14 @@ class PlotManifest(Generic[StateType]):
 
     Attributes:
         figs(list[Figure]): Figures created for plotting
-        axes(dict[str, Axes]): Mapping of axis name to the axis
+        vehicle_axes(Axes): Stores the axes for the vehicle plot
         state_plots(list[StatePlot[StateType]]): List of all the state plots
+            (plots that only depend on the state)
         data_plots(list[DataPlot[StateType]]): List of all the data plots
-
+            (plots that depend on many data elements)
     """
     figs: list[Figure] = []
-    axes: dict[str, Axes] = {}
+    vehicle_axes: Axes
     state_plots: list[StatePlot[StateType]] = []
     data_plots: list[DataPlot[StateType]] = []
 
@@ -285,7 +288,7 @@ class UnicycleTimeSeriesPlot():
     """Plots the unicycle state vs time with each state in its own subplot
 
     fig(Figure): Figure on which the trajectories are plot
-    axs(npt.NDArray(Axes)): The subplot axes on which everything is plot
+    axs(np.ndarray[Axes]): The subplot axes on which everything is plot
     handle_x(Line2D): reference to the line on which the x state is plot
     handle_y(Line2D): reference to the line on which the y state is plot
     handle_psi(Line2D): reference to the line on which the psi state is plot
@@ -309,8 +312,9 @@ class UnicycleTimeSeriesPlot():
         """
 
         # Create a new figure
+        self.axs: list[Axes]
         if fig is None or axs is None:
-            self.fig, self.axs = plt.subplots(5,1)
+            self.fig, self.axs = plt.subplots(5,1) # type: ignore
         else:
             self.fig = fig
             self.axs = axs
@@ -344,7 +348,6 @@ class UnicycleTimeSeriesPlot():
             ax.relim()
             ax.autoscale_view(True, True, True)
 
-
 class SingleIntegratorTimeSeriesPlot():
     """Plots the unicycle state vs time with each state in its own subplot
 
@@ -373,8 +376,9 @@ class SingleIntegratorTimeSeriesPlot():
         """
 
         # Create a new figure
+        self.axs: list[Axes]
         if fig is None or axs is None:
-            self.fig, self.axs = plt.subplots(4,1)
+            self.fig, self.axs = plt.subplots(4,1) # type: ignore
         else:
             self.fig = fig
             self.axs = axs
@@ -404,8 +408,6 @@ class SingleIntegratorTimeSeriesPlot():
         for ax in self.axs:
             ax.relim()
             ax.autoscale_view(True, True, True)
-
-
 
 class DataTimeSeries(Generic[StateType]):
     """Plots the time series of a given state withing the data object
@@ -458,6 +460,7 @@ def update_2d_line_plot(line: Line2D, x_vec: npt.NDArray[Any], y_vec: npt.NDArra
         y_vec: The data for the y coordinate
     """
     line.set_data(x_vec, y_vec)
+
 
 ###################### Vector Field Plot #######################
 VectorFieldType = TypeVar("VectorFieldType", bound=VectorField)
@@ -684,7 +687,7 @@ def plot_occupancy_grid_cells(ax: Axes,
             cell_color = color_occupied
 
         # Create the cell plot
-        polygons.append(ax.fill(x, y, color=cell_color))
+        polygons.extend(ax.fill(x, y, color=cell_color))
 
     # Return the result
     return polygons
@@ -834,7 +837,7 @@ class PlanPlotter(Generic[LocationStateType]):
 
     Attributes:
         planner(PlanType): reference to the planner used for planning
-        ind_end(int): The ending index
+        ind_end(int): The index of the goal position
         handle_path(Line2D): Reference to the path being plotted
 
     """
@@ -847,7 +850,7 @@ class PlanPlotter(Generic[LocationStateType]):
         Args:
             planner: reference to the planner used for planning
             ind_start: The starting index
-            ind_end: The ending index
+            ind_end: The ending index of the plan
             color: color for the plot
         """
         super().__init__()
@@ -952,3 +955,49 @@ class CarrotPositionPlot():
         # Plot the point
         update_position_plot(line=self.position_plot,
                              location=self.carrot.get_carrot_point(point=state))
+
+class ControlArcPlot(Generic[UnicycleStateType]):
+    """Plots a the arc resulting from a constant unicycle control input
+
+    Attributes:
+        ax(Axes): The axis on which to create the plot
+        handle(Line2D): The reference to the arc plot
+    """
+    def __init__(self,
+                 ax: Axes,
+                 color: Color = green,
+                 label: str = "") -> None:
+        """Initializes the arc plotter
+
+        Args:
+            ax: The axis on which to create the plot
+            delta_t: The time length of the arc
+            color: The color to plot (rgb-alpha, i.e., color and transparency)
+            label: The label to assign to the plot
+        """
+        super().__init__()
+        self.ax = ax
+        (self.handle,) = ax.plot([0.], [0.], color=color, label=label)
+
+    def plot(self,
+             state: UnicycleStateType,
+             control: UnicycleControl,
+             ds: float,
+             tf: float ) -> None:
+        """Plots the arc given the current state
+
+        Args:
+            state: The current state of the vehicle
+            control: The control input defining the arc
+            ds: The step size of the arc (meters)
+            tf: The time length of the arc (seconds)
+        """
+
+        # Generate state trajectory using unicycle_solution
+        (x_vec, y_vec) = uni_soln_traj(init=state,
+                                       control = control,
+                                       ds=ds,
+                                       tf=tf)
+
+        # Plot the state trajectory
+        self.handle.set_data(x_vec, y_vec)

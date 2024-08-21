@@ -93,6 +93,7 @@ disable=raw-checker-failed,
         #fixme, # Remove this to find all todo items
         invalid-name, # Names conform to book and not to python standards
         too-many-branches, # Should fix to reduce code complexity
+        too-many-lines, # Should fix to reduce code complexity
 
 
 # Enable the message, report, category or checker with the given id(s). You can
