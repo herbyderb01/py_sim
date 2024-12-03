@@ -81,13 +81,10 @@ def rrt(x_root: TwoDimArray,
     # Loop through the space until a solution is found
     iteration = 0 # Stores the interation count
     while True:
-        # Extend the tree towards a biased sample # fix these lines (just two function calls)!!!
-        print("Fix me!!!")
-        x_rand = TwoDimArray()
-        x_new = TwoDimArray()
-        ind_p = 0
-        cost_new = np.inf
-
+        # Extend the tree towards a biased sample
+        x_rand = proc.biased_sample(iteration=iteration, bias_t=bias_t, X=X, X_t=X_t)
+        x_new, ind_p, cost_new = extend(x_rand=x_rand, tree=tree, dist=dist, cost=cost, world=world)
+        
         # Check for plotting
         if plotter is not None:
             plotter.plot_plan(iteration=iteration,
@@ -102,17 +99,13 @@ def rrt(x_root: TwoDimArray,
 
         # Insert the point into the tree
         if cost_new < np.inf:
-            # Insert the point here (just a single function call!)
-            print("Fix me!!!")
-            node_index = 0
+            # Insert the point here
+            node_index = proc.insert_node(new_node=x_new, parent_ind=ind_p, tree=tree, cost=cost)
 
             # Evaluate if the solution is complete
             if X_t.contains(state=x_new):
-                # Process the solution and return (one function call!)
-                print("Fix me!!!")
-                x_vec = [0.]
-                y_vec = [0.]
-                ind_vec = [0]
+                # Process the solution and return 
+                x_vec, y_vec, ind_vec = proc.solution(node_index=node_index, tree=tree)
                 return (x_vec, y_vec, ind_vec, tree, cost)
 
         # Update the interation count for the next iteration
@@ -328,24 +321,26 @@ def rrt_star(x_root: TwoDimArray,
     min_index = -1 # Stores the index of the minimum cost terminal node
     min_cost = np.inf # Stores the cost of the shortest found solution
     for iteration in range(num_iterations):
-        # Extend the tree towards a biased sample # fix these lines (just two function calls)!!!
-        print("Fix me!!!")
-        x_rand = TwoDimArray()
-        x_new = TwoDimArray()
-        ind_p = 0
-        cost_new = np.inf
-        ind_near = [0]
+        
+        # Extend the tree towards a biased sample
+        x_rand = proc.biased_sample(iteration=iteration, bias_t=bias_t, X=X, X_t=X_t)
+        x_new, ind_p, cost_new, ind_near = extend_star( x_rand=x_rand,
+                                                        tree=tree,
+                                                        dist=dist,
+                                                        cost=cost,
+                                                        world=world,
+                                                        n_nearest=num_nearest)
 
         # Insert the point into the tree
         ind_rewire: Union[list[int], None] = None
         if cost_new < np.inf:
             # Insert the new node # Just a single function call
-            print("Fix me!!!")
-            node_index = 0
+            node_index = proc.insert_node(new_node=x_new, parent_ind=ind_p, tree=tree, cost=cost)
+
 
             # Rewire the tree # Just a single function call
-            print("Fix me!!!")
-            ind_rewire = [0]
+            ind_rewire = rewire(ind_p=node_index, ind_near=ind_near, tree=tree, cost=cost, world=world)
+
 
             # Update the minimum cost (rewiring may make the path shorter)
             if min_index >=0:
@@ -355,7 +350,9 @@ def rrt_star(x_root: TwoDimArray,
             if X_t.contains(state=x_new):
                 if cost[node_index] < min_cost:
                     # Update the min_cost and the min_index appropriately (just two lines of code)
-                    print("Fix me!!!")
+                    min_cost = cost[node_index]
+                    min_index = node_index
+
 
         # Check for plotting
         if plotter is not None:

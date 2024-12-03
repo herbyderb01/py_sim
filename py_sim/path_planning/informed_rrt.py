@@ -215,34 +215,43 @@ def rrt_star_informed(x_root: TwoDimArray,
     min_cost = np.inf # Stores the cost of the shortest found solution
     for iteration in range(num_iterations):
         # Extend the tree towards a biased sample
-        print("Fix me!!!")
-        x_rand = TwoDimArray()
-        x_new = TwoDimArray()
-        ind_p = 0
-        cost_new = np.inf
-        ind_near = [0]
+        x_rand = sampler.sample(iteration=iteration, bias_t=bias_t, X_t=X_t)
+        x_new, ind_p, cost_new, ind_near = extend_star(x_rand=x_rand,
+                                                        tree=tree,
+                                                        dist=dist,
+                                                        cost=cost,
+                                                        world=world,
+                                                        n_nearest=num_nearest)
 
         # Insert the point into the tree
         ind_rewire: Union[list[int], None] = None
         if cost_new < np.inf:
             # Insert the new node # Just a single function call
-            print("Fix me!!!")
-            node_index = 0
+            node_index = proc.insert_node(new_node=x_new,
+                                            parent_ind=ind_p,
+                                            tree=tree,
+                                            cost=cost)
 
             # Rewire the tree # Just a single function call
-            print("Fix me!!!")
-            ind_rewire = [0]
+            ind_rewire = rewire(ind_p=node_index,
+                                ind_near=ind_near,
+                                tree=tree,
+                                cost=cost,
+                                world=world)
 
             # Update the minimum cost (rewiring may make the path shorter)
             if min_index >=0 and min_cost > cost[min_index]:
                 # Update the min cost and the sampler!!!
-                print("Fix me!!!")
+                min_cost = cost[min_index]
+                sampler.update_best(c_best=min_cost)
 
             # Evaluate a newly found solution
             if X_t.contains(state=x_new):
                 if cost[node_index] < min_cost:
                     # Update the min cost, min_index, and the sampler!!!
-                    print("Fix me!!!")
+                    min_cost = cost[node_index]
+                    min_index = node_index
+                    sampler.update_best(c_best=min_cost)
 
 
         # Check for plotting

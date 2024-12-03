@@ -29,18 +29,19 @@ def simple_vectorfield() -> None:
     state_initial = TwoDimArray(x = 0., y= 0.)
 
     # Create the vector field
-    vector_field_g2g = vf.GoToGoalField(x_g=TwoDimArray(x=1., y=1.),
+    vector_field_g2g = vf.GoToGoalField(x_g=TwoDimArray(x=-4., y=2.),
                                         v_max=vel_params.v_max,
-                                        sig=1.)
-    vector_field_avoid = vf.AvoidObstacle(x_o=TwoDimArray(x=1., y=1.),
+                                        sig=-3.)
+    vector_field_avoid = vf.AvoidObstacle(x_o=TwoDimArray(x=0., y=1.),
                                           v_max=vel_params.v_max,
                                           S=2.,
                                           R=1.)
-    # vector_field = vf.SummedField(fields=[vector_field_g2g, vector_field_avoid],
-    #                               weights=[1., 1.],
-    #                               v_max=vel_params.v_max)
-    # vector_field =vector_field_avoid
-    vector_field = vector_field_g2g
+    vector_field = vf.SummedField(fields=[vector_field_g2g, vector_field_avoid],
+                                  weights=[0.25, 2],
+                                  v_max=vel_params.v_max)
+    
+    # vector_field = vector_field_avoid
+    # vector_field = vector_field_g2g
 
 
     # Create the manifest for the plotting
@@ -87,16 +88,27 @@ def carrot_follow() -> None:
     vector_field = vf.G2GAvoid(x_g=TwoDimArray(x=8., y=5.),
                                n_obs=n_lines,
                                v_max=vel_params.v_max,
-                               S=1.5,
-                               R=1.,
+                               S=1.,
+                               R=0.5,
                                sig=1.)
 
     # Create the obstacle world
-    #obstacle_world = generate_world_obstacles()
-    obstacle_world = generate_non_convex_obstacles()
+    obstacle_world = generate_world_obstacles()
+    # obstacle_world = generate_non_convex_obstacles()
 
     # Create the plan
-    plan = create_path(start=TwoDimArray(x=state_initial.x, y=state_initial.y), end=vector_field.x_g, obstacle_world=obstacle_world, plan_type="voronoi")
+    plan = create_path(
+        start=TwoDimArray(x=state_initial.x, y=state_initial.y), 
+        end=vector_field.x_g, 
+        obstacle_world=obstacle_world, 
+        # plan_type="voronoi"
+        # plan_type="astar"
+        # plan_type="visibility"
+        plan_type="dijkstra"
+        # plan_type="breadth"
+        # plan_type="greedy"
+        )
+    
     if plan is not None:
         line = np.array([plan[0], plan[1]])
         carrot = LineCarrot(line=line, s_dev_max=5., s_carrot=2.)
@@ -124,7 +136,7 @@ def carrot_follow() -> None:
     params.sim_plot_period = 0.1
     params.sim_step = 0.1
     params.sim_update_period = 0.1
-    params.tf = 5.
+    params.tf = 10.
     sim = NavVectorFollower(params=params,
                             dynamics=single_integrator.dynamics,
                             controller=single_integrator.vector_control,
@@ -152,13 +164,13 @@ def navigation_function() -> None:
     n_lines = 10 # Number of sensor lines
 
     # Create the obstacle world
-    obstacle_world = generate_world_obstacles()
-    #obstacle_world = generate_non_convex_obstacles()
+    # obstacle_world = generate_world_obstacles()
+    obstacle_world = generate_non_convex_obstacles()
 
     # Create the navigation vector field
     nav_field = GridNavigationFunction(end=TwoDimArray(x=8., y=5.),
                                        obstacle_world=obstacle_world,
-                                       plan_type="dijkstra",
+                                       plan_type="greedy",
                                        v_des=vel_params.v_max,
                                        sig=1.,
                                        x_lim = (-5., 25.),
@@ -183,7 +195,7 @@ def navigation_function() -> None:
     params.sim_plot_period = 0.1
     params.sim_step = 0.01
     params.sim_update_period = 0.01
-    params.tf = 5.
+    params.tf = 5.  
     sim = NavFieldFollower(params=params,
                            dynamics=single_integrator.dynamics,
                            controller=single_integrator.vector_control,
@@ -200,6 +212,6 @@ def navigation_function() -> None:
     start_sim(sim=sim)
 
 if __name__ == "__main__":
-    simple_vectorfield()
-    #carrot_follow()
-    #navigation_function()
+    # simple_vectorfield()
+    # carrot_follow()
+    navigation_function()

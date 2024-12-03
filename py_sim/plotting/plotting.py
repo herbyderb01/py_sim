@@ -500,6 +500,7 @@ class VectorFieldPlot(Generic[VectorFieldType]):
 
         # Create the initial plot
         self.handle = ax.quiver(self.x_vals, self.y_vals, self.x_vals, self.y_vals, color=color, angles='xy', scale_units='xy')
+        # self.handle = ax.quiver(self.x_vals, self.y_vals, self.x_vals, self.y_vals, color=color, angles='xy', scale_units='xy', scale = 1.)
 
     def plot(self, data: Data[LocationStateType]) -> None:
         """Update the pose plot"""

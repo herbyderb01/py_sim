@@ -127,7 +127,18 @@ def run_rrt_planner(planner: Literal["rrt", "rrt_star", "i-rrt", "s-rrt"],
     plt.show(block=True)
 
 if __name__ == "__main__":
-    run_rrt_planner(planner="rrt", plot_live=False, num_iterations=1000)
-    #run_rrt_planner(planner="rrt_star", plot_live=False, num_iterations=1000)
-    #run_rrt_planner(planner="i-rrt", plot_live=False, num_iterations=1000)
-    #run_rrt_planner(planner="s-rrt", plot_live=False, num_iterations=1000)
+    # run_rrt_planner(planner="rrt", plot_live=False, num_iterations=100)
+    # run_rrt_planner(planner="rrt", plot_live=False, num_iterations=500)
+    # run_rrt_planner(planner="rrt", plot_live=False, num_iterations=1000)
+
+    # run_rrt_planner(planner="rrt_star", plot_live=False, num_iterations=100)
+    # run_rrt_planner(planner="rrt_star", plot_live=False, num_iterations=500)
+    # run_rrt_planner(planner="rrt_star", plot_live=False, num_iterations=1000)
+    
+    # run_rrt_planner(planner="i-rrt", plot_live=False, num_iterations=100)
+    # run_rrt_planner(planner="i-rrt", plot_live=False, num_iterations=500)
+    # run_rrt_planner(planner="i-rrt", plot_live=False, num_iterations=1000)
+    
+    # run_rrt_planner(planner="s-rrt", plot_live=False, num_iterations=100)
+    # run_rrt_planner(planner="s-rrt", plot_live=False, num_iterations=500)
+    run_rrt_planner(planner="s-rrt", plot_live=False, num_iterations=1000)

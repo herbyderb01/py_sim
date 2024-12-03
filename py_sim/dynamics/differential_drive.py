@@ -88,11 +88,14 @@ def dynamics(state: DiffDriveState,
     Returns:
         DiffDriveState: The resulting state time derivative
     """
+    v = (params.R/2.)*(control.mu_r + control.mu_l)
+    w = (params.R/params.L)*(control.mu_r-control.mu_l)
+    
     # Calculate the dynamics
     state_dot = DiffDriveState() # Time derivative of the state
-    state_dot.x = 0.
-    state_dot.y = 0.
-    state_dot.psi = 0.
+    state_dot.x = v * np.cos(state.psi)
+    state_dot.y = v * np.sin(state.psi)
+    state_dot.psi = w
     return state_dot
 
 ###########################  Basic unicycle controllers ##################################
@@ -108,7 +111,12 @@ def velocity_control(time: float, state: DiffDriveState, dyn_params: DiffDrivePa
     Returns:
         DiffDriveControl: The commanded wheel rotational velocities
     """
-    return DiffDriveControl()
+    M_inv = (1./dyn_params.R) * np.array([[1., dyn_params.L/2.],
+                                          [1., -dyn_params.L/2]])
+
+    velocity_vec = M_inv @ np.array([[vd], [wd]])
+
+    return DiffDriveControl(vec=velocity_vec)
 
 def arc_control(time: float,
                 state: DiffDriveState,

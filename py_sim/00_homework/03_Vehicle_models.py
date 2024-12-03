@@ -79,12 +79,12 @@ def run_differential_drive_arc_example() -> None:
         model: The model used for the simple dynamics
     """
     # Initialize the state and control
-    arc_params = ArcParams(v_d=1., w_d= 1.)
+    arc_params = ArcParams(v_d=3., w_d= 2.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,
-                                 y_limits=(-2, 2),
+                                 y_limits=(-1, 3.5),
                                  x_limits=(-2, 2),
                                  position_dot=False,
                                  position_triangle=True,
@@ -115,7 +115,7 @@ def run_bicycle_arc_example() -> None:
         model: The model used for the simple dynamics
     """
     # Initialize the state and control
-    arc_params = ArcParams(v_d=1., w_d= 1.)
+    arc_params = ArcParams(v_d = 0.75, w_d = 1.)
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
     # Create the manifest for the plotting
@@ -176,7 +176,7 @@ def simple_field_unicycle() -> None:
     params.sim_plot_period = 0.2
     params.sim_step = 0.1
     params.sim_update_period = 0.01
-    params.tf = 5.
+    params.tf = 10.
     sim = VectorFollower(params=params,
                          dynamics=uni.dynamics,
                          controller=uni.velocity_vector_field_control,
@@ -202,11 +202,11 @@ def carrot_follow_unicycle() -> None:
     vector_field = G2GAvoid(x_g=TwoDimArray(x=8., y=5.),
                             n_obs=n_lines,
                             v_max=vel_params.vd_field_max,
-                            S=1.5,
-                            R=1.,
-                            sig=1.,
-                            weight_g2g=1.,
-                            weight_avoid=1.)
+                            S=0.5,
+                            R=0.2,
+                            sig=0.5,
+                            weight_g2g=2.,
+                            weight_avoid=5.)
 
     # Create the obstacle world
     obstacle_world = poly_world.generate_non_convex_obstacles()
@@ -215,7 +215,7 @@ def carrot_follow_unicycle() -> None:
     plan = create_path(start=TwoDimArray(x=state_initial.x, y=state_initial.y), end=vector_field.x_g, obstacle_world=obstacle_world, plan_type="visibility")
     if plan is not None:
         line = np.array([plan[0], plan[1]])
-        carrot = LineCarrot(line=line, s_dev_max=5., s_carrot=2.)
+        carrot = LineCarrot(line=line, s_dev_max=5., s_carrot=1.)
     else:
         carrot = None
 
@@ -394,10 +394,12 @@ def run_dwa_unicycle() -> None:
     start_sim(sim=sim)
 
 if __name__ == "__main__":
-    run_unicycle_arc_example()
-    #run_differential_drive_arc_example()
-    #run_bicycle_arc_example()
-    #simple_field_unicycle()
-    #carrot_follow_unicycle()
-    #dwa_scaled_plotting()
-    #run_dwa_unicycle()
+    # run_unicycle_arc_example()
+    # run_differential_drive_arc_example()
+    # run_bicycle_arc_example()
+    
+    # simple_field_unicycle()
+    # carrot_follow_unicycle()
+    
+    # dwa_scaled_plotting()
+    run_dwa_unicycle()

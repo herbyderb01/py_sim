@@ -73,17 +73,16 @@ def solution(init: UnicycleStateProtocol,
 
     # Calculate control for straight-line motion
     if control.w == 0:
-        print("Fix me!!!!")
-        final.x = 0.
-        final.y = 0.
-        final.psi = 0.
+        final.x = np.cos(init.psi)*control.v*delta_t + init.x
+        final.y = np.sin(init.psi)*control.v*delta_t + init.y
+        final.psi = init.psi
 
     # Calculate control for turning motion
     else:
-        print("Fix me!!!!")
-        final.x = 0.
-        final.y = 0.
-        final.psi = 0.
+        r = control.v/control.w # Radius of curvature
+        final.psi = control.w*delta_t + init.psi
+        final.x = r*(np.sin(final.psi) - np.sin(init.psi)) + init.x
+        final.y = r*(np.cos(init.psi)-np.cos(final.psi)) + init.y
 
     return final
 
@@ -207,8 +206,14 @@ def desired_vector_follow_velocities(state: UnicycleStateProtocol,
         wd is the desired rotational velocity
     """
 
-    vd = 0.
-    wd = 0.
+    vd = np.min([(np.linalg.norm(vec.state)), params.vd_field_max])
+    
+    psi_desired = np.arctan2(vec.y, vec.x)
+    
+    psi_error = state.psi-psi_desired
+    psi = np.arctan2(np.sin(psi_error), np.cos(psi_error))
+    
+    wd = -params.k_wd*psi
 
     return (vd, wd)
 

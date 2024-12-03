@@ -27,8 +27,8 @@ def test_grid_planner() -> None:
     state_initial = UnicycleState(x = 0., y= 0., psi= 0.)
 
     # Create the obstacle world and occupancy grid
-    obstacle_world = poly_world.generate_world_obstacles()
-    # obstacle_world = poly_world.generate_non_convex_obstacles()
+    # obstacle_world = poly_world.generate_world_obstacles()
+    obstacle_world = poly_world.generate_non_convex_obstacles()
 
     # Create a grid from the world
     grid = generate_occupancy_from_polygon_world(world=obstacle_world,
@@ -41,11 +41,11 @@ def test_grid_planner() -> None:
     ind_end, _ = grid.position_to_index(q=TwoDimArray(x = 14., y=7.))
 
     # Create a planner
-    #planner = search.BreadFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
-    #planner = search.DepthFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
-    planner = search.DijkstraGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
-    #planner = search.AstarGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
-    #planner = search.GreedyGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    # planner = search.BreadFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    # planner = search.DepthFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    # planner = search.DijkstraGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    # planner = search.AstarGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    planner = search.GreedyGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,

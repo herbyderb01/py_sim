@@ -35,8 +35,15 @@ class GoToGoalField:
         Returns:
             TwoDimArray: Vector pointing towards the goal
         """
-        print("Add scaling function!!!")
+        # print("Add scaling function!!!")
         g = self.x_g.position - state.position
+
+        mag_g = np.linalg.norm(g)
+        if mag_g > self.v_max:
+            g = g/(mag_g*self.v_max)
+        else:
+            g = g
+
         return TwoDimArray(vec=g)
 
 class AvoidObstacle:
@@ -73,8 +80,38 @@ class AvoidObstacle:
         Returns:
             TwoDimArray: Vector pointing towards the goal
         """
-        print("Fix me!!!")
-        return TwoDimArray()
+        # Extract the x and y coordinates from the state and obstacle position
+        obstacle_to_state_x = state.x - self.x_o.x
+        obstacle_to_state_y = state.y - self.x_o.y
+        
+        # Create a vector representing the direction from the obstacle to the agent
+        obstacle_to_state = np.array([obstacle_to_state_x, obstacle_to_state_y])
+        
+        # Calculate the distance from the agent to the obstacle
+        distance = np.linalg.norm(obstacle_to_state)
+
+        # If distance is greater than the sphere of influence, return a zero vector
+        if distance > self.S:
+            return TwoDimArray(0, 0)
+
+        # Avoid division by zero if agent is exactly at the obstacle's position
+        if distance == 0:
+            return TwoDimArray(0, 0)
+
+        # Calculate the scaling factor
+        scale = self.v_max
+        if distance <= self.R:
+            scale = self.v_max  # Within radius of max effect
+        else:
+            # Scale velocity based on how close it is to the sphere of influence
+            scale *= (self.S - distance) / (self.S - self.R)
+
+        # Normalize the vector and scale it
+        avoidance_vector = (obstacle_to_state / distance) * scale
+
+        # Return the result as a TwoDimArray (assuming vec can accept an array)
+        return TwoDimArray(vec=avoidance_vector)
+
 
 class SummedField:
     """Defines a vector field that is the summation of passed in fields
@@ -102,23 +139,35 @@ class SummedField:
             raise ValueError("Fields and weights must have the same number of objects")
 
     def calculate_vector(self, state: TwoDArrayType, time: float = 0.) -> TwoDimArray:
-        """Calculates a summed vector and thresholds it to v_max
+        """Calculates a summed vector and thresholds it to v_max.
 
         Args:
             state: State of the vehicle
             time: Time of the state
 
         Returns:
-            TwoDimArray: Resulting summed vector
+            TwoDimArray: Resulting summed vector, capped at v_max
         """
-        # Get the summed vector
+        # Initialize the summed vector to zero
         g = TwoDimArray(x=0., y=0.)
+
+        # Sum the weighted vectors from all fields
         for (field, weight) in zip(self.fields, self.weights):
-            g.state = g.state + weight*field.calculate_vector(state=state, time=time).state
+            field_vector = field.calculate_vector(state=state, time=time)
+            g.x += weight * field_vector.x
+            g.y += weight * field_vector.y
 
-        # Saturate the field to have a maximum velocity of v_max
-        print("Fix me!!!")
+        # Calculate the magnitude of the resulting vector
+        magnitude = np.sqrt(g.x**2 + g.y**2)
 
+        # Check if the magnitude exceeds v_max
+        if magnitude > self.v_max:
+            # Normalize the vector and scale it to v_max
+            scale_factor = self.v_max / magnitude
+            g.x *= scale_factor
+            g.y *= scale_factor
+
+        # Return the resulting vector, possibly scaled down to v_max
         return g
 
 class G2GAvoid:

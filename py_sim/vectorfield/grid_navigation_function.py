@@ -89,19 +89,17 @@ class GridNavigationFunction:
 
         # Get the vector pointing from the current state to its parent
         q_parent = self.planner.grid.index_to_position(ind=ind_parent).position
-        print("Fix me!!!")
-        g = np.zeros((2,1))
+        g = q_parent - q_curr
 
         # Calcualte the desired velocity based on the goal location
         q_goal = self.planner.grid.index_to_position(ind=self.planner.ind_start).position
-        print("Fix me!!!")
-        dist_to_goal = 0.
-        v_g = 0.
+        dist_to_goal = np.linalg.norm(q_curr - q_goal)
+        v_g = self.v_des * (1.-np.exp(-dist_to_goal**2/self.sig_sq))
 
-        # Scale the magnitude of the resulting vector (g) so that ||g|| = v_g
+        # Scale the magnitude of the resulting vector (g)
         dist = np.linalg.norm(g)
         if dist > 0.:
-            print("Fix me!!!")
+            g = (v_g/dist)*g
             result = TwoDimArray(vec=g)
         else:
             result = TwoDimArray(x=0., y=0.)
