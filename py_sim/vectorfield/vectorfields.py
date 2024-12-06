@@ -104,7 +104,7 @@ class AvoidObstacle:
             scale = self.v_max  # Within radius of max effect
         else:
             # Scale velocity based on how close it is to the sphere of influence
-            scale *= (self.S - distance) / (self.S - self.R)
+            scale *= float(self.S - distance) / float(self.S - self.R)
 
         # Normalize the vector and scale it
         avoidance_vector = (obstacle_to_state / distance) * scale

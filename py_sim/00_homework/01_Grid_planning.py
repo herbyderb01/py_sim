@@ -43,9 +43,9 @@ def test_grid_planner() -> None:
     # Create a planner
     # planner = search.BreadFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
     # planner = search.DepthFirstGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
-    # planner = search.DijkstraGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    planner = search.DijkstraGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
     # planner = search.AstarGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
-    planner = search.GreedyGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
+    # planner = search.GreedyGridSearch(grid=grid, ind_start=ind_start, ind_end=ind_end)
 
     # Create the manifest for the plotting
     plot_manifest = create_plot_manifest(initial_state=state_initial,

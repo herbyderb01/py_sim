@@ -314,7 +314,7 @@ class UnicycleTimeSeriesPlot():
         # Create a new figure
         self.axs: list[Axes]
         if fig is None or axs is None:
-            self.fig, self.axs = plt.subplots(5,1) # type: ignore
+            self.fig, self.axs = plt.subplots(5,1)
         else:
             self.fig = fig
             self.axs = axs
@@ -378,7 +378,7 @@ class SingleIntegratorTimeSeriesPlot():
         # Create a new figure
         self.axs: list[Axes]
         if fig is None or axs is None:
-            self.fig, self.axs = plt.subplots(4,1) # type: ignore
+            self.fig, self.axs = plt.subplots(4,1)
         else:
             self.fig = fig
             self.axs = axs
